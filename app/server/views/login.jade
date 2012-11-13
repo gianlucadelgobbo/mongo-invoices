@@ -1,0 +1,29 @@
+
+div.span6.offset2#login-container
+	form( method="post")#login-form.well
+		h1 Mongo invoices
+		p.subheading=__("Please Login To Your Account")
+		label Username 
+		input(type="text", name="user", id='user-tfe').span3.required
+		label Password
+		input(type="password", name="pass", id='pass-tf').span3.required
+		br.clearfix
+		label.checkbox Remember Me
+			input(type="checkbox", checked='checked')
+		button(type="submit").btn.btn-primary
+			i.icon-lock.icon-white
+			span=__("Sign in")
+		hr.clearfix
+		ul.nav.nav-pills
+			li
+				a(href='#')#forgot-password=__("Forgot Your Password")+"?" 
+			li
+				a(href='/signup')#create-account=__("Create An Account")
+		br.clearfix
+	
+include modals/lost-password
+
+script(src='/js/views/login.js')
+script(src='/js/controllers/loginController.js')
+script(src='/js/form-validators/loginValidator.js')
+script(src='/js/form-validators/emailValidator.js')

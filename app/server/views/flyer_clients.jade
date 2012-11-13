@@ -1,0 +1,24 @@
+
+h1=__("Clients")
+div.well
+	table#clienti
+		thead
+			tr
+				th.clientet=__("Client")
+				th.p_ivat=__("VAT number")
+				th.c_fiscalet=__("Fiscal code")
+				th.indirizzot=__("Address")
+				th.capt=__("ZIP code")
+				th.cittat=__("City")
+		tbody
+			each x in result
+				tr
+					td.clientet
+						a#dett_cliente(href="/client/?id="+x._id)=x.nome
+					td.p_ivat=x.p_iva
+					td.c_fiscalet=x.c_fiscale
+					td.indirizzot=x.indirizzo.via
+					td.capt=x.indirizzo.cap
+					td.cittat=x.indirizzo.citta
+					//- td=x._id
+					

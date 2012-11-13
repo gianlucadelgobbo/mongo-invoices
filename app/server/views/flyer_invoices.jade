@@ -1,0 +1,23 @@
+
+h1=__("Invoices")
+div.well
+	table#fatture
+		thead
+			tr
+				th.numerot=__("Invoice number")
+				th.datat=__("Invoice date")
+				th.clientet=__("Client")
+				th.indirizzot=__("Subtotal")
+				th.capt=__("VAT")
+				th.cittat=__("TOTAL")
+		tbody
+			each x in result
+				tr
+					td.clientet
+						a#dett_cliente(href="/invoice/?id="+x._id)=x.numero+"aa"
+					td.clientet=x.data
+					td.clientet
+						a#dett_cliente(href="/client")=x.cliente.nome
+					td.p_ivat=x.cliente.p_iva
+					td.c_fiscalet=x.cliente.c_fiscale
+					td.indirizzot=x.cliente.indirizzo.via

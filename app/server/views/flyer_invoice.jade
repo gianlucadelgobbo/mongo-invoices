@@ -1,0 +1,160 @@
+
+form(method="post", action="/invoices")
+	div.container-fluid
+		div.row-fluid
+			.span6
+				h1=__("New invoice")
+			.span6
+				.pull-right
+					br
+					input(type="submit", value=__("SAVE")).btn.btn-success
+					- if (result._id)
+						input(type="button", value=__("PRINT")).btn.btn-primary
+						input(type="button", value=__("DUPLICATE")).btn.btn-primary
+						input(type="button", value=__("DELETE")).btn.btn-danger
+	div.container-fluid#fattura
+		div.row-fluid
+			h1=_config.company
+			h3=_config.company_address
+			hr.clearfix
+		div.row-fluid
+			.span6
+				.row-fluid
+					.input-prepend.span6
+						label.add-on(for='numero')=__("Invoice number")
+						input(type="text", name="numero", disabled)#numero.span3
+						input(type="hidden", name="numero")#numeroh
+					.input-prepend.span6
+						label.add-on(for='data')=__("Invoice date")
+						input(type="text", name="data")#data.span6
+				.row-fluid
+					.input-prepend.input-append
+						label.add-on(for='cliente')=__("Client")
+						input(type="text", name="cliente[nome]").span6#cliente
+						a(href="client").btn="Inserisci nuovo cliente"
+				.row-fluid
+					.input-prepend
+						label.add-on(for='indirizzo')=__("Address")
+						input(type="text", name="cliente[indirizzo][via]", disabled)#indirizzo.span9
+						input(type="hidden", name="cliente[indirizzo][via]")#indirizzoh
+				.row-fluid
+					.input-prepend.span3
+						label.add-on(for='cap')=__("ZIP code")
+						input(type="text", name="cliente[indirizzo][cap]", disabled)#cap.span7
+						input(type="hidden", name="cliente[indirizzo][cap]")#caph
+					.input-prepend.span4
+						label.add-on(for='citta')=__("City")
+						input(type="text", name="cliente[indirizzo][citta]", disabled)#citta.span9
+						input(type="hidden", name="cliente[indirizzo][citta]")#cittah
+					.input-prepend.span5
+						label.add-on(for='country')=__("Country")
+						input(type="text", name="cliente[indirizzo][country]", disabled)#country.span7
+						input(type="hidden", name="cliente[indirizzo][country]")#cittah
+				.row-fluid
+					.input-prepend.span12
+						label.add-on(for='p_iva')=__("VAT number")
+						input(type="text", name="cliente[p_iva]", disabled)#p_iva.p_iva
+						input(type="hidden", name="cliente[p_iva]")#p_ivah.p_iva
+				.row-fluid
+					.input-prepend.span12
+						label.add-on(for='c_fiscale')=__("Fiscal code")
+						input(type="text", name="cliente[c_fiscale]", disabled)#c_fiscale.c_fiscale
+						input(type="hidden", name="cliente[c_fiscale]")#c_fiscaleh.c_fiscale
+			.span3
+				.row-fluid
+					.input-prepend.input-append.span12
+						label.add-on(for='pagamento')=__("Payment")
+						input(type="text", name="pagamento")#pagamento
+						.btn-group
+							button.btn.dropdown-toggle(data-toggle="dropdown", type="button")=__("Choose")
+								span.caret
+							ul.dropdown-menu
+								li bella
+				.row-fluid
+					.input-prepend.input-append.span12
+						label.add-on(for='destinazione')=__("Shipped to")
+						input(type="text", name="destinazione")#destinazione
+				.row-fluid
+					.input-prepend.input-append.span12
+						label.add-on(for='vs_ordine')=__("Offer number")
+						input(type="text", name="vs_ordine")#vs_ordine
+				.row-fluid
+					.input-prepend.span12
+						label.add-on(for='in_data')=__("Offer date")
+						input(type="text", name="in_data", disabled)#in_data
+				.row-fluid
+					.input-prepend.span12
+						label.add-on(for='data_consegna')=__("data_consegna")
+						input(type="text", name="data_consegna")#data_consegna
+		div.row-fluid
+			hr
+			table.table
+				thead
+					tr
+						th=__("Quantity")
+						th=__("Description")
+						th=__("Ammount")
+				tbody
+					tr
+						td
+							input(type="text", name="item[0][quantita]")#quantita_0.input-mini
+						td
+							input(type="text", name="item[0][articolo]")#articolo_0.input-xxlarge
+						td.input-prepend
+							span.add-on=_config.currency[0]
+							input(type="text", name="item[0][importo]")#importo_0.input-medium
+				tfoot
+					tr
+						td
+						td
+							label.pull-right(for='imp_totale')=__("Subtotal")
+						td.input-prepend
+							span.add-on=_config.currency[0]
+							input(type="text", name="imp_totale", disabled)#imp_totale.totali.input-medium
+							input(type="hidden", name="imp_totale").totali.imp_totale
+					tr
+						td
+						td.input-append
+							label.pull-right(for='iva')=__("VAT")
+								input(type="text", name="iva_perc")#iva_perc.input-mini
+								span.add-on %
+						td.input-prepend
+							span.add-on=_config.currency[0]
+							input(type="text", name="iva", disabled)#iva.totali.input-medium
+							input(type="hidden", name="iva").totali.iva
+					tr
+						td
+						td
+							label.pull-right(for='spedizione')=__("Shipping costs")
+						td.input-prepend
+							span.add-on=_config.currency[0]
+							input(type="text", name="spedizione")#spedizione.input-medium
+					tr
+						td
+						td
+							label.pull-right(for='totale')=__("TOTAL")
+						td.input-prepend
+							span.add-on=_config.currency[0]
+							input(type="text", name="totale", disabled)#totale.input-medium
+							input(type="hidden", name="totale").totale
+			hr.clearfix
+			label.add-on(for='banca')=__("Bank")
+			h3#banca=_config.bank
+	div.container-fluid
+		div.row-fluid
+			.span6
+			.span6
+				.pull-right
+					br
+					input(type="submit", value=__("SAVE")).btn.btn-success
+					- if (result._id)
+						input(type="button", value=__("PRINT")).btn.btn-primary
+						input(type="button", value=__("DUPLICATE")).btn.btn-primary
+						input(type="button", value=__("DELETE")).btn.btn-danger
+		
+include modals/alert
+
+script(type="text/javascript)
+	var rowNumber = 1;
+	var impTot;
+	var tot;

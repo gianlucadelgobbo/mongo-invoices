@@ -1,0 +1,88 @@
+!!!
+html
+	head
+		title= title
+		link(rel='stylesheet', href='/vendor/bootstrap.min.css')
+		link(rel='stylesheet', href='/vendor/bootstrap-responsive.min.css')
+		link(rel='stylesheet', href='/css/style.css')
+		meta(name="viewport", content="width=device-width, initial-scale=1.0")
+		
+		script(src='/vendor/jquery.min.js')
+		script(src='/vendor/jquery.form.js')
+		script(src='/vendor/bootstrap.min.js')
+		script(src='/vendor/jquery-ui-1.9.0.custom.min.js')
+		link(href="css/smoothness/jquery-ui-1.9.0.custom.css",rel="stylesheet",type="text/css")
+		script(src='/js/flyer/flyer_script.js')
+
+		- if (locals.udata)
+			script(src='/js/controllers/accountController.js')
+			script(src='/js/form-validators/accountValidator.js')
+
+		script(type='text/javascript')
+			var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', 'UA-8844617-15']);
+			_gaq.push(['_trackPageview']);
+			(function() {
+				var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			})();
+	body
+		- if (locals.udata)
+			div.navbar.navbar-inverse.navbar-fixed-top
+				div.navbar-inner
+					div.container-fluid
+						ul#global-nav.nav.pull-left
+							li
+								a(href='/').brand Control Panel
+						a(href='/logout')#btn-logout.btn.btn-primary.pull-right
+							i.icon-lock.icon-white
+							| Sign Out
+			div.container-fluid
+				div.row-fluid
+					div.span3
+						ul.nav.nav-list.bs-docs-sidenav
+							li
+								a(href='/clients')
+									i.icon-chevron-right
+									span=__("Clients")
+							li(class=(locals.title === 'Clients' ? "submenu" : "submenu hide"))
+								a(href='/client')
+									i.icon-chevron-right
+									span=__("New client")
+							li
+								a(href='/invoices')
+									i.icon-chevron-right
+									span=__("Invoices")
+							li(class=(locals.title === 'Invoices' ? "submenu" : "submenu hide"))
+								a(href='/invoice')
+									i.icon-chevron-right
+									span=__("New invoice")
+							li
+								a(href='/offers')
+									i.icon-chevron-right
+									span=__("Offers")
+							li(class=(locals.title === 'Offers' ? "submenu" : "submenu hide"))
+								a(href='/offer')
+									i.icon-chevron-right
+									span=__("New offer")				
+							li
+								a(href='/account')
+									i.icon-chevron-right
+									span=__("Account")
+							li
+								a(href='/help')
+									i.icon-chevron-right
+									span=__("Help")
+					div.span9.page-header!= body
+		- else 
+			div.container!= body
+			a(href="https://github.com/gianlucadelgobbo/mongo-invoices")
+				img#github-banner(style="position:absolute;top:0px;right:0;border:0;", src="https://a248.e.akamai.net/camo.github.com/7afbc8b248c68eb468279e8c17986ad46549fb71/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67", alt="Fork me on GitHub")
+
+		// display form errors in a custom modal window //
+		
+		include modals/form-errors
+		include modals/alert
+		include modals/confirm
+		

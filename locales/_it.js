@@ -1,0 +1,36 @@
+{
+	"Clients":			"Clienti",
+	"New client":		"Nuovo cliente",
+	"Invoices":			"Fatture",
+	"New invoice":		"Nuova fattura",
+	"Offers":			"Preventivi",
+	"New offer":		"Nuovo preventivo",
+	"Settings":			"Impostazioni",
+	"Account":			"Account",
+	"Help":				"Aiuto",
+
+	"Invoice number":	"Numero fattura",
+	"Invoice date":		"Data fattura",
+	"Client":			"Cliente",
+	"Address":			"Indirizzo",
+	"ZIP code":			"CAP",
+	"City":				"Città",
+	"VAT number":		"Partita IVA",
+	"Fiscal code":		"Codice Fiscale",
+	"Banca d'appoggio":	"Banca d'appoggio",
+
+	"Offer number":		"Numero preventivo",
+	"Payments":			"Pagamento",
+	"Shipped to":		"Destinazione",
+
+	"in_data":			"In Data",
+	"data_consegna":	"Data Consegna",
+	"Number":			"Quantità",
+	"Description":		"Descrizione",
+	"Ammount":			"Importo",
+	"Subtotal":			"Importo Totale",
+	"VAT":				"IVA",
+	"% VAT":			"% IVA",
+	"Shipping cost":	"Spese di spedizione",
+	"TOTAL":			"TOTALE"
+}
