@@ -16,7 +16,7 @@ function getSource(req){
 
 $(function() {
 	$('.dropdown-toggle').dropdown();
-	$('#cliente').autocomplete({
+	$('#to_client').autocomplete({
 		source: function(req,res){
 			getSource(req);
 			var x = new Array();
@@ -28,11 +28,12 @@ $(function() {
 		minLength:3,
 		select: function(event, ui) {
 			var i= ui.item.idx;
-			$(".indirizzo").val(queryResult[i].indirizzo.via)
-			$(".cap").val(queryResult[i].indirizzo.cap);
-			$(".citta").val(queryResult[i].indirizzo.citta);
-			$(".p_iva").val(queryResult[i].p_iva);
-			$(".c_fiscale").val(queryResult[i].cf);
+			$("#address").val(queryResult[i].address.street)
+			$("#zipcode").val(queryResult[i].address.zipcode);
+			$("#city").val(queryResult[i].address.city);
+			$("#country").val(queryResult[i].address.country);
+			$("#vat_number").val(queryResult[i].vat_number);
+			$("#fiscal_code").val(queryResult[i].fiscal_code);
 		}
 	});
 });
@@ -57,30 +58,30 @@ $.fn.serializeObject = function()
 
 //Add row to table
 $(function() {
-	$(".importo").keypress(function() {
+	$(".amount").keypress(function() {
 		addNewRow();
 	});
 });
 
 function addNewRow(){
-	if($($("#articoli tr:last").find("input")[2]).val()!=""){
-		$("#articoli tr:last").clone().find("input").each(function() {
+	if($($("#items tbody tr:last").find("input")[3]).val()!=""){
+		$("#items tbody tr:last").clone().find("input").each(function() {
 		    $(this).attr({
 		      'id': function(_, id) { return (id.slice(0, id.lastIndexOf("_"))) + "_" + rowNumber },
 		      'name': function(_, name) { return (name = name.replace(rowNumber-1,rowNumber))},
 		      'value': ''
 		    });
-		  }).end().appendTo("#articoli");
+		  }).end().appendTo("#items");
 		rowNumber++;
-		$("#articoli tr:last").keypress(function() {
+		$("#items tbody tr:last").keypress(function() {
 			addNewRow();
 		});
-		$(".importo:last").blur(function() {
-			controlImporto($(this));
+		$(".amount:last").blur(function() {
+			controlAmount($(this));
 		});
 		$(function() {
-			$(".quantita:last").blur(function() {
-				controlQuantita($(this));
+			$(".quantity:last").blur(function() {
+				controlQuantity($(this));
 			});
 		});
 		return false;
@@ -89,23 +90,7 @@ function addNewRow(){
 
 //datepicker
 $(function() {
-	$("#data").datepicker({
-		changeMonth: true,
-		changeYear: true,
-		dateFormat: "dd/mm/yy",
-		showOtherMonths: true
-	});
-});
-$(function() {
-	$("#in_data").datepicker({
-		changeMonth: true,
-		changeYear: true,
-		dateFormat: "dd/mm/yy",
-		showOtherMonths: true
-	});
-});
-$(function() {
-	$("#data_consegna").datepicker({
+	$(".date").datepicker({
 		changeMonth: true,
 		changeYear: true,
 		dateFormat: "dd/mm/yy",
@@ -116,34 +101,34 @@ $(function() {
 //validate forms
 //controlli
 $(function() {
-	$("#cap").blur(function() {
-		controlCAP();
+	$("#zipcode").blur(function() {
+		controlZIP();
 	});
 });
-function controlCAP(){
-	if($('#cap').val()!=""){
-		if(!is_numeric($('#cap').val())){
+function controlZIP(){
+	if($('#zipcode').val()!=""){
+		if(!is_numeric($('#zipcode').val())){
 			alert("Il CAP è formato da numeri.");
 			return false;
 		}
-		if($('#cap').val().length>5)
+		if($('#zipcode').val().length>5)
 			alert("Il CAP è formato da 5 cifre.");
 			return false;
 	}
 
 }
 $(function() {
-	$("#p_iva").blur(function() {
-		controlIVA();
+	$("#vat_number").blur(function() {
+		controlVAT();
 	});
 });
-function controlIVA(){
-	if($('#p_iva').val()!=""){
-		if(!is_numeric($('#p_iva').val())){
+function controlVAT(){
+	if($('#vat_number').val()!=""){
+		if(!is_numeric($('#vat_number').val())){
 			alert("La partita IVA è formata da numeri.");
 			return false;
 		}
-		if($('#p_iva').val().length>11){
+		if($('#vat_number').val().length>11){
 			alert("La partita IVA è formata da 11 cifre.");
 			return false;
 		}
@@ -151,90 +136,90 @@ function controlIVA(){
 
 }
 $(function() {
-	$("#iva_perc").blur(function() {
-		controlIVAP();
+	$("#vat_perc").blur(function() {
+		controlVATP();
 	});
 });
-function controlIVAP(){
-	if($('#iva_perc').val()!=""){
-		if(!is_numeric($('#iva_perc').val())){
+function controlVATP(){
+	if($('#vat_perc').val()!=""){
+		if(!is_numeric($('#vat_perc').val())){
 			alert("L'IVA percentuale è un numero.");
 			return false;
 		}
-		if($("iva_perc").val()>100)
+		if($("vat_perc").val()>100)
 			alert("L'IVA percentile dave essere minore di 100.");
 		else{
-			if($("#imp_totale").val()!="")
-				calcoloIVA($("#imp_totale").val());
-				calcoloTotale();
+			if($(".subtotal").val()!="")
+				calcoloVAT($(".subtotal").val());
+				calcoloTotal();
 		}
 	}
 
 }
 $(function() {
-	$("#c_fiscale").blur(function() {
-		controlCF();
+	$("#fiscal_code").blur(function() {
+		controlFC();
 	});
 });
-function controlCF(){
-	if($('#c_fiscale').val()!="")
-		if($('#c_fiscale').val().length>16)
+function controlFC(){
+	if($('#fiscal_code').val()!="")
+		if($('#fiscal_code').val().length>16)
 			alert("Il codice fiscale è formato da 11 caratteri.");
 			return false;
 }
 $(function() {
-	$(".quantita").blur(function() {
-		controlQuantita($(this));
+	$(".quantity").blur(function() {
+		controlQuantity($(this));
 	});
 });
-function controlQuantita(quantita){
-	if($(quantita).val()!="")
-		if(!is_numeric($(quantita).val()))
+function controlQuantity(quantity){
+	if($(quantity).val()!="")
+		if(!is_numeric($(quantity).val()))
 			alert("La quantità è un numero.");
 }
 
 //totali
 $(function() {
-	$(".importo").blur(function() {
-		controlImporto($(this));
+	$(".amount").blur(function() {
+		controlAmount($(this));
 	});
 });
-function controlImporto(importo){
-	if($(importo).val()!="")
-		if(!is_numeric($(importo).val())){
+function controlAmount(amount){
+	if($(amount).val()!="")
+		if(!is_numeric($(amount).val())){
 			alert("L'importo deve essere un numero.");
-			//$(importo).focus();
+			//$(amount).focus();
 		} else {
 			impTot=0;
-			$('input.importo').each(function(){
+			$('input.amount').each(function(){
 				if($(this).val()!="")
 					impTot += parseFloat($(this).val());
 			});
-			$(".imp_totale").val(impTot);
-			if($('#iva_perc')!="")
-				calcoloIVA(impTot);
-			calcoloTotale();
+			$(".subtotal").val(impTot);
+			if($('#vat_perc')!="")
+				calcoloVAT(impTot);
+			calcoloTotal();
 		}
 }
-function calcoloIVA(impTot){
-	$('.iva').val((impTot/100)*$('#iva_perc').val());
+function calcoloVAT(impTot){
+	$('.vat_amount').val((impTot/100)*$('#vat_perc').val());
 }
 $(function() {
-	$("#spedizione").blur(function() {
-		calcoloTotale();
+	$("#shipping_costs").blur(function() {
+		calcoloTotal();
 	});
 });
-function calcoloTotale(){
-	if($('#spedizione').val() != "" && !is_numeric($('#spedizione').val())){
+function calcoloTotal(){
+	if($('#shipping_costs').val() != "" && !is_numeric($('#shipping_costs').val())){
 		alert("Le spese di spedizione devono essere un numero.");
-		//$("#spedizione").focus();
+		//$("#shipping_costs").focus();
 	}else {
 		tot=0;
-		$('.totali').each(function(){
+		$('.totals').each(function(){
 			if($(this).val()!="")
 				tot += parseFloat($(this).val());
 		});
-		$('.totale').val(tot);
+		$('.total').val(tot);
 	}
 }
 
