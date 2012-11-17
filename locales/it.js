@@ -35,5 +35,8 @@
 	"Ammount": "Ammount",
 	"Shipping costs": "Shipping costs",
 	"Bank": "Bank",
-	"Delivery date": "Delivery date"
+	"Delivery date": "Delivery date",
+	"Insert new client": "Insert new client",
+	"Price": "Price",
+	"Amount": "Amount"
 }

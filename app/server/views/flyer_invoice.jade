@@ -32,35 +32,35 @@ form(method="post", action="/invoices")
 					.input-prepend.input-append
 						label.add-on(for='to_client')=__("Client")
 						input(type="text", name="to_client[name]").span6#to_client
-						a(href="/client").btn=__("Insert new client)
+						a(href="/client").btn=__("Insert new client")
 				.row-fluid
 					.input-prepend
 						label.add-on(for='address')=__("Address")
-						input(type="text", name="to_client[address][street]", disabled)#address.span9
-						input(type="hidden", name="to_client[address][street]")
+						input(type="text", name="to_client[address][street]", disabled).address#address.span9
+						input(type="hidden", name="to_client[address][street]").address
 				.row-fluid
 					.input-prepend.span3
 						label.add-on(for='zipcode')=__("ZIP code")
-						input(type="text", name="to_client[address][zipcode]", disabled).span7#zipcode
-						input(type="hidden", name="to_client[address][zipcode]")
+						input(type="text", name="to_client[address][zipcode]", disabled).zipcode.span7#zipcode
+						input(type="hidden", name="to_client[address][zipcode]").zipcode
 					.input-prepend.span4
 						label.add-on(for='city')=__("City")
-						input(type="text", name="to_client[address][city]", disabled).span9#city
-						input(type="hidden", name="to_client[address][city]")
+						input(type="text", name="to_client[address][city]", disabled).city.span9#city
+						input(type="hidden", name="to_client[address][city]").city
 					.input-prepend.span5
 						label.add-on(for='country')=__("Country")
-						input(type="text", name="to_client[address][country]", disabled).span7#country
-						input(type="hidden", name="to_client[address][country]")
+						input(type="text", name="to_client[address][country]", disabled).country.span7#country
+						input(type="hidden", name="to_client[address][country]").country
 				.row-fluid
 					.input-prepend.span12
 						label.add-on(for='vat_number')=__("VAT number")
-						input(type="text", name="to_client[vat_number]", disabled)#vat_number
-						input(type="hidden", name="to_client[vat_number]")
+						input(type="text", name="to_client[vat_number]", disabled).vat_number#vat_number
+						input(type="hidden", name="to_client[vat_number]").vat_number
 				.row-fluid
 					.input-prepend.span12
 						label.add-on(for='fiscal_code')=__("Fiscal code")
-						input(type="text", name="to_client[fiscal_code]", disabled)#fiscal_code
-						input(type="hidden", name="to_client[fiscal_code]")
+						input(type="text", name="to_client[fiscal_code]", disabled).fiscal_code#fiscal_code
+						input(type="hidden", name="to_client[fiscal_code]").fiscal_code
 			.span3
 				.row-fluid
 					.input-prepend.input-append.span12
@@ -103,7 +103,7 @@ form(method="post", action="/invoices")
 						td
 							input(type="text", name="items[0][quantity]").quantity#quantity_0.input-mini
 						td
-							input(type="text", name="items[0][description]").description#description_0.input-xxlarge
+							input(type="text", name="items[0][description]").description#description_0.input-xlarge
 						td.input-prepend
 							span.add-on=_config.currency[0]
 							input(type="text", name="items[0][price]").price#price_0.input-medium
@@ -114,12 +114,14 @@ form(method="post", action="/invoices")
 					tr
 						td
 						td
+						td
 							label.pull-right(for='subtotal')=__("Subtotal")
 						td.input-prepend
 							span.add-on=_config.currency[0]
 							input(type="text", name="subtotal", disabled).totals.subtotal.input-medium
 							input(type="hidden", name="subtotal").totals.subtotal
 					tr
+						td
 						td
 						td.input-append
 							label.pull-right(for='vat_perc')=__("VAT")
@@ -132,11 +134,13 @@ form(method="post", action="/invoices")
 					tr
 						td
 						td
+						td
 							label.pull-right(for='shipping_costs')=__("Shipping costs")
 						td.input-prepend
 							span.add-on=_config.currency[0]
 							input(type="text", name="shipping_costs")#shipping_costs.input-medium
 					tr
+						td
 						td
 						td
 							label.pull-right(for='total')=__("TOTAL")

@@ -15,11 +15,12 @@ function getSource(req){
 };
 
 $(function() {
-	$('.dropdown-toggle').dropdown();
+	//$('.dropdown-toggle').dropdown();
 	$('#to_client').autocomplete({
 		source: function(req,res){
 			getSource(req);
 			var x = new Array();
+			console.log(queryResult);
 			for(var i=0;i<queryResult.length;i++){
 				x[i] = {"label" : queryResult[i].name, "value" : queryResult[i].name, idx : i};
 			}
@@ -28,12 +29,12 @@ $(function() {
 		minLength:3,
 		select: function(event, ui) {
 			var i= ui.item.idx;
-			$("#address").val(queryResult[i].address.street)
-			$("#zipcode").val(queryResult[i].address.zipcode);
-			$("#city").val(queryResult[i].address.city);
-			$("#country").val(queryResult[i].address.country);
-			$("#vat_number").val(queryResult[i].vat_number);
-			$("#fiscal_code").val(queryResult[i].fiscal_code);
+			$(".address").val(queryResult[i].address.street)
+			$(".zipcode").val(queryResult[i].address.zipcode);
+			$(".city").val(queryResult[i].address.city);
+			$(".country").val(queryResult[i].address.country);
+			$(".vat_number").val(queryResult[i].vat_number);
+			$(".fiscal_code").val(queryResult[i].fiscal_code);
 		}
 	});
 });

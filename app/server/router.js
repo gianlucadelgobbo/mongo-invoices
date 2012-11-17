@@ -58,8 +58,7 @@ module.exports = function(app) {
 				locals: {
 					title : 'Control Panel',
 					countries : CT,
-					udata : req.session.user,
-					labels:labels
+					udata : req.session.user
 				}
 			});
 	    }
@@ -203,7 +202,6 @@ module.exports = function(app) {
 	    } else {
 			if (req.query.id) {
 				DB.invoices.find({_id:new ObjectID(req.query.id)}).toArray(function(e, result) {
-					console.log(result);
 					res.render('flyer_client', {  locals: { title: 'Invoice', result : result[0], udata : req.session.user } });
 				});
 			} else {
@@ -217,7 +215,6 @@ module.exports = function(app) {
 	        res.redirect('/');
 	    } else {
 			DB.invoices.find({}).toArray(function(e, result) {
-				console.log(result)
 				res.render('flyer_invoices', {  locals: { title: 'Invoices', result : result, udata : req.session.user } });
 			});
 		}
@@ -228,8 +225,6 @@ module.exports = function(app) {
 	        res.redirect('/');
 	    } else {
 			DB.insert_invoice(req.body, function(e, o){
-				console.log(e);
-				console.log(o);
 				if (e){
 					res.send(e, 400);
 				}else{
@@ -242,15 +237,27 @@ module.exports = function(app) {
 		}
 	});
 	
-	//client
+	//api
 	
+	app.get('/api/clients',function(req, res) {
+		if (req.session.user == null) {
+	        res.redirect('/');
+	    } else {
+			DB.clients.find({name:new RegExp("/^"+req.term+"/")}).toArray(function(e, result) {
+				console.log(result);
+				res.send(result);
+			});
+		}
+	});
+	
+	
+	//client
 	app.get('/client',function(req, res) {
 	    if (req.session.user == null) {
 	        res.redirect('/');
 	    } else {
 			if (req.query.id) {
 				DB.clients.find({_id:new ObjectID(req.query.id)}).toArray(function(e, result) {
-					console.log(result);
 					res.render('flyer_client', {  locals: { title: 'Client', countries : CT, result : result[0], udata : req.session.user } });
 				});
 			} else {
@@ -258,20 +265,6 @@ module.exports = function(app) {
 			}
 		}
 	});
-	
-	/*app.post('/client', function(req, res){
-		console.log(req.body);
-		DB.insert_client(req.body, function(e, o){
-			console.log(e);
-			console.log(o);
-			if (e){
-				res.send(e, 400);
-			}else{
-				res.render('flyer_client', {  locals: { title: 'Client', countries : CT } });
-			}
-		});
-		//return false;
-	});*/
 	
 	app.get('/clients', function(req, res){
 	    if (req.session.user == null) {
@@ -289,15 +282,9 @@ module.exports = function(app) {
 	    } else {
 			if (req.body.id) {
 				DB.update_client(req.body, function(e, o){
-				console.log(e);
-				console.log(o);
-					/*if (e){
-						res.send(e, 400);
-					}else{*/
 						DB.clients.find({}).toArray(function(e, result) {
 							res.render('flyer_clients', {  locals: { title: 'Clients', result : result, udata : req.session.user } });
 						});
-					//}
 				});
 			} else {
 				DB.insert_client(req.body, function(e, o){
