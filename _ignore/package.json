@@ -1,0 +1,30 @@
+{
+	"name": "node-login",
+	"version": "1.1.0",
+	"description": "A template for quickly building login systems on top of Node.js & MongoDb",
+	"author": {
+		"name": "Stephen Braitsch",
+		"email": "stephen@braitsch.io"
+	},
+	"website":{
+		"url": "node-login.braitsch.io"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/braitsch/node-login.git"
+	},
+	"private": true,
+	"dependencies": {
+		"express": "2.x.x",
+		"stylus": ">= 0.29.x",
+		"jade": ">= 0.27.x",
+		"bcrypt": ">= 0.5.x",
+		"mongodb": ">= 1.1.x",
+		"moment" : ">=1.7.x",
+		"emailjs": ">= 0.3.x"
+	},
+	"engines": {
+		"node": "0.8.x",
+		"npm":  "1.1.x"
+	}
+}
