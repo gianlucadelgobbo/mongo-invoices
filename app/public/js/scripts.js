@@ -13,6 +13,12 @@ function getSource(req){
 		}
 	});
 };
+function showModalError(t, m) {
+	$('.modal-alert .modal-header h3').text(t);
+	$('.modal-alert .modal-body p').text(m);
+	$('.modal-alert').modal('show');
+}
+
 
 $(function() {
 	//$('.dropdown-toggle').dropdown();

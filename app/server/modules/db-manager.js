@@ -165,16 +165,20 @@ DB.findByMultipleFields = function(a, callback) {
 	
 //flyer
 DB.insert_invoice = function(newData, callback) {
+	delete newData.id;
 	DB.invoices.insert(newData, callback(null));
 }
 
 DB.insert_client = function(newData, callback) {
+	delete newData.id;
 	DB.clients.insert(newData,callback(null));
 }
 DB.update_client = function(newData, callback) {
 	DB.clients.findOne({_id:new ObjectID(newData.id)}, function(e, o){
-		o.nome 		= newData.nome;
-		DB.clients.save(o); callback(o);
+		newData._id = o._id;
+		delete newData.id;
+		DB.clients.save(newData);
+		callback(o);
 	});
 }
 

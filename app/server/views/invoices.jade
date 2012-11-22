@@ -7,9 +7,9 @@ div.well
 				th.numerot=__("Invoice number")
 				th.datat=__("Invoice date")
 				th.clientet=__("Client")
-				th.indirizzot=__("Subtotal")
+				th.addresst=__("Subtotal")
 				th.capt=__("VAT")
-				th.cittat=__("TOTAL")
+				th.cityt=__("TOTAL")
 		tbody
 			each x in result
 				tr
@@ -18,6 +18,6 @@ div.well
 					td.clientet=x.data
 					td.clientet
 						a#dett_cliente(href="/client")=x.cliente.nome
-					td.p_ivat=x.cliente.p_iva
-					td.c_fiscalet=x.cliente.c_fiscale
-					td.indirizzot=x.cliente.indirizzo.via
+					td.vat_numbert=x.cliente.vat_number
+					td.fiscal_codet=x.cliente.fiscal_code
+					td.addresst=x.cliente.address.street

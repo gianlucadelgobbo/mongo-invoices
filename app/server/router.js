@@ -36,7 +36,11 @@ module.exports = function(app) {
 					res.cookie('user', o.user, { maxAge: 900000 });
 					res.cookie('pass', o.pass, { maxAge: 900000 });
 				}
-				res.send(o, 200);
+				if (req.param('ajax') == 'true') {
+					res.send(o, 200);
+				} else {
+					res.redirect('/home');
+				}
 			}
 		});
 	});
@@ -202,10 +206,10 @@ module.exports = function(app) {
 	    } else {
 			if (req.query.id) {
 				DB.invoices.find({_id:new ObjectID(req.query.id)}).toArray(function(e, result) {
-					res.render('flyer_client', {  locals: { title: 'Invoice', result : result[0], udata : req.session.user } });
+					res.render('client', {  locals: { title: 'Invoice', result : result[0], udata : req.session.user } });
 				});
 			} else {
-				res.render('flyer_invoice', {  locals: { title: 'Invoice', result:[] , udata : req.session.user } });
+				res.render('invoice', {  locals: { title: 'Invoice', result:[] , udata : req.session.user } });
 			}
 		}
 	});
@@ -215,7 +219,7 @@ module.exports = function(app) {
 	        res.redirect('/');
 	    } else {
 			DB.invoices.find({}).toArray(function(e, result) {
-				res.render('flyer_invoices', {  locals: { title: 'Invoices', result : result, udata : req.session.user } });
+				res.render('invoices', {  locals: { title: 'Invoices', result : result, udata : req.session.user } });
 			});
 		}
 	});
@@ -229,7 +233,7 @@ module.exports = function(app) {
 					res.send(e, 400);
 				}else{
 					DB.invoices.find({}).toArray(function(e, result) {
-						res.render('flyer_invoices', {  locals: { title: 'Invoices', result : result, udata : req.session.user } });
+						res.render('invoices', {  locals: { title: 'Invoices', result : result, udata : req.session.user } });
 					});
 				}
 			});
@@ -243,7 +247,8 @@ module.exports = function(app) {
 		if (req.session.user == null) {
 	        res.redirect('/');
 	    } else {
-			DB.clients.find({name:new RegExp("/^"+req.term+"/")}).toArray(function(e, result) {
+	    	r = "/^"+req.term+"/";
+			DB.clients.find({name:{ $regex : req.term }}).toArray(function(e, result) {
 				console.log(result);
 				res.send(result);
 			});
@@ -258,10 +263,10 @@ module.exports = function(app) {
 	    } else {
 			if (req.query.id) {
 				DB.clients.find({_id:new ObjectID(req.query.id)}).toArray(function(e, result) {
-					res.render('flyer_client', {  locals: { title: 'Client', countries : CT, result : result[0], udata : req.session.user } });
+					res.render('client', {  locals: { title: 'Client', countries : CT, result : result[0], udata : req.session.user } });
 				});
 			} else {
-				res.render('flyer_client', {  locals: { title: 'Client', countries : CT, result : {indirizzo:{}}, udata : req.session.user } });
+				res.render('client', {  locals: { title: 'Client', countries : CT, result : {address:{}}, udata : req.session.user } });
 			}
 		}
 	});
@@ -271,7 +276,7 @@ module.exports = function(app) {
 	        res.redirect('/');
 	    } else {
 			DB.clients.find({}).toArray(function(e, result) {
-				res.render('flyer_clients', {  locals: { title: 'Clients', result : result, udata : req.session.user } });
+				res.render('clients', {  locals: { title: 'Clients', result : result, udata : req.session.user } });
 			});
 		}
 	});
@@ -283,7 +288,7 @@ module.exports = function(app) {
 			if (req.body.id) {
 				DB.update_client(req.body, function(e, o){
 						DB.clients.find({}).toArray(function(e, result) {
-							res.render('flyer_clients', {  locals: { title: 'Clients', result : result, udata : req.session.user } });
+							res.render('clients', {  locals: { title: 'Clients', result : result, udata : req.session.user } });
 						});
 				});
 			} else {
@@ -292,7 +297,7 @@ module.exports = function(app) {
 						res.send(e, 400);
 					}else{
 						DB.clients.find({}).toArray(function(e, result) {
-							res.render('flyer_clients', {  locals: { title: 'Clients', result : result, udata : req.session.user } });
+							res.render('clients', {  locals: { title: 'Clients', result : result, udata : req.session.user } });
 						});
 					}
 				});

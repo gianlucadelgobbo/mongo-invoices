@@ -1,0 +1,33 @@
+
+h1=__("Clients")
+div.well
+	table.table
+		thead
+			tr
+				th=__("Actions")
+				th=__("Client")
+				th=__("VAT number")
+				th=__("Fiscal code")
+				th=__("Address")
+				th=__("ZIP code")
+				th=__("City")
+		tbody
+			each x in result
+				tr
+					td
+						div.btn-group
+							a.btn.btn-info(href="/client/?id="+x._id)=__("Invoices")
+							button.btn.btn-info.dropdown-toggle(data-toggle="dropdown")
+								span.caret
+							ul.dropdown-menu
+								li
+									a#dett_cliente(href="/client/?id="+x._id)=__("Edit")
+								li
+									a#dett_cliente(href="/client/?id="+x._id+"&delete="+1)=__("Delete")
+					td=x.name
+					td=x.vat_number
+					td=x.fiscal_code
+					td=x.address.street
+					td=x.address.zipcode
+					td=x.address.city
+					

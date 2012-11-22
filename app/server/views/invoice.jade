@@ -21,51 +21,54 @@ form(method="post", action="/invoices")
 			.span6
 				.row-fluid
 					.input-prepend.span6
-						label.add-on(for='invoice_number')=__("Invoice number")
+						label.span8.add-on(for='invoice_number')=__("Invoice number")
 						input(type="text", name="invoice_number", disabled).span3#invoice_number
 						input(type="hidden", name="invoice_number")
 					.input-prepend.span6
-						label.add-on(for='invoice_date')=__("Invoice date")
-						input(type="text", name="invoice_date").span6.date#invoice_date
+						label.span5.add-on(for='invoice_date')=__("Invoice date")
+						input(type="text", name="invoice_date").span7.date#invoice_date
 				.row-fluid
-					input(type="hidden", name="to_client[_id]")#client_id
-					.input-prepend.input-append
-						label.add-on(for='to_client')=__("Client")
+					.input-prepend.input-append.span12
+						label.span2.add-on(for='to_client')=__("Client")
 						input(type="text", name="to_client[name]").span6#to_client
-						a(href="/client").btn=__("Insert new client")
+						a(href="/client").btn.add-on=__("Insert new client")
+					input(type="hidden", name="to_client[_id]")#client_id
 				.row-fluid
-					.input-prepend
-						label.add-on(for='address')=__("Address")
+					.input-prepend.span12
+						label.span3.add-on(for='address')=__("Address")
 						input(type="text", name="to_client[address][street]", disabled).address#address.span9
 						input(type="hidden", name="to_client[address][street]").address
 				.row-fluid
-					.input-prepend.span3
-						label.add-on(for='zipcode')=__("ZIP code")
-						input(type="text", name="to_client[address][zipcode]", disabled).zipcode.span7#zipcode
+					.input-prepend.span4
+						label.span6.add-on(for='zipcode')=__("ZIP code")
+						input(type="text", name="to_client[address][zipcode]", disabled).zipcode.span6#zipcode
 						input(type="hidden", name="to_client[address][zipcode]").zipcode
 					.input-prepend.span4
-						label.add-on(for='city')=__("City")
-						input(type="text", name="to_client[address][city]", disabled).city.span9#city
+						label.span4.add-on(for='city')=__("City")
+						input(type="text", name="to_client[address][city]", disabled).city.span8#city
 						input(type="hidden", name="to_client[address][city]").city
-					.input-prepend.span5
-						label.add-on(for='country')=__("Country")
-						input(type="text", name="to_client[address][country]", disabled).country.span7#country
+					.input-prepend.span4
+						label.span6.add-on(for='country')=__("Country")
+						input(type="text", name="to_client[address][country]", disabled).country.span6#country
 						input(type="hidden", name="to_client[address][country]").country
 				.row-fluid
 					.input-prepend.span12
-						label.add-on(for='vat_number')=__("VAT number")
-						input(type="text", name="to_client[vat_number]", disabled).vat_number#vat_number
+						label.span3.add-on(for='vat_number')=__("VAT number")
+						input.span9(type="text", name="to_client[vat_number]", disabled).vat_number#vat_number
 						input(type="hidden", name="to_client[vat_number]").vat_number
 				.row-fluid
 					.input-prepend.span12
-						label.add-on(for='fiscal_code')=__("Fiscal code")
-						input(type="text", name="to_client[fiscal_code]", disabled).fiscal_code#fiscal_code
+						label.span3.add-on(for='fiscal_code')=__("Fiscal code")
+						input.span9(type="text", name="to_client[fiscal_code]", disabled).fiscal_code#fiscal_code
 						input(type="hidden", name="to_client[fiscal_code]").fiscal_code
-			.span3
+			.span5
+				.row-fluid
+					.input-append.span12
+						.input-append.span12
 				.row-fluid
 					.input-prepend.input-append.span12
-						label.add-on(for='payment')=__("Payment")
-						input(type="text", name="payment")#payment
+						label.span3.add-on(for='payment')=__("Payment")
+						input.span6(type="text", name="payment")#payment
 						.btn-group
 							button.btn.dropdown-toggle(data-toggle="dropdown", type="button")=__("Choose")
 								span.caret
@@ -73,22 +76,22 @@ form(method="post", action="/invoices")
 								li bella
 				.row-fluid
 					.input-prepend.input-append.span12
-						label.add-on(for='destination')=__("Shipped to")
-						input(type="text", name="destination")#destination
+						label.span3.add-on(for='destination')=__("Shipped to")
+						input.span9(type="text", name="destination")#destination
 				.row-fluid
-					input(type="hidden", name="offer[_id]")#offer_id
 					.input-prepend.input-append.span12
-						label.add-on(for='offer_number')=__("Offer number")
-						input(type="text", name="offer[offer_number]")#offer_number
+						label.span3.add-on(for='offer_number')=__("Offer number")
+						input.span9(type="text", name="offer[offer_number]")#offer_number
+					input(type="hidden", name="offer[_id]")#offer_id
 				.row-fluid
 					.input-prepend.span12
-						label.add-on(for='offer_date')=__("Offer date")
-						input(type="text", name="offer[offer_date]", disabled)#offer_date
+						label.span3.add-on(for='offer_date')=__("Offer date")
+						input.span9(type="text", name="offer[offer_date]", disabled)#offer_date
 						input(type="hidden", name="offer[offer_date]")
 				.row-fluid
 					.input-prepend.span12
-						label.add-on(for='delivery_date')=__("Delivery date")
-						input(type="text", name="delivery_date").date#delivery_date
+						label.span3.add-on(for='delivery_date')=__("Delivery date")
+						input.span9(type="text", name="delivery_date").date#delivery_date
 		div.row-fluid
 			hr
 			table.table#items

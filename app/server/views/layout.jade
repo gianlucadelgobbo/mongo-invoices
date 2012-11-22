@@ -2,30 +2,29 @@
 html
 	head
 		title= title
-		link(rel='stylesheet', href='/vendor/bootstrap.min.css')
-		link(rel='stylesheet', href='/vendor/bootstrap-responsive.min.css')
-		link(rel='stylesheet', href='/css/style.css')
+		link(rel="stylesheet", href="/js/bootstrap.min.css")
+		link(rel="stylesheet", href="/js/bootstrap-responsive.min.css")
+		link(rel="stylesheet", href="/css/style.css")
 		meta(name="viewport", content="width=device-width, initial-scale=1.0")
 		
-		script(src='/vendor/jquery.min.js')
-		script(src='/vendor/jquery.form.js')
-		script(src='/vendor/bootstrap.min.js')
-		script(src='/vendor/jquery-ui-1.9.0.custom.min.js')
-		link(href="css/smoothness/jquery-ui-1.9.0.custom.css",rel="stylesheet",type="text/css")
-		script(src='/js/flyer/flyer_script.js')
+		script(src="/js/jquery.min.js")
+		script(src="/js/jquery.form.js")
+		script(src="/js/bootstrap.min.js")
+		script(src="/js/jquery-ui-1.9.0.custom.min.js")
+		script(src="/js/jquerymx-3.2.custom.min.js")
+		script(src="/js/validators.js")
 
-		- if (locals.udata)
-			script(src='/js/controllers/accountController.js')
-			script(src='/js/form-validators/accountValidator.js')
+		link(href="/css/smoothness/jquery-ui-1.9.0.custom.css",rel="stylesheet",type="text/css")
+		script(src="/js/scripts.js")
 
-		script(type='text/javascript')
+		script(type="text/javascript")
 			var _gaq = _gaq || [];
-			_gaq.push(['_setAccount', 'UA-8844617-15']);
-			_gaq.push(['_trackPageview']);
+			_gaq.push(["_setAccount", "UA-8844617-15"]);
+			_gaq.push(["_trackPageview"]);
 			(function() {
-				var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+				var ga = document.createElement("script"); ga.type = "text/javascript"; ga.async = true;
+				ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";
+				var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ga, s);
 			})();
 	body
 		- if (locals.udata)
@@ -34,8 +33,8 @@ html
 					div.container-fluid
 						ul#global-nav.nav.pull-left
 							li
-								a(href='/').brand Control Panel
-						a(href='/logout')#btn-logout.btn.btn-primary.pull-right
+								a(href="/").brand Control Panel
+						a(href="/logout")#btn-logout.btn.btn-primary.pull-right
 							i.icon-lock.icon-white
 							| Sign Out
 			div.container-fluid
@@ -43,15 +42,15 @@ html
 					div.span3
 						ul.nav.nav-list.bs-docs-sidenav
 							li
-								a(href='/clients')
+								a(href="/clients")
 									i.icon-chevron-right
 									span=__("Clients")
-							li(class=(locals.title === 'Clients' ? "submenu" : "submenu hide"))
-								a(href='/client')
+							li(class=(locals.title === "Clients" ? "submenu" : "submenu hide"))
+								a(href="/client")
 									i.icon-chevron-right
 									span=__("New client")
 							li
-								a(href='/invoices')
+								a(href="/invoices")
 									i.icon-chevron-right
 									span=__("Invoices")
 							li(class=(locals.title === 'Invoices' ? "submenu" : "submenu hide"))
@@ -82,7 +81,7 @@ html
 
 		// display form errors in a custom modal window //
 		
-		include modals/form-errors
 		include modals/alert
 		include modals/confirm
+		include modals/form-errors
 		

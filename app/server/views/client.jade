@@ -1,0 +1,42 @@
+
+h1=(result.nome ? result.nome : __("New client"))
+div.well
+	form(method="post", action="/clients")#client.form-horizontal
+		div.control-group
+			label(for='cliente_new').control-label=__("Client")
+			div.controls
+				input(type="text", name="name", value=result.name).span5#cliente_new
+		div.control-group
+			label(for='vat_number').control-label=__("VAT number")
+			div.controls
+				input(type="text", name="vat_number", value=result.vat_number)#vat_number.span3
+		div.control-group
+			label(for='fiscal_code').control-label=__("Fiscal code")
+			div.controls
+				input(type="text", name="fiscal_code", value=result.fiscal_code)#fiscal_code.span3
+		div.control-group
+			label(for='street').control-label=__("Address")
+			div.controls
+				input(type="text", name="address[street]", value=result.address.street)#street.span5
+		div.control-group
+			label(for='zipcode').control-label=__("ZIP code")
+			div.controls
+				input(type="text", name="address[zipcode]", value=result.address.zipcode)#zipcode.span3
+		div.control-group
+			label(for='city').control-label=__("City")
+			div.controls
+				input(type="text", name="address[city]", value=result.address.city)#city.span3
+		div.control-group
+			label(for='country').control-label=__("Country")
+			div.controls
+				select(name="address[country]")#country.span3
+					each item in countries
+						option(selected=item.name == result.address.country)= item.name
+		div.control-group
+			label.control-label
+			div.controls
+				input(type="hidden", name="id", value=result._id)
+				input(type="submit", value=__("SAVE")).btn.btn-primary
+	br.myClear
+		
+script(src='/js/client.js')
