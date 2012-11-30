@@ -2,6 +2,7 @@
 var CT = require('./modules/country-list');
 var DB = require('./modules/db-manager');
 var EM = require('./modules/email-dispatcher');
+var Validator = require('./modules/validator');
 
 var ObjectID = require('mongodb').ObjectID;
 
@@ -234,22 +235,43 @@ module.exports = function(app) {
 	        res.redirect('/');
 	    } else {
 			console.dir(req.body);
-			if (req.body.id) {
-				DB.update_invoice(req.body, function(e, o){
-					DB.invoices.find({}).toArray(function(e, result) {
-						res.render('invoices', {  locals: { title: 'Invoices', result : result, udata : req.session.user } });
-					});
-				});
-			} else {
-				DB.insert_invoice(req.body, function(e, o){
-					if (e){
-						res.send(e, 400);
-					}else{
+			//controls
+			console.log("checkInvoice");
+			formOK = true;
+			if (!Validator.checkClientID(req.body.to_client._id)){
+				console.log("no client id");
+				formOK = false;
+			}		
+			if (!Validator.checkInvoiceDate(req.body.invoice_number,req.body.invoice_date)){
+				console.log("wrong invoice date");
+				formOK = false;
+			}
+			
+			if(formOK){
+				console.log("form OK");
+				if (req.body.id) {
+					DB.update_invoice(req.body, function(e, o){
 						DB.invoices.find({}).toArray(function(e, result) {
 							res.render('invoices', {  locals: { title: 'Invoices', result : result, udata : req.session.user } });
 						});
-					}
-				});
+					});
+				} else {
+					DB.insert_invoice(req.body, function(e, o){
+						if (e){
+							res.send(e, 400);
+						}else{
+							DB.invoices.find({}).toArray(function(e, result) {
+								res.render('invoices', {  locals: { title: 'Invoices', result : result, udata : req.session.user } });
+							});
+						}
+					});
+				}
+			} else {
+				console.log("form not OK");
+				var d = req.body.invoice_date.split("/");
+				req.body.invoice_date = new Date(parseInt(d[2]),parseInt(d[1])-1,parseInt(d[0]));
+				req.body.to_client.address={};
+				res.render('invoice', {  locals: { title: 'Invoice', result : req.body, udata : req.session.user } });
 			}
 		}
 	});
@@ -262,7 +284,7 @@ module.exports = function(app) {
 	        res.redirect('/');
 	    } else {
 	    	r = "/^"+req.term+"/";
-			DB.clients.find({name:{ $regex : req.term }}).toArray(function(e, result) {
+			DB.clients.find({name:{ $regex : r }}).toArray(function(e, result) {
 				//console.log(result);
 				res.send(result);
 			});

@@ -12,7 +12,7 @@ var moment = require('moment');
 
 var ObjectID = require('mongodb').ObjectID;
 
-var DB = {}; 
+var DB = {};
 	DB.db = new Db(dbName, new Server(dbHost, dbPort, {auto_reconnect: true}, {}));
 	DB.db.open(function(e, d){
 		if (e) {

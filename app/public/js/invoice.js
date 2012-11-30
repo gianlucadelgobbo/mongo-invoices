@@ -166,7 +166,7 @@ function checkVATPerc(input){
 		return false;
 	} else if(input.val()>100) {
 		var id = input.attr("id");
-		showModalError("Errore","L'IVA percentile dave essere minore di 100.", function () {setTimeout("\$(\"#"+id+"\").focus()",50)});
+		showModalError("Errore","L'IVA percentuale deve essere minore di 100.", function () {setTimeout("\$(\"#"+id+"\").focus()",50)});
 		return false;
 	} else {
 		return true;

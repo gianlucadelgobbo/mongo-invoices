@@ -20,7 +20,7 @@ function validateForm(formData, jqForm, options) {
 	} else if (!validators.validateStringLength(form.vat_number, 11, 11)){
 		showModalError('Whoops!', 'Please enter a valid VAT number');
 		return false;
-	} else if (!validators.validateStringLength(form.fiscal_code, 11, 11)){
+	} else if (!validators.validateStringLength(form.fiscal_code, 16, 16)){
 		showModalError('Whoops!', 'Please enter a valid Fiscal code');
 		return false;
 	} else if (!validators.validateStringLength(form.address.street, 3, 255)){

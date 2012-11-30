@@ -51,12 +51,7 @@ $.fn.serializeObject = function()
 };
 
 
-
-$(function() {
-	$("#zipcode").blur(function() {
-		controlZIP();
-	});
-});
+/*
 function controlZIP(){
 	if($('#zipcode').val()!=""){
 		if(!is_numeric($('#zipcode').val())){
@@ -71,31 +66,6 @@ function controlZIP(){
 	}
 
 }
-$(function() {
-	$("#vat_number").blur(function() {
-		controlVAT();
-	});
-});
-function controlVAT(){
-	if($('#vat_number').val()!=""){
-		if(!is_numeric($('#vat_number').val())){
-			var id = $(this).attr("id");
-			showModalError("Errore","La partita IVA è formata da numeri.", function () {setTimeout("\$(\"#"+id+"\").focus()",50)});
-			return false;
-		}
-		if($('#vat_number').val().length>11){
-			var id = $(this).attr("id");
-			showModalError("Errore","La partita IVA è formata da 11 cifre.", function () {setTimeout("\$(\"#"+id+"\").focus()",50)});
-			return false;
-		}
-	}
-
-}
-$(function() {
-	$("#fiscal_code").blur(function() {
-		controlFC();
-	});
-});
 function controlFC(){
 	if($('#fiscal_code').val()!="")
 		if($('#fiscal_code').val().length>16)
@@ -103,6 +73,8 @@ function controlFC(){
 			showModalError("Errore","Il codice fiscale è formato da 11 caratteri.", function () {setTimeout("\$(\"#"+id+"\").focus()",50)});
 			return false;
 }
+*/
+
 //vecchie
 function is_numeric(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
