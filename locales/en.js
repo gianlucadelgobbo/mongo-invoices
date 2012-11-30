@@ -49,5 +49,9 @@
 	"Update": "Update",
 	"Save": "Save",
 	"Cancel": "Cancel",
-	"Remember Me": "Remember Me"
+	"Remember Me": "Remember Me",
+	"Offer": "Offer",
+	"PRINT": "PRINT",
+	"DUPLICATE": "DUPLICATE",
+	"DELETE": "DELETE"
 }

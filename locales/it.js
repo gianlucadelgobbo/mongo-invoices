@@ -38,5 +38,21 @@
 	"Delivery date": "Delivery date",
 	"Insert new client": "Insert new client",
 	"Price": "Price",
-	"Amount": "Amount"
+	"Amount": "Amount",
+	"Remember Me": "Remember Me",
+	"Retrieve Password": "Retrieve Password",
+	"Please enter the email address associated with your account": "Please enter the email address associated with your account",
+	"Name": "Name",
+	"Email": "Email",
+	"Username": "Username",
+	"Password": "Password",
+	"Save": "Save",
+	"Cancel": "Cancel",
+	"Actions": "Actions",
+	"Edit": "Edit",
+	"Delete": "Delete",
+	"Offer": "Offer",
+	"PRINT": "PRINT",
+	"DUPLICATE": "DUPLICATE",
+	"DELETE": "DELETE"
 }
