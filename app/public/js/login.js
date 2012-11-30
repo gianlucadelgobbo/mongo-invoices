@@ -6,6 +6,11 @@ $(document).ready(function(){
 	$('#login-form #forgot-password').click(function(){ $('#get-credentials').modal('show');return false;});
 	
 	$('#login-form').ajaxForm({
+		beforeSerialize: function($form, options) {
+			console.log($($form));
+		    $($form).append("<input type=\"hidden\" name=\"ajax\" value=\"true\" />");             
+			console.log( $form);
+		},
 		beforeSubmit : validateForm,
 		success	: function(responseText, status, xhr, $form){
 			if (status == 'success') window.location.href = '/home';
@@ -37,8 +42,9 @@ $(document).ready(function(){
 	});
 	
 });
-function validateForm(formData, jqForm, options) { 
-    var form = jqForm[0]; 
+function validateForm(formData, jqForm, options) {
+		console.log(jqForm[0].ajax.value);
+    var form = jqForm[0];
 	if (!validators.validateStringLength(form.user.value, 3, 15)){
 		showModalError('Whoops!', 'Please enter a valid username');
 		return false;

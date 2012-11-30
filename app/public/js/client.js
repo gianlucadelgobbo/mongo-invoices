@@ -4,7 +4,7 @@ $(document).ready(function(){
 	$('#client').ajaxForm({
 		beforeSubmit : validateForm,
 		success	: function(responseText, status, xhr, $form){
-			//if (status == 'success') window.location.href = '/clients';
+			//if (status == 'success') window.location.href = '/invoices';
 		},
 		error : function(e){
             showModalError('Login Failure', 'Please check client data');

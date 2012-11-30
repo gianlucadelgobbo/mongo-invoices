@@ -115,3 +115,4 @@ body {
 .bs-docs-sidenav > li.submenu > a {
   padding-left: 20px;
 }
+.price,.amount,.totals,.total{text-align:right;}

@@ -8,8 +8,8 @@ div.span6.offset2#login-container
 		label Password
 		input(type="password", name="pass", id='pass-tf').span3.required
 		br.clearfix
-		label.checkbox=__("Remember Me")
-			input(type="checkbox", name="remember-me", value="1", checked='checked')
+		label.checkbox(for="remember-me")=__("Remember Me")
+			input(type="checkbox", name="remember-me", id="remember-me", value="true", checked='checked')
 		button(type="submit").btn.btn-primary
 			i.icon-lock.icon-white
 			=__("Sign in")

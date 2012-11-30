@@ -206,10 +206,15 @@ module.exports = function(app) {
 	    } else {
 			if (req.query.id) {
 				DB.invoices.find({_id:new ObjectID(req.query.id)}).toArray(function(e, result) {
-					res.render('client', {  locals: { title: 'Invoice', result : result[0], udata : req.session.user } });
+					result[0].invoice_date = new Date(result[0].invoice_date);
+					res.render('invoice', {  locals: { title: 'Invoice', result : result[0], udata : req.session.user } });
 				});
 			} else {
-				res.render('invoice', {  locals: { title: 'Invoice', result:[] , udata : req.session.user } });
+				DB.invoices.find({},{invoice_date:1,invoice_number:1}).sort({invoice_number:1}).toArray(function(e, result) {
+					//console.log(result);
+					resultEmpty = {invoice_date:new Date(),invoice_number:result.length+1,to_client:{address:{}},offer:{},items:[{}]};
+					res.render('invoice', {  locals: { title: 'Invoice', result : resultEmpty, udata : req.session.user } });
+				});
 			}
 		}
 	});
@@ -228,19 +233,28 @@ module.exports = function(app) {
 	    if (req.session.user == null) {
 	        res.redirect('/');
 	    } else {
-			DB.insert_invoice(req.body, function(e, o){
-				if (e){
-					res.send(e, 400);
-				}else{
+			console.dir(req.body);
+			if (req.body.id) {
+				DB.update_invoice(req.body, function(e, o){
 					DB.invoices.find({}).toArray(function(e, result) {
 						res.render('invoices', {  locals: { title: 'Invoices', result : result, udata : req.session.user } });
 					});
-				}
-			});
-			//return false;
+				});
+			} else {
+				DB.insert_invoice(req.body, function(e, o){
+					if (e){
+						res.send(e, 400);
+					}else{
+						DB.invoices.find({}).toArray(function(e, result) {
+							res.render('invoices', {  locals: { title: 'Invoices', result : result, udata : req.session.user } });
+						});
+					}
+				});
+			}
 		}
 	});
 	
+		
 	//api
 	
 	app.get('/api/clients',function(req, res) {
@@ -249,10 +263,20 @@ module.exports = function(app) {
 	    } else {
 	    	r = "/^"+req.term+"/";
 			DB.clients.find({name:{ $regex : req.term }}).toArray(function(e, result) {
-				console.log(result);
+				//console.log(result);
 				res.send(result);
 			});
 		}
+	});
+	
+	app.get('/api/invoices',function(req, res) {
+		var d = req.query.invoice_date.split("/");
+		q = {invoice_date:{$gt:  new Date(parseInt(d[2]),parseInt(d[1])-1,parseInt(d[0]))},invoice_number:(req.query.invoice_number-1).toString() };
+		console.dir(q);
+		DB.invoices.find(q).toArray(function(e, result) {
+				console.dir(result);
+			res.send({result:result});
+		});
 	});
 	
 	
@@ -309,6 +333,7 @@ module.exports = function(app) {
 	    if (req.session.user == null) {
 	        res.redirect('/');
 	    } else {
+	    	//process.stdout.write(req.session.user);
 			res.render('home', {
 				locals: {
 					title : 'Home',

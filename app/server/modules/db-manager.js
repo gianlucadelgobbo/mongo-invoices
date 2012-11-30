@@ -166,7 +166,19 @@ DB.findByMultipleFields = function(a, callback) {
 //flyer
 DB.insert_invoice = function(newData, callback) {
 	delete newData.id;
+	var d = newData.invoice_date.split("/");
+	newData.invoice_date = new Date(parseInt(d[2]),parseInt(d[1])-1,parseInt(d[0]));
 	DB.invoices.insert(newData, callback(null));
+}
+DB.update_invoice = function(newData, callback) {
+	DB.invoices.findOne({_id:new ObjectID(newData.id)}, function(e, o){
+		newData._id = o._id;
+		var d = newData.invoice_date.split("/");
+		newData.invoice_date = new Date(parseInt(d[2]),parseInt(d[1])-1,parseInt(d[0]));
+		delete newData.id;
+		DB.invoices.save(newData);
+		callback(o);
+	});
 }
 
 DB.insert_client = function(newData, callback) {
@@ -181,4 +193,5 @@ DB.update_client = function(newData, callback) {
 		callback(o);
 	});
 }
+
 

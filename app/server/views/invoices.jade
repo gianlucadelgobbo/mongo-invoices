@@ -4,20 +4,42 @@ div.well
 	table.table
 		thead
 			tr
-				th.numerot=__("Invoice number")
-				th.datat=__("Invoice date")
-				th.clientet=__("Client")
-				th.addresst=__("Subtotal")
-				th.capt=__("VAT")
-				th.cityt=__("TOTAL")
+				th=__("Actions")
+				th=__("Invoice number")
+				th=__("Invoice date")
+				th=__("Client")
+				th=__("Payment")
+				th=__("Shipped to")
+				th=__("Offer")
+				th=__("Delivery date")
+				th=__("Subtotal")
+				th=__("VAT")
+				th=__("Shipping costs")
+				th=__("TOTAL")
 		tbody
 			each x in result
 				tr
-					td.clientet
-						a#dett_cliente(href="/invoice/?id="+x._id)=x.numero+"aa"
-					td.clientet=x.data
-					td.clientet
-						a#dett_cliente(href="/client")=x.cliente.nome
-					td.vat_numbert=x.cliente.vat_number
-					td.fiscal_codet=x.cliente.fiscal_code
-					td.addresst=x.cliente.address.street
+					td
+						div.btn-group
+							a.btn.btn-info(href="/invoice/?id="+x._id)=__("Invoices")
+							button.btn.btn-info.dropdown-toggle(data-toggle="dropdown")
+								span.caret
+							ul.dropdown-menu
+								li
+									a(href="/invoice/?id="+x._id)=__("Edit")
+								li
+									a(href="/invoice/?id="+x._id+"&delete="+1)=__("Delete")
+					td=x.invoice_number
+					- dd = new Date(x.invoice_date)
+					td=dd.getDate()+"/"+(dd.getMonth()+1)+"/"+dd.getFullYear()
+					td
+						a(href="/client/?id="+x.to_client._id)=x.to_client.name
+					td=x.payment
+					td=x.destination
+					td=x.offer_number
+					td=x.delivery_date
+					td=x.subtotal
+					td=x.vat_amount
+					td=x.shipping_costs
+					td=x.total
+					
