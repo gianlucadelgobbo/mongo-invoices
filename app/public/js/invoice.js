@@ -17,7 +17,7 @@ $(function() {
 	});
 	$('#to_client').autocomplete({
 		source: function(req,res){
-			getSource(req);
+			getAutoCompleteList(req,"/api/clients");
 			var x = new Array();
 			for(var i=0;i<queryResult.length;i++){
 				x[i] = {"label" : queryResult[i].name, "value" : queryResult[i].name, idx : i};
@@ -34,6 +34,21 @@ $(function() {
 			$(".country").val(queryResult[i].address.country);
 			$(".vat_number").val(queryResult[i].vat_number);
 			$(".fiscal_code").val(queryResult[i].fiscal_code);
+		}
+	});
+
+	$('#payment').autocomplete({
+		source: function(req,res){
+			getAutoCompleteList(req,"/api/payments");
+			var x = new Array();
+			for(var i=0;i<queryResult.length;i++){
+				x[i] = {"label" : queryResult[i], "value" : queryResult[i], idx : i};
+			}
+			res(x);
+		},
+		minLength:3,
+		select: function(event, ui) {
+			console.log(ui);
 		}
 	});
 
@@ -82,10 +97,10 @@ $(function() {
 	}
 });
 
-function getSource(req){
+function getAutoCompleteList(req, url){
 	$.ajax({
         'async': false,
-		url: "/api/clients",
+		url: url,
 		dataType: "json",
 		data: {
 			term: req.term
@@ -109,6 +124,20 @@ function setBinds(){
 		getAmount($(this).parent().parent());
 		updateTotal();
 		addNewRow();
+	});
+	$('.description').autocomplete({
+		source: function(req,res){
+			getAutoCompleteList(req,"/api/products");
+			var x = new Array();
+			for(var i=0;i<queryResult.length;i++){
+				x[i] = {"label" : queryResult[i], "value" : queryResult[i], idx : i};
+			}
+			res(x);
+		},
+		minLength:3,
+		select: function(event, ui) {
+			console.log(ui);
+		}
 	});
 
 }

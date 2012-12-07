@@ -1,0 +1,90 @@
+
+header
+	.logo
+		- if(_config.company.logo)
+			img(src=_config.company.logo, alt=_config.company.name)
+		- else
+			span=_config.company.name
+	.company_row1!=_config.company.row1
+	.company_row2!=_config.company.row2
+section.invoice_data.clearfix
+	table.invoice_data_col1
+		tr
+			td.nowrap=__("Invoice number")
+			td.nowrap=result.invoice_number
+			td.nowrap=__("Invoice date")
+			- d = result.invoice_date;
+			td=d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear()
+		tr
+			td(colspan="2").nowrap=__("Client")
+			td(colspan="2")
+				b=(result.to_client.name+" ")
+				br
+				span=result.to_client.address.street+" "+result.to_client.address.city+" "+result.to_client.address.country
+		tr
+			td(colspan="2").nowrap=__("VAT number")
+			td(colspan="2")=result.to_client.vat_number
+		tr
+			td(colspan="2").nowrap=__("Fiscal code")
+			td(colspan="2")=result.to_client.fiscal_code
+	table.invoice_data_col2
+		tr
+			td.nowrap=__("Payment")
+			td=result.payment
+		tr
+			td.nowrap=__("Shipped to")
+			td=result.destination
+		tr
+			td.nowrap=__("Offer number")
+			td=result.offer.offer_number
+		tr
+			td.nowrap=__("Offer date")
+			td=result.offer.offer_date
+		tr
+			td.nowrap=__("Delivery date")
+			td=result.delivery_date
+section.invoice_items
+	table.table
+		thead
+			tr
+				th=__("Quantity")
+				th=__("Description")
+				th=__("Price")
+				th=__("Amount")
+		tbody
+			- var a = 0 
+			- for(a=0;a<result.items.length;a++) 
+				tr
+					td.quantity=result.items[a].quantity,id="quantity_"+a
+					td.description=result.items[a].description,id="description_"+a
+					td.price
+						.price=_config.currency[0]+" "+result.items[a].price
+					td.price
+						.price=_config.currency[0]+" "+result.items[a].amount
+		tfoot
+			tr
+				td(colspan="3")
+					.pull-right=__("Subtotal")
+				td
+					.price=_config.currency[0]+" "+result.subtotal
+			tr
+				td(colspan="3")
+					.pull-right=__("VAT")+" "+result.vat_perc+" %"
+				td
+					.price=_config.currency[0]+" "+result.vat_amount
+			tr
+				td(colspan="3")
+					.pull-right=__("Shipping costs")
+				td
+					.price=_config.currency[0]+" "+result.shipping_costs
+			tr
+				td(colspan="3")
+					.pull-right=__("TOTAL")
+				td
+					.price=_config.currency[0]+" "+result.total
+footer
+	b=__("Bank")
+	br
+	- for (a=0;a<_config.banks.length;a++)
+		- if (_config.banks[a][0]==result.bank)
+			span!=_config.banks[a][1]

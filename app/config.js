@@ -7,9 +7,16 @@ i18n.configure({
     register: global
 });
 GLOBAL._config = {
-	'company':			'FLYER COMMUNICATION',
-	'company_address':	'Via del Verano 39, 00185 Roma t +39.06.78147301 - f +39.06.78390805 - www.flyer.it - flyer@flyer.it Sede Amministrativa: via Cardinal de Luca, 10 00196 Roma PI 06589171005 - NREA 977098',
-	'bank':				'BANCA POPOLARE DI MILANO - via Appia Nuova, 447-449 Roma IBAN: IT73Z0558403220000000001753 N°CC: 175 AG: 331 Cab: 03220 Abi: 05584',
+	"company": {
+		"logo":	"/img/logo.png",
+		"name":	"Flyer communication srl",
+		"row1":	"Via del Verano 39, 00185 Rome, Italy<br />t +39.06.78147301 - f +39.06.78390805 - www.flyer.it - flyer@flyer.it",
+		"row2":	"Legal address: Via Cardinal de Luca, 10 - 00196 Rome, Italy<br />VAT N° 06589171005 - NREA 977098"
+	},
+	'banks':[
+		['BPM 1753', 'BANCA POPOLARE DI MILANO - via Appia Nuova, 447-449 Roma IBAN: IT73Z0558403220000000001753 N°CC: 175 AG: 331 Cab: 03220 Abi: 05584'],
+		['BPM 1817', 'BANCA POPOLARE DI MILANO - via Appia Nuova, 447-449 Roma IBAN: IT73Z0558403220000000001753 N°CC: 175 AG: 331 Cab: 03220 Abi: 05584']
+	],
 	'currency':			['€']
 }
 module.exports = function(app, exp) {

@@ -1,18 +1,46 @@
+!!!
+html
+	head
+		title= title
+		link(rel="stylesheet", href="/js/bootstrap.min.css")
+		link(rel="stylesheet", href="/css/style.css")
+		meta(name="viewport", content="width=device-width, initial-scale=1.0")
+		
+		script(src="/js/jquery.min.js")
+		script(src="/js/bootstrap.min.js")
 
-div.container(style='margin:20px')
-	table.table.table-bordered.table-striped
-		thead
-			tr
-				th(style='width:40px') #
-				th(style='width:180px') Name
-				th(style='width:200px') Location
-				th(style='width:180px') Username
-				th Account Created
-		tbody
-		- for (var i = 0; i < accts.length; i++)
-			tr
-				td= i+1
-				td= accts[i].name
-				td= accts[i].country
-				td= accts[i].user
-				td= accts[i].date
+		script(src="/js/scripts.js")
+
+		script(type="text/javascript")
+			var _gaq = _gaq || [];
+			_gaq.push(["_setAccount", "UA-8844617-15"]);
+			_gaq.push(["_trackPageview"]);
+			(function() {
+				var ga = document.createElement("script"); ga.type = "text/javascript"; ga.async = true;
+				ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";
+				var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ga, s);
+			})();
+	body
+		- if (locals.udata)
+			div.navbar.navbar-inverse.navbar-fixed-top
+				div.navbar-inner
+					div.container
+						ul#global-nav.nav.pull-left
+							li
+								a(href="/").brand Control Panel
+						a(href="/logout")#btn-logout.btn.btn-primary.pull-right
+							i.icon-lock.icon-white
+							| Sign Out
+.container
+	div.row.noprint
+		h1.span6=__("Print")
+		.span6
+			.pull-right
+				br
+				input(type="button", value=__("PRINT"), onclick="window.print()").btn.btn-primary
+		.span12
+			hr.clearfix
+.print_container
+	.cntPadd!= body
+div.noprint!="&nbsp";
+div.noprint!="&nbsp";
