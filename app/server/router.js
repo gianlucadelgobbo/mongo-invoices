@@ -217,7 +217,7 @@ module.exports = function(app) {
 	    } else {
 			if (req.query.id) {
 				DB.invoices.find({_id:new ObjectID(req.query.id)}).toArray(function(e, result) {
-					result[0].invoice_date = new Date(result[0].invoice_date);
+					//result[0].invoice_date = new Date(result[0].invoice_date);
 					res.render('invoice', {  locals: { title: 'Invoice', result : result[0], errors : [], udata : req.session.user } });
 				});
 			} else {
@@ -235,7 +235,7 @@ module.exports = function(app) {
 	    } else {
 			if (req.query.id) {
 				DB.invoices.find({_id:new ObjectID(req.query.id)}).toArray(function(e, result) {
-					result[0].invoice_date = new Date(result[0].invoice_date);
+					//result[0].invoice_date = new Date(result[0].invoice_date);
 					res.render('print_invoice', { layout: 'print.jade' ,  locals: { title: 'Invoice', result : result[0], errors : [], udata : req.session.user } });
 				});
 			} else {
@@ -257,10 +257,13 @@ module.exports = function(app) {
 			console.dir(Validator.checkInvoiceDate(req.body.invoice_number,req.body.invoice_date));
 			errors = errors.concat(Validator.checkInvoiceDate(req.body.invoice_number,req.body.invoice_date));
 			console.dir(errors);
+			console.dir(Validator.checkDeliveryDate(req.body.delivery_date));
+			errors = errors.concat(Validator.checkDeliveryDate(req.body.delivery_date));
+			console.dir(errors);
 			var d = req.body.invoice_date.split("/");
 			if(errors.length == 0){
 				var date=new Date(parseInt(d[2]),parseInt(d[1])-1,parseInt(d[0]));
-				var q = {invoice_date:{$gt: date/*new Date(parseInt(d[2]),parseInt(d[1])-1,parseInt(d[0]))*/},invoice_number:(req.body.invoice_number-1).toString() };
+				var q = {invoice_date:{$gt: date},invoice_number:(req.body.invoice_number-1).toString() };
 				DB.invoices.find(q).toArray(function(e, result) {
 					if(result.length){
 						errors.push("Data must be greater than "+result.invoice_date);
@@ -281,17 +284,16 @@ module.exports = function(app) {
 								*/
 							});
 						} else {
-							DB.insert_invoice(req.body, function(e, o){
-								console.dir("zzzzzzzz");
-								console.dir(e);
+							DB.insert_invoice(req.body, function(e,o){
 								console.dir("zzzzzzzz");
 								console.dir(o);
+	   							console.log("Record added as "+o[0]._id);
 								if (e){
 									res.send(e, 400);
 								}else{
-									console.dir("NUOVO ID"+req.body._id);
-									DB.invoices.find({_id:new ObjectID(req.body._id)}).toArray(function(e, result) {
-										res.render('invoice', {  locals: { title: 'Invoice', result : result, errors : errors, udata : req.session.user } });
+									DB.invoices.find({_id: o[0]._id}).toArray(function(e, result) {
+										//result[0].invoice_date = new Date(result[0].invoice_date);
+										res.render('invoice', {  locals: { title: 'Invoice', result : result[0], errors : errors, udata : req.session.user } });
 									});
 								}
 							});
@@ -347,7 +349,7 @@ module.exports = function(app) {
 		q = {invoice_date:{$gt:  new Date(parseInt(d[2]),parseInt(d[1])-1,parseInt(d[0]))},invoice_number:(req.query.invoice_number-1).toString() };
 		console.dir(q);
 		DB.invoices.find(q).toArray(function(e, result) {
-				console.dir(result);
+			console.dir(result);
 			res.send({result:result});
 		});
 	});

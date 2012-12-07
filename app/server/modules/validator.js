@@ -24,11 +24,23 @@ Validator.checkInvoiceDate = function(invoiceNumber,invoiceDate){
 		return errors;
 	} else {
 		if (!is_date(d[2],d[1],d[0])){
-			console.log("Date is not date");
-			errors.push("Date is not date");
+			console.log("Invoice date is not date");
+			errors.push("Invoice date is not date");
 		}
 		return errors;
 	}
+}
+//Check Delivery Date
+Validator.checkDeliveryDate = function(deliveryDate){
+	var errors = [];
+	if(deliveryDate!=""){
+		var d = deliveryDate.split("/");
+		if (!is_date(d[2],d[1],d[0])){
+			console.log("Delivery date is not date");
+			errors.push("Delivery date is not date");
+		}
+	}
+	return errors;
 }
 
 //generic functions

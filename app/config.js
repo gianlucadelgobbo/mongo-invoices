@@ -17,7 +17,8 @@ GLOBAL._config = {
 		['BPM 1753', 'BANCA POPOLARE DI MILANO - via Appia Nuova, 447-449 Roma IBAN: IT73Z0558403220000000001753 N°CC: 175 AG: 331 Cab: 03220 Abi: 05584'],
 		['BPM 1817', 'BANCA POPOLARE DI MILANO - via Appia Nuova, 447-449 Roma IBAN: IT73Z0558403220000000001753 N°CC: 175 AG: 331 Cab: 03220 Abi: 05584']
 	],
-	'currency':			['€']
+	'currency':			['€'],
+	"vat_perc":	21
 }
 module.exports = function(app, exp) {
 	app.configure(function(){

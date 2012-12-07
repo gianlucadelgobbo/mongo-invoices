@@ -168,13 +168,23 @@ DB.insert_invoice = function(newData, callback) {
 	delete newData.id;
 	var d = newData.invoice_date.split("/");
 	newData.invoice_date = new Date(parseInt(d[2]),parseInt(d[1])-1,parseInt(d[0]));
-	DB.invoices.insert(newData, callback(null));
+	if(newData.delivery_date!=""){
+		d = newData.delivery_date.split("/");
+		newData.delivery_date = new Date(parseInt(d[2]),parseInt(d[1])-1,parseInt(d[0]));
+	}
+	newData.invoice_number=parseInt(newData.invoice_number);
+	DB.invoices.insert(newData, {safe: true}, function(err, records){
+		callback(err, records);
+	});
 }
 DB.update_invoice = function(newData, callback) {
 	DB.invoices.findOne({_id:new ObjectID(newData.id)}, function(e, o){
 		newData._id = o._id;
 		var d = newData.invoice_date.split("/");
 		newData.invoice_date = new Date(parseInt(d[2]),parseInt(d[1])-1,parseInt(d[0]));
+		d = newData.delivery_date.split("/");
+		newData.delivery_date = new Date(parseInt(d[2]),parseInt(d[1])-1,parseInt(d[0]));
+		newData.invoice_number=parseInt(newData.invoice_number);
 		delete newData.id;
 		DB.invoices.save(newData);
 		callback(o);

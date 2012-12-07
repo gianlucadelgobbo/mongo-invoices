@@ -15,6 +15,8 @@ $(function() {
 			$(".fiscal_code").val("");
 		}
 	});
+	
+	//autocomplete
 	$('#to_client').autocomplete({
 		source: function(req,res){
 			getAutoCompleteList(req,"/api/clients");
@@ -36,7 +38,6 @@ $(function() {
 			$(".fiscal_code").val(queryResult[i].fiscal_code);
 		}
 	});
-
 	$('#payment').autocomplete({
 		source: function(req,res){
 			getAutoCompleteList(req,"/api/payments");
