@@ -55,5 +55,6 @@
 	"DUPLICATE": "DUPLICATE",
 	"DELETE": "DELETE",
 	"Select a bank account": "Select a bank account",
-	"Print": "Print"
+	"Print": "Print",
+	"Revisions": "Revisions"
 }

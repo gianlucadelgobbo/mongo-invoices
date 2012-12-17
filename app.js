@@ -11,7 +11,7 @@ var app = exp.createServer();
 app.root = __dirname;
 global.host = 'localhost';
 
-require('./app/config')(app, exp);
+require('./app/setup')(app, exp);
 require('./app/server/router')(app);
 
 app.listen(8000, function(){

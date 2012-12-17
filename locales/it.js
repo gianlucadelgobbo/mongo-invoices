@@ -54,5 +54,6 @@
 	"Offer": "Offer",
 	"PRINT": "PRINT",
 	"DUPLICATE": "DUPLICATE",
-	"DELETE": "DELETE"
+	"DELETE": "DELETE",
+	"Select a bank account": "Select a bank account"
 }
