@@ -4,6 +4,9 @@ var DB = require('./modules/db-manager');
 var EM = require('./modules/email-dispatcher');
 var Validator = require('./modules/validator');
 
+var accounting = require('accounting');
+accounting.settings = _config.accountingSettings;
+
 var ObjectID = require('mongodb').ObjectID;
 
 module.exports = function(app) {
@@ -45,6 +48,21 @@ module.exports = function(app) {
 			}
 		});
 	});
+
+	app.get('/home', function(req, res) {
+	    if (req.session.user == null) {
+	        res.redirect('/');
+	    } else {
+			res.render('home', {
+				locals: {
+					title : 'Home',
+					countries : CT,
+					udata : req.session.user
+				}
+			});
+	    }
+	});
+	
 	
 // logged-in user homepage //
 	
@@ -175,13 +193,19 @@ module.exports = function(app) {
 	
 // view & delete accounts //
 	
+/*
 	app.get('/print', function(req, res) {
 		DB.getAllRecords( function(e, accounts){
 			res.render('print', { locals: { title : 'Account List', accts : accounts } });
 		})
 	});
+	app.get('/reset', function(req, res) {
+		DB.delAllRecords( );
+		res.redirect('/print');
+	});
 	
-	app.post('/delete', function(req, res){
+*/	
+	app.post('/deleteuser', function(req, res){
 		DB.delete(req.body.id, function(e, obj){
 			if (!e){
 				res.clearCookie('user');
@@ -193,12 +217,57 @@ module.exports = function(app) {
 	    });
 	});
 	
-	app.get('/reset', function(req, res) {
-		DB.delAllRecords( );
-		res.redirect('/print');
+		
+	//client
+
+	app.get('/clients', function(req, res){
+	    if (req.session.user == null) {
+	        res.redirect('/');
+	    } else {
+			DB.clients.find({}).toArray(function(e, result) {
+				res.render('clients', {  locals: { title: 'Clients', result : result, udata : req.session.user } });
+			});
+		}
 	});
 	
+	app.get('/client',function(req, res) {
+	    if (req.session.user == null) {
+	        res.redirect('/');
+	    } else {
+			if (req.query.id) {
+				DB.clients.find({_id:new ObjectID(req.query.id)}).toArray(function(e, result) {
+					res.render('client', {  locals: { title: 'Client', countries : CT, result : result[0], udata : req.session.user } });
+				});
+			} else {
+				res.render('client', {  locals: { title: 'Client', countries : CT, result : {address:{}}, udata : req.session.user } });
+			}
+		}
+	});
 	
+	app.post('/client', function(req, res){
+	    if (req.session.user == null) {
+	        res.redirect('/');
+	    } else {
+			if (req.body.id) {
+				DB.update_client(req.body, function(e, o){
+						DB.clients.find({}).toArray(function(e, result) {
+							res.render('clients', {  locals: { title: 'Clients', result : result, udata : req.session.user } });
+						});
+				});
+			} else {
+				DB.insert_client(req.body, function(e, o){
+					if (e){
+						res.send(e, 400);
+					}else{
+						DB.clients.find({}).toArray(function(e, result) {
+							res.render('clients', {  locals: { title: 'Clients', result : result, udata : req.session.user } });
+						});
+					}
+				});
+			}
+		}
+	});
+
 	//invoice
 	
 	app.get('/invoices', function(req, res){
@@ -217,7 +286,14 @@ module.exports = function(app) {
 	    } else {
 			if (req.query.id) {
 				DB.invoices.find({_id:new ObjectID(req.query.id)}).toArray(function(e, result) {
-					//result[0].invoice_date = new Date(result[0].invoice_date);
+					result[0].subtotal=accounting.formatMoney(result[0].subtotal);
+					result[0].vat_amount=accounting.formatMoney(result[0].vat_amount);
+					result[0].shipping_costs=accounting.formatMoney(result[0].shipping_costs);
+					result[0].total=accounting.formatMoney(result[0].total);
+					for(var i=0;i<result[0].items.length;i++){
+						result[0].items[i].price=accounting.formatMoney(result[0].items[i].price);
+						result[0].items[i].amount=accounting.formatMoney(result[0].items[i].amount);
+					}
 					res.render('invoice', {  locals: { title: 'Invoice', result : result[0], errors : [], udata : req.session.user } });
 				});
 			} else {
@@ -225,6 +301,63 @@ module.exports = function(app) {
 					resultEmpty = {invoice_date:new Date(),invoice_number:result.length+1,to_client:{address:{}},offer:{},items:[{}]};
 					res.render('invoice', {  locals: { title: 'Invoice', result : resultEmpty, errors : [], udata : req.session.user } });
 				});
+			}
+		}
+	});
+	
+	app.post('/invoice', function(req, res){
+	    if (req.session.user == null) {
+	        res.redirect('/');
+	    } else {
+			//controls
+			errors = [];
+			errors = errors.concat(Validator.checkClientID(req.body.to_client._id));
+			errors = errors.concat(Validator.checkInvoiceDate(req.body.invoice_number,req.body.invoice_date));
+			errors = errors.concat(Validator.checkDeliveryDate(req.body.delivery_date));
+			var d = req.body.invoice_date.split("/");
+			if(errors.length == 0){
+				var date=new Date(parseInt(d[2]),parseInt(d[1])-1,parseInt(d[0]));
+				var q = {invoice_date:{$gt: date},invoice_number:(req.body.invoice_number-1).toString() };
+				DB.invoices.find(q).toArray(function(e, result) {
+					if(result.length){
+						errors.push("Data must be greater than "+result.invoice_date);
+					}
+					if(errors.length == 0){
+						var myid = req.body.id;
+						if (req.body.id) {
+							DB.update_invoice(req.body, req.session.user, function(e, o){
+						        res.redirect('/invoice/?id='+myid);
+							});
+						} else {
+							DB.insert_invoice(req.body, function(e,o){
+								if (e){
+									res.send(e, 400);
+								}else{
+									DB.invoices.find({_id: o[0]._id}).toArray(function(e, result) {
+										result[0].subtotal=accounting.formatMoney(result[0].subtotal);
+										result[0].vat_amount=accounting.formatMoney(result[0].vat_amount);
+										result[0].shipping_costs=accounting.formatMoney(result[0].shipping_costs);
+										result[0].total=accounting.formatMoney(result[0].total);
+										for(var i=0;i<result[0].items.length;i++){
+											result[0].items[i].price=accounting.formatMoney(result[0].items[i].price);
+											result[0].items[i].amount=accounting.formatMoney(result[0].items[i].amount);
+										}
+										res.render('invoice', {  locals: { title: 'Invoice', result : result[0], errors : errors, udata : req.session.user } });
+									});
+								}
+							});
+						}
+					} else {
+						var d = req.body.invoice_date.split("/");
+						req.body.invoice_date = new Date(parseInt(d[2]),parseInt(d[1])-1,parseInt(d[0]));
+						req.body.to_client.address={};
+						res.render('invoice', {  locals: { title: 'Invoice', result : req.body, errors : errors, udata : req.session.user } });
+					}
+				});
+			} else {
+				req.body.invoice_date = new Date(parseInt(d[2]),parseInt(d[1])-1,parseInt(d[0]));
+				req.body.to_client.address={};
+				res.render('invoice', {  locals: { title: 'Invoice', result : req.body, errors : errors, udata : req.session.user } });
 			}
 		}
 	});
@@ -243,79 +376,7 @@ module.exports = function(app) {
 			}
 		}
 	});
-	
-	app.post('/invoice', function(req, res){
-	    if (req.session.user == null) {
-	        res.redirect('/');
-	    } else {
-			//controls
-			errors = [];
-			console.dir(req.body);
-			console.dir(Validator.checkClientID(req.body.to_client._id));
-			errors = errors.concat(Validator.checkClientID(req.body.to_client._id));
-			console.dir(errors);
-			console.dir(Validator.checkInvoiceDate(req.body.invoice_number,req.body.invoice_date));
-			errors = errors.concat(Validator.checkInvoiceDate(req.body.invoice_number,req.body.invoice_date));
-			console.dir(errors);
-			console.dir(Validator.checkDeliveryDate(req.body.delivery_date));
-			errors = errors.concat(Validator.checkDeliveryDate(req.body.delivery_date));
-			console.dir(errors);
-			var d = req.body.invoice_date.split("/");
-			if(errors.length == 0){
-				var date=new Date(parseInt(d[2]),parseInt(d[1])-1,parseInt(d[0]));
-				var q = {invoice_date:{$gt: date},invoice_number:(req.body.invoice_number-1).toString() };
-				DB.invoices.find(q).toArray(function(e, result) {
-					if(result.length){
-						errors.push("Data must be greater than "+result.invoice_date);
-						console.log("Data must be greater than "+result.invoice_date);
-					}
-					if(errors.length == 0){
-						var myid = req.body.id;
-						if (req.body.id) {
-							DB.update_invoice(req.body, function(e, o){
-						        res.redirect('/invoice/?id='+myid);
-						        /*
-								DB.invoices.find({_id:new ObjectID(myid)}).toArray(function(e, result) {
-									console.dir(e);
-									console.dir(result);
-									result[0].invoice_date = new Date(result[0].invoice_date);
-									res.render('invoice', {  locals: { title: 'Invoices', result : result[0], errors : errors, udata : req.session.user } });
-								});
-								*/
-							});
-						} else {
-							DB.insert_invoice(req.body, function(e,o){
-								console.dir("zzzzzzzz");
-								console.dir(o);
-	   							console.log("Record added as "+o[0]._id);
-								if (e){
-									res.send(e, 400);
-								}else{
-									DB.invoices.find({_id: o[0]._id}).toArray(function(e, result) {
-										//result[0].invoice_date = new Date(result[0].invoice_date);
-										res.render('invoice', {  locals: { title: 'Invoice', result : result[0], errors : errors, udata : req.session.user } });
-									});
-								}
-							});
-						}
-					} else {
-						console.log("form not OK");
-						var d = req.body.invoice_date.split("/");
-						req.body.invoice_date = new Date(parseInt(d[2]),parseInt(d[1])-1,parseInt(d[0]));
-						req.body.to_client.address={};
-						res.render('invoice', {  locals: { title: 'Invoice', result : req.body, errors : errors, udata : req.session.user } });
-					}
-				});
-			} else {
-				console.log("form not OK");
-				req.body.invoice_date = new Date(parseInt(d[2]),parseInt(d[1])-1,parseInt(d[0]));
-				req.body.to_client.address={};
-				res.render('invoice', {  locals: { title: 'Invoice', result : req.body, errors : errors, udata : req.session.user } });
-			}
-		}
-	});
-	
-		
+			
 	//api
 	
 	app.get('/api/clients',function(req, res) {
@@ -365,71 +426,6 @@ module.exports = function(app) {
 				res.send(result);
 			});
 		}
-	});
-	
-	
-	//client
-	app.get('/client',function(req, res) {
-	    if (req.session.user == null) {
-	        res.redirect('/');
-	    } else {
-			if (req.query.id) {
-				DB.clients.find({_id:new ObjectID(req.query.id)}).toArray(function(e, result) {
-					res.render('client', {  locals: { title: 'Client', countries : CT, result : result[0], udata : req.session.user } });
-				});
-			} else {
-				res.render('client', {  locals: { title: 'Client', countries : CT, result : {address:{}}, udata : req.session.user } });
-			}
-		}
-	});
-	
-	app.get('/clients', function(req, res){
-	    if (req.session.user == null) {
-	        res.redirect('/');
-	    } else {
-			DB.clients.find({}).toArray(function(e, result) {
-				res.render('clients', {  locals: { title: 'Clients', result : result, udata : req.session.user } });
-			});
-		}
-	});
-	
-	app.post('/clients', function(req, res){
-	    if (req.session.user == null) {
-	        res.redirect('/');
-	    } else {
-			if (req.body.id) {
-				DB.update_client(req.body, function(e, o){
-						DB.clients.find({}).toArray(function(e, result) {
-							res.render('clients', {  locals: { title: 'Clients', result : result, udata : req.session.user } });
-						});
-				});
-			} else {
-				DB.insert_client(req.body, function(e, o){
-					if (e){
-						res.send(e, 400);
-					}else{
-						DB.clients.find({}).toArray(function(e, result) {
-							res.render('clients', {  locals: { title: 'Clients', result : result, udata : req.session.user } });
-						});
-					}
-				});
-			}
-		}
-	});
-
-	app.get('/home', function(req, res) {
-	    if (req.session.user == null) {
-	        res.redirect('/');
-	    } else {
-	    	//process.stdout.write(req.session.user);
-			res.render('home', {
-				locals: {
-					title : 'Home',
-					countries : CT,
-					udata : req.session.user
-				}
-			});
-	    }
 	});
 	
 	

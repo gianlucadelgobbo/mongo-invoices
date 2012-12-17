@@ -5,10 +5,13 @@ var Server = require('mongodb').Server;
 
 var dbPort = 27017;
 var dbHost = global.host;
-var dbName = 'login-testing';
+var dbName = _config.dbName;
 
 // use moment.js for pretty date-stamping //
 var moment = require('moment');
+
+var accounting = require('accounting');
+accounting.settings = _config.accountingSettings;
 
 var ObjectID = require('mongodb').ObjectID;
 
@@ -164,7 +167,7 @@ DB.findByMultipleFields = function(a, callback) {
 }
 	
 //flyer
-DB.insert_invoice = function(newData, callback) {
+DB.insert_invoice = function(newData, userData, callback) {
 	delete newData.id;
 	var d = newData.invoice_date.split("/");
 	newData.invoice_date = new Date(parseInt(d[2]),parseInt(d[1])-1,parseInt(d[0]));
@@ -172,12 +175,17 @@ DB.insert_invoice = function(newData, callback) {
 		d = newData.delivery_date.split("/");
 		newData.delivery_date = new Date(parseInt(d[2]),parseInt(d[1])-1,parseInt(d[0]));
 	}
-	newData.invoice_number=parseInt(newData.invoice_number);
+	newData.invoice_number = parseInt(newData.invoice_number);
+	newData.vat_perc = parseInt(newData.vat_perc);
+	unformatPrices(newData);
+	//revisions
+	newData.revisions = [];
+	newData.revisions.push({userID : userData._id,username: userData.name,time : new Date()});
 	DB.invoices.insert(newData, {safe: true}, function(err, records){
 		callback(err, records);
 	});
 }
-DB.update_invoice = function(newData, callback) {
+DB.update_invoice = function(newData, userData, callback) {
 	DB.invoices.findOne({_id:new ObjectID(newData.id)}, function(e, o){
 		newData._id = o._id;
 		var d = newData.invoice_date.split("/");
@@ -185,6 +193,10 @@ DB.update_invoice = function(newData, callback) {
 		d = newData.delivery_date.split("/");
 		newData.delivery_date = new Date(parseInt(d[2]),parseInt(d[1])-1,parseInt(d[0]));
 		newData.invoice_number=parseInt(newData.invoice_number);
+		newData.vat_perc=parseInt(newData.vat_perc);
+		unformatPrices(newData);
+		if (!newData.revisions)	newData.revisions = [];
+		newData.revisions.push({userID : userData._id,username: userData.name,time : new Date()});
 		delete newData.id;
 		DB.invoices.save(newData);
 		callback(o);
@@ -204,4 +216,13 @@ DB.update_client = function(newData, callback) {
 	});
 }
 
-
+function unformatPrices(newInvoice){
+	newInvoice.subtotal=parseFloat(accounting.unformat(newInvoice.subtotal, ","));
+	newInvoice.vat_amount=parseFloat(accounting.unformat(newInvoice.vat_amount, ","));
+	newInvoice.shipping_costs=parseFloat(accounting.unformat(newInvoice.shipping_costs, ","));
+	newInvoice.total=parseFloat(accounting.unformat(newInvoice.total, ","));
+	for(var i=0;i<newInvoice.items.length;i++){
+		newInvoice.items[i].price=parseFloat(accounting.unformat(newInvoice.items[i].price, ","));
+		newInvoice.items[i].amount=parseFloat(accounting.unformat(newInvoice.items[i].amount, ","));
+	}
+}

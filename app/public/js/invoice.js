@@ -82,20 +82,7 @@ $(function() {
 		updateTotal();
 	});
 	setBinds();
-	accounting.settings = {
-		currency: {
-			symbol : "",   // default currency symbol is '$'
-			format: "%v", // controls output: %s = symbol, %v = value/number (can be object: see below)
-			decimal : ",",  // decimal point separator
-			thousand: ".",  // thousands separator
-			precision : 2   // decimal places
-		},
-		number: {
-			precision : 2,  // default precision on numbers is 0
-			thousand: ".",
-			decimal : ","
-		}
-	}
+	accounting.settings = _config.accountingSettings;
 });
 
 function getAutoCompleteList(req, url){
@@ -194,9 +181,9 @@ function checkVATPerc(input){
 		var id = input.attr("id");
 		showModalError("Errore","L'IVA percentuale non è un numero.", function () {setTimeout("\$(\"#"+id+"\").focus()",50)});
 		return false;
-	} else if(input.val()>100) {
+	} else if(input.val()>100||input.val()<0) {
 		var id = input.attr("id");
-		showModalError("Errore","L'IVA percentuale deve essere minore di 100.", function () {setTimeout("\$(\"#"+id+"\").focus()",50)});
+		showModalError("Errore","L'IVA percentuale deve essere compresa tra 0 e 100.", function () {setTimeout("\$(\"#"+id+"\").focus()",50)});
 		return false;
 	} else {
 		return true;
@@ -235,7 +222,7 @@ function updateTotal(){
 		failed = true;
 	}
 	if(checkShippingCosts($('#shipping_costs'))) {
-		$('#shipping_costs').val(accounting.formatMoney($('#shipping_costs').val()));
+		$('#shipping_costs').val(accounting.formatMoney(accounting.unformat($('#shipping_costs').val(), ",")));
 	} else {
 		failed = true;
 	}

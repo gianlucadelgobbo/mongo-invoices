@@ -9,8 +9,9 @@ form(method="post", action="/invoice")#invoice
 					br
 					input(type="submit", value=__("SAVE")).btn.btn-success
 					- if (result._id)
-						a.btn.btn-primary(href="/print/invoice/?id="+result._id)=__("PRINT")
 						input(type="button", value=__("DUPLICATE")).btn.btn-primary
+						input(type="button", value=__("PRINT"), onclick="window.location='/print/invoice/?id="+result._id+"'").btn.btn-primary
+						//a.btn.btn-primary(href="/print/invoice/?id="+result._id)=__("PRINT")
 						//input(type="button", value=__("DELETE")).btn.btn-danger
 						input(type="hidden", name="id", value=result._id)
 	div.container-fluid
@@ -178,9 +179,18 @@ form(method="post", action="/invoice")#invoice
 					br
 					input(type="submit", value=__("SAVE")).btn.btn-success
 					- if (result._id)
-						a.btn.btn-primary(href="/print/invoice/?id="+result._id)=__("PRINT")
 						input(type="button", value=__("DUPLICATE")).btn.btn-primary
+						input(type="button", value=__("PRINT"), onclick="window.location='/print/invoice/?id="+result._id+"'").btn.btn-primary
+						//a.btn.btn-primary(href="/print/invoice/?id="+result._id)=__("PRINT")
 						//input(type="button", value=__("DELETE")).btn.btn-danger
-		
+
+- if (result.revisions)
+	div.container-fluid.well
+		h3=__("Revisions")
+		ul
+			- each x in result.revisions
+				//li=x.userID+" "+x.username+" "+x.time
+				li!="<b>"+x.username+"</b> "+x.time
+
 
 script(src='/js/invoice.js',type="text/javascript)
