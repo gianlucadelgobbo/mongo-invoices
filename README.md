@@ -3,6 +3,8 @@ Mongo invoices
 
 Mongo invoices is a easy to use invoices, offers and client manager based on MongoDB and NodeJS.
 
+Authors: Gianluca Del Gobbo, Fabrizio Chivoloni as Flyer communication, FLxER, Free Hardware Foundation and Linux Club
+
 Functions
 -------
 

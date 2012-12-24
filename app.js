@@ -1,8 +1,8 @@
 
 /**
- * Node.js Login Boilerplate
- * Author : Stephen Braitsch
- * More Info : http://bit.ly/LsODY8
+ * Node.js Mongo invoices
+ * Author : Gianluca Del Gobbo, Fabrizio Chivoloni as Flyer communication, FLxER, Free Hardware Foundation and Linux Club
+ * More Info : https://github.com/gianlucadelgobbo/mongo-invoices
  */
 
 var exp = require('express');

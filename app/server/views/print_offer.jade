@@ -8,46 +8,48 @@ header
 	.company_row1!=_config.company.row1
 	.company_row2!=_config.company.row2
 section.print_data.clearfix
-	table.print_data_col1
-		tr
-			td.nowrap=__("Invoice number")
-			td.nowrap=result.invoice_number
-			td.nowrap=__("Invoice date")
-			- d = result.invoice_date;
-			td=d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear()
-		tr
-			td(colspan="2").nowrap=__("Client")
-			td(colspan="2")
-				b=(result.to_client.name+" ")
-				br
-				span=result.to_client.address.street+" "+result.to_client.address.city+" "+result.to_client.address.country
-		tr
-			td(colspan="2").nowrap=__("VAT number")
-			td(colspan="2")=result.to_client.vat_number
-		tr
-			td(colspan="2").nowrap=__("Fiscal code")
-			td(colspan="2")=result.to_client.fiscal_code
-	table.print_data_col2
-		tr
-			td.nowrap=__("Payment")
-			td=result.payment
-		- if (typeof result.destination!=="undefined")
-			tr
-				td.nowrap=__("Shipped to")
-				td=result.destination
-		- if (typeof result.offer!=="undefined")
+	.clearfix
+		table.print_data_col1
 			tr
 				td.nowrap=__("Offer number")
-				td=result.offer.offer_number
-			tr
+				td.nowrap=result.offer_number
 				td.nowrap=__("Offer date")
-				td=result.offer.offer_date
-		- if (typeof result.delivery_date!=="undefined")
-			tr
-				td.nowrap=__("Delivery date")
-				- d = result.delivery_date;
+				- d = result.offer_date;
 				td=d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear()
+			tr
+				td(colspan="2").nowrap=__("Client")
+				td(colspan="2")
+					b=(result.to_client.name+" ")
+					br
+					span=result.to_client.address.street+" "+result.to_client.address.city+" "+result.to_client.address.country
+			tr
+				td(colspan="2").nowrap=__("VAT number")
+				td(colspan="2")=result.to_client.vat_number
+			tr
+				td(colspan="2").nowrap=__("Fiscal code")
+				td(colspan="2")=result.to_client.fiscal_code
+		table.print_data_col2
+			tr
+				td.nowrap=__("Payment")
+				td=result.payment
+			- if (typeof result.destination!=="undefined")
+				tr
+					td.nowrap=__("Shipped to")
+					td=result.destination
+			- if (typeof result.invoice!=="undefined")
+				tr
+					td.nowrap=__("Offer number")
+					td=result.invoice.invoice_number
+				tr
+					td.nowrap=__("Offer date")
+					td=result.invoice.invoice_date
+			- if (typeof result.delivery_date!=="undefined")
+				tr
+					td.nowrap=__("Delivery date")
+					- d = result.delivery_date;
+					td=d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear()
 section.print_items
+	p=result.description
 	table.table
 		thead
 			tr

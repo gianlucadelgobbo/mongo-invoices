@@ -1,41 +1,59 @@
-var validators;
 $(document).ready(function(){
-	validators = new Validators();
-	$('#client').ajaxForm({
-		beforeSubmit : validateForm,
-		success	: function(responseText, status, xhr, $form){
-			//if (status == 'success') window.location.href = '/invoices';
+	$('#client-form').ajaxForm({
+		beforeSubmit:  function(formData, jqForm, options) {
+			formData.push({ name: 'ajax', value: true });
+		},
+		success	: function(response, status, xhr, $form){
+			var str = "<ul>";
+			var print = response.msg && response.msg.e && response.msg.e.length ? response.msg.e : response.msg.c;
+			for(p in print) {
+				if(print[p].name) {
+					$("[name='"+print[p].name+"']").parent().parent().addClass("error");
+					$("[name='"+print[p].name+"']").keydown(function() {$(this).parent().parent().removeClass("error")});
+					$("[name='"+print[p].name+"']").change(function() {$(this).parent().parent().removeClass("error")});
+				}
+				if(print[p].m) str+= "<li>"+print[p].m+"</li>";
+			}
+			str+= "</ul>";
+        	showModal((response.msg && response.msg.e && response.msg.e.length ? 'error' : 'confirm'), str);
+			$("h1 #name_new").html($("[name='name']").val());
 		},
 		error : function(e){
-            showModalError('Login Failure', 'Please check client data');
+        	showModal('error', 'Please check client data');
 		}
 	}); 
 })
-
+/*
 function validateForm(formData, jqForm, options) { 
     var form = $(jqForm[0]).formParams();
     console.log(form);
-	if (!validators.validateStringLength(form.name, 3, 50)){
-		showModalError('Whoops!', 'Please enter a valid client');
-	} else if (!validators.validateStringLength(form.vat_number, 11, 11)){
-		showModalError('Whoops!', 'Please enter a valid VAT number');
-		return false;
-	} else if (!validators.validateStringLength(form.fiscal_code, 16, 16)){
-		showModalError('Whoops!', 'Please enter a valid Fiscal code');
-		return false;
-	} else if (!validators.validateStringLength(form.address.street, 3, 255)){
-		showModalError('Whoops!', 'Please enter a valid Street');
-		return false;
-	} else if (!validators.validateStringLength(form.address.zipcode, 3, 11)){
-		showModalError('Whoops!', 'Please enter a valid ZIP code');
-		return false;
-	} else if (!validators.validateStringLength(form.address.city, 2, 11)){
-		showModalError('Whoops!', 'Please enter a valid City');
-		return false;
-	} else if (!validators.validateStringLength(form.address.country, 3, 11)){
-		showModalError('Whoops!', 'Please enter a valid Country');
+    errors = [];
+	if (!Validators.validateStringLength(form.name, 3, 50)){
+		errors.push('Please enter a valid Client');
+	}
+	errors = errors.concat(Validators.checkVAT(form.vat_number));
+	errors = errors.concat(Validators.checkCF(form.fiscal_code));
+	if (!Validators.validateStringLength(form.address.street, 3, 255)){
+		errors.push('Please enter a valid Street');
+	}
+	if (!Validators.validateStringLength(form.address.zipcode, 3, 11)){
+		errors.push('Please enter a valid ZIP code');
+	}
+	if (!Validators.validateStringLength(form.address.city, 2, 11)){
+		errors.push('Please enter a valid City');
+	}
+	if (!Validators.validateStringLength(form.address.country, 3, 11)){
+		errors.push('Please enter a valid Country');
+	}
+	if (errors.length){
+		str = "<ul>";
+		console.log(errors);
+		for (error in errors) str+="<li>"+errors[error]+"</li>";
+		str+= "</ul>";
+		showModalError('Whoops!', str);
 		return false;
 	} else {
 		return true;
 	}
 }
+*/

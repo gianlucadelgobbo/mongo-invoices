@@ -55,5 +55,15 @@
 	"PRINT": "PRINT",
 	"DUPLICATE": "DUPLICATE",
 	"DELETE": "DELETE",
-	"Select a bank account": "Select a bank account"
+	"Select a bank account": "Select a bank account",
+	"Update": "Update",
+	"Role": "Role",
+	"Accounts": "Accounts",
+	"New account": "New account",
+	"My account": "My account",
+	"Please select a role": "Please select a role",
+	"User": "User",
+	"Access Credentials": "Access Credentials",
+	"Personal information": "Personal information",
+	"Your account data": "Your account data"
 }

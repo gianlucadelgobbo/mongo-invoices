@@ -1,5 +1,5 @@
 
-h1=__("Invoices")
+h1=__("Offers")
 div.well
 	- if (typeof msg !== "undefined" && typeof msg.e !== "undefined" && msg.e.length)
 		.alert.alert-error
@@ -17,8 +17,8 @@ div.well
 		thead
 			tr
 				th=__("Actions")
-				th=__("Invoice number")
-				th=__("Invoice date")
+				th=__("Offer number")
+				th=__("Offer date")
 				th=__("Client")
 				th=__("Payment")
 				th=__("Shipped to")
@@ -33,14 +33,14 @@ div.well
 				tr
 					td
 						div.btn-group
-							a.btn.btn-info(href="/invoice/?id="+x._id)=__("Edit")
+							a.btn.btn-info(href="/offer/?id="+x._id)=__("Edit")
 							button.btn.btn-info.dropdown-toggle(data-toggle="dropdown")
 								span.caret
 							ul.dropdown-menu
 								li
-									a(href="/invoices/?id="+x._id+"&del="+1)=__("Delete")
-					td=x.invoice_number
-					- dd = new Date(x.invoice_date)
+									a(href="/offers/?id="+x._id+"&del="+1)=__("Delete")
+					td=x.offer_number
+					- dd = new Date(x.offer_date)
 					td=dd.getDate()+"/"+(dd.getMonth()+1)+"/"+dd.getFullYear()
 					td
 						a(href="/client/?id="+x.to_client._id)=x.to_client.name

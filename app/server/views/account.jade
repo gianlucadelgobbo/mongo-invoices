@@ -1,48 +1,87 @@
 
 // preset form values if we receive a userdata object //
 - user = typeof(udata) != 'undefined' ? udata : {}
-// store the userId on the client side in a hidden input field //
-input(type='hidden', value= user._id)#userId
 
-h1=__("Account")
-#account-form-container
+-if (result._id)
+	h1
+		!=__("Account")+": "
+		span#name_new=result.name
+- else
+	h1=__("New account")
+- if (!_config.roles[user.role].admin && user._id!=result._id)
+	.alert.alert-error
+		h4=__("There are some errors")
+		ul
+			li=__("Your account can not create or edit accounts")
+- else
 	form( method="post")#account-form.form-horizontal.well
-		- if (user._id)
-			p#sub1.subheading=("Here are the current settings for your account.")
-		- else
-			p#sub1.subheading=("Please tell us a little about yourself.")
+		// store the userId on the client side in a hidden input field //
+		input#id(type='hidden', name='id', value=result._id)
+		- if (typeof msg !== "undefined" && typeof msg.e !== "undefined" && msg.e.length)
+			.alert.alert-error
+				h4=__("There are some errors")
+				ul
+					- for(a=0;a<msg.e.length;a++)
+						li=msg.e[a].m
+		- if (typeof msg !== "undefined" && typeof msg.c !== "undefined" && msg.c.length)
+			.alert.alert-success
+				h4=__("There are some messages")
+				ul
+					- for(a=0;a<msg.c.length;a++)
+						li=msg.c[a].m
+		p#sub2.subheading=__("Personal information")
 		hr
 		fieldset
 			#name-cg.control-group
 				label.control-label(for='name-tf')=__("Name")
 				.controls
-					input#name-tf.input-xlarge(type='text', name='name', value=user.name)
+					input#name-tf.input-xlarge(type='text', name='name', value=result.name)
 			#email-cg.control-group
 				label.control-label(for='email-tf')=__("Email")
 				.controls
-					input#email-tf.input-xlarge(type='text', name='email', value=user.email)
-			#clist-cg.control-group
+					input#email-tf.input-xlarge(type='text', name='email', value=result.email)
+			#country-cg.control-group
 				label.control-label(for='country-list')=__("Country")
 				.controls
 					select#country-list(name='country')
+						option(value="")= __("Please select a country")
 						each item in countries
-							option(selected=item.name == user.country)= item.name
+							option(selected=item.name == result.country, value=item.name)=item.name
+			- if (user._id==result._id)
+				#roles-cg.control-group
+					label.control-label(for='role')=__("Role")
+					.controls(style="padding-top:5px")
+						b=_config.roles[result.role].display_name
+					input#role(type='hidden', name='role', value=result.role)
+			- else if (user._id)
+				#roles-cg.control-group
+					label.control-label(for='role')=__("Role")
+					.controls
+						select#role(name='role')
+							option= __("Please select a role")
+							- for (item in _config.roles)
+								option(selected=item == result.role,value=item)= _config.roles[item].display_name
+			- else
+				#roles-cg.control-group
+				.controls
+					input#role(type='hidden', name='role', value="admin")
+			p#sub2.subheading=__("Access Credentials")
 			hr
-			p#sub2.subheading
-			#user-cg.control-group
+			#result-cg.control-group
 				label.control-label(for='user-tf')=__("Username")
 				.controls
-					input#user-tf.input-xlarge.disabled(type='text', name='user', value=user.user)
+					input#user-tf.input-xlarge(type='text', name='user', value=result.user,disabled=(result._id))
 			#pass-cg.control-group
 				label.control-label(for='pass-tf')=__("Password")
 				.controls
 					input#pass-tf.input-xlarge(type='password', name='pass', value='')
 			.form-actions
-				- if (user._id)
-					button(type='button')#account-form-btn1.btn.btn-danger=__("Delete")
-					button(type='submit')#account-form-btn2.btn=__("Update")
+				- if (result._id)
+					button(type='submit')#account-form-btn2.btn.btn-success=__("Update")
+					- if (_config.roles[user.role].admin && user._id!=result._id)
+						button(type='button')#account-form-btn1.btn.btn-danger=__("Delete")
 				- else
-					button(type='button')#account-form-btn1.btn.btn-success=__("Save")
-					button(type='submit')#account-form-btn2.btn=__("Cancel")
+					button(type='submit')#account-form-btn1.btn.btn-success=__("Save")
+					button(type='button')#account-form-btn2.btn=__("Cancel")
 
 script(src='/js/account.js')

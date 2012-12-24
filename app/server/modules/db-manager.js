@@ -20,80 +20,51 @@ var DB = {};
 	DB.db.open(function(e, d){
 		if (e) {
 			console.log(e);
-		}	else{
+		} else {
 			console.log('connected to database :: ' + dbName);
 		}
 	});
 	DB.accounts = DB.db.collection('accounts');
 	DB.clients = DB.db.collection('clients');
 	DB.invoices = DB.db.collection('invoices');
+	DB.offers = DB.db.collection('offers');
 
 module.exports = DB;
 
-// logging in //
+// Accont insertion, update & deletion methods //
 
-DB.autoLogin = function(user, pass, callback) {
-	DB.accounts.findOne({user:user}, function(e, o) {
-		if (o){
-			o.pass == pass ? callback(o) : callback(null);
-		}	else{
-			callback(null);
-		}
+DB.insert_account = function(newData, callback) {
+	delete newData.id;
+	DB.saltAndHash(newData.pass, function(hash){
+		newData.pass = hash;
+	// append date stamp when record was created //
+		newData.date = moment().format('MMMM Do YYYY, h:mm:ss a');
+		DB.accounts.insert(newData, {safe: true}, function(err, records){
+			callback(err, records);
+		});
 	});
 }
-
-DB.manualLogin = function(user, pass, callback) {
-	DB.accounts.findOne({user:user}, function(e, o) {
-		if (o == null){
-			callback('user-not-found');
-		}	else{
-			bcrypt.compare(pass, o.pass, function(err, res) {
-				if (res){
-					callback(null, o);
-				}	else{
-					callback('invalid-password');
-				}
-			});
-		}
-	});
-}
-
-// record insertion, update & deletion methods //
-
-DB.signup = function(newData, callback) {
-	DB.accounts.findOne({user:newData.user}, function(e, o) {
-		if (o){
-			callback('username-taken');
-		}	else{
-			DB.accounts.findOne({email:newData.email}, function(e, o) {
-				if (o){
-					callback('email-taken');
-				}	else{
-					DB.saltAndHash(newData.pass, function(hash){
-						newData.pass = hash;
-					// append date stamp when record was created //
-						newData.date = moment().format('MMMM Do YYYY, h:mm:ss a');
-						DB.accounts.insert(newData, callback(null));
-					});
-				}
-			});
-		}
-	});
-}
-
-DB.update = function(newData, callback) {
-	DB.accounts.findOne({user:newData.user}, function(e, o){
+DB.update_account = function(newData, callback) {
+	DB.accounts.findOne({_id: new ObjectID(newData.id)}, function(e, o){
 		o.name 		= newData.name;
+		o.role 		= newData.role;
 		o.email 	= newData.email;
 		o.country 	= newData.country;
 		if (newData.pass == ''){
-			DB.accounts.save(o); callback(o);
-		}	else{
+			DB.accounts.save(o);
+			callback(o);
+		} else{
 			DB.saltAndHash(newData.pass, function(hash){
 				o.pass = hash;
-				DB.accounts.save(o); callback(o);
+				DB.accounts.save(o);
+				callback(o);
 			});
 		}
+	});
+}
+DB.delete_account = function(id, callback) {
+	DB.accounts.remove({_id: new ObjectID(id)}, {safe: true}, function(err, records){
+		callback(err, records);
 	});
 }
 
@@ -120,36 +91,12 @@ DB.saltAndHash = function(pass, callback) {
 	});
 }
 
-DB.delete = function(id, callback) {
-	DB.accounts.remove({_id: this.getObjectId(id)}, callback);
-}
 
-// auxiliary methods //
-
-DB.getEmail = function(email, callback) {
-	DB.accounts.findOne({email:email}, function(e, o){ callback(o); });
-}
-
-DB.getObjectId = function(id) {
-	return DB.accounts.db.bson_serializer.ObjectID.createFromHexString(id)
-}
-
-DB.getAllRecords = function(callback) {
-	DB.accounts.find().toArray(
-		function(e, res) {
-		if (e) callback(e)
-		else callback(null, res)
-	});
-}
-
-DB.delAllRecords = function(id, callback) {
-	DB.accounts.remove(); // reset accounts collection for testing //
-}
-
+/*
 // just for testing - these are not actually being used //
 
 DB.findById = function(id, callback) {
-	DB.accounts.findOne({_id: this.getObjectId(id)},
+	DB.accounts.findOne({_id: new ObjectID(id)},
 		function(e, res) {
 		if (e) callback(e)
 		else callback(null, res)
@@ -165,8 +112,27 @@ DB.findByMultipleFields = function(a, callback) {
 		else callback(null, results)
 	});
 }
-	
-//flyer
+
+DB.getEmail = function(email, callback) {
+	DB.accounts.findOne({email:email}, function(e, o){ callback(o); });
+}
+
+DB.getObjectId = function(id) {
+	return DB.accounts.db.bson_serializer.ObjectID.createFromHexString(id)
+}
+DB.getAllRecords = function(callback) {
+	DB.accounts.find().toArray(
+		function(e, res) {
+		if (e) callback(e)
+		else callback(null, res)
+	});
+}
+
+DB.delAllRecords = function(id, callback) {
+	DB.accounts.remove(); // reset accounts collection for testing //
+}
+*/
+
 DB.insert_invoice = function(newData, userData, callback) {
 	delete newData.id;
 	var d = newData.invoice_date.split("/");
@@ -174,6 +140,10 @@ DB.insert_invoice = function(newData, userData, callback) {
 	if(newData.delivery_date!=""){
 		d = newData.delivery_date.split("/");
 		newData.delivery_date = new Date(parseInt(d[2]),parseInt(d[1])-1,parseInt(d[0]));
+	}
+	if(newData.offer.offer_date!=""){
+		d = newData.offer.offer_date.split("/");
+		newData.offer.offer_date = new Date(parseInt(d[2]),parseInt(d[1])-1,parseInt(d[0]));
 	}
 	newData.invoice_number = parseInt(newData.invoice_number);
 	newData.vat_perc = parseInt(newData.vat_perc);
@@ -190,8 +160,14 @@ DB.update_invoice = function(newData, userData, callback) {
 		newData._id = o._id;
 		var d = newData.invoice_date.split("/");
 		newData.invoice_date = new Date(parseInt(d[2]),parseInt(d[1])-1,parseInt(d[0]));
-		d = newData.delivery_date.split("/");
-		newData.delivery_date = new Date(parseInt(d[2]),parseInt(d[1])-1,parseInt(d[0]));
+		if(newData.delivery_date!=""){
+			d = newData.delivery_date.split("/");
+			newData.delivery_date = new Date(parseInt(d[2]),parseInt(d[1])-1,parseInt(d[0]));
+		}
+		if(newData.offer.offer_date!=""){
+			d = newData.offer.offer_date.split("/");
+			newData.offer.offer_date = new Date(parseInt(d[2]),parseInt(d[1])-1,parseInt(d[0]));
+		}
 		newData.invoice_number=parseInt(newData.invoice_number);
 		newData.vat_perc=parseInt(newData.vat_perc);
 		unformatPrices(newData);
@@ -199,22 +175,80 @@ DB.update_invoice = function(newData, userData, callback) {
 		newData.revisions.push({userID : userData._id,username: userData.name,time : new Date()});
 		delete newData.id;
 		DB.invoices.save(newData);
-		callback(o);
+		DB.invoices.findOne({_id:newData._id}, function(e, o){
+			callback(e, o);
+		});
+	});
+}
+DB.delete_invoice = function(id, callback) {
+	DB.invoices.remove({_id: new ObjectID(id)},{safe: true}, function(err, records){
+		callback(err, records);
+	});
+}
+
+DB.insert_offer = function(newData, userData, callback) {
+	delete newData.id;
+	var d = newData.offer_date.split("/");
+	newData.offer_date = new Date(parseInt(d[2]),parseInt(d[1])-1,parseInt(d[0]));
+	if(newData.delivery_date!=""){
+		d = newData.delivery_date.split("/");
+		newData.delivery_date = new Date(parseInt(d[2]),parseInt(d[1])-1,parseInt(d[0]));
+	}
+	newData.offer_number = parseInt(newData.offer_number);
+	newData.vat_perc = parseInt(newData.vat_perc);
+	unformatPrices(newData);
+	//revisions
+	newData.revisions = [];
+	newData.revisions.push({userID : userData._id,username: userData.name,time : new Date()});
+	DB.offers.insert(newData, {safe: true}, function(err, records){
+		callback(err, records);
+	});
+}
+DB.update_offer = function(newData, userData, callback) {
+	DB.offers.findOne({_id:new ObjectID(newData.id)}, function(e, o){
+		newData._id = o._id;
+		var d = newData.offer_date.split("/");
+		newData.offer_date = new Date(parseInt(d[2]),parseInt(d[1])-1,parseInt(d[0]));
+		d = newData.delivery_date.split("/");
+		newData.delivery_date = new Date(parseInt(d[2]),parseInt(d[1])-1,parseInt(d[0]));
+		newData.offer_number=parseInt(newData.offer_number);
+		newData.vat_perc=parseInt(newData.vat_perc);
+		unformatPrices(newData);
+		if (!newData.revisions)	newData.revisions = [];
+		newData.revisions.push({userID : userData._id,username: userData.name,time : new Date()});
+		delete newData.id;
+		DB.offers.save(newData);
+		DB.offers.findOne({_id:newData._id}, function(e, o){
+			callback(e, o);
+		});
+	});
+}
+DB.delete_offer = function(id, callback) {
+	DB.invoices.remove({_id: new ObjectID(id)},{safe: true}, function(err, records){
+		callback(err, records);
 	});
 }
 
 DB.insert_client = function(newData, callback) {
 	delete newData.id;
-	DB.clients.insert(newData,callback(null));
+	DB.clients.insert(newData, {safe: true}, function(err, records){
+		callback(err, records);
+	});
 }
 DB.update_client = function(newData, callback) {
 	DB.clients.findOne({_id:new ObjectID(newData.id)}, function(e, o){
 		newData._id = o._id;
 		delete newData.id;
 		DB.clients.save(newData);
-		callback(o);
+		callback(newData);
 	});
 }
+DB.delete_client = function(id, callback) {
+	DB.clients.remove({_id: new ObjectID(id)},{safe: true}, function(err, records){
+		callback(err, records);
+	});
+}
+
 
 function unformatPrices(newInvoice){
 	newInvoice.subtotal=parseFloat(accounting.unformat(newInvoice.subtotal, ","));

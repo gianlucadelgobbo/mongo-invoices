@@ -1,12 +1,19 @@
 
 div.span6.offset2#login-container
-	form(method="post", action="/")#login-form.well
+	form(method="post")#login-form.well
+		input(type="hidden", name="from", value=from).span3.required
 		h1 Mongo invoices
 		p.subheading=__("Please Login To Your Account")
+		- if (typeof errors !== "undefined" && errors.length)
+			.alert.alert-error
+				h4=__("There are some errors")
+				ul
+					- for(a=0;a<errors.length;a++)
+						li=errors[a].m
 		label Username 
-		input(type="text", name="user", id='user-tf').span3.required
+		input(type="text", name="user", value=result.user).span3.required
 		label Password
-		input(type="password", name="pass", id='pass-tf').span3.required
+		input(type="password", name="pass").span3.required
 		br.clearfix
 		label.checkbox(for="remember-me")=__("Remember Me")
 			input(type="checkbox", name="remember-me", id="remember-me", value="true", checked='checked')
@@ -14,12 +21,8 @@ div.span6.offset2#login-container
 			i.icon-lock.icon-white
 			=__("Sign in")
 		hr.clearfix
-		ul.nav.nav-pills
-			li
-				a(href='#')#forgot-password=__("Forgot Your Password")+"?" 
-			li
-				a(href='/signup')#create-account=__("Create An Account")
-		br.clearfix
+		a(href='#',onclick="$('#get-credentials').modal('show');return false;")#forgot-password=__("Forgot Your Password")+"?"
+		hr.clearfix
 	
 include modals/lost-password
 

@@ -1,16 +1,17 @@
 
-form(method="post", action="/invoice")#invoice
+form(method="post", action="/offer")#offer
 	div.row-fluid
 		.span6
-			h1=(result.invoice_number ? __("Invoice")+": "+result.invoice_number : __("New invoice"))
+			h1=(result.offer_number ? __("Offer")+": "+result.offer_number : __("New offer"))
 		.span6
 			.pull-right
 				br
 				input(type="submit", value=__("SAVE")).btn.btn-success
 				- if (result._id)
+					input(type="button", value=__("MAKE INVOICE"), onclick="window.location='/invoice/?offer="+result._id+"'").btn.btn-primary
 					input(type="button", value=__("DUPLICATE")).btn.btn-primary
-					input(type="button", value=__("PRINT"), onclick="window.location='/print/invoice/?id="+result._id+"'").btn.btn-primary
-					//a.btn.btn-primary(href="/print/invoice/?id="+result._id)=__("PRINT")
+					input(type="button", value=__("PRINT"), onclick="window.location='/print/offer/?id="+result._id+"'").btn.btn-primary
+					//a.btn.btn-primary(href="/print/offer/?id="+result._id)=__("PRINT")
 					//input(type="button", value=__("DELETE")).btn.btn-danger
 					input(type="hidden", name="id", value=result._id)
 	div.row-fluid
@@ -31,12 +32,12 @@ form(method="post", action="/invoice")#invoice
 		.span7
 			.row-fluid
 				.input-prepend.span6
-					label.span8.add-on(for='invoice_number')=__("Invoice number")
-					input(type="text", name="invoice_number", value=result.invoice_number).disabled.span3#invoice_number
+					label.span8.add-on(for='offer_number')=__("Offer number")
+					input(type="text", name="offer_number", value=result.offer_number).disabled.span3#offer_number
 				.input-prepend.span6
-					label.span5.add-on(for='invoice_date')=__("Invoice date")
-					- d = result.invoice_date;
-					input(type="text", name="invoice_date", value=d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear()).span7.date#invoice_date
+					label.span5.add-on(for='offer_date')=__("Offer date")
+					- d = result.offer_date;
+					input(type="text", name="offer_date", value=d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear()).span7.date#offer_date
 			.row-fluid
 				.input-prepend.input-append.span12
 					label.span2.add-on(for='to_client')=__("Client")
@@ -82,18 +83,15 @@ form(method="post", action="/invoice")#invoice
 				.input-prepend.input-append.span12
 					label.span3.add-on(for='destination')=__("Shipped to")
 					input.span9(type="text", name="destination", value=result.destination)#destination
-			.row-fluid
-				.input-prepend.input-append.span12
-					label.span3.add-on(for='offer_number')=__("Offer number")
-					input.span9(type="text", name="offer[offer_number]", value=result.offer.offer_number)#offer_number
-			.row-fluid
-				.input-prepend.span12
-					label.span3.add-on(for='offer_date')=__("Offer date")
-					- if (result.offer.offer_date)
-						- d = result.offer.offer_date;
-						input.span9(type="text", name="offer[offer_date]", value=d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear()).disabled.date#offer_date
-					- else
-						input.span9(type="text", name="offer[offer_date]").disabled.date#offer_date
+			- if (result.invoice && result.invoice.invoice_number)
+				.row-fluid
+					.input-prepend.input-append.span12
+						label.span3.add-on(for='invoice_number')=__("Invoice number")
+						input.span9(type="text", name="offer[invoice_number]", value=result.invoice.invoice_number)#invoice_number
+				.row-fluid
+					.input-prepend.span12
+						label.span3.add-on(for='invoice_date')=__("Offer date")
+						input.span9(type="text", name="offer[invoice_date]", value=result.invoice.invoice_date).disabled.date#invoice_date
 			.row-fluid
 				.input-prepend.span12
 					label.span3.add-on(for='delivery_date')=__("Delivery date")
@@ -101,6 +99,12 @@ form(method="post", action="/invoice")#invoice
 					- if (result.delivery_date)
 						dd = result.delivery_date.getDate()+"/"+(result.delivery_date.getMonth()+1)+"/"+result.delivery_date.getFullYear()
 					input.span9(type="text", name="delivery_date", value=dd).date#delivery_date
+	div.row-fluid
+		hr
+		label(for='description')=__("Description")
+		textarea.span12(name="description")#description
+			!=result.description
+	div.row-fluid
 		hr
 		table.table#items
 			thead
@@ -183,9 +187,10 @@ form(method="post", action="/invoice")#invoice
 				br
 				input(type="submit", value=__("SAVE")).btn.btn-success
 				- if (result._id)
+					input(type="button", value=__("MAKE INVOICE"), onclick="window.location='/invoice/?offer="+result._id+"'").btn.btn-primary
 					input(type="button", value=__("DUPLICATE")).btn.btn-primary
-					input(type="button", value=__("PRINT"), onclick="window.location='/print/invoice/?id="+result._id+"'").btn.btn-primary
-					//a.btn.btn-primary(href="/print/invoice/?id="+result._id)=__("PRINT")
+					input(type="button", value=__("PRINT"), onclick="window.location='/print/offer/?id="+result._id+"'").btn.btn-primary
+					//a.btn.btn-primary(href="/print/offer/?id="+result._id)=__("PRINT")
 					//input(type="button", value=__("DELETE")).btn.btn-danger
 
 - if (result.revisions)
@@ -197,4 +202,4 @@ form(method="post", action="/invoice")#invoice
 				li!="<b>"+x.username+"</b> "+x.time
 
 
-script(src='/js/invoice.js',type="text/javascript)
+script(src='/js/offer.js',type="text/javascript)

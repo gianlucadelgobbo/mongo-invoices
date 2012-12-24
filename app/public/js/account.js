@@ -1,49 +1,25 @@
-
 $(document).ready(function(){
-
-	var hc = new HomeController();
-	var av = new AccountValidator();
-	
 	$('#account-form').ajaxForm({
-		beforeSubmit : function(formData, jqForm, options){
-			if (av.validateForm() == false){
-				return false;
-			} 	else{
-			// push the disabled username field onto the form data array //
-				formData.push({name:'user', value:$('#user-tf').val()})
-				return true;
-			}
+		beforeSubmit:  function(formData, jqForm, options) {
+			formData.push({ name: 'ajax', value: true });
 		},
-		success	: function(responseText, status, xhr, $form){
-			if (status == 'success') hc.onUpdateSuccess();
+		success	: function(response, status, xhr, $form){
+			var str = "<ul>";
+			var print = response.msg && response.msg.e && response.msg.e.length ? response.msg.e : response.msg.c;
+			for(p in print) {
+				if(print[p].name) {
+					$("[name='"+print[p].name+"']").parent().parent().addClass("error");
+					$("[name='"+print[p].name+"']").keydown(function() {$(this).parent().parent().removeClass("error")});
+					$("[name='"+print[p].name+"']").change(function() {$(this).parent().parent().removeClass("error")});
+				}
+				if(print[p].m) str+= "<li>"+print[p].m+"</li>";
+			}
+			str+= "</ul>";
+        	showModal((response.msg && response.msg.e && response.msg.e.length ? 'error' : 'confirm'), str);
+			$("h1 #name_new").html($("[name='name']").val());
 		},
 		error : function(e){
-			if (e.responseText == 'email-taken'){
-			    av.showInvalidEmail();
-			}	else if (e.responseText == 'username-taken'){
-			    av.showInvalidUserName();
-			}
+        	showModal('error', 'Please check account data');
 		}
-	});
-	$('#name-tf').focus();
-	$('#github-banner').css('top', '41px');
-
-// customize the account settings form //
-	
-	$('#account-form h1').text('Account Settings');
-	$('#account-form #sub1').text('Here are the current settings for your account.');
-	$('#user-tf').attr('disabled', 'disabled');
-	$('#account-form-btn1').html('Delete');
-	$('#account-form-btn1').addClass('btn-danger');
-	$('#account-form-btn2').html('Update');
-
-// setup the confirm window that displays when the user chooses to delete their account //
-
-	$('.modal-confirm').modal({ show : false, keyboard : true, backdrop : true });
-	$('.modal-confirm .modal-header h3').text('Delete Account');
-	$('.modal-confirm .modal-body p').html('Are you sure you want to delete your account?');
-	$('.modal-confirm .cancel').html('Cancel');
-	$('.modal-confirm .submit').html('Delete');
-	$('.modal-confirm .submit').addClass('btn-danger');
-
+	}); 
 })

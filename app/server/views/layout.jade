@@ -2,26 +2,26 @@
 html
 	head
 		title= title
-		link(rel="stylesheet", href="/js/bootstrap.min.css")
-		link(rel="stylesheet", href="/js/bootstrap-responsive.min.css")
-		link(rel="stylesheet", href="/css/style.css")
 		meta(name="viewport", content="width=device-width, initial-scale=1.0")
 		
 		script(src="/config.js")
-		script(src="/js/jquery.min.js")
-		script(src="/js/jquery.form.js")
-		script(src="/js/bootstrap.min.js")
-		script(src="/js/jquery-ui-1.9.0.custom.min.js")
-		script(src="/js/jquerymx-3.2.custom.min.js")
-		script(src="/js/validators.js")
-		script(src="/js/accounting.js")
+		script(src="/validators.js")
+		script(src="/accounting.js")
+		script(src="/lib/jquery.min.js")
+		script(src="/lib/jquery.form.js")
+		script(src="/lib/bootstrap.min.js")
+		script(src="/lib/jquery-ui-1.9.0.custom.min.js")
+		script(src="/lib/jquerymx-3.2.custom.min.js")
 
-		link(href="/css/smoothness/jquery-ui-1.9.0.custom.css",rel="stylesheet",type="text/css")
+		link(href="/lib/smoothness/jquery-ui-1.9.0.custom.css",rel="stylesheet",type="text/css")
+		link(href="/lib/bootstrap.min.css", rel="stylesheet")
+		//link(href="/lib/bootstrap-responsive.min.css", rel="stylesheet")
+		link(href="/css/style.css", rel="stylesheet")
 		script(src="/js/scripts.js")
 
 		script(type="text/javascript")
 			var _gaq = _gaq || [];
-			_gaq.push(["_setAccount", "UA-8844617-15"]);
+			_gaq.push(["_setAccount", _config.googleAnalytics]);
 			_gaq.push(["_trackPageview"]);
 			(function() {
 				var ga = document.createElement("script"); ga.type = "text/javascript"; ga.async = true;
@@ -41,41 +41,48 @@ html
 							| Sign Out
 			div.container-fluid
 				div.row-fluid
-					div.span3
+					div.span2
 						ul.nav.nav-list.bs-docs-sidenav
 							li
 								a(href="/clients")
 									i.icon-chevron-right
 									span=__("Clients")
-							li(class=(locals.title === "Clients" ? "submenu" : "submenu hide"))
+							//li(class=(locals.title === "Clients" ? "submenu" : "submenu hide"))
+							li.submenu
 								a(href="/client")
 									i.icon-chevron-right
 									span=__("New client")
 							li
-								a(href="/invoices")
-									i.icon-chevron-right
-									span=__("Invoices")
-							li(class=(locals.title === 'Invoices' ? "submenu" : "submenu hide"))
-								a(href='/invoice')
-									i.icon-chevron-right
-									span=__("New invoice")
-							li
 								a(href='/offers')
 									i.icon-chevron-right
 									span=__("Offers")
-							li(class=(locals.title === 'Offers' ? "submenu" : "submenu hide"))
+							//li(class=(locals.title === 'Offers' ? "submenu" : "submenu hide"))
+							li.submenu
 								a(href='/offer')
 									i.icon-chevron-right
 									span=__("New offer")				
 							li
+								a(href="/invoices")
+									i.icon-chevron-right
+									span=__("Invoices")
+							//li(class=(locals.title === 'Invoices' ? "submenu" : "submenu hide"))
+							li.submenu
+								a(href='/invoice')
+									i.icon-chevron-right
+									span=__("New invoice")
+							li
+								a(href='/accounts')
+									i.icon-chevron-right
+									span=__("Accounts")
+							li.submenu
 								a(href='/account')
 									i.icon-chevron-right
-									span=__("Account")
-							li
-								a(href='/help')
+									span=__("New account")				
+							li.submenu
+								a(href='/account?id='+locals.udata._id)
 									i.icon-chevron-right
-									span=__("Help")
-					div.span9.page-header!= body
+									span=__("My account")				
+					div.span10.page-header!= body
 		- else 
 			div.container!= body
 			a(href="https://github.com/gianlucadelgobbo/mongo-invoices")
@@ -85,5 +92,5 @@ html
 		
 		include modals/alert
 		include modals/confirm
-		include modals/form-errors
+		include modals/errors
 		

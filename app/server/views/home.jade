@@ -1,13 +1,37 @@
 
 div.cnt
-	div.span2
+	div.span4
 		div.well
-			h1=__('Invoices')
-			p#sub1.subheading Please tell us a little about yourself.
+			h1=__('Clients')
+			ul
+				li
+					a(href="/clients")
+						span=__("Clients")
+				li
+					a(href="/client")
+						span=__("New client")
 			hr
 	
-	div.span2
+	div.span4
+		div.well
+			h1=__('Offers')
+			ul
+				li
+					a(href="/invoices")
+						span=__("Invoices")
+				li
+					a(href='/invoice')
+						span=__("New invoice")
+			hr
+
+	div.span4
 		div.well
 			h1=__('Invoices')
-			p#sub1.subheading Please tell us a little about yourself.
+			ul
+				li
+					a(href='/offers')
+						span=__("Offers")
+				li
+					a(href='/offer')
+						span=__("New offer")				
 			hr

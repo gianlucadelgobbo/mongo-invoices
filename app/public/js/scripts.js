@@ -1,9 +1,8 @@
-function showModalError(t, m, callback) {
-	$('.modal-alert .modal-header h3').text(t);
-	$('.modal-alert .modal-body p').text(m);
-	$('.modal-alert').modal('show');
+function showModal(t, m, callback) {
+	$('.modal-'+t+' .modal-body p').html(m);
+	$('.modal-'+t).modal('show');
 	if ($.isFunction(callback)) {
-		$('.modal-alert').on('hidden', function () {
+		$('.modal-'+t).on('hidden', function () {
 		  callback();
 		})
 	}
@@ -33,6 +32,7 @@ function showModalError(t, m, callback) {
 
 /* DA RIVEDERE */
 //Form to JSON Object
+/*
 $.fn.serializeObject = function()
 {
     var objectedForm = {};
@@ -51,7 +51,6 @@ $.fn.serializeObject = function()
 };
 
 
-/*
 function controlZIP(){
 	if($('#zipcode').val()!=""){
 		if(!is_numeric($('#zipcode').val())){

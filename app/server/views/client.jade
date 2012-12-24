@@ -1,42 +1,73 @@
 
-h1=(result.nome ? result.nome : __("New client"))
-div.well
-	form(method="post", action="/clients")#client.form-horizontal
-		div.control-group
-			label(for='cliente_new').control-label=__("Client")
-			div.controls
-				input(type="text", name="name", value=result.name).span5#cliente_new
-		div.control-group
-			label(for='vat_number').control-label=__("VAT number")
-			div.controls
-				input(type="text", name="vat_number", value=result.vat_number)#vat_number.span3
-		div.control-group
-			label(for='fiscal_code').control-label=__("Fiscal code")
-			div.controls
-				input(type="text", name="fiscal_code", value=result.fiscal_code)#fiscal_code.span3
-		div.control-group
-			label(for='street').control-label=__("Address")
-			div.controls
-				input(type="text", name="address[street]", value=result.address.street)#street.span5
-		div.control-group
-			label(for='zipcode').control-label=__("ZIP code")
-			div.controls
-				input(type="text", name="address[zipcode]", value=result.address.zipcode)#zipcode.span3
-		div.control-group
-			label(for='city').control-label=__("City")
-			div.controls
-				input(type="text", name="address[city]", value=result.address.city)#city.span3
-		div.control-group
-			label(for='country').control-label=__("Country")
-			div.controls
-				select(name="address[country]")#country.span3
-					each item in countries
-						option(selected=item.name == result.address.country)= item.name
-		div.control-group
-			label.control-label
-			div.controls
-				input(type="hidden", name="id", value=result._id)
-				input(type="submit", value=__("SAVE")).btn.btn-primary
-	br.myClear
+// preset form values if we receive a userdata object //
+- user = typeof(udata) != 'undefined' ? udata : {}
+
+-if (result._id)
+	h1
+		!=__("Client")+": "
+		span#name_new=result.name
+- else
+	h1=__("New client")
+
+
+
+
+
+
+form(method="post", action="/client")#client-form.form-horizontal.well
+	// store the userId on the client side in a hidden input field //
+	input#id(type='hidden', name='id', value=result._id)
+	- if (typeof msg !== "undefined" && typeof msg.e !== "undefined" && msg.e.length)
+		.alert.alert-error
+			h4=__("There are some errors")
+			ul
+				- for(a=0;a<msg.e.length;a++)
+					li=msg.e[a].m
+	- if (typeof msg !== "undefined" && typeof msg.c !== "undefined" && msg.c.length)
+		.alert.alert-success
+			h4=__("There are some messages")
+			ul
+				- for(a=0;a<msg.c.length;a++)
+					li=msg.c[a].m
+	div.control-group
+		label(for='cliente_new').control-label=__("Client")
+		div.controls
+			input(type="text", name="name", value=result.name).span5#cliente_new
+	div.control-group
+		label(for='street').control-label=__("Address")
+		div.controls
+			input(type="text", name="address[street]", value=result.address.street)#street.span5
+	div.control-group
+		label(for='zipcode').control-label=__("ZIP code")
+		div.controls
+			input(type="text", name="address[zipcode]", value=result.address.zipcode)#zipcode.span3
+	div.control-group
+		label(for='city').control-label=__("City")
+		div.controls
+			input(type="text", name="address[city]", value=result.address.city)#city.span3
+	div.control-group
+		label(for='country').control-label=__("Country")
+		div.controls
+			select(name="address[country]",onchange="$('#fiscal_code').parent().parent().toggle($(this).val()=='Italy')")#country.span3
+				option(value="")= __("Please select a country")
+				each item in countries
+					option(selected=item.name == result.address.country, value=item.name)=item.name
+	div.control-group
+		label(for='vat_number').control-label=__("VAT number")
+		div.controls
+			input(type="text", name="vat_number", value=result.vat_number)#vat_number.span3
+	div.control-group(style="display:none;")
+		label(for='fiscal_code').control-label=__("Fiscal code")
+		div.controls
+			input(type="text", name="fiscal_code", value=result.fiscal_code)#fiscal_code.span3
+	.form-actions
+		- if (result._id)
+			button(type='submit')#account-form-btn2.btn.btn-success=__("Update")
+			- if (_config.roles[user.role].admin && user._id!=result._id)
+				button(type='button',href="/clients/?id="+x._id+"&del="+1)#account-form-btn1.btn.btn-danger=__("Delete")
+		- else
+			button(type='submit')#account-form-btn1.btn.btn-success=__("Save")
+			button(type='button')#account-form-btn2.btn=__("Cancel")
+br.myClear
 		
 script(src='/js/client.js')

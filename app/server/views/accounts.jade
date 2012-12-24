@@ -1,5 +1,5 @@
 
-h1=__("Clients")
+h1=__("Accounts")
 div.well
 	- if (typeof msg !== "undefined" && typeof msg.e !== "undefined" && msg.e.length)
 		.alert.alert-error
@@ -17,30 +17,25 @@ div.well
 		thead
 			tr
 				th=__("Actions")
-				th=__("Client")
-				th=__("VAT number")
-				th=__("Fiscal code")
-				th=__("Address")
-				th=__("ZIP code")
-				th=__("City")
+				th=__("Name")
+				th=__("Email")
+				th=__("User")
+				th=__("Country")
+				th=__("Role")
 		tbody
 			each x in result
 				tr
 					td
 						div.btn-group
-							a.btn.btn-info(href="/invoices/?client="+x._id)=__("Invoices")
+							a.btn.btn-info(href="/account/?id="+x._id)=__("Edit")
 							button.btn.btn-info.dropdown-toggle(data-toggle="dropdown")
 								span.caret
 							ul.dropdown-menu
 								li
-									a(href="/client/?id="+x._id)=__("Edit")
-								li
-									a(href="/clients/?id="+x._id+"&del="+1)=__("Delete")
+									a#dett_cliente(href="/accounts/?id="+x._id+"&del="+1)=__("Delete")
 					td
-						a(href="/client/?id="+x._id)=x.name
-					td=x.vat_number
-					td=x.fiscal_code
-					td=x.address.street
-					td=x.address.zipcode
-					td=x.address.city
-					
+						a(href="/account/?id="+x._id)=x.name
+					td=x.email
+					td=x.user
+					td=x.country
+					td=x.role

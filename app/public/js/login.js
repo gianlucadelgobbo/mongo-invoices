@@ -1,31 +1,39 @@
-var validators;
 $(document).ready(function(){
-	validators = new Validators();
-	
-// bind event listeners to button clicks //
-	$('#login-form #forgot-password').click(function(){ $('#get-credentials').modal('show');return false;});
-	
 	$('#login-form').ajaxForm({
-		beforeSerialize: function($form, options) {
-			console.log($($form));
-		    $($form).append("<input type=\"hidden\" name=\"ajax\" value=\"true\" />");             
-			console.log( $form);
+		beforeSubmit:  function(formData, jqForm, options) {
+			formData.push({ name: 'ajax', value: true });
 		},
-		beforeSubmit : validateForm,
-		success	: function(responseText, status, xhr, $form){
-			if (status == 'success') window.location.href = '/home';
+		success	: function(response, status, xhr, $form){
+			if (response.msg && response.msg.e && response.msg.e.length) {
+				console.log(response);
+				var str = "<ul>";
+				var print = response.msg.e;
+				for(p in print) {
+					if(print[p].name) {
+						$("[name='"+print[p].name+"']").parent().parent().addClass("error");
+						$("[name='"+print[p].name+"']").keydown(function() {$(this).parent().parent().removeClass("error")});
+						$("[name='"+print[p].name+"']").change(function() {$(this).parent().parent().removeClass("error")});
+					}
+					if(print[p].m) str+= "<li>"+print[p].m+"</li>";
+				}
+				str+= "</ul>";
+				console.log(str);
+	        	showModal('error', str);
+			} else {
+				window.location.href = $("[name='from']").val() ? $("[name='from']").val() : '/home';
+			}
 		},
 		error : function(e){
-            showModalError('Login Failure', 'Please check your username and/or password');
+            showModal('error', 'Please check your username and/or password');
 		}
 	}); 
-	$('#user-tf').focus();
+	//$('#user-tf').focus();
 	
 // login retrieval form via email //
 	$('#get-credentials-form').ajaxForm({
 		url: '/lost-password',
 		beforeSubmit : function(formData, jqForm, options){
-			if (validators.validateEmail($('#email-tf').val())){
+			if (Validators.validateEmail($('#email-tf').val())){
 				hideEmailAlert();
 				return true;
 			}	else{
@@ -42,19 +50,6 @@ $(document).ready(function(){
 	});
 	
 });
-function validateForm(formData, jqForm, options) {
-		console.log(jqForm[0].ajax.value);
-    var form = jqForm[0];
-	if (!validators.validateStringLength(form.user.value, 3, 15)){
-		showModalError('Whoops!', 'Please enter a valid username');
-		return false;
-	} else if (!validators.validateStringLength(form.pass.value, 6, 15)){
-		showModalError('Whoops!', 'Please enter a valid password');
-		return false;
-	} else {
-		return true;
-	}
-}
 
 function showEmailAlert(m) {
 	$('#get-credentials .alert').attr('class', 'alert alert-error');
