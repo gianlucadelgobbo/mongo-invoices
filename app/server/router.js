@@ -75,7 +75,7 @@ module.exports = function(app) {
 		res.clearCookie('user');
 		res.clearCookie('pass');
 		res.clearCookie('role');
-		req.session.destroy(function(e){res.redirect('/?from='+req.url)});
+		req.session.destroy(function(e){res.redirect('/')});
 	});
 
 // Logged-in redirect / homepage //

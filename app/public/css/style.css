@@ -1,3 +1,6 @@
+-moz-text-shadow -1px1px0white {
+  -webkit-text-shadow: -1px 1px 0 #fff;
+}
 body {
   margin: 0;
   padding: 40px 0 0 0;
@@ -19,8 +22,6 @@ body {
 .modal-form-errors li {
   color: #808080;
   text-shadow: -1px 1px 0 #fff;
-  -moz-text-shadow: -1px 1px 0 #fff;
-  -webkit-text-shadow: -1px 1px 0 #fff;
   color: #d8000c;
 }
 #print {
