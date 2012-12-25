@@ -8,28 +8,6 @@ function showModal(t, m, callback) {
 	}
 }
 
-/* INVOICES */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//validate forms
-//controlli
-
-
 /* DA RIVEDERE */
 //Form to JSON Object
 /*
@@ -72,7 +50,6 @@ function controlFC(){
 			showModalError("Errore","Il codice fiscale è formato da 11 caratteri.", function () {setTimeout("\$(\"#"+id+"\").focus()",50)});
 			return false;
 }
-*/
 
 //vecchie
 function is_numeric(n) {
@@ -118,3 +95,4 @@ function rtrim(str, chars) {
 	chars = chars || "\\s";
 	return str.replace(new RegExp("[" + chars + "]+$", "g"), "");
 }
+*/

@@ -1,6 +1,3 @@
--moz-text-shadow -1px1px0white {
-  -webkit-text-shadow: -1px 1px 0 #fff;
-}
 body {
   margin: 0;
   padding: 40px 0 0 0;
@@ -22,6 +19,8 @@ body {
 .modal-form-errors li {
   color: #808080;
   text-shadow: -1px 1px 0 #fff;
+  -moz-text-shadow: -1px 1px 0 #fff;
+  -webkit-text-shadow: -1px 1px 0 #fff;
   color: #d8000c;
 }
 #print {
@@ -38,15 +37,10 @@ body {
   padding: 0;
   background-color: #fff;
   -webkit-border-radius: 6px;
-}
--moz-border-radius 6px {
+  -moz-border-radius: 6px;
   border-radius: 6px;
   -webkit-box-shadow: 0 1px 4px rgba(0,0,0,0.065);
-}
--moz-box-shadow 01px4pxrgba(0,
-0,
-0,
-0.065) {
+  -moz-box-shadow: 0 1px 4px rgba(0,0,0,0.065);
   box-shadow: 0 1px 4px rgba(0,0,0,0.065);
 }
 .bs-docs-sidenav > li > a {
@@ -58,14 +52,12 @@ body {
 }
 .bs-docs-sidenav > li first-child > a {
   -webkit-border-radius: 6px 6px 0 0;
-}
--moz-border-radius 6px6px00 {
+  -moz-border-radius: 6px 6px 0 0;
   border-radius: 6px 6px 0 0;
 }
 .bs-docs-sidenav > li last-child > a {
   -webkit-border-radius: 0 0 6px 6px;
-}
--moz-border-radius 006px6px {
+  -moz-border-radius: 0 0 6px 6px;
   border-radius: 0 0 6px 6px;
 }
 .bs-docs-sidenav > .active > a {
@@ -75,15 +67,7 @@ body {
   border: 0;
   text-shadow: 0 1px 0 rgba(0,0,0,0.15);
   -webkit-box-shadow: inset 1px 0 0 rgba(0,0,0,0.1), inset -1px 0 0 rgba(0,0,0,0.1);
-}
--moz-box-shadow inset 1px00rgba(0,
-0,
-0,
-0.1),
-inset -1px00rgba(0,
-0,
-0,
-0.1) {
+  -moz-box-shadow: inset 1px 0 0 rgba(0,0,0,0.1), inset -1px 0 0 rgba(0,0,0,0.1);
   box-shadow: inset 1px 0 0 rgba(0,0,0,0.1), inset -1px 0 0 rgba(0,0,0,0.1);
 }
 /* Chevrons */
@@ -132,65 +116,6 @@ inset -1px00rgba(0,
   .noprint {
     display: none;
   }
-}
-@font-face {
-  font-family: "DINPro-Medium";
-  src: url("DINPro-Medium.otf") format("opentype");
-}
-.table tfoot tr first-child td {
-  border-top: 1px solid #000;
-}
-.print_container {
-  font-family: "DINPro-Medium";
-  font-size: 15px;
-  background-color: #fff;
-  width: 795px;
-  min-height: 1080px;
-  margin: 0 auto 0 auto;
-}
-.print_container header {
-  font-size: 18px;
-}
-.print_container .quantity {
-  width: 60px;
-}
-.print_container .description {
-  width: 280px;
-}
-.print_container .price {
-  width: 90px;
-}
-.print_container header .logo {
-  margin: 0 0 20px -78px;
-  height: 40px;
-  font-size: 35px;
-}
-.print_container .print_data {
-  margin: 50px 0;
-}
-.print_container .print_items {
-  min-height: 570px;
-}
-.print_container header .company_row2 {
-  color: #999;
-}
-.cntPadd {
-  padding: 50px 50px 50px 125px;
-}
-.print_data table {
-  float: left;
-}
-.print_data_col1 {
-  float: left;
-  width: 55%;
-  margin-right: 5%;
-}
-.print_data_col2 {
-  float: left;
-  width: 40%;
-}
-.print_data table td {
-  vertical-align: top;
 }
 .nowrap {
   white-space: nowrap;
