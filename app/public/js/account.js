@@ -1,5 +1,8 @@
 $(document).ready(function(){
 	$('#account-form').ajaxForm({
+		beforeSerialize: function(formData, jqForm, options) {
+			$("[disabled]").removeAttr("disabled");
+		},
 		beforeSubmit:  function(formData, jqForm, options) {
 			formData.push({ name: 'ajax', value: true });
 		},
@@ -16,6 +19,7 @@ $(document).ready(function(){
 			}
 			str+= "</ul>";
         	showModal((response.msg && response.msg.e && response.msg.e.length ? 'error' : 'confirm'), str);
+			if (response.msg.redirect) setTimeout("location.href='"+response.msg.redirect+"'", 3000);
 			$("h1 #name_new").html($("[name='name']").val());
 		},
 		error : function(e){
