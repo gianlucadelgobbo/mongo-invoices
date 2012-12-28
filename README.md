@@ -3,7 +3,7 @@ Mongo invoices
 
 Mongo invoices is a easy to use invoices, offers and client manager based on MongoDB and NodeJS.
 
-Authors: Gianluca Del Gobbo, Fabrizio Chivoloni as Flyer communication, [FLxER](https://flxer.net), Free Hardware Foundation and Linux Club
+Authors: Gianluca Del Gobbo, Fabrizio Chivoloni as [Flyer communication](http://www.flyer.it), [FLxER](https://flxer.net), [Free Hardware Foundation](http://fhf.it) and [Linux Club](http://linux-club.org/)
 
 Requirements
 ------------
@@ -17,7 +17,7 @@ Setup
 
 1. Edit the config file and put your data
 
-	/app/common/config.js
+    /app/common/config.js
 
 2. Edit the css to print your invoices and offers
 
