@@ -2,7 +2,7 @@
 // preset form values if we receive a userdata object //
 - user = typeof(udata) != 'undefined' ? udata : {}
 
--if (result._id)
+-if (typeof(result) != 'undefined' && result._id)
 	h1
 		!=__("Account")+": "
 		span#name_new=result.name
