@@ -4,3 +4,4 @@ _ignore/
 err.log
 out.log
 node_modules
+**/style.css
