@@ -1,0 +1,24 @@
+{
+  "node": true,
+  "asi": false,
+  "laxcomma": true,
+  "debug": false,
+  "devel": true,
+  "eqnull": true,
+  "immed": true,
+  "newcap": true,
+  "plusplus": false,
+  "undef": true,
+  "strict": false,
+  "predef" : [
+    "__",
+    "_config",
+    "define",
+    "describe",
+    "it",
+    "before",
+    "beforeEach",
+    "after",
+    "afterEach"
+  ]
+}
