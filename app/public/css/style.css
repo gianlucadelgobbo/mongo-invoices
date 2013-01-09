@@ -117,6 +117,65 @@ body {
     display: none;
   }
 }
+@font-face {
+  font-family: "DINPro-Medium";
+  src: url("DINPro-Medium.otf") format("opentype");
+}
+.table tfoot tr first-child td {
+  border-top: 1px solid #000;
+}
+.print_container {
+  font-family: "DINPro-Medium";
+  font-size: 15px;
+  background-color: #fff;
+  width: 795px;
+  min-height: 1080px;
+  margin: 0 auto 0 auto;
+}
+.print_container header {
+  font-size: 18px;
+}
+.print_container .quantity {
+  width: 60px;
+}
+.print_container .description {
+  width: 280px;
+}
+.print_container .price {
+  width: 90px;
+}
+.print_container header .logo {
+  margin: 0 0 20px -78px;
+  height: 40px;
+  font-size: 35px;
+}
+.print_container .print_data {
+  margin: 50px 0;
+}
+.print_container .print_items {
+  min-height: 570px;
+}
+.print_container header .company_row2 {
+  color: #999;
+}
+.cntPadd {
+  padding: 50px 50px 50px 125px;
+}
+.print_data table {
+  float: left;
+}
+.print_data_col1 {
+  float: left;
+  width: 55%;
+  margin-right: 5%;
+}
+.print_data_col2 {
+  float: left;
+  width: 40%;
+}
+.print_data table td {
+  vertical-align: top;
+}
 .nowrap {
   white-space: nowrap;
   padding-right: 10px;

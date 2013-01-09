@@ -37,35 +37,74 @@ module.exports = function(app) {
 				});
 				}
 			} else {
-				res.render('account', {  locals: { title: __('Signup'), countries : CT } });
+				res.render('account', {  locals: { title: __('Signup'), countries : CT, result : {} } });
 			}
 		});
 	});
 	app.post('/', function(req, res){
 		var errors = [];
-    	validateFormLogin(req.body, function(e, o) {
-    		if (e.length) {
-    			if (req.body.ajax) {
-					res.send({msg:{e:e}}, 200);
-    			} else {
-	    			o._id = o.id;
-					res.render('login', { locals: { title: __('Hello - Please Login To Your Account'), result : o, msg:{e:e}, from:req.body.from}});
-    			}
-    		} else {
-			    req.session.user = o;
-				if (req.param('remember-me') == 'true'){
-					res.cookie('user', o.user, { maxAge: 900000 });
-					res.cookie('pass', o.pass, { maxAge: 900000 });
-					res.cookie('role', o.role, { maxAge: 900000 });
-				}
-				if (req.param('ajax') == 'true') {
-					res.send(o, 200);
-				} else {
-					var redirect = req.body.from ? req.body.from : '/home';
-					res.redirect(redirect);
-				}
-    		}
-    	});
+		DB.accounts.findOne({},function(e, result){
+			if(result){
+		    	validateFormLogin(req.body, function(e, o) {
+		    		if (e.length) {
+		    			if (req.body.ajax) {
+							res.send({msg:{e:e}}, 200);
+		    			} else {
+			    			o._id = o.id;
+							res.render('login', { locals: { title: __('Hello - Please Login To Your Account'), result : o, msg:{e:e}, from:req.body.from}});
+		    			}
+		    		} else {
+					    req.session.user = o;
+						if (req.param('remember-me') == 'true'){
+							res.cookie('user', o.user, { maxAge: 900000 });
+							res.cookie('pass', o.pass, { maxAge: 900000 });
+							res.cookie('role', o.role, { maxAge: 900000 });
+						}
+						if (req.param('ajax') == 'true') {
+							res.send(o, 200);
+						} else {
+							var redirect = req.body.from ? req.body.from : '/home';
+							res.redirect(redirect);
+						}
+		    		}
+		    	});
+		    } else {
+		    	validateFormAccount(req.body, function(e, o) {
+		    		if (e.length) {
+		    			if (req.body.ajax) {
+							res.send({msg:{e:e}}, 200);
+		    			} else {
+			    			if (o.id) o._id = o.id;
+							res.render('account', {  locals: {  title: __("Account"), countries : CT, result : o, msg:{e:e} } });
+		    			}
+		    		} else {
+						DB.insert_account(req.body, function(e, o){
+							var e = [];
+							if (!o){
+								e.push({name:"",m:__("Error updating account")});
+							}
+				    		if (e.length) {
+				    			if (req.body.ajax) {
+									res.send({msg:{e:e}}, 200);
+				    			} else {
+									res.render('account', {  locals: {  title: __("Client"), countries : CT, result : o[0], msg:{e:e}, udata : req.session.user } });
+				    			}
+				    		} else {
+								DB.accounts.findOne({}, function(err, result) {
+						    		req.session.user = result;
+									e.push({name:"",m:__("Account saved with success")});
+					    			if (req.body.ajax) {
+										res.send({msg:{c:e,redirect:"/home/"}}, 200);
+					    			} else {
+					    				res.redirect("/home/");
+					    			}
+								});
+							}
+						});
+		    		}
+		    	});
+		    }
+		});
 	});
 
 
@@ -690,6 +729,9 @@ module.exports = function(app) {
 		if (((o.id && o.pass!="") || !o.id) && !Validators.validateStringLength(o.pass, 3, 50)){
 			e.push({name:"pass",m:__("Please enter a valid Password")});
 		}
+		if (((o.id && o.user!="") || !o.id) && !Validators.validateStringLength(o.user, 3, 50)){
+			e.push({name:"user",m:__("Please enter a valid Username")});
+		}
 		if(!Validators.validateEmail(o.email)){
 			e.push({name:"email",m:"Email is not email"});
 			callback(e, o);
@@ -701,7 +743,7 @@ module.exports = function(app) {
 					callback(e, o);
 				} else {
 					var q = (o.id ? {_id:{$ne: new ObjectID(o.id)},user:o.user} : {user:o.user})
-					DB.accounts.findOne({user:o.user}, function(err, result) {
+					DB.accounts.findOne(q, function(err, result) {
 						if (result){
 							e.push({name:"email",m:__("Username already in use")});
 						}

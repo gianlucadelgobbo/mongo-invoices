@@ -8,7 +8,7 @@
 		span#name_new=result.name
 - else
 	h1=__("New account")
-- if (!_config.roles[user.role].admin && user._id!=result._id)
+- if (result._id && !_config.roles[user.role].admin && user._id!=result._id)
 	.alert.alert-error
 		h4=__("There are some errors")
 		ul
@@ -47,7 +47,7 @@
 						option(value="")= __("Please select a country")
 						each item in countries
 							option(selected=item.name == result.country, value=item.name)=item.name
-			- if (user._id==result._id)
+			- if (result._id && user._id==result._id)
 				#roles-cg.control-group
 					label.control-label(for='role')=__("Role")
 					.controls(style="padding-top:5px")

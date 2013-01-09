@@ -1,5 +1,5 @@
 var _config = {
-	"dbName": 			"login-testing",
+	"dbName": 			"admin-flyer",
 	"defaultLocale": 	"en",
     "locales":			["en", "it"],
 	"company": {

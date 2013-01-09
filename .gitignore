@@ -3,3 +3,5 @@
 _ignore/
 err.log
 out.log
+app/common/config.js
+app.js

@@ -102,5 +102,13 @@
 	"Please enter a valid Country": "Please enter a valid Country",
 	"No offer number": "No offer number",
 	"No offer date": "No offer date",
-	"Page Not Found": "Page Not Found"
+	"Page Not Found": "Page Not Found",
+	"Signup": "Signup",
+	"User not found": "User not found",
+	"Please enter a valid Name": "Please enter a valid Name",
+	"Please enter a valid Password": "Please enter a valid Password",
+	"Account saved with success": "Account saved with success",
+	"Please enter a valid Username": "Please enter a valid Username",
+	"Username already in use": "Username already in use",
+	"Invalid password": "Invalid password"
 }
