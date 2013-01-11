@@ -65,5 +65,18 @@
 	"User": "User",
 	"Access Credentials": "Access Credentials",
 	"Personal information": "Personal information",
-	"Your account data": "Your account data"
+	"Your account data": "Your account data",
+	"Hello - Please Login To Your Account": "Hello - Please Login To Your Account",
+	"Warning": "Warning",
+	"OK": "OK",
+	"Success": "Success",
+	"Error": "Error",
+	"It looks like there was a problem": "It looks like there was a problem",
+	"Page Not Found": "Page Not Found",
+	"Home": "Home",
+	"Please select a country": "Please select a country",
+	"Please enter a valid ZIP code": "Please enter a valid ZIP code",
+	"La lunghezza del codice fiscale non è corretta: il codice fiscale dovrebbe essere lungo esattamente 16 caratteri.": "La lunghezza del codice fiscale non è corretta: il codice fiscale dovrebbe essere lungo esattamente 16 caratteri.",
+	"Il codice fiscale non è corretto: il codice di controllo non corrisponde.": "Il codice fiscale non è corretto: il codice di controllo non corrisponde.",
+	"Invoice": "Invoice"
 }

@@ -37,28 +37,32 @@ Validators.checkCF = function (cf) {
 	}
 	return errors;
 }
-Validators.checkVAT = function (pi, callback) {
+Validators.checkVAT = function (pi, country, callback) {
 	var errors = [];
-	if( pi == '' ) {
-		errors.push({name:"vat_number",m:__("La lunghezza della partita IVA non è corretta: la partita IVA dovrebbe essere lunga esattamente 11 caratteri.")});
-	} else {
-		if( pi.length != 11 )
-			errors.push({name:"vat_number",m:__("La lunghezza della partita IVA non è corretta: la partita IVA dovrebbe essere lunga esattamente 11 caratteri.")});
-		validi = "0123456789";
-		for( i = 0; i < 11; i++ ){
-			if( validi.indexOf( pi.charAt(i) ) == -1 )
-				errors.push({name:"vat_number",m:__("La partita IVA contiene un carattere non valido. I caratteri validi sono le cifre.")});
-		}
-		s = 0;
-		for( i = 0; i <= 9; i += 2 )
-			s += pi.charCodeAt(i) - '0'.charCodeAt(0);
-		for( i = 1; i <= 9; i += 2 ){
-			c = 2*( pi.charCodeAt(i) - '0'.charCodeAt(0) );
-			if( c > 9 )  c = c - 9;
-			s += c;
-		}
-		if( ( 10 - s%10 )%10 != pi.charCodeAt(10) - '0'.charCodeAt(0) )
-			errors.push({name:"vat_number",m:__("La partita IVA non è valida: il codice di controllo non corrisponde.")});
+	switch(country) {
+		case "Italy" :
+			if( pi == '' ) {
+				errors.push({name:"vat_number",m:__("La lunghezza della partita IVA non è corretta: la partita IVA dovrebbe essere lunga esattamente 11 caratteri.")});
+			} else {
+				if( pi.length != 11 )
+					errors.push({name:"vat_number",m:__("La lunghezza della partita IVA non è corretta: la partita IVA dovrebbe essere lunga esattamente 11 caratteri.")});
+				validi = "0123456789";
+				for( i = 0; i < 11; i++ ){
+					if( validi.indexOf( pi.charAt(i) ) == -1 )
+						errors.push({name:"vat_number",m:__("La partita IVA contiene un carattere non valido. I caratteri validi sono le cifre.")});
+				}
+				s = 0;
+				for( i = 0; i <= 9; i += 2 )
+					s += pi.charCodeAt(i) - '0'.charCodeAt(0);
+				for( i = 1; i <= 9; i += 2 ){
+					c = 2*( pi.charCodeAt(i) - '0'.charCodeAt(0) );
+					if( c > 9 )  c = c - 9;
+					s += c;
+				}
+				if( ( 10 - s%10 )%10 != pi.charCodeAt(10) - '0'.charCodeAt(0) )
+					errors.push({name:"vat_number",m:__("La partita IVA non è valida: il codice di controllo non corrisponde.")});
+			}
+		break;
 	}
 	return errors;
 }

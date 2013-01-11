@@ -56,7 +56,7 @@ form(method="post", action="/client")#client-form.form-horizontal.well
 		label(for='vat_number').control-label=__("VAT number")
 		div.controls
 			input(type="text", name="vat_number", value=result.vat_number)#vat_number.span3
-	div.control-group(style="display:none;")
+	div.control-group(style=(result.address.country=="Italy" ? "" : "display:none;"))
 		label(for='fiscal_code').control-label=__("Fiscal code")
 		div.controls
 			input(type="text", name="fiscal_code", value=result.fiscal_code)#fiscal_code.span3
@@ -64,7 +64,7 @@ form(method="post", action="/client")#client-form.form-horizontal.well
 		- if (result._id)
 			button(type='submit')#account-form-btn2.btn.btn-success=__("Update")
 			- if (_config.roles[user.role].admin && user._id!=result._id)
-				button(type='button',href="/clients/?id="+x._id+"&del="+1)#account-form-btn1.btn.btn-danger=__("Delete")
+				a(href="/clients/?id="+result._id+"&del="+1)#account-form-btn1.btn.btn-danger=__("Delete")
 		- else
 			button(type='submit')#account-form-btn1.btn.btn-success=__("Save")
 			button(type='button')#account-form-btn2.btn=__("Cancel")
