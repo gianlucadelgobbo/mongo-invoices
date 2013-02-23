@@ -34,6 +34,14 @@ Validators.checkCF = function (cf) {
 			s += setdisp.indexOf( set2.charAt( set1.indexOf( cf.charAt(i) )));
 		if( s%26 != cf.charCodeAt(15)-'A'.charCodeAt(0) )
 			errors.push({name:"fiscal_code",m:__("Il codice fiscale non è corretto: il codice di controllo non corrisponde.")});
+		if (errors.length) {
+			var errors2 = Validators.checkVAT(cf, "Italy");
+			if (errors2.length) {
+				errors = errors.concat(errors2);
+			} else {
+				errors = [];
+			}
+		}
 	}
 	return errors;
 }

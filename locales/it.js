@@ -78,5 +78,11 @@
 	"Please enter a valid ZIP code": "Please enter a valid ZIP code",
 	"La lunghezza del codice fiscale non è corretta: il codice fiscale dovrebbe essere lungo esattamente 16 caratteri.": "La lunghezza del codice fiscale non è corretta: il codice fiscale dovrebbe essere lungo esattamente 16 caratteri.",
 	"Il codice fiscale non è corretto: il codice di controllo non corrisponde.": "Il codice fiscale non è corretto: il codice di controllo non corrisponde.",
-	"Invoice": "Invoice"
+	"Invoice": "Invoice",
+	"Please enter a valid Country": "Please enter a valid Country",
+	"Client saved with success": "Client saved with success",
+	"Revisions": "Revisions",
+	"Invoice saved with success": "Invoice saved with success",
+	"There are some messages": "There are some messages",
+	"Print": "Print"
 }

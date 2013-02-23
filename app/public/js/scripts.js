@@ -7,6 +7,9 @@ function showModal(t, m, callback) {
 		})
 	}
 }
+function is_numeric(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+}
 
 /* DA RIVEDERE */
 //Form to JSON Object
@@ -52,9 +55,6 @@ function controlFC(){
 }
 
 //vecchie
-function is_numeric(n) {
-    return !isNaN(parseFloat(n)) && isFinite(n);
-}
 function is_date(aaaa,mm,gg){
 	var res=true;
 	mmNew = parseFloat(mm)-1;
