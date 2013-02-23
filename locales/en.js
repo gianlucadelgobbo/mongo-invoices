@@ -111,5 +111,6 @@
 	"Please enter a valid Username": "Please enter a valid Username",
 	"Username already in use": "Username already in use",
 	"Invalid password": "Invalid password",
-	"Il codice fiscale non è corretto: il codice di controllo non corrisponde.": "Il codice fiscale non è corretto: il codice di controllo non corrisponde."
+	"Il codice fiscale non è corretto: il codice di controllo non corrisponde.": "Il codice fiscale non è corretto: il codice di controllo non corrisponde.",
+	"No invoice number": "No invoice number"
 }

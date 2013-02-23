@@ -34,17 +34,35 @@ Validators.checkCF = function (cf) {
 			s += setdisp.indexOf( set2.charAt( set1.indexOf( cf.charAt(i) )));
 		if( s%26 != cf.charCodeAt(15)-'A'.charCodeAt(0) )
 			errors.push({name:"fiscal_code",m:__("Il codice fiscale non è corretto: il codice di controllo non corrisponde.")});
-		if (errors.length) {
-			var errors2 = Validators.checkVAT(cf, "Italy");
-			if (errors2.length) {
-				errors = errors.concat(errors2);
-			} else {
-				errors = [];
-			}
-		}
 	}
 	return errors;
 }
+Validators.checkCFwithVAT = function (cf) {
+	var errors = [];
+	if( cf == '' ) {
+		errors.push({name:"vat_number",m:__("La lunghezza del codice fiscale non è corretta: il codice fiscale dovrebbe essere lungo esattamente 11 caratteri.")});
+	} else {
+		if( cf.length != 11 )
+			errors.push({name:"vat_number",m:__("La lunghezza del codice fiscale non è corretta: il codice fiscale dovrebbe essere lungo esattamente 11 caratteri.")});
+		validi = "0123456789";
+		for( i = 0; i < 11; i++ ){
+			if( validi.indexOf( cf.charAt(i) ) == -1 )
+				errors.push({name:"vat_number",m:__("Il codice fiscale contiene un carattere non valido. I caratteri validi sono le cifre.")});
+		}
+		s = 0;
+		for( i = 0; i <= 9; i += 2 )
+			s += cf.charCodeAt(i) - '0'.charCodeAt(0);
+		for( i = 1; i <= 9; i += 2 ){
+			c = 2*( cf.charCodeAt(i) - '0'.charCodeAt(0) );
+			if( c > 9 )  c = c - 9;
+			s += c;
+		}
+		if( ( 10 - s%10 )%10 != cf.charCodeAt(10) - '0'.charCodeAt(0) )
+			errors.push({name:"vat_number",m:__("Il codice fiscale non è valido: il codice di controllo non corrisponde.")});
+	}
+	return errors;
+}
+
 Validators.checkVAT = function (pi, country, callback) {
 	var errors = [];
 	switch(country) {

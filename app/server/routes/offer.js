@@ -43,7 +43,7 @@ exports.post = function post(req, res) {
               if (req.body.id) {
                 DB.update_offer(req.body, req.session.user, function(e, o){
                   errors.push({name:"",m:__("Offer saved with success")});
-                  res.render('offer', {  locals: {  title: __("Offer"), result : o, msg:{c:errors}, udata : req.session.user } });
+                  res.render('offer', {  locals: {  title: __("Offer"), result : helpers.formatMoney(o), msg:{c:errors}, udata : req.session.user } });
                 });
               } else {
                 DB.insert_offer(req.body, req.session.user, function(e,o){
@@ -55,7 +55,7 @@ exports.post = function post(req, res) {
                     msg.c = [];
                     msg.c.push({name:"",m:__("Offer saved with success")});
                   }
-                  res.render('offer', {  locals: {  title: __("Offer"), result : o[0], msg:msg, udata : req.session.user } });
+                  res.render('offer', {  locals: {  title: __("Offer"), result : helpers.formatMoney(o[0]), msg:msg, udata : req.session.user } });
                 });
               }
             } else {
