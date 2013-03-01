@@ -3,7 +3,8 @@ Mongo invoices
 
 [Mongo invoices](https://github.com/gianlucadelgobbo/mongo-invoices) is a easy to use invoices, offers and client manager based on [MongoDB](http://www.mongodb.org/) and [NodeJS](http://nodejs.org/).
 
-Authors: [Gianluca Del Gobbo](https://github.com/gianlucadelgobbo/), [Fabrizio Chiovoloni](https://github.com/kennyff92) as [Flyer communication](http://www.flyer.it), [FLxER](https://flxer.net), [Free Hardware Foundation](http://fhf.it) and [Linux Club](http://linux-club.org/)
+Authors: [Gianluca Del Gobbo](https://github.com/gianlucadelgobbo/), [Fabrizio Chiovoloni](https://github.com/kennyff92)
+[Flyer communication](http://www.flyer.it), [FLxER](https://flxer.net), [Free Hardware Foundation](http://fhf.it) and [Linux Club](http://linux-club.org/)
 
 Requirements
 ------------
@@ -15,11 +16,12 @@ Requirements
 Setup
 ------------
 
-1. Edit the config file and put your data `/app/common/config.js`
-2. Edit the css to print your invoices and offers `/app/public/css/print_templates.css`
-3. Run `app.js`
-4. Create your first account (Administrator)
-5. Start to work :)
+1. Run `npm install`
+2. Edit the config file and put your data `/app/common/config.js`
+3. Edit the css to print your invoices and offers `/app/public/css/print_templates.css`
+4. Run `app.js`
+5. Create your first account (Administrator)
+6. Start to work :)
 
 
 Contributing
