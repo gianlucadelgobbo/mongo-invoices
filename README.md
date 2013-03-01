@@ -4,7 +4,8 @@ Mongo invoices
 [Mongo invoices](https://github.com/gianlucadelgobbo/mongo-invoices) is a easy to use invoices, offers and client manager based on [MongoDB](http://www.mongodb.org/) and [NodeJS](http://nodejs.org/).
 
 Authors: [Gianluca Del Gobbo](https://github.com/gianlucadelgobbo/), [Fabrizio Chiovoloni](https://github.com/kennyff92)
-[Flyer communication](http://www.flyer.it), [FLxER](https://flxer.net), [Free Hardware Foundation](http://fhf.it) and [Linux Club](http://linux-club.org/)
+
+Supported by: [Flyer communication](http://www.flyer.it), [FLxER](https://flxer.net), [Free Hardware Foundation](http://fhf.it) and [Linux Club](http://linux-club.org/)
 
 Requirements
 ------------
