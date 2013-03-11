@@ -77,26 +77,28 @@ exports.validateFormClient = function validateFormClient(o,callback) {
 	if (!Validators.validateStringLength(o.name, 3, 50)){
 		e.push({name:"name",m:__("Please enter a valid Client")});
 	}
-	if (!Validators.validateStringLength(o.address.street, 3, 100)){
-		e.push({name:"address[street]",m:__("Please enter a valid Street")});
-	}
-	if (!Validators.validateStringLength(o.address.zipcode, 3, 20)){
-		e.push({name:"address[zipcode]",m:__("Please enter a valid ZIP code")});
-	}
-	if (!Validators.validateStringLength(o.address.city, 3, 50)){
-		e.push({name:"address[city]",m:__("Please enter a valid City")});
-	}
-	if (!Validators.validateStringLength(o.address.country, 3, 50)){
-		e.push({name:"address[country]", m:__("Please enter a valid Country")});
-	}
-	if (o.address.country == "Italy") {
-		if (o.vat_number=="" && o.fiscal_code!="") {
-			e = e.concat(Validators.checkCF(o.fiscal_code));
-		//} else if (o.vat_number!="") {
-		} else {
-			e = e.concat(Validators.checkVAT(o.vat_number,o.address.country));
-			if (o.fiscal_code != o.vat_number) {
-				e = e.concat(Validators.checkCFwithVAT(o.fiscal_code));
+	if (o.force != 1) {
+		if (!Validators.validateStringLength(o.address.street, 3, 100)){
+			e.push({name:"address[street]",m:__("Please enter a valid Street")});
+		}
+		if (!Validators.validateStringLength(o.address.zipcode, 3, 20)){
+			e.push({name:"address[zipcode]",m:__("Please enter a valid ZIP code")});
+		}
+		if (!Validators.validateStringLength(o.address.city, 3, 50)){
+			e.push({name:"address[city]",m:__("Please enter a valid City")});
+		}
+		if (!Validators.validateStringLength(o.address.country, 3, 50)){
+			e.push({name:"address[country]", m:__("Please enter a valid Country")});
+		}
+		if (o.address.country == "Italy") {
+			if (o.vat_number=="" && o.fiscal_code!="") {
+				e = e.concat(Validators.checkCF(o.fiscal_code));
+			//} else if (o.vat_number!="") {
+			} else {
+				e = e.concat(Validators.checkVAT(o.vat_number,o.address.country));
+				if (o.fiscal_code != o.vat_number) {
+					e = e.concat(Validators.checkCFwithVAT(o.fiscal_code));
+				}
 			}
 		}
 	}

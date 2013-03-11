@@ -121,8 +121,11 @@ body {
   font-family: "DINPro-Medium";
   src: url("DINPro-Medium.otf") format("opentype");
 }
-.table tfoot tr first-child td {
+.table tfoot {
   border-top: 1px solid #000;
+}
+.table tfoot .spacer {
+  height: 80px;
 }
 .print_container {
   font-family: "DINPro-Medium";
@@ -150,7 +153,7 @@ body {
   font-size: 35px;
 }
 .print_container .print_data {
-  margin: 50px 0;
+  margin: 40px 0 20px 0;
 }
 .print_container .print_items {
   min-height: 570px;
@@ -175,6 +178,7 @@ body {
 }
 .print_data table td {
   vertical-align: top;
+  padding-bottom: 5px;
 }
 .nowrap {
   white-space: nowrap;

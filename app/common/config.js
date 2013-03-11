@@ -1,12 +1,12 @@
 var _config = {
 	"dbName": 			"admin-flyer",
-	"defaultLocale": 	"en",
-    "locales":			["en", "it"],
+    "locales":			["it","en"],
+	"defaultLocale": 	"it",
 	"company": {
 		"logo":	"/img/logo.png",
 		"name":	"Flyer communication srl",
-		"row1":	"Via del Verano 39, 00185 Rome, Italy<br />t +39.06.78147301 - f +39.06.78390805 - www.flyer.it - flyer@flyer.it",
-		"row2":	"Legal address: Via Cardinal de Luca, 10 - 00196 Rome, Italy<br />VAT N° 06589171005 - NREA 977098"
+		"row1":	"Via del Verano 39, 00185 Roma, Italia<br />t +39.06.78147301 - f +39.06.78390805 - www.flyer.it - flyer@flyer.it",
+		"row2":	"Sede amministrativa: Via Cardinal de Luca, 10 - 00196 Rome, Italy<br />P.IVA 06589171005 - NREA 977098"
 	},
 	"banks":[
 		["BPM 1753", "BANCA POPOLARE DI MILANO - via Appia Nuova, 447-449 Roma IBAN: IT73Z0558403220000000001753 N°CC: 175 AG: 331 Cab: 03220 Abi: 05584"],

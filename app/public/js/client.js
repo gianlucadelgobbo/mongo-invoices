@@ -15,14 +15,20 @@ $(document).ready(function(){
 				if(print[p].m) str+= "<li>"+print[p].m+"</li>";
 			}
 			str+= "</ul>";
-        	showModal((response.msg && response.msg.e && response.msg.e.length ? 'error' : 'confirm'), str);
+        	showModal((response.msg && response.msg.e && response.msg.e.length ? 'error' : 'confirm'), str, forceClient);
 			$("h1 #name_new").html($("[name='name']").val());
 		},
 		error : function(e){
         	showModal('error', 'Please check client data');
 		}
-	}); 
-})
+	});
+});
+function forceClient() {
+	$('#client-form').append("<input type=\"hidden\" name=\"force\" value=\"1\" />");
+	setTimeout("$('#client-form').submit()",500);
+//	$('#account-form-btn1').click();
+}
+
 /*
 function validateForm(formData, jqForm, options) { 
     var form = $(jqForm[0]).formParams();

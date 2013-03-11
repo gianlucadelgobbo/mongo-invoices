@@ -30,9 +30,6 @@
   height: 40px;
   font-size: 35px;
 }
-.print_container .print_data {
-  margin: 50px 0;
-}
 .print_container .print_items {
   min-height: 570px;
 }
@@ -40,7 +37,7 @@
   color: #999;
 }
 .cntPadd {
-  padding: 50px 50px 50px 125px;
+  padding: 80px 50px 50px 125px;
 }
 .print_data table {
   float: left;
