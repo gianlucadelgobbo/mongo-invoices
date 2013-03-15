@@ -240,6 +240,7 @@ function updateTotal(){
 
 //Add row to table
 function addNewRow(){
+	rowNumber = $("#items tbody tr").length;
 	if($("#items tbody tr:last .price").val()!=""){
 		$("#items tbody tr:last").clone().find("input").each(function() {
 		    $(this).attr({
@@ -248,7 +249,6 @@ function addNewRow(){
 		      'value': ''
 		    });
 		}).end().appendTo("#items");
-		rowNumber++;
 		setBinds();
 	}
 }

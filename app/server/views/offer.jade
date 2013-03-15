@@ -1,4 +1,3 @@
-
 form(method="post", action="/offer")#offer
 	div.row-fluid
 		.span6
@@ -120,7 +119,7 @@ form(method="post", action="/offer")#offer
 						td
 							input(type="text", name="items["+a+"][quantity]",value=result.items[a].quantity,id="quantity_"+a).quantity#quantity_0.input-mini
 						td
-							input(type="text", name="items["+a+"][description]",value=result.items[a].description,id="description_"+a).description#description_0.input-xlarge
+							textarea(type="text", name="items["+a+"][description]",id="description_"+a).description#description_0.input-xlarge=result.items[a].description
 						td.input-prepend
 							span.add-on=_config.currency[0]
 							input(type="text", name="items["+a+"][price]",value=result.items[a].price,id="price_"+a).price#price_0.input-medium

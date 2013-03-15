@@ -111,7 +111,7 @@ form(method="post", action="/invoice")#invoice
 					th=__("Amount")
 			tbody
 				- var a = 0 
-				- for(a=0;a<result.items.length;a++) 
+				- for(a=0;a<result.items.length;a++)
 					tr
 						td
 							input(type="text", name="items["+a+"][quantity]",value=result.items[a].quantity,id="quantity_"+a).quantity#quantity_0.input-mini
@@ -126,6 +126,7 @@ form(method="post", action="/invoice")#invoice
 							
 							a.btn(href="#", onclick="removeRow(this); return false;")
 								i.icon-remove
+							script rowNumber++
 			tfoot
 				tr
 					td

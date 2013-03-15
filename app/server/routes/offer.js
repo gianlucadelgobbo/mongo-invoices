@@ -25,6 +25,7 @@ exports.post = function post(req, res) {
     if (req.session.user == null) {
         res.redirect('/?from='+req.url);
     } else {
+    console.dir(req.body);
     //controls
     var errors = [];
     errors = errors.concat(Validators.checkClientID(req.body.to_client._id));
