@@ -255,8 +255,10 @@ function unformatPrices(newInvoice){
 	newInvoice.vat_amount=parseFloat(accounting.unformat(newInvoice.vat_amount, ","));
 	newInvoice.shipping_costs=parseFloat(accounting.unformat(newInvoice.shipping_costs, ","));
 	newInvoice.total=parseFloat(accounting.unformat(newInvoice.total, ","));
-	for(var i=0;i<newInvoice.items.length;i++){
-		newInvoice.items[i].price=parseFloat(accounting.unformat(newInvoice.items[i].price, ","));
-		newInvoice.items[i].amount=parseFloat(accounting.unformat(newInvoice.items[i].amount, ","));
+	for (item in newInvoice.items) {
+		newInvoice.items[item].price=parseFloat(accounting.unformat(newInvoice.items[item].price, ","));
+		newInvoice.items[item].amount=parseFloat(accounting.unformat(newInvoice.items[item].amount, ","));
+	}
+	if (newInvoice.items) {
 	}
 }
