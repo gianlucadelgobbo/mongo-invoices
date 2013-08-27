@@ -60,7 +60,10 @@ section.print_items
 			- for(a=0;a<result.items.length;a++) 
 				tr
 					td.quantity=result.items[a].quantity,id="quantity_"+a
-					td.description!=result.items[a].description.replace(/\n/g,'<br />'),id="description_"+a
+					- if (result.items[a].description)
+						td.description(id="description_"+a)!=result.items[a].description.replace(/\n/g,'<br />')
+					- else
+						td.description(id="description_"+a)
 					td.price
 						.price=_config.currency[0]+" "+result.items[a].price
 					td.price

@@ -1,16 +1,15 @@
 var _config = {
-	"dbName": 			"admin-flyer",
+	"dbName": 			"admin-linux",
     "locales":			["it","en"],
 	"defaultLocale": 	"it",
 	"company": {
 		"logo":	"/img/logo.png",
-		"name":	"Flyer communication srl",
-		"row1":	"Via del Verano 39, 00185 Roma, Italia<br />t +39.06.78147301 - f +39.06.78390805 - www.flyer.it - flyer@flyer.it",
-		"row2":	"Sede amministrativa: Via Cardinal de Luca, 10 - 00196 Rome, Italy<br />P.IVA 06589171005 - NREA 977098"
+		"name":	"Associazione Culturale Linux Club Italia",
+		"row1":	"Associazione Culturale Linux Club Italia<br />Via del Verano 39, 00185 Roma, Italia - t +39.06.78147301 - f +39.06.78390805",
+		"row2":	"CF 97318630585 P.IVA 08459281005 - linux-club.org - info@linux-club.org"
 	},
 	"banks":[
-		["BPM 1753", "BANCA POPOLARE DI MILANO - via Appia Nuova, 447-449 Roma IBAN: IT73Z0558403220000000001753 N°CC: 175 AG: 331 Cab: 03220 Abi: 05584"],
-		["BPM 1817", "BANCA POPOLARE DI MILANO - via Appia Nuova, 447-449 Roma IBAN: IT73Z0558403220000000001753 N°CC: 175 AG: 331 Cab: 03220 Abi: 05584"]
+		["POSTE ITALIANE", "POSTE ITALIANE SPA - Ufficio radicamento: 55937 CC intestato a: Associazione Culturale Linux Club Italia - IBAN: IT-37-M-07601-03200-000063473623"]
 	],
 	"currency":			["€"],
 	"vat_perc":	21,
