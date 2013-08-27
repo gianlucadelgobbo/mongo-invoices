@@ -65,9 +65,11 @@ exports.formatMoney = function formatMoney(result) {
 	result.vat_amount=accounting.formatMoney(result.vat_amount);
 	result.shipping_costs=accounting.formatMoney(result.shipping_costs);
 	result.total=accounting.formatMoney(result.total);
-	for(var i=0;i<result.items.length;i++){
-		result.items[i].price=accounting.formatMoney(result.items[i].price);
-		result.items[i].amount=accounting.formatMoney(result.items[i].amount);
+	for (item in result.items) {
+		if (result.items[item]) {
+			result.items[item].price=accounting.formatMoney(result.items[item].price);
+			result.items[item].amount=accounting.formatMoney(result.items[item].amount);
+		}
 	}
 	return result;
 };
