@@ -1,5 +1,5 @@
 
-form(method="post", action="/invoice")#invoice
+form(method="post", action="/invoice/?id="+result._id)#invoice
 	div.row-fluid
 		.span6
 			h1=(result.invoice_number ? __("Invoice")+": "+result.invoice_number : __("New invoice"))

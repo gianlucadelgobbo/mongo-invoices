@@ -1,4 +1,4 @@
-form(method="post", action="/offer")#offer
+form(method="post", action="/offer/?id="+result._id")#offer
 	div.row-fluid
 		.span6
 			h1=(result.offer_number ? __("Offer")+": "+result.offer_number : __("New offer"))

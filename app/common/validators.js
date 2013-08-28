@@ -133,6 +133,7 @@ Validators.checkOfferDate = function(offerDate){
 		errors.push({name:"offer_date",m:__("No offer date")});
 	} else {
 		var d = offerDate.split("/");
+		//if (!this.is_date(d[2],d[1],d[0])) errors.push({name:"invoice_date",m:__("Invoice date is not date")});
 		if (!this.is_date(d[2],d[1],d[0])) errors.push({name:"invoice_date",m:__("Invoice date is not date")});
 	}
 	return errors;
