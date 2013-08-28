@@ -12,7 +12,4 @@ node_modules
 **/style.css
 style.css
 journal
-login-testing.0
-login-testing.1
-login-testing.ns
 mongod.lock
