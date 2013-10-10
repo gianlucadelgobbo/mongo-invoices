@@ -41,7 +41,8 @@ section.print_data.clearfix
 				td=result.offer.offer_number
 			tr
 				td.nowrap.muted=__("Offer date")
-				td=result.offer.offer_date
+				- d = result.offer.offer_date;
+				td=(d ? d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear() :"")
 		- if (typeof result.delivery_date!=="undefined")
 			tr
 				td.nowrap.muted=__("Delivery date")

@@ -6,13 +6,13 @@ exports.get = function get(req, res) {
   } else {
     var msg = {};
     if (req.query.id && req.query.del) {
-      DB.delete_invoice(req.query.id, function(err, obj){
+      DB.delete_offer(req.query.id, function(err, obj){
         if (obj){
           msg.c = [];
-          msg.c.push({name:"",m:__("Invoice deleted successfully")});
+          msg.c.push({name:"",m:__("Offer deleted successfully")});
         } else {
           msg.e = [];
-          msg.e.push({name:"",m:__("Invoice not found")});
+          msg.e.push({name:"",m:__("Offer not found")});
         }
       });
     }
