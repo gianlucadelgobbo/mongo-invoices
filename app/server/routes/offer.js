@@ -113,20 +113,6 @@ exports.post = function post(req, res) {
 };
 
 exports.print = function print(req, res) {
-<<<<<<< HEAD
-  if (req.session.user == null) {
-    res.redirect('/?from='+req.url);
-  } else {
-    if (req.query.id) {
-      DB.offers.findOne({_id:new ObjectID(req.query.id)}, function(e, result) {
-        result = helpers.formatMoney(result);
-        res.render('print_offer', { layout: 'print.jade' ,  locals: {  title: __("Offer"), result : result, udata : req.session.user } });
-      });
-    } else {
-      res.redirect('/offers');
-    }
-  }
-=======
 	if (req.session.user == null) {
 		res.redirect('/?from='+req.url);
 	} else {
@@ -139,5 +125,4 @@ exports.print = function print(req, res) {
 			res.redirect('/offers');
 		}
 	}
->>>>>>> 76c7f54683f84df84f7b9728c952da133448c7f9
 };
