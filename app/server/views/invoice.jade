@@ -1,5 +1,5 @@
 
-form(method="post", action="/invoice")#invoice
+form(method="post", action="/invoice/?id="+result._id)#invoice
 	div.row-fluid
 		.span6
 			h1=(result.invoice_number ? __("Invoice")+": "+result.invoice_number : __("New invoice"))
@@ -111,12 +111,12 @@ form(method="post", action="/invoice")#invoice
 					th=__("Amount")
 			tbody
 				- var a = 0 
-				- for(a=0;a<result.items.length;a++) 
+				- for(a=0;a<result.items.length;a++)
 					tr
 						td
 							input(type="text", name="items["+a+"][quantity]",value=result.items[a].quantity,id="quantity_"+a).quantity#quantity_0.input-mini
 						td
-							input(type="text", name="items["+a+"][description]",value=result.items[a].description,id="description_"+a).description#description_0.input-xlarge
+							textarea(type="text", name="items["+a+"][description]",id="description_"+a).description#description_0.input-xlarge=result.items[a].description
 						td.input-prepend
 							span.add-on=_config.currency[0]
 							input(type="text", name="items["+a+"][price]",value=result.items[a].price,id="price_"+a).price#price_0.input-medium
@@ -126,6 +126,7 @@ form(method="post", action="/invoice")#invoice
 							
 							a.btn(href="#", onclick="removeRow(this); return false;")
 								i.icon-remove
+							script rowNumber++
 			tfoot
 				tr
 					td
@@ -140,10 +141,7 @@ form(method="post", action="/invoice")#invoice
 					td
 					td.input-append
 						label.pull-right(for='vat_perc')=__("VAT")
-							- if(result.vat_perc)
-								input(type="text", name="vat_perc", value=result.vat_perc)#vat_perc.input-mini
-							- else
-								input(type="text", name="vat_perc", value=_config.vat_perc)#vat_perc.input-mini
+							input(type="text", name="vat_perc", value=result.vat_perc)#vat_perc.input-mini
 							span.add-on %
 					td.input-prepend
 						span.add-on=_config.currency[0]

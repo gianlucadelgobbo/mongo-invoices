@@ -39,6 +39,7 @@ div.well
 							ul.dropdown-menu
 								li
 									a(href="/invoices/?id="+x._id+"&del="+1)=__("Delete")
+									a(href="/print/invoice/?id="+x._id)=__("Print")
 					td=x.invoice_number
 					- dd = new Date(x.invoice_date)
 					td=dd.getDate()+"/"+(dd.getMonth()+1)+"/"+dd.getFullYear()

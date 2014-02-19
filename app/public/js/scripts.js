@@ -2,10 +2,18 @@ function showModal(t, m, callback) {
 	$('.modal-'+t+' .modal-body p').html(m);
 	$('.modal-'+t).modal('show');
 	if ($.isFunction(callback)) {
+		/*
 		$('.modal-'+t).on('hidden', function () {
 		  callback();
 		})
+		*/
+		$('#force').click(function () {
+		  callback();
+		})
 	}
+}
+function is_numeric(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
 /* DA RIVEDERE */
@@ -52,9 +60,6 @@ function controlFC(){
 }
 
 //vecchie
-function is_numeric(n) {
-    return !isNaN(parseFloat(n)) && isFinite(n);
-}
 function is_date(aaaa,mm,gg){
 	var res=true;
 	mmNew = parseFloat(mm)-1;

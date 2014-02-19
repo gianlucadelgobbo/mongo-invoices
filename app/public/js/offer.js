@@ -4,7 +4,7 @@ $(function() {
 	$(".disabled").attr('disabled', 'disabled');
 
 	$("#to_client").bind("keypress", function(event) {
-		console.log(event.keyCode);
+		//console.log(event.keyCode);
 		if ($("#client_id").val()!="" &&  event.keyCode != 13) {
 			$("#client_id").val("");
 			$(".street").val("");
@@ -49,7 +49,7 @@ $(function() {
 		},
 		minLength:3,
 		select: function(event, ui) {
-			console.log(ui);
+			//console.log(ui);
 		}
 	});
 
@@ -124,7 +124,7 @@ function setBinds(){
 		},
 		minLength:3,
 		select: function(event, ui) {
-			console.log(ui);
+			//console.log(ui);
 		}
 	});
 
@@ -191,7 +191,7 @@ function checkVATPerc(input){
 }
 
 function checkOffer(){
-	console.log("checkOffer");
+	//console.log("checkOffer");
 	res = true;
 	// Check _id client
 	if (!$("#client_id").val()){
@@ -240,15 +240,20 @@ function updateTotal(){
 
 //Add row to table
 function addNewRow(){
+	rowNumber = $("#items tbody tr").length;
 	if($("#items tbody tr:last .price").val()!=""){
-		$("#items tbody tr:last").clone().find("input").each(function() {
+	
+		$("#items tbody tr:last").clone().find("input,textarea").each(function() {
 		    $(this).attr({
-		      'id': function(_, id) { return (id.slice(0, id.lastIndexOf("_"))) + "_" + rowNumber },
+		      'id': function(_, id) { 
+		      		//console.log(id);
+		      		//console.log(_);
+		      		//console.log((id.slice(0, id.lastIndexOf("_"))) + "_" + rowNumber);return (id.slice(0, id.lastIndexOf("_"))) + "_" + rowNumber
+		      },
 		      'name': function(_, name) { return (name = name.replace(rowNumber-1,rowNumber))},
 		      'value': ''
 		    });
 		}).end().appendTo("#items");
-		rowNumber++;
 		setBinds();
 	}
 }

@@ -1,5 +1,4 @@
-
-form(method="post", action="/offer")#offer
+form(method="post", action="/offer/?id="+result._id")#offer
 	div.row-fluid
 		.span6
 			h1=(result.offer_number ? __("Offer")+": "+result.offer_number : __("New offer"))
@@ -115,21 +114,24 @@ form(method="post", action="/offer")#offer
 					th=__("Amount")
 			tbody
 				- var a = 0 
-				- for(a=0;a<result.items.length;a++) 
-					tr
-						td
-							input(type="text", name="items["+a+"][quantity]",value=result.items[a].quantity,id="quantity_"+a).quantity#quantity_0.input-mini
-						td
-							input(type="text", name="items["+a+"][description]",value=result.items[a].description,id="description_"+a).description#description_0.input-xlarge
-						td.input-prepend
-							span.add-on=_config.currency[0]
-							input(type="text", name="items["+a+"][price]",value=result.items[a].price,id="price_"+a).price#price_0.input-medium
-						td.input-prepend
-							span.add-on=_config.currency[0]
-							input(type="text", name="items["+a+"][amount]",value=result.items[a].amount,id="amount_"+a).disabled.amount.input-medium
-							
-							a.btn(href="#", onclick="removeRow(this); return false;")
-								i.icon-remove
+				- var b = 0 
+				- for(a=0;a<result.items.length;a++)
+					- if (result.items[a])
+						tr
+							td
+								input(type="text", name="items["+b+"][quantity]",value=result.items[a].quantity,id="quantity_"+a).quantity#quantity_0.input-mini
+							td
+								textarea(type="text", name="items["+b+"][description]",id="description_"+a).description#description_0.input-xlarge=result.items[a].description
+							td.input-prepend
+								span.add-on=_config.currency[0]
+								input(type="text", name="items["+b+"][price]",value=result.items[a].price,id="price_"+a).price#price_0.input-medium
+							td.input-prepend
+								span.add-on=_config.currency[0]
+								input(type="text", name="items["+b+"][amount]",value=result.items[a].amount,id="amount_"+a).disabled.amount.input-medium
+								
+								a.btn(href="#", onclick="removeRow(this); return false;")
+									i.icon-remove
+						- b++;
 			tfoot
 				tr
 					td

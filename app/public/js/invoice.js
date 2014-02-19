@@ -240,15 +240,17 @@ function updateTotal(){
 
 //Add row to table
 function addNewRow(){
+	rowNumber = $("#items tbody tr").length;
 	if($("#items tbody tr:last .price").val()!=""){
-		$("#items tbody tr:last").clone().find("input").each(function() {
+	
+		$("#items tbody tr:last").clone().find("input,textarea").each(function() {
 		    $(this).attr({
 		      'id': function(_, id) { return (id.slice(0, id.lastIndexOf("_"))) + "_" + rowNumber },
 		      'name': function(_, name) { return (name = name.replace(rowNumber-1,rowNumber))},
 		      'value': ''
 		    });
+		    if ($(this).html()) $(this).html("");
 		}).end().appendTo("#items");
-		rowNumber++;
 		setBinds();
 	}
 }
@@ -258,4 +260,5 @@ function removeRow(t){
 	if($(t).parent().parent().parent().find(".price").length>1) {
 		$(t).parent().parent().remove();
 	}
+	updateTotal();
 }

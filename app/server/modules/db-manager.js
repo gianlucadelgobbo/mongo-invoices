@@ -136,14 +136,14 @@ DB.delAllRecords = function(id, callback) {
 DB.insert_invoice = function(newData, userData, callback) {
 	delete newData.id;
 	var d = newData.invoice_date.split("/");
-	newData.invoice_date = new Date(parseInt(d[2]),parseInt(d[1])-1,parseInt(d[0]));
+	newData.invoice_date = new Date(parseInt(d[2], 10),parseInt(d[1], 10)-1,parseInt(d[0], 10));
 	if(newData.delivery_date!=""){
 		d = newData.delivery_date.split("/");
-		newData.delivery_date = new Date(parseInt(d[2]),parseInt(d[1])-1,parseInt(d[0]));
+		newData.delivery_date = new Date(parseInt(d[2], 10),parseInt(d[1], 10)-1,parseInt(d[0], 10));
 	}
 	if(newData.offer.offer_date!=""){
 		d = newData.offer.offer_date.split("/");
-		newData.offer.offer_date = new Date(parseInt(d[2]),parseInt(d[1])-1,parseInt(d[0]));
+		newData.offer.offer_date = new Date(parseInt(d[2], 10),parseInt(d[1], 10)-1,parseInt(d[0], 10));
 	}
 	newData.invoice_number = parseInt(newData.invoice_number);
 	newData.vat_perc = parseInt(newData.vat_perc);
@@ -156,17 +156,20 @@ DB.insert_invoice = function(newData, userData, callback) {
 	});
 }
 DB.update_invoice = function(newData, userData, callback) {
+	//console.log(newData.invoice_date);
 	DB.invoices.findOne({_id:new ObjectID(newData.id)}, function(e, o){
 		newData._id = o._id;
 		var d = newData.invoice_date.split("/");
-		newData.invoice_date = new Date(parseInt(d[2]),parseInt(d[1])-1,parseInt(d[0]));
+		newData.invoice_date = new Date(parseInt(d[2], 10),parseInt(d[1], 10)-1,parseInt(d[0], 10));
+		//console.log((d[2])+"-"+((d[1]))+"-"+(d[0]));
+		//console.log(parseInt(d[2], 10)+"-"+(parseInt(d[1], 10))+"-"+parseInt(d[0], 10));
 		if(newData.delivery_date!=""){
 			d = newData.delivery_date.split("/");
-			newData.delivery_date = new Date(parseInt(d[2]),parseInt(d[1])-1,parseInt(d[0]));
+			newData.delivery_date = new Date(parseInt(d[2], 10),parseInt(d[1], 10)-1,parseInt(d[0], 10));
 		}
 		if(newData.offer.offer_date!=""){
 			d = newData.offer.offer_date.split("/");
-			newData.offer.offer_date = new Date(parseInt(d[2]),parseInt(d[1])-1,parseInt(d[0]));
+			newData.offer.offer_date = new Date(parseInt(d[2], 10),parseInt(d[1], 10)-1,parseInt(d[0], 10));
 		}
 		newData.invoice_number=parseInt(newData.invoice_number);
 		newData.vat_perc=parseInt(newData.vat_perc);
@@ -174,6 +177,7 @@ DB.update_invoice = function(newData, userData, callback) {
 		if (!newData.revisions)	newData.revisions = [];
 		newData.revisions.push({userID : userData._id,username: userData.name,time : new Date()});
 		delete newData.id;
+		//console.log(newData.invoice_date);
 		DB.invoices.save(newData);
 		DB.invoices.findOne({_id:newData._id}, function(e, o){
 			callback(e, o);
@@ -189,10 +193,10 @@ DB.delete_invoice = function(id, callback) {
 DB.insert_offer = function(newData, userData, callback) {
 	delete newData.id;
 	var d = newData.offer_date.split("/");
-	newData.offer_date = new Date(parseInt(d[2]),parseInt(d[1])-1,parseInt(d[0]));
+	newData.offer_date = new Date(parseInt(d[2], 10),parseInt(d[1], 10)-1,parseInt(d[0], 10));
 	if(newData.delivery_date!=""){
 		d = newData.delivery_date.split("/");
-		newData.delivery_date = new Date(parseInt(d[2]),parseInt(d[1])-1,parseInt(d[0]));
+		newData.delivery_date = new Date(parseInt(d[2], 10),parseInt(d[1], 10)-1,parseInt(d[0], 10));
 	}
 	newData.offer_number = parseInt(newData.offer_number);
 	newData.vat_perc = parseInt(newData.vat_perc);
@@ -201,6 +205,7 @@ DB.insert_offer = function(newData, userData, callback) {
 	newData.revisions = [];
 	newData.revisions.push({userID : userData._id,username: userData.name,time : new Date()});
 	DB.offers.insert(newData, {safe: true}, function(err, records){
+		//console.log(records);
 		callback(err, records);
 	});
 }
@@ -208,9 +213,9 @@ DB.update_offer = function(newData, userData, callback) {
 	DB.offers.findOne({_id:new ObjectID(newData.id)}, function(e, o){
 		newData._id = o._id;
 		var d = newData.offer_date.split("/");
-		newData.offer_date = new Date(parseInt(d[2]),parseInt(d[1])-1,parseInt(d[0]));
+		newData.offer_date = new Date(parseInt(d[2], 10),parseInt(d[1], 10)-1,parseInt(d[0], 10));
 		d = newData.delivery_date.split("/");
-		newData.delivery_date = new Date(parseInt(d[2]),parseInt(d[1])-1,parseInt(d[0]));
+		newData.delivery_date = new Date(parseInt(d[2], 10),parseInt(d[1], 10)-1,parseInt(d[0], 10));
 		newData.offer_number=parseInt(newData.offer_number);
 		newData.vat_perc=parseInt(newData.vat_perc);
 		unformatPrices(newData);
@@ -224,7 +229,7 @@ DB.update_offer = function(newData, userData, callback) {
 	});
 }
 DB.delete_offer = function(id, callback) {
-	DB.invoices.remove({_id: new ObjectID(id)},{safe: true}, function(err, records){
+	DB.offers.remove({_id: new ObjectID(id)},{safe: true}, function(err, records){
 		callback(err, records);
 	});
 }
@@ -255,8 +260,10 @@ function unformatPrices(newInvoice){
 	newInvoice.vat_amount=parseFloat(accounting.unformat(newInvoice.vat_amount, ","));
 	newInvoice.shipping_costs=parseFloat(accounting.unformat(newInvoice.shipping_costs, ","));
 	newInvoice.total=parseFloat(accounting.unformat(newInvoice.total, ","));
-	for(var i=0;i<newInvoice.items.length;i++){
-		newInvoice.items[i].price=parseFloat(accounting.unformat(newInvoice.items[i].price, ","));
-		newInvoice.items[i].amount=parseFloat(accounting.unformat(newInvoice.items[i].amount, ","));
+	for (item in newInvoice.items) {
+		newInvoice.items[item].price=parseFloat(accounting.unformat(newInvoice.items[item].price, ","));
+		newInvoice.items[item].amount=parseFloat(accounting.unformat(newInvoice.items[item].amount, ","));
+	}
+	if (newInvoice.items) {
 	}
 }

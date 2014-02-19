@@ -10,80 +10,87 @@ header
 section.print_data.clearfix
 	table.print_data_col1
 		tr
-			td.nowrap=__("Invoice number")
+			td.nowrap.muted=__("Invoice number")
 			td.nowrap=result.invoice_number
-			td.nowrap=__("Invoice date")
+			td.nowrap.muted=__("Invoice date")
 			- d = result.invoice_date;
 			td=d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear()
 		tr
-			td(colspan="2").nowrap=__("Client")
+			td(colspan="2").nowrap.muted=__("Client")
 			td(colspan="2")
 				b=(result.to_client.name+" ")
 				br
 				span=result.to_client.address.street+" "+result.to_client.address.city+" "+result.to_client.address.country
 		tr
-			td(colspan="2").nowrap=__("VAT number")
+			td(colspan="2").nowrap.muted=__("VAT number")
 			td(colspan="2")=result.to_client.vat_number
 		tr
-			td(colspan="2").nowrap=__("Fiscal code")
+			td(colspan="2").nowrap.muted=__("Fiscal code")
 			td(colspan="2")=result.to_client.fiscal_code
 	table.print_data_col2
 		tr
-			td.nowrap=__("Payment")
+			td.nowrap.muted=__("Payment")
 			td=result.payment
 		- if (typeof result.destination!=="undefined")
 			tr
-				td.nowrap=__("Shipped to")
+				td.nowrap.muted=__("Shipped to")
 				td=result.destination
 		- if (typeof result.offer!=="undefined")
 			tr
-				td.nowrap=__("Offer number")
+				td.nowrap.muted=__("Offer number")
 				td=result.offer.offer_number
 			tr
-				td.nowrap=__("Offer date")
-				td=result.offer.offer_date
+				td.nowrap.muted=__("Offer date")
+				- d = result.offer.offer_date;
+				td=(d ? d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear() :"")
 		- if (typeof result.delivery_date!=="undefined")
 			tr
-				td.nowrap=__("Delivery date")
+				td.nowrap.muted=__("Delivery date")
 				- d = result.delivery_date;
-				td=d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear()
+				td=(d ? d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear() :"")
 section.print_items
 	table.table
 		thead
 			tr
-				th=__("Quantity")
-				th=__("Description")
-				th=__("Price")
-				th=__("Amount")
+				th.muted=__("Quantity")
+				th.muted=__("Description")
+				th.muted=__("Price")
+				th.muted=__("Amount")
 		tbody
 			- var a = 0 
 			- for(a=0;a<result.items.length;a++) 
 				tr
 					td.quantity=result.items[a].quantity,id="quantity_"+a
-					td.description=result.items[a].description,id="description_"+a
+					- if (result.items[a].description)
+						td.description(id="description_"+a)!=result.items[a].description.replace(/\n/g,'<br />')
+					- else
+						td.description(id="description_"+a)
 					td.price
 						.price=_config.currency[0]+" "+result.items[a].price
 					td.price
 						.price=_config.currency[0]+" "+result.items[a].amount
 		tfoot
+			tr.spacer
+				td(colspan="3")
+				td
 			tr
 				td(colspan="3")
-					.pull-right=__("Subtotal")
+					.pull-right.muted=__("Subtotal")
 				td
 					.price=_config.currency[0]+" "+result.subtotal
 			tr
 				td(colspan="3")
-					.pull-right=__("VAT")+" "+result.vat_perc+" %"
+					.pull-right.muted=__("VAT")+" "+result.vat_perc+" %"
 				td
 					.price=_config.currency[0]+" "+result.vat_amount
 			tr
 				td(colspan="3")
-					.pull-right=__("Shipping costs")
+					.pull-right.muted=__("Shipping costs")
 				td
 					.price=_config.currency[0]+" "+result.shipping_costs
 			tr
 				td(colspan="3")
-					.pull-right=__("TOTAL")
+					.pull-right.muted=__("TOTAL")
 				td
 					.price=_config.currency[0]+" "+result.total
 footer

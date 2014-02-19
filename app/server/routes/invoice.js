@@ -1,6 +1,7 @@
 var DB = require('../modules/db-manager');
 var Validators = require('../../common/validators').Validators;
 var helpers = require('./helpers');
+var ObjectID = require('mongodb').ObjectID;
 
 exports.get = function get(req, res) {
   if (req.session.user == null) {
@@ -23,7 +24,7 @@ exports.get = function get(req, res) {
             res.render('invoice', {  locals: {  title: __("Invoice"), result : result, udata : req.session.user } });
           });
         } else {
-          var resultEmpty = {invoice_date:new Date(),invoice_number:resultInvoice.length+1,to_client:{address:{}},offer:{},items:[{}]};
+          var resultEmpty = {invoice_date:new Date(),invoice_number:resultInvoice.length+1,vat_perc:_config.vat_perc,to_client:{address:{}},offer:{},items:[{}]};
           res.render('invoice', {  locals: {  title: __("Invoice"), result : resultEmpty, udata : req.session.user } });
         }
       });
@@ -54,7 +55,8 @@ exports.post = function post(req, res) {
               if (req.body.id) {
                 DB.update_invoice(req.body, req.session.user, function(e, o){
                   errors.push({name:"",m:__("Invoice saved with success")});
-                  res.render('invoice', {  locals: {  title: __("Invoice"), result : o, msg:{c:errors}, udata : req.session.user } });
+                  console.dir("bella");
+                  res.render('invoice', {  locals: {  title: __("Invoice"), result : helpers.formatMoney(o), msg:{c:errors}, udata : req.session.user } });
                 });
               } else {
                 DB.insert_invoice(req.body, req.session.user, function(e, o){
@@ -66,7 +68,7 @@ exports.post = function post(req, res) {
                     msg.c = [];
                     msg.c.push({name:"",m:__("Invoice saved with success")});
                   }
-                  res.render('invoice', {  locals: {  title: __("Invoice"), result : o[0], msg:msg, udata : req.session.user } });
+                  res.render('invoice', {  locals: {  title: __("Invoice"), result : helpers.formatMoney(o[0]), msg:msg, udata : req.session.user } });
                 });
               }
             } else {

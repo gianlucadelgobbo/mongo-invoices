@@ -14,7 +14,7 @@
   margin: 0 auto 0 auto;
 }
 .print_container header {
-  font-size: 18px;
+  font-size: 17px;
 }
 .print_container .quantity {
   width: 60px;
@@ -26,21 +26,18 @@
   width: 90px;
 }
 .print_container header .logo {
-  margin: 0 0 20px -78px;
-  height: 40px;
+  margin: 0 0 20px -15px;
+  height: 80px;
   font-size: 35px;
 }
-.print_container .print_data {
-  margin: 50px 0;
-}
 .print_container .print_items {
-  min-height: 570px;
+  min-height: 530px;
 }
 .print_container header .company_row2 {
   color: #999;
 }
 .cntPadd {
-  padding: 50px 50px 50px 125px;
+  padding: 80px 50px 50px 125px;
 }
 .print_data table {
   float: left;

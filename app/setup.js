@@ -1,6 +1,8 @@
 GLOBAL._config = require('./common/config.js')._config;
 
 var i18n = require('i18n');
+
+console.dir(_config.defaultLocale);
 i18n.configure({
     // setup some locales - other locales default to en silently
     locales:		_config.locales,
