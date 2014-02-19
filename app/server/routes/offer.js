@@ -117,6 +117,7 @@ exports.print = function print(req, res) {
   } else {
     if (req.query.id) {
       DB.offers.findOne({_id:new ObjectID(req.query.id)}, function(e, result) {
+        result = helpers.formatMoney(result);
         res.render('print_offer', { layout: 'print.jade' ,  locals: {  title: __("Offer"), result : result, udata : req.session.user } });
       });
     } else {

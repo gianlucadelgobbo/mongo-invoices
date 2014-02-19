@@ -40,8 +40,11 @@ div.well
 								li
 									a(href="/offers/?id="+x._id+"&del="+1)=__("Delete")
 					td=x.offer_number
-					- dd = new Date(x.offer_date)
-					td=dd.getDate()+"/"+(dd.getMonth()+1)+"/"+dd.getFullYear()
+					- if (x.offer_date)
+						- dd = new Date(x.offer_date)
+						td=dd.getDate()+"/"+(dd.getMonth()+1)+"/"+dd.getFullYear()
+					- else 
+						td
 					td
 						a(href="/client/?id="+x.to_client._id)=x.to_client.name
 					td=x.payment

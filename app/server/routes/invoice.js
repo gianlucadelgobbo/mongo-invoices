@@ -126,6 +126,7 @@ exports.print = function print(req, res) {
   } else {
     if (req.query.id) {
       DB.invoices.findOne({_id:new ObjectID(req.query.id)},function(e, result) {
+        result = helpers.formatMoney(result);
         res.render('print_invoice', { layout: 'print.jade' ,  locals: {  title: __("Invoice"), result : result, udata : req.session.user } });
       });
     } else {

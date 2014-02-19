@@ -3,16 +3,12 @@
 _ignore/
 err.log
 out.log
-<<<<<<< HEAD
+locales/
 app/common/config.js
 app.js
-=======
 node_modules
-**/style.css
+print_templates.css
+logo.png
 style.css
 journal
-login-testing.0
-login-testing.1
-login-testing.ns
 mongod.lock
->>>>>>> e9f604b1b9ba000bd04a3e435ee5ef2017d18d91
