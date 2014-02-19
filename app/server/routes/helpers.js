@@ -1,4 +1,4 @@
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcrypt-nodejs');
 var ObjectID = require('mongodb').ObjectID;
 var accounting = require('accounting');
 accounting.settings = _config.accountingSettings;
