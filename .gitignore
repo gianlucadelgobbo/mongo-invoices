@@ -7,14 +7,8 @@ locales/
 app/common/config.js
 app.js
 node_modules
-<<<<<<< HEAD
 print_templates.css
 logo.png
-=======
-**/print_templates.css
-**/logo.png
-**/style.css
->>>>>>> 76c7f54683f84df84f7b9728c952da133448c7f9
 style.css
 journal
 mongod.lock
