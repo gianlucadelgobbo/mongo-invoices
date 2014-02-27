@@ -99,5 +99,6 @@
 	"Offer saved with success": "Offerta salvato con successo",
 	"MAKE INVOICE": "Fare la fattura",
 	"SAVE IT ANYWAY": "SAVE IT ANYWAY",
-	"Invalid password": "Invalid password"
+	"Invalid password": "Invalid password",
+	"Invoice deleted successfully": "Invoice deleted successfully"
 }
