@@ -17,7 +17,7 @@ exports.get = function get(req, res) {
       });
     }
     var query = req.query.client ? {"to_client._id":req.query.client} : {};
-    DB.invoices.find(query).sort({invoice_number:1}).toArray(function(e, result) {
+    DB.invoices.find(query).sort({invoice_date:-1,invoice_number:-1}).toArray(function(e, result) {
       res.render('invoices', {  locals: { title: __("Invoices"), result : result, msg:msg, udata : req.session.user } });
     });
   }

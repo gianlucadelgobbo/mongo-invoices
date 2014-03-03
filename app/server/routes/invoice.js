@@ -13,7 +13,11 @@ exports.get = function get(req, res) {
         res.render('invoice', {  locals: { title: __("Invoice"), result : result, udata : req.session.user } });
       });
     } else {
-      DB.invoices.find({},{invoice_date:1,invoice_number:1}).sort({invoice_number:1}).toArray(function(e, resultInvoice) {
+    	var dd = new Date();
+    	var start = new Date(dd.getFullYear()+"-01-01");
+    	var end = new Date(dd.getFullYear()+"-12-31");
+    	
+      DB.invoices.find({invoice_date:{$gte: start, $lt: end}},{invoice_date:1,invoice_number:1}).sort({invoice_number:1}).toArray(function(e, resultInvoice) {
         if (req.query.offer) {
           DB.offers.findOne({_id:new ObjectID(req.query.offer)},function(e, result) {
             result = helpers.formatMoney(result);
