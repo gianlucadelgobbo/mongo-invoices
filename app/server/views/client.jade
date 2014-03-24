@@ -5,7 +5,7 @@
 -if (result._id)
 	h1
 		!=__("Client")+": "
-		span#name_new=result.name
+	span=name_new=result.name
 - else
 	h1=__("New client")
 
@@ -32,34 +32,34 @@ form(method="post", action="/client")#client-form.form-horizontal.well
 	div.control-group
 		label(for='cliente_new').control-label=__("Client")
 		div.controls
-			input(type="text", name="name", value=result.name).span5#cliente_new
+			input(type="text", name="name", value=result.name)span=#cliente_new
 	div.control-group
 		label(for='street').control-label=__("Address")
 		div.controls
-			input(type="text", name="address[street]", value=result.address.street)#street.span5
+			input(type="text", name="address[street]", value=result.address.street)#streetspan=
 	div.control-group
 		label(for='zipcode').control-label=__("ZIP code")
 		div.controls
-			input(type="text", name="address[zipcode]", value=result.address.zipcode)#zipcode.span3
+			input(type="text", name="address[zipcode]", value=result.address.zipcode)#zipcodespan=
 	div.control-group
 		label(for='city').control-label=__("City")
 		div.controls
-			input(type="text", name="address[city]", value=result.address.city)#city.span3
+			input(type="text", name="address[city]", value=result.address.city)#cityspan=
 	div.control-group
 		label(for='country').control-label=__("Country")
 		div.controls
-			select(name="address[country]",onchange="$('#fiscal_code').parent().parent().toggle($(this).val()=='Italy')")#country.span3
+			select(name="address[country]",onchange="$('#fiscal_code').parent().parent().toggle($(this).val()=='Italy')")#countryspan=
 				option(value="")= __("Please select a country")
 				each item in countries
 					option(selected=item.name == result.address.country, value=item.name)=item.name
 	div.control-group
 		label(for='vat_number').control-label=__("VAT number")
 		div.controls
-			input(type="text", name="vat_number", value=result.vat_number)#vat_number.span3
+			input(type="text", name="vat_number", value=result.vat_number)#vat_numberspan=
 	div.control-group(style=(result.address.country=="Italy" ? "" : "display:none;"))
 		label(for='fiscal_code').control-label=__("Fiscal code")
 		div.controls
-			input(type="text", name="fiscal_code", value=result.fiscal_code)#fiscal_code.span3
+			input(type="text", name="fiscal_code", value=result.fiscal_code)#fiscal_codespan=
 	.form-actions
 		- if (result._id)
 			button(type='submit')#account-form-btn2.btn.btn-success=__("Update")

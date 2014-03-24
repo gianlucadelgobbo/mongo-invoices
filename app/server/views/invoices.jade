@@ -7,6 +7,7 @@ div.well
 			ul
 				- for(a=0;a<msg.e.length;a++)
 					li=msg.e[a].m
+
 	- if (typeof msg !== "undefined" && typeof msg.c !== "undefined" && msg.c.length)
 		.alert.alert-success
 			h4=__("There are some messages")

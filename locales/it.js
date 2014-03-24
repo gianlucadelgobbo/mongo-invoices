@@ -100,5 +100,6 @@
 	"MAKE INVOICE": "Fare la fattura",
 	"SAVE IT ANYWAY": "SAVE IT ANYWAY",
 	"Invalid password": "Invalid password",
-	"Invoice deleted successfully": "Invoice deleted successfully"
+	"Invoice deleted successfully": "Invoice deleted successfully",
+	"Forgot Your Password?": "Forgot Your Password?"
 }

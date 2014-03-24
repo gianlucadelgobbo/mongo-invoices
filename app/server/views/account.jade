@@ -5,7 +5,7 @@
 -if (result._id)
 	h1
 		!=__("Account")+": "
-		span#name_new=result.name
+	span=name_new=result.name
 - else
 	h1=__("New account")
 - if (result._id && !_config.roles[user.role].admin && user._id!=result._id)

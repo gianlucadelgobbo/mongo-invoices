@@ -30,16 +30,16 @@ html
 							li
 								a(href="/").brand Control Panel
 						a(href="/logout")#btn-logout.btn.btn-primary.pull-right
-							i.icon-lock.icon-white
+							i.glyphicon.glyphicon-lock.icon-white
 							| Sign Out
 .container
 	div.row.noprint
-		h1.span6=__("Print")
-		.span6
+		h1span==__("Print")
+		span=
 			.pull-right
 				br
 				input(type="button", value=__("PRINT"), onclick="window.print()").btn.btn-primary
-		.span12
+		span=2
 			hr.clearfix
 .print_container
 	.cntPadd!= body

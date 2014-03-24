@@ -1,7 +1,6 @@
 
-div.span6.offset2#login-container
+divspan=.col-md-offset-2#login-container
 	form(method="post")#login-form.well
-		input(type="hidden", name="from", value=from).span3.required
 		h1 Mongo invoices
 		p.subheading=__("Please Login To Your Account")
 		- if (typeof errors !== "undefined" && errors.length)
@@ -10,18 +9,20 @@ div.span6.offset2#login-container
 				ul
 					- for(a=0;a<errors.length;a++)
 						li=errors[a].m
-		label Username 
-		input(type="text", name="user", value=result.user).span3.required
-		label Password
-		input(type="password", name="pass").span3.required
+		.form-group
+			label Username 
+			input(type="text", name="user", value=result.user).form-control.required
+		.form-group
+			label Password
+			input(type="password", name="pass").form-control.required
 		br.clearfix
 		label.checkbox(for="remember-me")=__("Remember Me")
 			input(type="checkbox", name="remember-me", id="remember-me", value="true", checked='checked')
 		button(type="submit").btn.btn-primary
-			i.icon-lock.icon-white
+			i.glyphicon.glyphicon-lock.icon-white
 			=__("Sign in")
 		hr.clearfix
-		a(href='#',onclick="$('#get-credentials').modal('show');return false;")#forgot-password=__("Forgot Your Password")+"?"
+		a(href='#',onclick="$('#get-credentials').modal('show');return false;")#forgot-password=__("Forgot Your Password?")
 		hr.clearfix
 	
 include modals/lost-password
