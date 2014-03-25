@@ -4,7 +4,7 @@ header
 		- if(_config.company.logo)
 			img(src=_config.company.logo, alt=_config.company.name)
 		- else
-		span=_config.company.name
+			span=_config.company.name
 	.company_row1!=_config.company.row1
 	.company_row2!=_config.company.row2
 section.print_data.clearfix
@@ -16,17 +16,17 @@ section.print_data.clearfix
 			- d = result.invoice_date;
 			td=d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear()
 		tr
-			td(cospan="2").nowrap.muted=__("Client")
-			td(cospan="2")
+			td(colspan="2").nowrap.muted=__("Client")
+			td(colspan="2")
 				b=(result.to_client.name+" ")
 				br
-			span=result.to_client.address.street+" "+result.to_client.address.city+" "+result.to_client.address.country
+				span=result.to_client.address.street+" "+result.to_client.address.city+" "+result.to_client.address.country
 		tr
-			td(cospan="2").nowrap.muted=__("VAT number")
-			td(cospan="2")=result.to_client.vat_number
+			td(colspan="2").nowrap.muted=__("VAT number")
+			td(colspan="2")=result.to_client.vat_number
 		tr
-			td(cospan="2").nowrap.muted=__("Fiscal code")
-			td(cospan="2")=result.to_client.fiscal_code
+			td(colspan="2").nowrap.muted=__("Fiscal code")
+			td(colspan="2")=result.to_client.fiscal_code
 	table.print_data_col2
 		tr
 			td.nowrap.muted=__("Payment")
@@ -66,36 +66,33 @@ section.print_items
 					- else
 						td.description(id="description_"+a)
 					td.price
-						.price=_config.currency[0]+" "+result.items[a].price
+						div=_config.currency[0]+" "+result.items[a].price
 					td.price
-						.price=_config.currency[0]+" "+result.items[a].amount
+						div=_config.currency[0]+" "+result.items[a].amount
 		tfoot
-			tr.spacer
-				td(cospan="3")
-				td
 			tr
-				td(cospan="3")
+				td(colspan="3")
 					.pull-right.muted=__("Subtotal")
-				td
-					.price=_config.currency[0]+" "+result.subtotal
+				td.price
+						div=_config.currency[0]+" "+result.subtotal
 			tr
-				td(cospan="3")
+				td(colspan="3")
 					.pull-right.muted=__("VAT")+" "+result.vat_perc+" %"
-				td
-					.price=_config.currency[0]+" "+result.vat_amount
+				td.price
+						div=_config.currency[0]+" "+result.vat_amount
 			tr
-				td(cospan="3")
+				td(colspan="3")
 					.pull-right.muted=__("Shipping costs")
-				td
-					.price=_config.currency[0]+" "+result.shipping_costs
+				td.price
+						div=_config.currency[0]+" "+result.shipping_costs
 			tr
-				td(cospan="3")
+				td(colspan="3")
 					.pull-right.muted=__("TOTAL")
-				td
-					.price=_config.currency[0]+" "+result.total
+				td.price
+						div=_config.currency[0]+" "+result.total
 footer
 	b=__("Bank")
 	br
 	- for (a=0;a<_config.banks.length;a++)
 		- if (_config.banks[a][0]==result.bank)
-		span==_config.banks[a][1]
+			span=_config.banks[a][1]

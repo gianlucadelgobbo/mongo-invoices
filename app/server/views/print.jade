@@ -2,13 +2,48 @@
 html
 	head
 		title= title
-		link(rel="stylesheet", href="/lib/bootstrap.min.css")
-		link(rel="stylesheet", href="/css/style.css")
-		link(rel="stylesheet", href="/css/print_templates.css")
-		meta(name="viewport", content="width=device-width, initial-scale=1.0")
+		meta(name="viewport", content="width=device-width, initial-scale=1")
 		
-		script(src="/js/jquery.min.js")
-		script(src="/js/bootstrap.min.js")
+		link(href="/lib/smoothness/jquery-ui-1.9.0.custom.css",rel="stylesheet",type="text/css")
+		link(href="/lib/bootstrap-3.1.1-dist/css/bootstrap.min.css", rel="stylesheet")
+		link(href="/css/style.css", rel="stylesheet")
+		| <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		| <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		| <!--[if lt IE 9]>
+		| <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+		| <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		| <![endif]-->
+	body.print_body
+		- if (locals.udata)
+			.navbar.navbar-inverse.navbar-fixed-top(role="navigation")
+				.container-fluid
+					.navbar-header
+						button.navbar-toggle(type="button", data-toggle="collapse", data-target="#bs-example-navbar-collapse-1")
+							span.sr-only!="Toggle navigation"
+							span.icon-bar
+							span.icon-bar
+							span.icon-bar
+						a.navbar-brand(href="#")!="Control Panel"
+					.collapse.navbar-collapse#bs-example-navbar-collapse-1
+						.navbar-form.navbar-right
+							a(href="/logout")#btn-logout.btn.btn-primary
+								i.glyphicon.glyphicon-lock.icon-white
+								|  Sign Out
+		.container.cnt.noprint
+			div.row
+				.col-sm-7
+					h1=__("Print")
+				.col-sm-5
+					.pull-right
+						br
+						input(type="button", value=__("PRINT"), onclick="window.print()").btn.btn-primary
+			hr.clearfix
+		.print_container
+			.cntPadd!= body
+		div.noprint!="&nbsp";
+		div.noprint!="&nbsp";
+		script(src="/lib/jquery.min.js")
+		script(src="/lib/bootstrap-3.1.1-dist/js/bootstrap.min.js")
 
 		script(src="/js/scripts.js")
 
@@ -21,27 +56,3 @@ html
 				ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";
 				var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ga, s);
 			})();
-	body
-		- if (locals.udata)
-			div.navbar.navbar-inverse.navbar-fixed-top
-				div.navbar-inner
-					div.container
-						ul#global-nav.nav.pull-left
-							li
-								a(href="/").brand Control Panel
-						a(href="/logout")#btn-logout.btn.btn-primary.pull-right
-							i.glyphicon.glyphicon-lock.icon-white
-							| Sign Out
-.container
-	div.row.noprint
-		h1span==__("Print")
-		span=
-			.pull-right
-				br
-				input(type="button", value=__("PRINT"), onclick="window.print()").btn.btn-primary
-		span=2
-			hr.clearfix
-.print_container
-	.cntPadd!= body
-div.noprint!="&nbsp";
-div.noprint!="&nbsp";

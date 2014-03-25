@@ -1,7 +1,7 @@
 
-divspan=.col-md-offset-2#login-container
+div.col-sm-8.col-sm-offset-2#login-container
 	form(method="post")#login-form.well
-		h1 Mongo invoices
+		h1="Mongo invoices"
 		p.subheading=__("Please Login To Your Account")
 		- if (typeof errors !== "undefined" && errors.length)
 			.alert.alert-error
@@ -20,7 +20,7 @@ divspan=.col-md-offset-2#login-container
 			input(type="checkbox", name="remember-me", id="remember-me", value="true", checked='checked')
 		button(type="submit").btn.btn-primary
 			i.glyphicon.glyphicon-lock.icon-white
-			=__("Sign in")
+			=" "+__("Sign in")
 		hr.clearfix
 		a(href='#',onclick="$('#get-credentials').modal('show');return false;")#forgot-password=__("Forgot Your Password?")
 		hr.clearfix

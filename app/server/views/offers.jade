@@ -1,6 +1,18 @@
-
-h1=__("Offers")
-div.well
+.row
+	.col-sm-6
+		h1.page-title=__("Offers")
+	.col-sm-6
+		.pull-right
+			b=__("Change year")+"&nbsp;"
+			.btn-group
+				a.btn.btn-primary(href="/offers/?year="+year)=year
+				button.btn.btn-primary.dropdown-toggle(data-toggle="dropdown")
+					span.caret
+				ul.dropdown-menu
+					each year in years
+						li
+							a(href="/offers/?year="+year)=year
+div
 	- if (typeof msg !== "undefined" && typeof msg.e !== "undefined" && msg.e.length)
 		.alert.alert-error
 			h4=__("There are some errors")
@@ -16,7 +28,7 @@ div.well
 	table.table
 		thead
 			tr
-				th=__("Actions")
+				th.tabActions=__("Actions")
 				th=__("Offer number")
 				th=__("Offer date")
 				th=__("Client")
@@ -35,7 +47,7 @@ div.well
 						div.btn-group
 							a.btn.btn-info(href="/offer/?id="+x._id)=__("Edit")
 							button.btn.btn-info.dropdown-toggle(data-toggle="dropdown")
-							span=caret
+								span.caret
 							ul.dropdown-menu
 								li
 									a(href="/offers/?id="+x._id+"&del="+1)=__("Delete")

@@ -1,4 +1,3 @@
-var rowNumber = 1;
 var queryResult;
 $(function() {
 	$(".disabled").attr('disabled', 'disabled');

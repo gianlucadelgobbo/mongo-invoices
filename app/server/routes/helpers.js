@@ -71,8 +71,15 @@ exports.formatMoney = function formatMoney(result) {
 			result.items[item].amount=accounting.formatMoney(result.items[item].amount);
 		}
 	}
+	for (item in result) {
+		result[item].subtotal=accounting.formatMoney(result[item].subtotal);
+		result[item].vat_amount=accounting.formatMoney(result[item].vat_amount);
+		result[item].shipping_costs=accounting.formatMoney(result[item].shipping_costs);
+		result[item].total=accounting.formatMoney(result[item].total);
+	}
 	return result;
 };
+
 
 exports.validateFormClient = function validateFormClient(o,callback) {
 	var e = [];

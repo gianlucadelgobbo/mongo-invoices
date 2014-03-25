@@ -3,18 +3,18 @@
 - user = typeof(udata) != 'undefined' ? udata : {}
 
 -if (result._id)
-	h1
+	h1.page-title
 		!=__("Client")+": "
-	span=name_new=result.name
+		span.name_new=result.name
 - else
-	h1=__("New client")
+	h1.page-title=__("New client")
 
 
 
 
 
 
-form(method="post", action="/client")#client-form.form-horizontal.well
+form(method="post", action="/client")#client-form
 	// store the userId on the client side in a hidden input field //
 	input#id(type='hidden', name='id', value=result._id)
 	- if (typeof msg !== "undefined" && typeof msg.e !== "undefined" && msg.e.length)
@@ -29,45 +29,40 @@ form(method="post", action="/client")#client-form.form-horizontal.well
 			ul
 				- for(a=0;a<msg.c.length;a++)
 					li=msg.c[a].m
-	div.control-group
+	div.form-group
 		label(for='cliente_new').control-label=__("Client")
-		div.controls
-			input(type="text", name="name", value=result.name)span=#cliente_new
-	div.control-group
+		input(type="text", name="name", value=result.name).form-control#cliente_new
+	div.form-group
 		label(for='street').control-label=__("Address")
-		div.controls
-			input(type="text", name="address[street]", value=result.address.street)#streetspan=
-	div.control-group
+		input(type="text", name="address[street]", value=result.address.street)#street.form-control
+	div.form-group
 		label(for='zipcode').control-label=__("ZIP code")
-		div.controls
-			input(type="text", name="address[zipcode]", value=result.address.zipcode)#zipcodespan=
-	div.control-group
+		input(type="text", name="address[zipcode]", value=result.address.zipcode)#zipcode.form-control
+	div.form-group
 		label(for='city').control-label=__("City")
-		div.controls
-			input(type="text", name="address[city]", value=result.address.city)#cityspan=
-	div.control-group
+		input(type="text", name="address[city]", value=result.address.city)#city.form-control
+	div.form-group
 		label(for='country').control-label=__("Country")
-		div.controls
-			select(name="address[country]",onchange="$('#fiscal_code').parent().parent().toggle($(this).val()=='Italy')")#countryspan=
+		select(name="address[country]",onchange="$('#fiscal_code').parent().parent().toggle($(this).val()=='Italy')")#country.form-control
 				option(value="")= __("Please select a country")
 				each item in countries
 					option(selected=item.name == result.address.country, value=item.name)=item.name
-	div.control-group
+	div.form-group
 		label(for='vat_number').control-label=__("VAT number")
-		div.controls
-			input(type="text", name="vat_number", value=result.vat_number)#vat_numberspan=
-	div.control-group(style=(result.address.country=="Italy" ? "" : "display:none;"))
+		input(type="text", name="vat_number", value=result.vat_number)#vat_number.form-control
+	div.form-group(style=(result.address.country=="Italy" ? "" : "display:none;"))
 		label(for='fiscal_code').control-label=__("Fiscal code")
-		div.controls
-			input(type="text", name="fiscal_code", value=result.fiscal_code)#fiscal_codespan=
-	.form-actions
+		input(type="text", name="fiscal_code", value=result.fiscal_code)#fiscal_code.form-control
+	div.form-group
 		- if (result._id)
 			button(type='submit')#account-form-btn2.btn.btn-success=__("Update")
 			- if (_config.roles[user.role].admin && user._id!=result._id)
+				!=" "
 				a(href="/clients/?id="+result._id+"&del="+1)#account-form-btn1.btn.btn-danger=__("Delete")
 		- else
 			button(type='submit')#account-form-btn1.btn.btn-success=__("Save")
+			!=" "
 			button(type='button')#account-form-btn2.btn=__("Cancel")
 br.myClear
 		
-script(src='/js/client.js')
+- js = '/js/client.js'

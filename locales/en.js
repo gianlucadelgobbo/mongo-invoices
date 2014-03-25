@@ -158,5 +158,7 @@
 	"Likes": "Likes",
 	"Starts": "Starts",
 	"Ends": "Ends",
-	"Downloads": "Downloads"
+	"Downloads": "Downloads",
+	"Forgot Your Password?": "Forgot Your Password?",
+	"Change year": "Change year"
 }

@@ -1,6 +1,6 @@
 
-h1=__("Clients")
-div.well
+h1.page-title=__("Clients")
+div
 	- if (typeof msg !== "undefined" && typeof msg.e !== "undefined" && msg.e.length)
 		.alert.alert-error
 			h4=__("There are some errors")
@@ -16,7 +16,7 @@ div.well
 	table.table
 		thead
 			tr
-				th=__("Actions")
+				th.tabActions=__("Actions")
 				th=__("Client")
 				th=__("VAT number")
 				th=__("Fiscal code")
@@ -30,7 +30,7 @@ div.well
 						div.btn-group
 							a.btn.btn-info(href="/invoices/?client="+x._id)=__("Invoices")
 							button.btn.btn-info.dropdown-toggle(data-toggle="dropdown")
-							span=caret
+								span.caret
 							ul.dropdown-menu
 								li
 									a(href="/client/?id="+x._id)=__("Edit")

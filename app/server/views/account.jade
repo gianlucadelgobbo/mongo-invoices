@@ -3,18 +3,18 @@
 - user = typeof(udata) != 'undefined' ? udata : {}
 
 -if (result._id)
-	h1
+	h1.page-title
 		!=__("Account")+": "
-	span=name_new=result.name
+		span.name_new=result.name
 - else
-	h1=__("New account")
+	h1.page-title=__("New account")
 - if (result._id && !_config.roles[user.role].admin && user._id!=result._id)
 	.alert.alert-error
 		h4=__("There are some errors")
 		ul
 			li=__("Your account can not create or edit accounts")
 - else
-	form( method="post")#account-form.form-horizontal.well
+	form( method="post")#account-form.form-horizontal
 		// store the userId on the client side in a hidden input field //
 		input#id(type='hidden', name='id', value=result._id)
 		- if (typeof msg !== "undefined" && typeof msg.e !== "undefined" && msg.e.length)
@@ -31,57 +31,56 @@
 						li=msg.c[a].m
 		p#sub2.subheading=__("Personal information")
 		hr
-		fieldset
-			#name-cg.control-group
-				label.control-label(for='name-tf')=__("Name")
-				.controls
-					input#name-tf.input-xlarge(type='text', name='name', value=result.name)
-			#email-cg.control-group
-				label.control-label(for='email-tf')=__("Email")
-				.controls
-					input#email-tf.input-xlarge(type='text', name='email', value=result.email)
-			#country-cg.control-group
-				label.control-label(for='country-list')=__("Country")
-				.controls
-					select#country-list(name='country')
-						option(value="")= __("Please select a country")
-						each item in countries
-							option(selected=item.name == result.country, value=item.name)=item.name
-			- if (result._id && user._id==result._id)
-				#roles-cg.control-group
-					label.control-label(for='role')=__("Role")
-					.controls(style="padding-top:5px")
-						b=_config.roles[result.role].display_name
-					input#role(type='hidden', name='role', value=result.role)
-			- else if (user._id)
-				#roles-cg.control-group
-					label.control-label(for='role')=__("Role")
-					.controls
-						select#role(name='role')
-							option= __("Please select a role")
-							- for (item in _config.roles)
-								option(selected=item == result.role,value=item)= _config.roles[item].display_name
+		#name-cg.form-group
+			label.control-label.col-sm-2(for='name-tf')=__("Name")
+			.col-sm-10
+				input#name-tf.form-control(type='text', name='name', value=result.name)
+		#email-cg.form-group
+			label.control-label.col-sm-2(for='email-tf')=__("Email")
+			.col-sm-10
+				input#email-tf.form-control(type='text', name='email', value=result.email)
+		#country-cg.form-group
+			label.control-label.col-sm-2(for='country-list')=__("Country")
+			.col-sm-10
+				select#country-list.form-control(name='country')
+					option(value="")= __("Please select a country")
+					each item in countries
+						option(selected=item.name == result.country, value=item.name)=item.name
+		- if (result._id && user._id==result._id)
+			#roles-cg.form-group
+				label.control-label.col-sm-2(for='role')=__("Role")
+				.col-sm-10(style="padding-top:5px")
+					b=_config.roles[result.role].display_name
+				input#role(type='hidden', name='role', value=result.role)
+		- else if (user._id)
+			#roles-cg.form-group
+				label.control-label.col-sm-2(for='role')=__("Role")
+				.col-sm-10
+					select#role.form-control(name='role')
+						option= __("Please select a role")
+						- for (item in _config.roles)
+							option(selected=item == result.role,value=item)= _config.roles[item].display_name
+		- else
+			#roles-cg.form-group
+			.col-sm-10
+				input#role(type='hidden', name='role', value="admin")
+		p#sub2.subheading=__("Access Credentials")
+		hr
+		#result-cg.form-group
+			label.control-label.col-sm-2(for='user-tf')=__("Username")
+			.col-sm-10
+				input#user-tf.form-control(type='text', name='user', value=result.user,disabled=(result._id))
+		#pass-cg.form-group
+			label.control-label.col-sm-2(for='pass-tf')=__("Password")
+			.col-sm-10
+				input#pass-tf.form-control(type='password', name='pass', value='')
+		.form-actions
+			- if (result._id)
+				button(type='submit')#account-form-btn2.btn.btn-success=__("Update")
+				- if (_config.roles[user.role].admin && user._id!=result._id)
+					button(type='button')#account-form-btn1.btn.btn-danger=__("Delete")
 			- else
-				#roles-cg.control-group
-				.controls
-					input#role(type='hidden', name='role', value="admin")
-			p#sub2.subheading=__("Access Credentials")
-			hr
-			#result-cg.control-group
-				label.control-label(for='user-tf')=__("Username")
-				.controls
-					input#user-tf.input-xlarge(type='text', name='user', value=result.user,disabled=(result._id))
-			#pass-cg.control-group
-				label.control-label(for='pass-tf')=__("Password")
-				.controls
-					input#pass-tf.input-xlarge(type='password', name='pass', value='')
-			.form-actions
-				- if (result._id)
-					button(type='submit')#account-form-btn2.btn.btn-success=__("Update")
-					- if (_config.roles[user.role].admin && user._id!=result._id)
-						button(type='button')#account-form-btn1.btn.btn-danger=__("Delete")
-				- else
-					button(type='submit')#account-form-btn1.btn.btn-success=__("Save")
-					button(type='button')#account-form-btn2.btn=__("Cancel")
+				button(type='submit')#account-form-btn1.btn.btn-success=__("Save")
+				button(type='button')#account-form-btn2.btn=__("Cancel")
 
 script(src='/js/account.js')

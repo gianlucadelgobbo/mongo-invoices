@@ -4,50 +4,49 @@ header
 		- if(_config.company.logo)
 			img(src=_config.company.logo, alt=_config.company.name)
 		- else
-		span=_config.company.name
+			span=_config.company.name
 	.company_row1!=_config.company.row1
 	.company_row2!=_config.company.row2
 section.print_data.clearfix
-	.clearfix
-		table.print_data_col1
+	table.print_data_col1
+		tr
+			td.nowrap=__("Offer number")
+			td.nowrap=result.offer_number
+			td.nowrap=__("Offer date")
+			- d = result.offer_date;
+			td=d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear()
+		tr
+			td(colspan="2").nowrap=__("Client")
+			td(colspan="2")
+				b=(result.to_client.name+" ")
+				br
+				span=result.to_client.address.street+" "+result.to_client.address.city+" "+result.to_client.address.country
+		tr
+			td(colspan="2").nowrap=__("VAT number")
+			td(colspan="2")=result.to_client.vat_number
+		tr
+			td(colspan="2").nowrap=__("Fiscal code")
+			td(colspan="2")=result.to_client.fiscal_code
+	table.print_data_col2
+		tr
+			td.nowrap=__("Payment")
+			td=result.payment
+		- if (typeof result.destination!=="undefined")
+			tr
+				td.nowrap=__("Shipped to")
+				td=result.destination
+		- if (typeof result.invoice!=="undefined")
 			tr
 				td.nowrap=__("Offer number")
-				td.nowrap=result.offer_number
+				td=result.invoice.invoice_number
+			tr
 				td.nowrap=__("Offer date")
-				- d = result.offer_date;
+				td=result.invoice.invoice_date
+		- if (typeof result.delivery_date!=="undefined")
+			tr
+				td.nowrap=__("Delivery date")
+				- d = result.delivery_date;
 				td=d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear()
-			tr
-				td(cospan="2").nowrap=__("Client")
-				td(cospan="2")
-					b=(result.to_client.name+" ")
-					br
-				span=result.to_client.address.street+" "+result.to_client.address.city+" "+result.to_client.address.country
-			tr
-				td(cospan="2").nowrap=__("VAT number")
-				td(cospan="2")=result.to_client.vat_number
-			tr
-				td(cospan="2").nowrap=__("Fiscal code")
-				td(cospan="2")=result.to_client.fiscal_code
-		table.print_data_col2
-			tr
-				td.nowrap=__("Payment")
-				td=result.payment
-			- if (typeof result.destination!=="undefined")
-				tr
-					td.nowrap=__("Shipped to")
-					td=result.destination
-			- if (typeof result.invoice!=="undefined")
-				tr
-					td.nowrap=__("Offer number")
-					td=result.invoice.invoice_number
-				tr
-					td.nowrap=__("Offer date")
-					td=result.invoice.invoice_date
-			- if (typeof result.delivery_date!=="undefined")
-				tr
-					td.nowrap=__("Delivery date")
-					- d = result.delivery_date;
-					td=d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear()
 section.print_items
 	- if (result.description)
 		p!=result.description.replace(/\n/g,'<br />')
@@ -75,22 +74,22 @@ section.print_items
 						.price=_config.currency[0]+" "+result.items[a].amount
 		tfoot
 			tr
-				td(cospan="3")
+				td(colspan="3")
 					.pull-right=__("Subtotal")
 				td
 					.price=_config.currency[0]+" "+result.subtotal
 			tr
-				td(cospan="3")
+				td(colspan="3")
 					.pull-right=__("VAT")+" "+result.vat_perc+" %"
 				td
 					.price=_config.currency[0]+" "+result.vat_amount
 			tr
-				td(cospan="3")
+				td(colspan="3")
 					.pull-right=__("Shipping costs")
 				td
 					.price=_config.currency[0]+" "+result.shipping_costs
 			tr
-				td(cospan="3")
+				td(colspan="3")
 					.pull-right=__("TOTAL")
 				td
 					.price=_config.currency[0]+" "+result.total
@@ -99,4 +98,4 @@ footer
 	br
 	- for (a=0;a<_config.banks.length;a++)
 		- if (_config.banks[a][0]==result.bank)
-		span==_config.banks[a][1]
+			span=_config.banks[a][1]

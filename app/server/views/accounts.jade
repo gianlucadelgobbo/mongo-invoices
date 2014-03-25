@@ -1,6 +1,6 @@
 
-h1=__("Accounts")
-div.well
+h1.page-title=__("Accounts")
+div
 	- if (typeof msg !== "undefined" && typeof msg.e !== "undefined" && msg.e.length)
 		.alert.alert-error
 			h4=__("There are some errors")
@@ -16,7 +16,7 @@ div.well
 	table.table
 		thead
 			tr
-				th=__("Actions")
+				th.tabActions=__("Actions")
 				th=__("Name")
 				th=__("Email")
 				th=__("User")
@@ -29,7 +29,7 @@ div.well
 						div.btn-group
 							a.btn.btn-info(href="/account/?id="+x._id)=__("Edit")
 							button.btn.btn-info.dropdown-toggle(data-toggle="dropdown")
-							span=caret
+								span.caret
 							ul.dropdown-menu
 								li
 									a#dett_cliente(href="/accounts/?id="+x._id+"&del="+1)=__("Delete")
