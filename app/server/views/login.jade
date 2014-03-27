@@ -1,10 +1,11 @@
 
-div.col-sm-8.col-sm-offset-2#login-container
+div.col-sm-4.col-sm-offset-4#login-container
 	form(method="post")#login-form.well
-		h1="Mongo invoices"
+		input(type="hidden", name="from", value=from)
+		h1.page-title="Mongo invoices"
 		p.subheading=__("Please Login To Your Account")
 		- if (typeof errors !== "undefined" && errors.length)
-			.alert.alert-error
+			.alert.alert-danger
 				h4=__("There are some errors")
 				ul
 					- for(a=0;a<errors.length;a++)
@@ -15,16 +16,17 @@ div.col-sm-8.col-sm-offset-2#login-container
 		.form-group
 			label Password
 			input(type="password", name="pass").form-control.required
-		br.clearfix
-		label.checkbox(for="remember-me")=__("Remember Me")
-			input(type="checkbox", name="remember-me", id="remember-me", value="true", checked='checked')
+		.row
+			.col-sm-6
+				label.checkbox(for="remember-me")=__("Remember Me")
+					input(type="checkbox", name="remember-me", id="remember-me", value="true", checked='checked')
+			.col-sm-6
+				.checkbox.pull-right
+					a(href='#',onclick="$('#get-credentials').modal('show');return false;")#forgot-password=__("Forgot Your Password?")
 		button(type="submit").btn.btn-primary
 			i.glyphicon.glyphicon-lock.icon-white
 			=" "+__("Sign in")
-		hr.clearfix
-		a(href='#',onclick="$('#get-credentials').modal('show');return false;")#forgot-password=__("Forgot Your Password?")
-		hr.clearfix
-	
+			
 include modals/lost-password
 
-script(src='/js/login.js')
+- js = '/js/login.js'

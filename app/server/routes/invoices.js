@@ -2,6 +2,15 @@ var DB = require('../modules/db-manager');
 var helpers = require('./helpers');
 
 exports.get = function get(req, res) {
+	console.log("stocazzo");
+	DB.settings.find().toArray(function(e, o){
+		GLOBAL._config = o ? o : require('./common/config.js')._config;
+
+		console.log("stocazzo2");
+		console.log(e);
+		console.log(o);
+		console.log(GLOBAL._config);
+	});	
 	if (req.session.user == null) {
 		res.redirect('/?from='+req.url);
 	} else {
@@ -17,10 +26,10 @@ exports.get = function get(req, res) {
 				}
 			});
 		}
-		var year = req.query.year ? req.query.year : new Date().getFullYear();
+		var year = parseInt(req.query.year ? req.query.year : new Date().getFullYear());
 		var query = req.query.client ? {"to_client._id":req.query.client} : {};
-		var start = new Date(year, 1, 1);
-		var end = new Date(year, 12, 31);
+		var start = new Date(year-1, 11, 31);
+		var end = new Date(year+1, 0, 1);
 		query.invoice_date = {$gte: start, $lt: end}
 		DB.invoices.find().toArray(function(e, result) {
 			var years = [new Date().getFullYear()]
@@ -29,7 +38,7 @@ exports.get = function get(req, res) {
 				if (years.indexOf(y) == -1) years.push(y);
 			}
 			years.sort()
-			console.log(years)
+			console.log(query)
 			DB.invoices.find(query).sort({invoice_date:-1,invoice_number:-1}).toArray(function(e, result) {
 				res.render('invoices', {	locals: { title: __("Invoices"), result : helpers.formatMoney(result), msg:msg, udata : req.session.user,years:years,year:year } });
 			});

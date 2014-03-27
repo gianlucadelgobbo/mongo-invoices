@@ -14,7 +14,7 @@
 							a(href="/offers/?year="+year)=year
 div
 	- if (typeof msg !== "undefined" && typeof msg.e !== "undefined" && msg.e.length)
-		.alert.alert-error
+		.alert.alert-danger
 			h4=__("There are some errors")
 			ul
 				- for(a=0;a<msg.e.length;a++)
@@ -34,14 +34,13 @@ div
 				th=__("Client")
 				th=__("Payment")
 				th=__("Shipped to")
-				th=__("Offer")
 				th=__("Delivery date")
 				th=__("Subtotal")
 				th=__("VAT")
 				th=__("Shipping costs")
 				th=__("TOTAL")
 		tbody
-			each x in result
+			each x, index in result
 				tr
 					td
 						div.btn-group
@@ -52,7 +51,8 @@ div
 								li
 									a(href="/offers/?id="+x._id+"&del="+1)=__("Delete")
 									a(href="/print/offer/?id="+x._id)=__("Print")
-					td=x.offer_number
+					td
+						span(class="label label-"+(x.offer_number==result.length-index ? "success" : "danger"))=x.offer_number
 					- if (x.offer_date)
 						- dd = new Date(x.offer_date)
 						td=dd.getDate()+"/"+(dd.getMonth()+1)+"/"+dd.getFullYear()
@@ -62,7 +62,6 @@ div
 						a(href="/client/?id="+x.to_client._id)=x.to_client.name
 					td=x.payment
 					td=x.destination
-					td=x.offer_number
 					- var dd=""
 					- if(x.delivery_date)
 						dd = x.delivery_date.getDate()+"/"+(x.delivery_date.getMonth()+1)+"/"+x.delivery_date.getFullYear()

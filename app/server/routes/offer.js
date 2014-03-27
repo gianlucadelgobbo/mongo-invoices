@@ -13,9 +13,23 @@ exports.get = function get(req, res) {
 				res.render('offer', {	locals: {	title: __("Offer"), result : result, udata : req.session.user } });
 			});
 		} else {
-			DB.offers.find({},{offer_date:1,offer_number:1}).sort({offer_number:1}).toArray(function(e, result) {
-				var resultEmpty = {offer_date:new Date(),offer_number:result.length+1,to_client:{address:{}},offer:{},items:[{}]};
-				res.render('offer', {	locals: {	title: __("Offer"), result : resultEmpty, udata : req.session.user } });
+			var dd = new Date();
+			var start = new Date(dd.getFullYear()+"-01-01");
+			var end = new Date(dd.getFullYear()+"-12-31");
+			
+			DB.offers.find({offer_date:{$gte: start, $lt: end}},{offer_date:1,offer_number:1}).sort({offer_number:1}).toArray(function(e, resultOffer) {
+				if (req.query.dup) {
+					DB.offers.findOne({_id:new ObjectID(req.query.dup)},function(e, result) {
+						result = helpers.formatMoney(result);
+						result.offer_date = new Date();
+						result.offer_number = resultOffer.length+1;
+						delete result._id;
+						res.render('offer', {	locals: {	title: __("Offer"), result : result, udata : req.session.user } });
+					});
+				} else {
+					var resultEmpty = {offer_date:new Date(),offer_number:result.length+1,to_client:{address:{}},offer:{},items:[{}]};
+					res.render('offer', {	locals: {	title: __("Offer"), result : resultEmpty, udata : req.session.user } });
+				}
 			});
 		}
 	}
@@ -56,7 +70,8 @@ exports.post = function post(req, res) {
 										msg.c = [];
 										msg.c.push({name:"",m:__("Offer saved with success")});
 									}
-									res.render('offer', {	locals: {	title: __("Offer"), result : helpers.formatMoney(o[0]), msg:msg, udata : req.session.user } });
+									res.redirect('/offer/?id='+o[0]._id);
+									//res.render('offer', {	locals: {	title: __("Offer"), result : helpers.formatMoney(o[0]), msg:msg, udata : req.session.user } });
 								});
 							}
 						} else {

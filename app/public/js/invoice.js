@@ -97,6 +97,34 @@ function getAutoCompleteList(req, url){
 		}
 	});
 }
+function showOffers() {
+	$('.modal-alert .modal-title').html("Offers");
+	showModal("alert", "Loading...");
+	$.ajax({
+        'async': false,
+		url: "/api/offers",
+		dataType: "json",
+		success: function( data ) {
+			var str = "<div class=\"list-group\">";
+			for(var a=0;a<data.result.length;a++){
+				var d = new Date(data.result[a].offer_date);
+				var date = d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear();
+				str+="<a href=\"#\" onclick=\"setOffer('"+data.result[a]._id+"','"+date+"','"+data.result[a].offer_number+"');\" class=\"list-group-item\"><h4 class=\"list-group-item-heading\"><span class=\"label label-default\">"+data.result[a].offer_number+"</span> "+date+" "+data.result[a].to_client.name+"</h4><p class=\"list-group-item-text\">"+data.result[a].description+"</p></a>"
+			}
+			str+= "</div>";
+			$('.modal-alert .modal-body').html(str);
+		}
+	});
+}
+function setOffer(_id,date,offer_number) {
+	$('#offer_id').val(_id);
+	$('#offer_number').val(offer_number);
+	$('#offer_date').val(date);
+	$('#offer_url').attr('href', '/offer/?id='+_id);
+	$('#offer_url').removeAttr('disabled');
+	$('.modal-alert').modal('hide');
+	return false;
+}
 
 function setBinds(){
 	$(".quantity").unbind("blur");

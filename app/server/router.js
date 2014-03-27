@@ -3,6 +3,7 @@ var logoutRoutes = require('./routes/logout');
 var homeRoutes = require('./routes/home');
 var accountsRoutes = require('./routes/accounts');
 var accountRoutes = require('./routes/account');
+var settingsRoutes = require('./routes/settings');
 var lostPasswordRoutes = require('./routes/lost-password');
 var resetPasswordRoutes = require('./routes/reset-password');
 var clientsRoutes = require('./routes/clients');
@@ -14,7 +15,6 @@ var offersRoutes = require('./routes/offers');
 var apiRoutes = require('./routes/api');
 
 module.exports = function(app) {
-
   // Log In //
   app.get('/', indexRoutes.get);
   app.post('/', indexRoutes.post);
@@ -24,6 +24,10 @@ module.exports = function(app) {
 
   // Logged-in redirect / homepage //
   app.get('/home', homeRoutes.get);
+
+  // Settings //
+  app.get('/settings', settingsRoutes.get);
+  app.post('/settings', settingsRoutes.post);
 
   // Accounts //
   app.get('/accounts', accountsRoutes.get);
@@ -56,7 +60,8 @@ module.exports = function(app) {
   app.get('/api/clients', apiRoutes.getClients);
   app.get('/api/payments', apiRoutes.getPayments);
   app.get('/api/invoices', apiRoutes.getInvoices);
-  app.get('/api/products', apiRoutes.getClients);
+  app.get('/api/products', apiRoutes.getProducts);
+  app.get('/api/offers', apiRoutes.getOffers);
 
   // all other routes 404
   app.get('*', function(req, res) { res.render('404', { title: __("Page Not Found")}); });

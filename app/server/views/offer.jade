@@ -1,6 +1,6 @@
 script
 	var rowNumber = 1
-form(method="post", action="/offer/?id="+result._id")#offer
+form(method="post", action="/offer/?id="+result._id, onsubmit='$("[disabled]").removeAttr("disabled")')#offer
 	.row
 		.col-sm-6
 			h1.page-title=(result.offer_number ? __("Offer")+": "+result.offer_number : __("New offer"))
@@ -9,14 +9,14 @@ form(method="post", action="/offer/?id="+result._id")#offer
 				input(type="submit", value=__("SAVE")).btn.btn-success
 				- if (result._id)
 					input(type="button", value=__("MAKE INVOICE"), onclick="window.location='/invoice/?offer="+result._id+"'").btn.btn-primary
-					input(type="button", value=__("DUPLICATE")).btn.btn-primary
+					input(type="button", value=__("DUPLICATE"), onclick="window.location='/offer/?dup="+result._id+"'").btn.btn-primary
 					input(type="button", value=__("PRINT"), onclick="window.location='/print/offer/?id="+result._id+"'").btn.btn-primary
 					//a.btn.btn-primary(href="/print/offer/?id="+result._id)=__("PRINT")
 					//input(type="button", value=__("DELETE")).btn.btn-danger
 					input(type="hidden", name="id", value=result._id)
 	hr
 	- if (typeof msg !== "undefined" && typeof msg.e !== "undefined" && msg.e.length)
-		.alert.alert-error
+		.alert.alert-danger
 			h4=__("There are some errors")
 			ul
 				- for(a=0;a<msg.e.length;a++)
@@ -35,6 +35,7 @@ form(method="post", action="/offer/?id="+result._id")#offer
 						.input-group
 							label.input-group-addon(for='offer_number')=__("Offer number")
 							input(type="text", name="offer_number", value=result.offer_number, disabled).form-control#offer_number
+							a.input-group-addon.btn(href='#', onclick='$("#offer_number").removeAttr("disabled")')=__("Edit")
 				.col-sm-6
 					.form-group
 						.input-group
@@ -90,11 +91,6 @@ form(method="post", action="/offer/?id="+result._id")#offer
 						.input-group
 							label.input-group-addon(for='payment')=__("Payment")
 							input(type="text", name="payment", value=result.payment).form-control#payment
-							.input-group-btn
-								button.btn.dropdown-toggle(data-toggle="dropdown", type="button")=__("Choose")
-									span.caret
-								ul.dropdown-menu
-									li bella
 			.row
 				.col-sm-12
 					.form-group
@@ -220,7 +216,8 @@ div.row
 			br
 			input(type="submit", value=__("SAVE")).btn.btn-success
 			- if (result._id)
-				input(type="button", value=__("DUPLICATE")).btn.btn-primary
+				input(type="button", value=__("MAKE INVOICE"), onclick="window.location='/invoice/?offer="+result._id+"'").btn.btn-primary
+				input(type="button", value=__("DUPLICATE"), onclick="window.location='/offer/?dup="+result._id+"'").btn.btn-primary
 				input(type="button", value=__("PRINT"), onclick="window.location='/print/invoice/?id="+result._id+"'").btn.btn-primary
 				//a.btn.btn-primary(href="/print/invoice/?id="+result._id)=__("PRINT")
 				//input(type="button", value=__("DELETE")).btn.btn-danger

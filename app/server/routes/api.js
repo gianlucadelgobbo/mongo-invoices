@@ -36,13 +36,20 @@ exports.getInvoices = function getInvoices(req, res) {
   });
 };
 
+exports.getOffers = function getInvoices(req, res) {
+  DB.offers.find({},{offer_number:1,offer_date:1,to_client:1,description:1}).sort({offer_number:-1}).toArray(function(e, result) {
+    console.dir(result);
+    res.send({result:result});
+  });
+};
+
 exports.getProducts = function getProducts(req, res) {
   if (req.session.user == null) {
     res.redirect('/?from='+req.url);
   } else {
-    var query = {"items.description":{$regex: req.query.term, $options: 'i' }};
+    var query = {'items.description':{$regex: req.query.term, $options: 'i' }};
     console.dir(query);
-    DB.invoices.distinct("items.description", query, function(e, result) {
+    DB.invoices.distinct('items.description', query, function(e, result) {
       console.dir(result);
       res.send(result);
     });

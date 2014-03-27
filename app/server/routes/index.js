@@ -7,6 +7,7 @@ exports.get = function get(req, res) {
     if(result){
       // check if the user's credentials are saved in a cookie //
       if (req.cookies.user === undefined || req.cookies.pass === undefined || req.cookies.role === undefined){
+            console.log("stocazzo");
         res.render('login', { locals: { title: __('Hello - Please Login To Your Account'), result : {}, from:req.query.from }});
       } else {
         // attempt automatic login //
@@ -52,6 +53,7 @@ exports.post = function post(req, res) {
           if (req.param('ajax') == 'true') {
             res.send(o, 200);
           } else {
+            console.log(req.body);
             var redirect = req.body.from ? req.body.from : '/home';
             res.redirect(redirect);
           }

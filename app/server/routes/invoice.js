@@ -27,6 +27,14 @@ exports.get = function get(req, res) {
 						delete result._id;
 						res.render('invoice', {	locals: {	title: __("Invoice"), result : result, udata : req.session.user } });
 					});
+				} else if (req.query.dup) {
+					DB.invoices.findOne({_id:new ObjectID(req.query.dup)},function(e, result) {
+						result = helpers.formatMoney(result);
+						result.invoice_date = new Date();
+						result.invoice_number = resultInvoice.length+1;
+						delete result._id;
+						res.render('invoice', {	locals: {	title: __("Invoice"), result : result, udata : req.session.user } });
+					});
 				} else {
 					var resultEmpty = {invoice_date:new Date(),invoice_number:resultInvoice.length+1,vat_perc:_config.vat_perc,to_client:{address:{}},offer:{},items:[{}]};
 					res.render('invoice', {	locals: {	title: __("Invoice"), result : resultEmpty, udata : req.session.user } });
@@ -72,7 +80,8 @@ exports.post = function post(req, res) {
 										msg.c = [];
 										msg.c.push({name:"",m:__("Invoice saved with success")});
 									}
-									res.render('invoice', {	locals: {	title: __("Invoice"), result : helpers.formatMoney(o[0]), msg:msg, udata : req.session.user } });
+									res.redirect('/invoice/?id='+o[0]._id);
+//									res.render('invoice', {	locals: {	title: __("Invoice"), result : helpers.formatMoney(o[0]), msg:msg, udata : req.session.user } });
 								});
 							}
 						} else {

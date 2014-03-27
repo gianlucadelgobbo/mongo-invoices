@@ -9,7 +9,7 @@
 - else
 	h1.page-title=__("New account")
 - if (result._id && !_config.roles[user.role].admin && user._id!=result._id)
-	.alert.alert-error
+	.alert.alert-danger
 		h4=__("There are some errors")
 		ul
 			li=__("Your account can not create or edit accounts")
@@ -18,7 +18,7 @@
 		// store the userId on the client side in a hidden input field //
 		input#id(type='hidden', name='id', value=result._id)
 		- if (typeof msg !== "undefined" && typeof msg.e !== "undefined" && msg.e.length)
-			.alert.alert-error
+			.alert.alert-danger
 				h4=__("There are some errors")
 				ul
 					- for(a=0;a<msg.e.length;a++)
@@ -83,4 +83,4 @@
 				button(type='submit')#account-form-btn1.btn.btn-success=__("Save")
 				button(type='button')#account-form-btn2.btn=__("Cancel")
 
-script(src='/js/account.js')
+- js = '/js/account.js'

@@ -1,6 +1,7 @@
 var _config = {
 	"dbName": 			"admin-flyer",
     "locales":			["it","en"],
+
 	"defaultLocale": 	"it",
 	"company": {
 		"logo":	"/img/logo.png",

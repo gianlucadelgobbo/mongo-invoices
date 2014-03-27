@@ -1,20 +1,9 @@
-GLOBAL._config = require('./common/config.js')._config;
-
-var i18n = require('i18n');
-
-console.dir(_config.defaultLocale);
-i18n.configure({
-    // setup some locales - other locales default to en silently
-    locales:		_config.locales,
-	defaultLocale: 	_config.defaultLocale,
-    // where to register __() and __n() to, might be "global" if you know what you are doing
-    register:		 global
-});
+var DB = require('./server/modules/db-manager');
 
 
 module.exports = function(app, exp) {
 	app.configure(function(){
-		app.use(i18n.init);
+		app.use(DB.i18n.init);
 		app.set('views', app.root + '/app/server/views');
 		app.set('view engine', 'jade');
 		app.set('view options', { doctype : 'html', pretty : true });

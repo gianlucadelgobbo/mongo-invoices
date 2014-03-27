@@ -3,36 +3,79 @@ var bcrypt = require('bcrypt-nodejs');
 var Db = require('mongodb').Db;
 var Server = require('mongodb').Server;
 
-var dbPort = 27017;
-var dbHost = global.host;
-var dbName = _config.dbName;
+var dbPort = global.settings.dbPort;
+var dbHost = global.settings.dbHost;
+var dbName = global.settings.dbName;
 
 // use moment.js for pretty date-stamping //
 var moment = require('moment');
 
-var accounting = require('accounting');
-accounting.settings = _config.accountingSettings;
-
 var ObjectID = require('mongodb').ObjectID;
 
+var accounting = require('accounting');
+
+
 var DB = {};
+	DB.i18n = require('i18n');
 	DB.db = new Db(dbName, new Server(dbHost, dbPort, {auto_reconnect: true,safe:true}, {}));
+
+
+
+module.exports = DB;
+
+DB.init = function(callback) {
+	console.dir("bella");
 	DB.db.open(function(e, d){
 		if (e) {
 			console.log(e);
 		} else {
-			console.log('connected to database :: ' + dbName);
+			console.log('connected to database: ' + dbName);
+			DB.db.collection('settings').findOne({}, function(e, o){
+				
+				if (!o) o = require('../../common/config.js')._config;
+				GLOBAL._config = o;
+				GLOBAL._config.port =		global.settings.port;
+				GLOBAL._config.dbPort =		global.settings.dbPort;
+				GLOBAL._config.dbHost =		global.settings.dbHost;
+				GLOBAL._config.dbName =		global.settings.dbName;
+				accounting.settings = 		GLOBAL._config.accountingSettings;
+				console.dir(GLOBAL._config.defaultLocale);
+				DB.i18n.configure({
+				    // setup some locales - other locales default to en silently
+				    locales:		GLOBAL._config.locales,
+					defaultLocale: 	GLOBAL._config.defaultLocale,
+				    // where to register __() and __n() to, might be "global" if you know what you are doing
+				    register:		 global
+				});
+				callback();
+			});	
 		}
 	});
 	DB.accounts = DB.db.collection('accounts');
 	DB.clients = DB.db.collection('clients');
 	DB.invoices = DB.db.collection('invoices');
 	DB.offers = DB.db.collection('offers');
-
-module.exports = DB;
+	DB.settings = DB.db.collection('settings');
+}
 
 // Accont insertion, update & deletion methods //
 
+DB.insert_settings = function(newData, userData, callback) {
+	delete newData.id;
+	DB.settings.insert(newData, {safe: true}, function(err, records){
+		callback(err, records);
+	});
+}
+DB.update_settings = function(newData, userData, callback) {
+	DB.settings.findOne({_id:new ObjectID(newData.id)}, function(e, o){
+		console.log(o);
+		newData._id = o._id;
+		DB.settings.save(newData);
+		DB.settings.findOne({_id:newData._id}, function(e, o){
+			callback(e, o);
+		});
+	});
+}
 DB.insert_account = function(newData, callback) {
 	delete newData.id;
 	DB.saltAndHash(newData.pass, function(hash){

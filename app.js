@@ -1,19 +1,28 @@
-
 /**forever start -l forever.log -o out.log -e err.log  --debug -a app.js
  * Node.js Mongo invoices
  * Author : Gianluca Del Gobbo, Fabrizio Chivoloni as Flyer communication, FLxER, Free Hardware Foundation and Linux Club
  * More Info : https://github.com/gianlucadelgobbo/mongo-invoices
  */
 
-var exp = require('express');
-var app = exp.createServer();
+global.settings = {
+	port:		8001,
+	dbPort:		27017,
+	dbHost:		'localhost',
+	dbName:		"admin-flyer"
+}
+var DB = require('./app/server/modules/db-manager');
 
-app.root = __dirname;
-global.host = 'localhost';
+DB.init(function(){
+	var exp = require('express');
+	var app = exp.createServer();
+	
+	app.root = __dirname;
+	
+	require('./app/setup')(app, exp);
+	require('./app/server/router')(app);
+	
+	app.listen(global.settings.port, function(){
+		console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
+	});
+});	
 
-require('./app/setup')(app, exp);
-require('./app/server/router')(app);
-
-app.listen(8001, function(){
-	console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
-});
