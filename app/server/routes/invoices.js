@@ -2,15 +2,6 @@ var DB = require('../modules/db-manager');
 var helpers = require('./helpers');
 
 exports.get = function get(req, res) {
-	console.log("stocazzo");
-	DB.settings.find().toArray(function(e, o){
-		GLOBAL._config = o ? o : require('./common/config.js')._config;
-
-		console.log("stocazzo2");
-		console.log(e);
-		console.log(o);
-		console.log(GLOBAL._config);
-	});	
 	if (req.session.user == null) {
 		res.redirect('/?from='+req.url);
 	} else {

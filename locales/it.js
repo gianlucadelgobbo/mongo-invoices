@@ -123,5 +123,8 @@
 	"Number Decimal": "Number Decimal",
 	"Number Thousand": "Number Thousand",
 	"Number Precision": "Number Precision",
-	"Settings saved with success": "Settings saved with success"
+	"Settings saved with success": "Settings saved with success",
+	"Change year": "Change year",
+	"Select offer": "Select offer",
+	"View": "View"
 }
