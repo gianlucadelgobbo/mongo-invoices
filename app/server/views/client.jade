@@ -43,7 +43,7 @@ form(method="post", action="/client")#client-form
 		input(type="text", name="address[city]", value=result.address.city)#city.form-control
 	div.form-group
 		label(for='country').control-label=__("Country")
-		select(name="address[country]",onchange="$('#fiscal_code').parent().parent().toggle($(this).val()=='Italy')")#country.form-control
+		select(name="address[country]",onchange="$('#fiscal_code').parent().toggle($(this).val()=='Italy')")#country.form-control
 				option(value="")= __("Please select a country")
 				each item in countries
 					option(selected=item.name == result.address.country, value=item.name)=item.name
