@@ -126,5 +126,6 @@
 	"Settings saved with success": "Settings saved with success",
 	"Change year": "Change year",
 	"Select offer": "Select offer",
-	"View": "View"
+	"View": "View",
+	"Please enter a valid Client": "Please enter a valid Client"
 }
