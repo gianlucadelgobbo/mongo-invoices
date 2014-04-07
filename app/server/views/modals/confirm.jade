@@ -1,10 +1,12 @@
 
-.modal-confirm.modal.hide.fade
-	div.modal-header
-		button.close(data-dismiss='modal') x
-		h3=__("Success")
-	div.modal-body
-		p
-	div.modal-footer
-		button(data-dismiss="modal").cancel.btn=__("Cancel")
-		button(data-dismiss="modal")#ok.btn.btn-success=__("OK")
+.modal-confirm.modal.fade
+	.modal-dialog
+		.modal-content
+			div.modal-header
+				button.close(data-dismiss='modal') x
+				h3=__("Success")
+			div.modal-body
+				p
+			div.modal-footer
+				button(data-dismiss="modal").cancel.btn=__("Cancel")
+				button(data-dismiss="modal")#ok.btn.btn-success=__("OK")
