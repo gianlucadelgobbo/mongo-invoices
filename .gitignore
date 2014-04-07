@@ -3,7 +3,7 @@
 _ignore/
 err.log
 out.log
-locales/
+locales
 app/common/config.js
 app.js
 node_modules
