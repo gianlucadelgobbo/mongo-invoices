@@ -203,13 +203,10 @@ form(method="post", action="/invoice/?id="+result._id,onsubmit='$("[disabled]").
 		option=__("Select a bank account")
 		- for (a=0;a<_config.banks.length;a++)
 			- var b = _config.banks[a]
-			- if (b[0]==result.bank)
-				option(value=b[0], selected="selected")=b[0]
+			- if (_config.banks[a]==result.bank)
+				option(value=_config.banks[a], selected="selected")=_config.banks[a]
 			- else
-				option(value=b[0])=b[0]
-	- for (a=0;a<_config.banks.length;a++)
-		- if (_config.banks[a][0]==result.bank)
-			#banca=_config.banks[a][1]
+				option(value=_config.banks[a])=_config.banks[a]
 	div.row
 		.col-sm-6
 		.col-sm-6
