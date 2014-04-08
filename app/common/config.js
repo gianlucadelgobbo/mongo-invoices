@@ -1,5 +1,4 @@
 var _config = {
-	"dbName": 			"admin-linux",
     "locales":			["it","en"],
 
 	"defaultLocale": 	"it",
