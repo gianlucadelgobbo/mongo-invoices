@@ -1,9 +1,5 @@
 .DS_Store
-app.js
 err.log
 forever.log
 node_modules
 out.log
-app/public/css/print_templates.css
-app/public/css/style.css
-app/public/img/logo.png
