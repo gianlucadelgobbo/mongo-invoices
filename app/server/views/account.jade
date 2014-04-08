@@ -62,8 +62,10 @@
 							option(selected=item == result.role,value=item)= _config.roles[item].display_name
 		- else
 			#roles-cg.form-group
-			.col-sm-10
-				input#role(type='hidden', name='role', value="admin")
+				label.control-label.col-sm-2(for='role')=__("Role")
+				.col-sm-10
+					input.form-control(disabled,value="Admin")
+					input#role(type='hidden', name='role', value="admin")
 		p#sub2.subheading=__("Access Credentials")
 		hr
 		#result-cg.form-group
@@ -82,5 +84,5 @@
 			- else
 				button(type='submit')#account-form-btn1.btn.btn-success=__("Save")
 				button(type='button')#account-form-btn2.btn=__("Cancel")
-
+	br
 - js = '/js/account.js'

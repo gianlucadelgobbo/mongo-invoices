@@ -128,7 +128,7 @@ DB.validateLink = function(email, passHash, callback) {
 
 DB.saltAndHash = function(pass, callback) {
 	bcrypt.genSalt(10, function(err, salt) {
-		bcrypt.hash(pass, salt, function(err, hash) {
+		bcrypt.hash(pass, salt, function(err, hash) {}, function(err, hash) {
 			callback(hash);
 		});
 	});
