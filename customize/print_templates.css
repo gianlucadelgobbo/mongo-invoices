@@ -2,11 +2,11 @@
   font-family: "DINPro-Medium";
   src: url("DINPro-Medium.otf") format("opentype");
 }
-.table tfoot tr first-child td {
-  border-top: 1px solid #000;
-}
 .print_container {
   font-family: "DINPro-Medium";
+}
+/*
+.print_container {
   font-size: 15px;
   background-color: #fff;
   width: 795px;
@@ -14,7 +14,7 @@
   margin: 0 auto 0 auto;
 }
 .print_container header {
-  font-size: 17px;
+  font-size: 18px;
 }
 .print_container .quantity {
   width: 60px;
@@ -24,20 +24,24 @@
 }
 .print_container .price {
   width: 90px;
+  text-align: right;
 }
 .print_container header .logo {
   margin: 0 0 20px -15px;
   height: 80px;
   font-size: 35px;
 }
+.print_container .print_data {
+  margin: 40px 0 20px 0;
+}
 .print_container .print_items {
-  min-height: 530px;
+  min-height: 570px;
 }
 .print_container header .company_row2 {
   color: #999;
 }
 .cntPadd {
-  padding: 80px 50px 50px 125px;
+  padding: 50px 50px 50px 125px;
 }
 .print_data table {
   float: left;
@@ -53,4 +57,15 @@
 }
 .print_data table td {
   vertical-align: top;
+  padding-bottom: 5px;
 }
+@media print {
+  body {
+    padding: 0;
+  }
+  .navbar,
+  .noprint {
+    display: none;
+  }
+}
+*/
