@@ -3,3 +3,5 @@ err.log
 forever.log
 node_modules
 out.log
+app.js
+customize
