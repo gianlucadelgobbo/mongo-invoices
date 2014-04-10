@@ -34,6 +34,9 @@ th {
 .paddingright {
   padding-right: 10px;
 }
+.paddingleft {
+  padding-left: 10px;
+}
 .print_body {
   background-color: #e9e9e9;
 }

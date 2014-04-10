@@ -37,10 +37,10 @@ div
 				th=__("Shipped to")
 				th=__("Offer")
 				th=__("Delivery date")
-				th=__("Subtotal")
-				th=__("VAT")
-				th=__("Shipping costs")
-				th=__("TOTAL")
+				th.text-right=__("Subtotal")
+				th.text-right=__("VAT")
+				th.text-right=__("Shipping costs")
+				th.text-right=__("TOTAL")
 		tbody
 			each x, index in result
 				tr
@@ -66,8 +66,8 @@ div
 					- if(x.delivery_date)
 						dd = x.delivery_date.getDate()+"/"+(x.delivery_date.getMonth()+1)+"/"+x.delivery_date.getFullYear()
 					td=dd
-					td=x.subtotal
-					td=x.vat_amount
-					td=x.shipping_costs
-					td=x.total
+					td.text-right=x.subtotal
+					td.text-right=x.vat_amount
+					td.text-right=x.shipping_costs
+					td.text-right=x.total
 					

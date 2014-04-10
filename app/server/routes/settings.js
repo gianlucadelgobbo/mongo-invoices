@@ -29,9 +29,9 @@ exports.post = function post(req, res) {
 			DB.update_settings(req.body, req.session.user, function(e, o){
 				errors.push({name:"",m:__("Settings saved with success")});
 				console.dir("bellabella");
-								GLOBAL._config = o;
-								setLocale(GLOBAL._config.defaultLocale);
-
+				GLOBAL._config = o;
+				DB.i18n.setLocale(GLOBAL._config.defaultLocale);
+				
 				res.render('settings', {	locals: { title: __("Settings"), result : o, msg:{c:errors}, udata : req.session.user } });
 			});
 		} else {

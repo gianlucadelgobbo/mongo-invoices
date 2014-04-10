@@ -11,7 +11,7 @@ section.print_data.clearfix
 	table.print_data_col1
 		tr
 			td.nowrap=__("Offer number")
-			td.nowrap=result.offer_number
+			td.nowrap.paddingright.paddingleft=result.offer_number
 			td.nowrap=__("Offer date")
 			- d = result.offer_date;
 			td=d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear()

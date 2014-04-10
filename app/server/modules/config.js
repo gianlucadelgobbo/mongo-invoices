@@ -3,7 +3,7 @@ var _config = {
 
 	"defaultLocale": 	"it",
 	"company": {
-		"logo":	"/img/logo.png",
+		"logo":	"/logo.png",
 		"name":	"Associazione Culturale Linux Club Italia",
 		"row1":	"Associazione Culturale Linux Club Italia<br />Via del Verano 39, 00185 Roma, Italia - t +39.06.78147301 - f +39.06.78390805",
 		"row2":	"CF 97318630585 P.IVA 08459281005 - linux-club.org - info@linux-club.org"
