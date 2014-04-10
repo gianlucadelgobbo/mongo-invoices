@@ -32,7 +32,7 @@ DB.init = function(callback) {
 			console.log('connected to database: ' + dbName);
 			DB.db.collection('settings').findOne({}, function(e, o){
 				
-				if (!o) o = require('../../common/config.js')._config;
+				if (!o) o = require('./config.js')._config;
 				GLOBAL._config = o;
 				GLOBAL._config.port =		global.settings.port;
 				GLOBAL._config.dbPort =		global.settings.dbPort;

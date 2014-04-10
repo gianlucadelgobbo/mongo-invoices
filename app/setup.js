@@ -14,5 +14,6 @@ module.exports = function(app, exp) {
 		app.use(require('stylus').middleware({ src: app.root + '/app/public' }));
 		app.use(exp.static(app.root + '/app/common'));
 		app.use(exp.static(app.root + '/app/public'));
+		app.use(exp.static(app.root + '/customize'));
 	});
 }

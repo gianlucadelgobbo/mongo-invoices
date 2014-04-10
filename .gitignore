@@ -4,6 +4,3 @@ forever.log
 node_modules
 out.log
 app.js
-app/public/css/print_templates.css
-app/public/css/style.css
-app/public/img/logo.png
