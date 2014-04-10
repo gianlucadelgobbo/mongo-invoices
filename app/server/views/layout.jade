@@ -75,6 +75,8 @@ html
 		include modals/alert
 		include modals/confirm
 		include modals/errors
+		script
+			var _config = !{JSON.stringify(_config)}
 		script(src="/validators.js")
 		script(src="/accounting.js")
 		script(src="/lib/jquery.min.js")
