@@ -100,13 +100,15 @@ exports.validateFormClient = function validateFormClient(o,callback) {
 			e.push({name:"address[country]", m:__("Please enter a valid Country")});
 		}
 		if (o.address.country == "Italy") {
-			if (o.vat_number=="" && o.fiscal_code!="") {
+			if (o.vat_number==="" && o.fiscal_code!=="") {
 				e = e.concat(Validators.checkCF(o.fiscal_code));
-			//} else if (o.vat_number!="") {
 			} else {
 				e = e.concat(Validators.checkVAT(o.vat_number,o.address.country));
 				if (o.fiscal_code != o.vat_number) {
-					e = e.concat(Validators.checkCFwithVAT(o.fiscal_code));
+					e = e.concat(Validators.checkCF(o.fiscal_code));
+					if (e.length === 0){
+						e = e.concat(Validators.checkVAT(o.vat_number));
+					}
 				}
 			}
 		}
