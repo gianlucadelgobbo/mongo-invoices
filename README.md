@@ -18,9 +18,9 @@ Setup
 ------------
 
 1. Run `npm install`
-2. Edit the config file and put your data `/app/common/config.js`
-3. Edit the css to print your invoices and offers `/app/public/css/print_templates.css`
-4. Run `app.js`
+2. Run `app.js`
+3. Create the admin user
+3. Edit the css to print your invoices and offers `/customize/print_templates.css`
 5. Create your first account (Administrator)
 6. Start to work :)
 
