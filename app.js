@@ -8,7 +8,7 @@ global.settings = {
 	port:		8001,
 	dbPort:		27017,
 	dbHost:		'localhost',
-	dbName:		"mongo-invoices"
+	dbName:		"admin-flyer"
 }
 var DB = require('./app/server/modules/db-manager');
 

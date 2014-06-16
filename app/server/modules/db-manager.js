@@ -24,20 +24,21 @@ var DB = {};
 module.exports = DB;
 
 DB.init = function(callback) {
-	console.dir("bella");
 	DB.db.open(function(e, d){
 		if (e) {
 			console.log(e);
 		} else {
 			console.log('connected to database: ' + dbName);
 			DB.db.collection('settings').findOne({}, function(e, o){
-				
-				if (!o) o = require('./config.js')._config;
-				GLOBAL._config = o;
+                var tmp = require('./config.js')._config;
+				if (!o) o = tmp;
+
+                GLOBAL._config = o;
 				GLOBAL._config.port =		global.settings.port;
 				GLOBAL._config.dbPort =		global.settings.dbPort;
 				GLOBAL._config.dbHost =		global.settings.dbHost;
-				GLOBAL._config.dbName =		global.settings.dbName;
+                GLOBAL._config.dbName =		global.settings.dbName;
+                GLOBAL._config.roles =		tmp.roles;
 				accounting.settings = 		GLOBAL._config.accountingSettings;
 				console.dir(GLOBAL._config.defaultLocale);
 				DB.i18n.configure({
