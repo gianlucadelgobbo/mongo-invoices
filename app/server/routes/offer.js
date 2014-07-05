@@ -27,7 +27,7 @@ exports.get = function get(req, res) {
 						res.render('offer', {	locals: {	title: __("Offer"), result : result, udata : req.session.user } });
 					});
 				} else {
-					var resultEmpty = {offer_date:new Date(),offer_number:result.length+1,to_client:{address:{}},offer:{},items:[{}]};
+					var resultEmpty = {offer_date:new Date(),offer_number:resultOffer.length+1,to_client:{address:{}},offer:{},items:[{}]};
 					res.render('offer', {	locals: {	title: __("Offer"), result : resultEmpty, udata : req.session.user } });
 				}
 			});
