@@ -46,7 +46,7 @@ section.print_data.clearfix
 			tr
 				td.nowrap=__("Delivery date")
 				- d = result.delivery_date;
-				td=d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear()
+				td=(d ? d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear() :"")
 section.print_items
 	- if (result.description)
 		p!=result.description.replace(/\n/g,'<br />')
