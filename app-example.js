@@ -5,10 +5,10 @@
  */
 
 global.settings = {
-	port:		8001,
+	port:		8003,
 	dbPort:		27017,
 	dbHost:		'localhost',
-	dbName:		"mongo-invoices"
+	dbName:		"admin-linux"
 }
 var DB = require('./app/server/modules/db-manager');
 

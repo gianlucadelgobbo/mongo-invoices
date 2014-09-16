@@ -1,4 +1,5 @@
 .DS_Store
+Mongo-Invoice
 .idea
 err.log
 forever.log
@@ -7,4 +8,5 @@ out.log
 app.js
 app/public/css/style.css
 customize
+Mongo-Invoice
 .idea
