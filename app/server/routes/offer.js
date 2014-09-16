@@ -27,7 +27,7 @@ exports.get = function get(req, res) {
 						res.render('offer', {	locals: {	title: __("Offer"), result : result, udata : req.session.user } });
 					});
 				} else {
-					var resultEmpty = {offer_date:new Date(),offer_number:result.length+1,to_client:{address:{}},offer:{},items:[{}]};
+					var resultEmpty = {offer_date:new Date(),offer_number:resultOffer.length+1,to_client:{address:{}},offer:{},items:[{}]};
 					res.render('offer', {	locals: {	title: __("Offer"), result : resultEmpty, udata : req.session.user } });
 				}
 			});
@@ -49,12 +49,12 @@ exports.post = function post(req, res) {
 		if(errors.length === 0){
 			DB.clients.findOne({_id:new ObjectID(req.body.to_client._id)},function(e, result) {
 				if (result) {
-					var d = req.body.offer_date.split("/");
+					d = req.body.offer_date.split("/");
 					var date=new Date(parseInt(d[2], 10),parseInt(d[1], 10)-1,parseInt(d[0], 10));
 					var q = {offer_date:{$gt: date},offer_number:(req.body.offer_number-1).toString() };
 					DB.offers.find(q).toArray(function(e, result) {
 						if(errors.length === 0){
-							var myid = req.body.id;
+							//var myid = req.body.id;
 							if (req.body.id) {
 								DB.update_offer(req.body, req.session.user, function(e, o){
 									errors.push({name:"",m:__("Offer saved with success")});
@@ -77,7 +77,7 @@ exports.post = function post(req, res) {
 						} else {
 							if (req.body.id) req.body._id = req.body.id;
 							errors.push({name:"offer_date",m:__("Data must be greater than")+": "+result.offer_date});
-							var d = req.body.offer_date.split("/");
+							d = req.body.offer_date.split("/");
 							req.body.offer_date = new Date(parseInt(d[2], 10),parseInt(d[1], 10)-1,parseInt(d[0], 10));
 							if (req.body.delivery_date) {
 								d = req.body.delivery_date.split("/");
@@ -94,7 +94,7 @@ exports.post = function post(req, res) {
 				} else {
 					if (req.body.id) req.body._id = req.body.id;
 					errors.push({name:"to_client[name]",m:__("You have to insert a valid client")});
-					var d = req.body.offer_date.split("/");
+					d = req.body.offer_date.split("/");
 					req.body.offer_date = new Date(parseInt(d[2], 10),parseInt(d[1], 10)-1,parseInt(d[0], 10));
 					if (req.body.delivery_date) {
 						d = req.body.delivery_date.split("/");
