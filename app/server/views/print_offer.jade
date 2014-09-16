@@ -97,5 +97,5 @@ footer
 	b=__("Bank")
 	br
 	- for (a=0;a<_config.banks.length;a++)
-		- if (_config.banks[a][0]==result.bank)
-			span=_config.banks[a][1]
+		- if (_config.banks[a]==result.bank)
+			span=_config.banks[a]
