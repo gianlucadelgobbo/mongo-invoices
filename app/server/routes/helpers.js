@@ -100,14 +100,9 @@ exports.validateFormClient = function validateFormClient(o,callback) {
 			e.push({name:"address[country]", m:__("Please enter a valid Country")});
 		}
 		if (o.address.country == "Italy") {
-			if (o.vat_number=="" && o.fiscal_code!="") {
+			if (o.vat_number) e = e.concat(Validators.checkVAT(o.vat_number,o.address.country));
+			if (o.fiscal_code != o.vat_number || o.fiscal_code=="") {
 				e = e.concat(Validators.checkCF(o.fiscal_code));
-			//} else if (o.vat_number!="") {
-			} else {
-				e = e.concat(Validators.checkVAT(o.vat_number,o.address.country));
-				if (o.fiscal_code != o.vat_number) {
-					e = e.concat(Validators.checkCFwithVAT(o.fiscal_code));
-				}
 			}
 		}
 	}
@@ -121,7 +116,7 @@ exports.validateFormClient = function validateFormClient(o,callback) {
 				callback(e, o);
 			} else {
 				if (o.address.country == "Italy"){
-					var q = (o.id ? {_id:{$ne: new ObjectID(o.id)},fiscal_code:o.fiscal_code} : {fiscal_code:o.fiscal_code});
+					//var q = (o.id ? {_id:{$ne: new ObjectID(o.id)},fiscal_code:o.fiscal_code} : {fiscal_code:o.fiscal_code});
 					DB.accounts.findOne({user:o.user}, function(err, result) {
 						if (result){
 							e.push({name:"fiscal_code",m:__("Fiscal code already in use")});
