@@ -136,7 +136,7 @@ function setBinds(){
 	});
 	$(".price").bind("blur",function() {
 		if(checkPrice($(this))) $(this).val(accounting.formatMoney(accounting.unformat($(this).val(), ",")));
-		getAmount($(this).parent().parent());
+		getAmount($(this).parent().parent().parent());
 		updateTotal();
 		addNewRow();
 	});
