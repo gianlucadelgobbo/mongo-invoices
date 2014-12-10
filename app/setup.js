@@ -17,3 +17,4 @@ module.exports = function(app, exp) {
 		app.use(exp.static(app.root + '/customize'));
 	});
 }
+DB.i18n.setLocale("it");
