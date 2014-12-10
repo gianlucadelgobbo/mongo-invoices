@@ -8,7 +8,8 @@
 		span.name_new=result.name
 - else
 	h1.page-title=__("New account")
-- if (result._id && !_config.roles[user.role].admin && user._id!=result._id)
+- console.log
+- if (result._id && !_config.roles[result.role].admin && user._id!=result._id)
 	.alert.alert-danger
 		h4=__("There are some errors")
 		ul
@@ -43,7 +44,7 @@
 			label.control-label.col-sm-2(for='country-list')=__("Country")
 			.col-sm-10
 				select#country-list.form-control(name='country')
-					option(value="")= __("Please select a country")
+					option= __("Please select a country")
 					each item in countries
 						option(selected=item.name == result.country, value=item.name)=item.name
 		- if (result._id && user._id==result._id)
