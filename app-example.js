@@ -8,15 +8,14 @@ global.settings = {
 	port:		8003,
 	dbPort:		27017,
 	dbHost:		'localhost',
-	dbName:		"admin-linux"
+	dbName:		"admin-linux",
+	root_path:	__dirname
 }
 var DB = require('./app/server/modules/db-manager');
 
 DB.init(function(){
 	var exp = require('express');
 	var app = exp.createServer();
-	
-	app.root = __dirname;
 	
 	require('./app/setup')(app, exp);
 	require('./app/server/router')(app);
