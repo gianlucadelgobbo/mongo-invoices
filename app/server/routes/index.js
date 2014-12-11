@@ -7,7 +7,6 @@ exports.get = function get(req, res) {
     if(result){
       // check if the user's credentials are saved in a cookie //
       if (req.cookies.user === undefined || req.cookies.pass === undefined || req.cookies.role === undefined){
-            console.log("stocazzo");
         res.render('login', { locals: { title: __('Hello - Please Login To Your Account'), result : {}, from:req.query.from }});
       } else {
         // attempt automatic login //
@@ -32,7 +31,7 @@ exports.get = function get(req, res) {
 };
 
 exports.post = function post(req, res) {
-  var errors = [];
+  //var errors = [];
   DB.accounts.findOne({},function(e, result){
     if(result){
       helpers.validateFormLogin(req.body, function(e, o) {
@@ -53,7 +52,6 @@ exports.post = function post(req, res) {
           if (req.param('ajax') == 'true') {
             res.send(o, 200);
           } else {
-            console.log(req.body);
             var redirect = req.body.from ? req.body.from : '/home';
             res.redirect(redirect);
           }
@@ -70,7 +68,6 @@ exports.post = function post(req, res) {
           }
         } else {
           DB.insert_account(req.body, function(e, o){
-            // FIXME: this is wrong: check for possible error from DB.insert_account
             e = [];
             if (!o){
               e.push({name:"",m:__("Error updating account")});
