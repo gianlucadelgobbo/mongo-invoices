@@ -30,24 +30,27 @@ DB.init = function(callback) {
 		} else {
 			console.log('connected to database: ' + dbName);
 			DB.db.collection('settings').findOne({}, function(e, o){
-                var tmp = require('./config.js')._config;
-				if (!o) o = tmp;
+				//console.dir(o.defaultLocale);
+				if (!o) o = require('./config.js')._config;
 
-                GLOBAL._config = o;
-				GLOBAL._config.port =		global.settings.port;
-				GLOBAL._config.dbPort =		global.settings.dbPort;
-				GLOBAL._config.dbHost =		global.settings.dbHost;
-                GLOBAL._config.dbName =		global.settings.dbName;
-                GLOBAL._config.roles =		tmp.roles;
-				accounting.settings = 		GLOBAL._config.accountingSettings;
-				console.dir(GLOBAL._config.defaultLocale);
+				global._config = o;
+				global._config.port =		global.settings.port;
+				global._config.dbPort =		global.settings.dbPort;
+				global._config.dbHost =		global.settings.dbHost;
+				global._config.dbName =		global.settings.dbName;
+                //GLOBAL._config.roles =		tmp.roles;
+				accounting.settings = 		global._config.accountingSettings;
 				DB.i18n.configure({
 				    // setup some locales - other locales default to en silently
-				    locales:		GLOBAL._config.locales,
-					defaultLocale: 	GLOBAL._config.defaultLocale,
+				    locales:		global._config.locales,
+					directory: 		global.settings.root_path + '/locales',
+					defaultLocale: 	global._config.defaultLocale,
 				    // where to register __() and __n() to, might be "global" if you know what you are doing
-				    register:		 global
+				    register:		global
 				});
+				//console.dir(global.settings.root_path + '/locales');
+				//setLocale(GLOBAL._config.defaultLocale);
+				//console.dir(getLocale());
 				callback();
 			});	
 		}
