@@ -34,6 +34,7 @@ DB.init = function(callback) {
 				if (!o) o = require('./config.js')._config;
 
 				global._config = o;
+				if (!global._config.roles) global._config.roles = require('./config.js')._config.roles;
 				global._config.port =		global.settings.port;
 				global._config.dbPort =		global.settings.dbPort;
 				global._config.dbHost =		global.settings.dbHost;
