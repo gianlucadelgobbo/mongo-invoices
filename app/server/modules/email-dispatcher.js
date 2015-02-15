@@ -1,37 +1,34 @@
 
-var ES = require('./email-settings');
 var EM = {};
 module.exports = EM;
+if (global._config.emailDispatcher && global._config.emailDispatcher.host && global._config.emailDispatcher.password){
+	EM.server = require("emailjs/email").server.connect({
+		host 	    : global._config.emailDispatcher.host,
+		user 	    : global._config.emailDispatcher.user,
+		password    : global._config.emailDispatcher.password,
+		ssl		    : true
+	});
 
-EM.server = require("emailjs/email").server.connect({
+	EM.dispatchResetPasswordLink = function(account, host, callback) {
+		EM.server.send({
+			from         : global._config.emailDispatcher.sendername+" <"+global._config.emailDispatcher.senderemail+">",
+			to           : account.email,
+			subject      : 'Password Reset',
+			text         : 'something went wrong... :(',
+			attachment   : EM.composeEmail(account, host)
+		}, callback );
+	}
 
-	host 	    : ES.host,
-	user 	    : ES.user,
-	password    : ES.password,
-	ssl		    : true
-
-});
-
-EM.dispatchResetPasswordLink = function(account, callback)
-{
-	EM.server.send({
-		from         : ES.sender,
-		to           : account.email,
-		subject      : 'Password Reset',
-		text         : 'something went wrong... :(',
-		attachment   : EM.composeEmail(account)
-	}, callback );
-}
-
-EM.composeEmail = function(o)
-{
-	var link = 'http://node-login.braitsch.io/reset-password?e='+o.email+'&p='+o.pass;
-	var html = "<html><body>";
+	EM.composeEmail = function(o,host) {
+		var emailencoded = new Buffer(o.email).toString('base64');
+		var link = 'http://'+host+'/reset-password?e='+emailencoded;
+		var html = "<html><body>";
 		html += "Hi "+o.name+",<br><br>";
-		html += "Your username is :: <b>"+o.user+"</b><br><br>";
-		html += "<a href='"+link+"'>Please click here to reset your password</a><br><br>";
+		html += "Your username is: <b>"+o.user+"</b><br><br>";
+		html += "<a href='"+link+"'>"+__("Please click here to reset your password")+"</a><br><br>";
 		html += "Cheers,<br>";
-		html += "<a href='http://twitter.com/braitsch'>braitsch</a><br><br>";
+		html += "<a href='http://"+host+"'>"+host+"</a><br><br>";
 		html += "</body></html>";
-	return  [{data:html, alternative:true}];
+		return  [{data:html, alternative:true}];
+	}
 }

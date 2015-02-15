@@ -26,6 +26,11 @@ exports.post = function post(req, res) {
 		var errors = [];
 		
 		if (req.body.id) {
+			if (req.body.emailDispatcher.password!="" && req.body.emailDispatcher.password==req.body.emailDispatcher.password_confirm) {
+			} else {
+				delete req.body.emailDispatcher.password;
+			}
+			delete req.body.emailDispatcher.password_confirm;
 			DB.update_settings(req.body, req.session.user, function(e, o){
 				errors.push({name:"",m:__("Settings saved with success")});
 				console.dir("bellabella");

@@ -35,6 +35,7 @@ DB.init = function(callback) {
 
 				global._config = o;
 				if (!global._config.roles) global._config.roles = require('./config.js')._config.roles;
+				if (!global._config.emailDispatcher) global._config.emailDispatcher = require('./config.js')._config.emailDispatcher;
 				global._config.port =		global.settings.port;
 				global._config.dbPort =		global.settings.dbPort;
 				global._config.dbHost =		global.settings.dbHost;
@@ -120,14 +121,9 @@ DB.setPassword = function(email, newPass, callback) {
 	DB.accounts.findOne({email:email}, function(e, o){
 		DB.saltAndHash(newPass, function(hash){
 			o.pass = hash;
-			DB.accounts.save(o); callback(o);
+			DB.accounts.save(o);
+			callback(o);
 		});
-	});
-}
-
-DB.validateLink = function(email, passHash, callback) {
-	DB.accounts.find({ $and: [{email:email, pass:passHash}] }, function(e, o){
-		callback(o ? 'ok' : null);
 	});
 }
 

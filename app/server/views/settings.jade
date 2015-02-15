@@ -104,8 +104,34 @@ form( method="post")#settings-form.form-horizontal
 		label.control-label.col-sm-2(for='numberprecision')=__("Number Precision")
 		.col-sm-10
 			input#numberprecision.form-control(type='text', name='accountingSettings[number][precision]', value=result.accountingSettings.number.precision)
+	p.subheading=__("Email dispatcher")
+	hr
+	.form-group
+		label.control-label.col-sm-2(for='host')=__("Host")
+		.col-sm-10
+			input#currency.form-control(type='text', name='emailDispatcher[host]', value=result.emailDispatcher.host)
+	.form-group
+		label.control-label.col-sm-2(for='user')=__("User")
+		.col-sm-10
+			input#vat_perc.form-control(type='text', name='emailDispatcher[user]', value=result.emailDispatcher.user)
+	.form-group
+		label.control-label.col-sm-2(for='password')=__("Password")
+		.col-sm-10
+			input#vat_perc.form-control(type='password', name='emailDispatcher[password]')
+	.form-group
+		label.control-label.col-sm-2(for='password2')=__("Password confirm")
+		.col-sm-10
+			input#vat_perc.form-control(type='password2', name='emailDispatcher[password_confirm]')
+	.form-group
+		label.control-label.col-sm-2(for='v')=__("Sender name")
+		.col-sm-10
+			input#vat_perc.form-control(type='text', name='emailDispatcher[sendername]', value=result.emailDispatcher.sendername)
+	.form-group
+		label.control-label.col-sm-2(for='senderemail')=__("Sender email")
+		.col-sm-10
+			input#vat_perc.form-control(type='text', name='emailDispatcher[senderemail]', value=result.emailDispatcher.senderemail)
+	hr
 	.form-group
 		.col-sm-10.col-sm-offset-2
 			button(type='submit').btn.btn-success=__("Save")
 			button(type='button').btn=__("Cancel")
-

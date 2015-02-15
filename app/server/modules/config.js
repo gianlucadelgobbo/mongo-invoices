@@ -47,7 +47,14 @@ var _config = {
 			"read" : true
 		}
 	},
-	"googleAnalytics": ""
+	"googleAnalytics": "",
+	"emailDispatcher": {
+		"host"			: 'smtp.gmail.com',
+		"user" 			: '',
+		"password" 		: '',
+		"sendername"	: '',
+		"senderemail"	: ''
+	}
 }
 if (typeof exports !== "undefined") exports._config = _config;
 //if (GLOBAL) GLOBAL._config = _config;

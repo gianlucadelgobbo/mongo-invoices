@@ -130,5 +130,18 @@
 	"Please enter a valid Client": "Inserisci un Cliente valido",
 	"Signup": "Accedi",
 	"Please enter a valid Name": "Inserisci un nome valido",
-	"Account saved with success": "Account salvato con successo."
+	"Account saved with success": "Account salvato con successo.",
+	"Submit": "Submit",
+	"Email dispatcher": "Email dispatcher",
+	"Host": "Host",
+	"Password confirm": "Password confirm",
+	"Sender name": "Sender name",
+	"Sender email": "Sender email",
+	"Please click here to reset your password": "Please click here to reset your password",
+	"Reset Password": "Reset Password",
+	"Please enter your new password": "Please enter your new password",
+	"Reset": "Reset",
+	"Password updated": "Password updated",
+	"Please log in": "Please log in",
+	"log in": "log in"
 }
