@@ -11,8 +11,10 @@ exports.get = function get(req, res) {
 	} else {
 		DB.settings.findOne({}, function(e, result) {
 			if (result) {
+				if (!result.emailDispatcher) result.emailDispatcher = require('../modules/config.js')._config.emailDispatcher;
 				res.render('settings', {	locals: { title: __('Settings'), result : result, msg:{}, udata : req.session.user } });
 			} else {
+				if (!global._config.emailDispatcher) global._config.emailDispatcher = require('./config.js')._config.emailDispatcher;
 				res.render('settings', {	locals: { title: __('Settings'), result : _config, msg:{}, udata : req.session.user } });
 			}
 		});
