@@ -23,7 +23,7 @@ exports.validateFormLogin = function validateFormLogin(o,callback) {
 
 exports.validateFormAccount = function validateFormAccount(o,callback) {
 	var e = [];
-	if (!Validators.validateStringLength(o.name, 3, 50)){
+	if (!Validators.validateStringLength(o.name, 3, 100)){
 		e.push({name:"name",m:__("Please enter a valid Name")});
 	}
 	if (typeof o.country === "undefined" || !Validators.validateStringLength(o.country, 3, 50)){
