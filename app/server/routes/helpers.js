@@ -83,7 +83,7 @@ exports.formatMoney = function formatMoney(result) {
 
 exports.validateFormClient = function validateFormClient(o,callback) {
 	var e = [];
-	if (!Validators.validateStringLength(o.name, 3, 50)){
+	if (!Validators.validateStringLength(o.name, 3, 100)){
 		e.push({name:"name",m:__("Please enter a valid Client")});
 	}
 	if (o.force != 1) {
