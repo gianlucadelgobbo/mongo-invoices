@@ -2,6 +2,7 @@
 header
 	.logo
 		- if(_config.company.logo)
+			- console.log(_config.company.logo)
 			img(src=_config.company.logo, alt=_config.company.name)
 		- else
 			span=_config.company.name

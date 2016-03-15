@@ -16,8 +16,23 @@ exports.get = function get(req, res) {
         }
       });
     }
-    DB.clients.find({}).toArray(function(e, result) {
+    DB.clients.find({}).sort( { name: 1 } ).toArray(function(e, result) {
+      var conta = 0;
+      result.forEach(function(item, index, arr) {
+        DB.invoices.find({"to_client._id":arr[index]._id.toString()}).toArray(function (e, result) {
+          conta++;
+          console.log("result.length"+result.length);
+          arr[index].invoicesCount = result.length;
+          console.log(index);
+          if (conta == arr.length)  console.log(arr);
+          if (conta == arr.length) res.render('clients', {  locals: { title: __("Clients"), result : arr, msg: msg, udata : req.session.user } });
+        });
+      });
+    });
+/*
+    DB.clients.find({}).sort( { name: 1 } ).toArray(function(e, result) {
       res.render('clients', {  locals: { title: __("Clients"), result : result, msg: msg, udata : req.session.user } });
     });
+    */
   }
 };

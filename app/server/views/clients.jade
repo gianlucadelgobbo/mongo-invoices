@@ -18,6 +18,7 @@ div
 			tr
 				th.tabActions=__("Actions")
 				th=__("Client")
+				th=__("Invoices")
 				th=__("VAT number")
 				th=__("Fiscal code")
 				th=__("Address")
@@ -38,6 +39,7 @@ div
 									a(href="/clients/?id="+x._id+"&del="+1)=__("Delete")
 					td
 						a(href="/client/?id="+x._id)=x.name
+					td.text-center=x.invoicesCount
 					td=x.vat_number
 					td=x.fiscal_code
 					td=x.address.street

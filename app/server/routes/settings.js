@@ -37,6 +37,7 @@ exports.post = function post(req, res) {
 				errors.push({name:"",m:__("Settings saved with success")});
 				console.dir("bellabella");
 				GLOBAL._config = o;
+				console.dir(_config.company.logo);
 				DB.i18n.setLocale(GLOBAL._config.defaultLocale);
 				
 				res.render('settings', {	locals: { title: __("Settings"), result : o, msg:{c:errors}, udata : req.session.user } });

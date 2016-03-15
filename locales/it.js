@@ -143,5 +143,7 @@
 	"Reset": "Reset",
 	"Password updated": "Password updated",
 	"Please log in": "Please log in",
-	"log in": "log in"
+	"log in": "log in",
+	"Client not found": "Client not found",
+	"InvoicesCount": "InvoicesCount"
 }
