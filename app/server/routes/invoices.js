@@ -19,8 +19,8 @@ exports.get = function get(req, res) {
 			});
 		}
 		var query = req.query.client ? {"to_client._id":req.query.client} : {};
-		var year = "ALL Years";
-		if (req.query.year) {
+		if (!req.query.year) req.query.year = new Date().getFullYear();
+		if (req.query.year && req.query.year!="ALL Years") {
 			var year = parseInt(req.query.year);
 			var start = new Date(year-1, 11, 31);
 			var end = new Date(year+1, 0, 1);

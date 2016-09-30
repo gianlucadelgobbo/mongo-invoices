@@ -43,14 +43,14 @@ form(method="post", action="/client")#client-form
 		input(type="text", name="address[city]", value=result.address.city)#city.form-control
 	div.form-group
 		label(for='country').control-label=__("Country")
-		select(name="address[country]",onchange="$('#fiscal_code').parent().toggle($(this).val()=='Italy')")#country.form-control
-				option(value="")= __("Please select a country")
+		select(name="address[country]",onchange=country=='Italy' ? "$('#fiscal_code').parent().toggle($(this).val()=='Italy')" : undefined)#country.form-control
+				option(value=)= __("Please select a country")
 				each item in countries
 					option(selected=item.name == result.address.country, value=item.name)=item.name
 	div.form-group
 		label(for='vat_number').control-label=__("VAT number")
 		input(type="text", name="vat_number", value=result.vat_number)#vat_number.form-control
-	div.form-group(style=(result.address.country=="Italy" ? "" : "display:none;"))
+	div.form-group(style=(country=="Italy" && result.address.country=="Italy" ? "" : "display:none;"))
 		label(for='fiscal_code').control-label=__("Fiscal code")
 		input(type="text", name="fiscal_code", value=result.fiscal_code)#fiscal_code.form-control
 	div.form-group

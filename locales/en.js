@@ -251,5 +251,11 @@
 	"You have to upload an image at least": "You have to upload an image at least",
 	"pixels": "pixels",
 	"Technical rider": "Technical rider",
-	"visits": "visits"
+	"visits": "visits",
+	"Email dispatcher": "Email dispatcher",
+	"Host": "Host",
+	"Password confirm": "Password confirm",
+	"Sender name": "Sender name",
+	"Sender email": "Sender email",
+	"Submit": "Submit"
 }

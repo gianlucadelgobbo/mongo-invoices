@@ -77,12 +77,13 @@ form(method="post", action="/invoice/?id="+result._id,onsubmit='$("[disabled]").
 						.input-group
 							label.input-group-addon(for='vat_number')=__("VAT number")
 							input(type="text", name="to_client[vat_number]", value=result.to_client.vat_number, disabled).vat_number.form-control#vat_number
-			.row
-				.col-sm-12
-					.form-group
-						.input-group
-							label.input-group-addon(for='fiscal_code')=__("Fiscal code")
-							input(type="text", name="to_client[fiscal_code]", value=result.to_client.fiscal_code, disabled).fiscal_code.form-control#fiscal_code
+			- if(country=="Italy")
+				.row
+					.col-sm-12
+						.form-group
+							.input-group
+								label.input-group-addon(for='fiscal_code')=__("Fiscal code")
+								input(type="text", name="to_client[fiscal_code]", value=result.to_client.fiscal_code, disabled).fiscal_code.form-control#fiscal_code
 		.col-sm-5
 			.row
 				.col-sm-12

@@ -76,7 +76,8 @@ html
 		include modals/confirm
 		include modals/errors
 		script
-			var _config = !{JSON.stringify(_config)}
+			if _config in this
+				var _config = !{JSON.stringify(_config)}
 		script(src="/validators.js")
 		script(src="/accounting.js")
 		script(src="/lib/jquery.min.js")
@@ -98,4 +99,4 @@ html
 					ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";
 					var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ga, s);
 				})();
-		
+

@@ -145,5 +145,6 @@
 	"Please log in": "Please log in",
 	"log in": "log in",
 	"Client not found": "Client not found",
-	"InvoicesCount": "InvoicesCount"
+	"InvoicesCount": "InvoicesCount",
+	"User not found": "User not found"
 }

@@ -1,7 +1,6 @@
 var bcrypt = require('bcrypt-nodejs');
 var ObjectID = require('mongodb').ObjectID;
 var accounting = require('accounting');
-accounting.settings = _config.accountingSettings;
 var DB = require('../modules/db-manager');
 var Validators = require('../../common/validators').Validators;
 
@@ -61,6 +60,7 @@ exports.validateFormAccount = function validateFormAccount(o,callback) {
 };
 
 exports.formatMoney = function formatMoney(result) {
+	accounting.settings = global._config.accountingSettings;
 	result.subtotal=accounting.formatMoney(result.subtotal);
 	result.vat_amount=accounting.formatMoney(result.vat_amount);
 	result.shipping_costs=accounting.formatMoney(result.shipping_costs);
@@ -99,7 +99,7 @@ exports.validateFormClient = function validateFormClient(o,callback) {
 		if (!Validators.validateStringLength(o.address.country, 3, 50)){
 			e.push({name:"address[country]", m:__("Please enter a valid Country")});
 		}
-		if (o.address.country == "Italy") {
+		if (global._config.company.country == "Italy" && o.address.country == "Italy") {
 			if (o.vat_number) e = e.concat(Validators.checkVAT(o.vat_number,o.address.country));
 			if (o.fiscal_code != o.vat_number || o.fiscal_code=="") {
 				e = e.concat(Validators.checkCF(o.fiscal_code));
@@ -115,7 +115,7 @@ exports.validateFormClient = function validateFormClient(o,callback) {
 				e.push({name:"vat_number",m:__("VAT number already in use")});
 				callback(e, o);
 			} else {
-				if (o.address.country == "Italy"){
+				if (global._config.company.country == "Italy" && o.address.country == "Italy"){
 					//var q = (o.id ? {_id:{$ne: new ObjectID(o.id)},fiscal_code:o.fiscal_code} : {fiscal_code:o.fiscal_code});
 					DB.accounts.findOne({user:o.user}, function(err, result) {
 						if (result){

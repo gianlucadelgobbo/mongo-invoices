@@ -4,9 +4,16 @@
 		.modal-content
 			.modal-header
 				button.close(data-dismiss='modal') x
-				h4.modal-title=__("Warning")
+				- if(typeof __ === 'function')
+					h4.modal-title=__("Warning")
+				- else
+					h4.modal-title="Warning"
 			.modal-body
 				p
 			.modal-footer
-				button(data-dismiss="modal").cancel.btn=__("Cancel")
-				button(data-dismiss="modal")#ok.btn.btn-warning=__("OK")
+				- if(typeof __ === 'function')
+					button(data-dismiss="modal").cancel.btn=__("Cancel")
+					button(data-dismiss="modal")#ok.btn.btn-warning=__("OK")
+				- else
+					button(data-dismiss="modal").cancel.btn="Cancel"
+					button(data-dismiss="modal")#ok.btn.btn-warning="OK"

@@ -5,7 +5,6 @@ var Server = require('mongodb').Server;
 
 var dbPort = global.settings.dbPort;
 var dbHost = global.settings.dbHost;
-var dbName = global.settings.dbName;
 
 // use moment.js for pretty date-stamping //
 var moment = require('moment');
@@ -17,14 +16,17 @@ var accounting = require('accounting');
 
 var DB = {};
 	DB.i18n = require('i18n');
-	DB.db = new Db(dbName, new Server(dbHost, dbPort, {auto_reconnect: true,safe:true}, {}));
 
 
 
 module.exports = DB;
 
 DB.init = function(callback) {
+	var dbName = global.settings.dbName;
+	DB.db = new Db(dbName, new Server(dbHost, dbPort, {auto_reconnect: true,safe:true}, {}));
+	console.log("stocazzo");
 	DB.db.open(function(e, d){
+		var e;
 		if (e) {
 			console.log(e);
 		} else {
@@ -35,12 +37,14 @@ DB.init = function(callback) {
 
 				global._config = o;
 				if (!global._config.roles) global._config.roles = require('./config.js')._config.roles;
-				if (!global._config.emailDispatcher) global._config.emailDispatcher = require('./config.js')._config.emailDispatcher;
+				//if (!global._config.emailDispatcher) global._config.emailDispatcher = require('./config.js')._config.emailDispatcher;
+				/*
 				global._config.port =		global.settings.port;
 				global._config.dbPort =		global.settings.dbPort;
 				global._config.dbHost =		global.settings.dbHost;
 				global._config.dbName =		global.settings.dbName;
-                //GLOBAL._config.roles =		tmp.roles;
+				 */
+				//GLOBAL._config.roles =		tmp.roles;
 				accounting.settings = 		global._config.accountingSettings;
 				DB.i18n.configure({
 				    // setup some locales - other locales default to en silently
@@ -52,16 +56,16 @@ DB.init = function(callback) {
 				});
 				//console.dir(global.settings.root_path + '/locales');
 				//setLocale(GLOBAL._config.defaultLocale);
-				//console.dir(getLocale());
+				console.dir(getLocale());
+				DB.accounts = DB.db.collection('accounts');
+				DB.clients = DB.db.collection('clients');
+				DB.invoices = DB.db.collection('invoices');
+				DB.offers = DB.db.collection('offers');
+				DB.settings = DB.db.collection('settings');
 				callback();
 			});	
 		}
 	});
-	DB.accounts = DB.db.collection('accounts');
-	DB.clients = DB.db.collection('clients');
-	DB.invoices = DB.db.collection('invoices');
-	DB.offers = DB.db.collection('offers');
-	DB.settings = DB.db.collection('settings');
 }
 
 // Accont insertion, update & deletion methods //
@@ -73,11 +77,15 @@ DB.insert_settings = function(newData, userData, callback) {
 	});
 }
 DB.update_settings = function(newData, userData, callback) {
+
 	DB.settings.findOne({_id:new ObjectID(newData.id)}, function(e, o){
-		console.log(o);
 		newData._id = o._id;
 		DB.settings.save(newData);
 		DB.settings.findOne({_id:newData._id}, function(e, o){
+			console.log(o);
+			global._config = o;
+			if (!global._config.roles) global._config.roles = require('./config.js')._config.roles;
+			DB.i18n.setLocale(o.defaultLocale);
 			callback(e, o);
 		});
 	});

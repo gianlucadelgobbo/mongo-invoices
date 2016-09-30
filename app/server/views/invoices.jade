@@ -10,6 +10,9 @@
 				button.btn.btn-primary.dropdown-toggle(data-toggle="dropdown")
 					span.caret
 				ul.dropdown-menu
+					li
+						a(href="/invoices/?year=ALL Years" + (typeof cliente != "undefined" ? "&client=" + cliente.id : ""))="ALL Years"
+
 					each year in years
 						li
 							a(href="/invoices/?year="+year+(typeof cliente != "undefined" ? "&client="+cliente.id : ""))=year

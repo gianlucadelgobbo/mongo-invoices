@@ -1,4 +1,4 @@
-var DB = require('./server/modules/db-manager');
+//var DB = require('./server/modules/db-manager');
 
 
 module.exports = function(app, exp) {
@@ -14,6 +14,6 @@ module.exports = function(app, exp) {
 		app.use(exp.static(global.settings.root_path + '/app/common'));
 		app.use(exp.static(global.settings.root_path + '/app/public'));
 		app.use(exp.static(global.settings.root_path + '/customize'));
-		app.use(DB.i18n.init);
+		//app.use(DB.i18n.init);
 	});
 };

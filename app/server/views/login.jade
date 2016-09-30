@@ -3,10 +3,10 @@ div.col-sm-4.col-sm-offset-4#login-container
 	form(method="post")#login-form.well
 		input(type="hidden", name="from", value=from)
 		h1.page-title="Mongo invoices"
-		p.subheading=__("Please Login To Your Account")
+		p.subheading="Please Login To Your Account"
 		- if (typeof errors !== "undefined" && errors.length)
 			.alert.alert-danger
-				h4=__("There are some errors")
+				h4="There are some errors"
 				ul
 					- for(a=0;a<errors.length;a++)
 						li=errors[a].m
@@ -16,16 +16,19 @@ div.col-sm-4.col-sm-offset-4#login-container
 		.form-group
 			label Password
 			input(type="password", name="pass").form-control.required
+		.form-group
+			label DB Name
+			input(type="text", name="dbname", value=result.dbname).form-control.required
 		.row
 			.col-sm-6
-				label.checkbox(for="remember-me")=__("Remember Me")
+				label.checkbox(for="remember-me")="Remember Me"
 					input(type="checkbox", name="remember-me", id="remember-me", value="true", checked='checked')
 			.col-sm-6
 				.checkbox.pull-right
-					a(href='#',onclick="$('#get-credentials').modal('show');return false;")#forgot-password=__("Forgot Your Password?")
+					a(href='#',onclick="$('#get-credentials').modal('show');return false;")#forgot-password="Forgot Your Password?"
 		button(type="submit").btn.btn-primary
 			i.glyphicon.glyphicon-lock.icon-white
-			=" "+__("Sign in")
+			=" "+"Sign in"
 			
 include modals/lost-password
 

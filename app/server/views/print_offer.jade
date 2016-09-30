@@ -24,9 +24,10 @@ section.print_data.clearfix
 		tr
 			td(colspan="2").nowrap=__("VAT number")
 			td(colspan="2")=result.to_client.vat_number
-		tr
-			td(colspan="2").nowrap=__("Fiscal code")
-			td(colspan="2")=result.to_client.fiscal_code
+		- if(country=="Italy")
+			tr
+				td(colspan="2").nowrap=__("Fiscal code")
+				td(colspan="2")=result.to_client.fiscal_code
 	table.print_data_col2
 		tr
 			td.nowrap=__("Payment")

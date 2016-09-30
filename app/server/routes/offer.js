@@ -28,7 +28,7 @@ exports.get = function get(req, res) {
 					});
 				} else {
 					var resultEmpty = {offer_date:new Date(),offer_number:resultOffer.length+1,to_client:{address:{}},offer:{},items:[{}]};
-					res.render('offer', {	locals: {	title: __("Offer"), result : resultEmpty, udata : req.session.user } });
+					res.render('offer', {	locals: {	title: __("Offer"), country:global._config.company.country, result : resultEmpty, udata : req.session.user } });
 				}
 			});
 		}
@@ -58,7 +58,7 @@ exports.post = function post(req, res) {
 							if (req.body.id) {
 								DB.update_offer(req.body, req.session.user, function(e, o){
 									errors.push({name:"",m:__("Offer saved with success")});
-									res.render('offer', {	locals: {	title: __("Offer"), result : helpers.formatMoney(o), msg:{c:errors}, udata : req.session.user } });
+									res.render('offer', {	locals: {	title: __("Offer"), country:global._config.company.country, result : helpers.formatMoney(o), msg:{c:errors}, udata : req.session.user } });
 								});
 							} else {
 								DB.insert_offer(req.body, req.session.user, function(e,o){

@@ -41,6 +41,13 @@ form( method="post")#settings-form.form-horizontal
 		.col-sm-10
 			input#company-name.form-control(type='text', name='company[name]', value=result.company.name)
 	.form-group
+		label.control-label.col-sm-2(for='country')=__("Country")
+		.col-sm-10
+			select(name="company[country]")#country.form-control
+				option(value="")= __("Please select a country")
+				each item in countries
+					option(selected=item.name == result.company.country, value=item.name)=item.name
+	.form-group
 		label.control-label.col-sm-2(for='company-row1')=__("Company row1")
 		.col-sm-10
 			input#company-row1.form-control(type='text', name='company[row1]', value=result.company.row1)

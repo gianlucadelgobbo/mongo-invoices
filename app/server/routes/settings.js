@@ -12,10 +12,10 @@ exports.get = function get(req, res) {
 		DB.settings.findOne({}, function(e, result) {
 			if (result) {
 				if (!result.emailDispatcher) result.emailDispatcher = require('../modules/config.js')._config.emailDispatcher;
-				res.render('settings', {	locals: { title: __('Settings'), result : result, msg:{}, udata : req.session.user } });
+				res.render('settings', {	locals: { title: __('Settings'), countries : CT, result : result, msg:{}, udata : req.session.user } });
 			} else {
 				if (!global._config.emailDispatcher) global._config.emailDispatcher = require('./config.js')._config.emailDispatcher;
-				res.render('settings', {	locals: { title: __('Settings'), result : _config, msg:{}, udata : req.session.user } });
+				res.render('settings', {	locals: { title: __('Settings'), countries : CT, result : _config, msg:{}, udata : req.session.user } });
 			}
 		});
 	}
@@ -35,16 +35,10 @@ exports.post = function post(req, res) {
 			delete req.body.emailDispatcher.password_confirm;
 			DB.update_settings(req.body, req.session.user, function(e, o){
 				errors.push({name:"",m:__("Settings saved with success")});
-				console.dir("bellabella");
-				GLOBAL._config = o;
-				console.dir(_config.company.logo);
-				DB.i18n.setLocale(GLOBAL._config.defaultLocale);
-				
-				res.render('settings', {	locals: { title: __("Settings"), result : o, msg:{c:errors}, udata : req.session.user } });
+				res.render('settings', {	locals: { title: __("Settings"), countries : CT, result : o, msg:{c:errors}, udata : req.session.user } });
 			});
 		} else {
 			DB.insert_settings(req.body, req.session.user, function(e, o){
-				GLOBAL._config = o;
 				var msg = {};
 				if (e){
 					msg.e = [];
@@ -54,7 +48,6 @@ exports.post = function post(req, res) {
 					msg.c.push({name:"",m:__("Settings saved with success")});
 				}
 				res.redirect('/settings/');
-//									res.render('invoice', {	locals: {	title: __("Invoice"), result : helpers.formatMoney(o[0]), msg:msg, udata : req.session.user } });
 			});
 		}
 	}
