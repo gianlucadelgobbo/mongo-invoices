@@ -139,7 +139,6 @@ exports.print = function print(req, res) {
 					var pdf = require('html-pdf');
 					var options = { format: 'A4',"header": {"height": "75mm"},"footer": {"height": "30mm"}};
 					res.render('print_offer_pdf', { layout: 'print_pdf.jade' ,	locals: {	title: __("Offer"), country:global._config.company.country, result : result, udata : req.session.user } }, function (error, html) {
-						console.log(error);
 						if (!error) {
 							var folder = './app/public/accounts/'+global.settings.dbName+'/offers/'+result.offer_date.getFullYear()+'/';
 							var filename = result.offer_date.getFullYear()+'-'+(result.offer_date.getMonth()+1)+'-'+result.offer_date.getDate()+'_'+result.offer_number+'_'+global.settings.companyName+'_'+result.to_client.name+'.pdf';
@@ -151,8 +150,6 @@ exports.print = function print(req, res) {
 					});
 					// PDF END
 					res.send(html1);
-					console.log("stocazzo");
-
 				});
 			});
 		} else {
