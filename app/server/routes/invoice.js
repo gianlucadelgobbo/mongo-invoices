@@ -139,24 +139,26 @@ exports.print = function print(req, res) {
 	if (req.session.user == null) {
 		res.redirect('/?from='+req.url);
 	} else {
-		var pdf = require('html-pdf');
-		var options = { format: 'A4' };
-
-
 		if (req.query.id) {
 			DB.invoices.findOne({_id:new ObjectID(req.query.id)},function(e, result) {
 				result = helpers.formatMoney(result);
-				res.render('print_invoice', { layout: 'print.jade' ,	locals: {	title: __("Invoice"), country:global._config.company.country, result : result, udata : req.session.user } }, function (error, html) {
-					res.send(html);
-					if (!error) {
-						var folder = './app/public/accounts/'+global.settings.dbName+'/invoices/'+result.invoice_date.getFullYear()+'/';
-						var filename = result.invoice_date.getFullYear()+'-'+(result.invoice_date.getMonth()+1)+'-'+result.invoice_date.getDate()+'_'+result.invoice_number+'_'+global.settings.companyName+'_'+result.to_client.name+'.pdf';
-						pdf.create(html, options).toFile(folder+filename, function(err, res) {
-							if (err) return console.log(err);
-							console.log(res); // { filename: '/app/businesscard.pdf' }
+				res.render('print_invoice', { layout: 'print.jade' ,	locals: {	title: __("Invoice"), country:global._config.company.country, result : result, udata : req.session.user } }, function (error1, html1) {
+					res.send(html1);
+					// PDF START
+					var pdf = require('html-pdf');
+					var options = { format: 'A4',"header": {"height": "75mm"},"footer": {"height": "30mm"}};
+					res.render('print_invoice_pdf', { layout: 'print_pdf.jade' ,	locals: {	title: __("Invoice"), country:global._config.company.country, result : result, udata : req.session.user } }, function (error, html) {
+						if (!error) {
+							var folder = './app/public/accounts/'+global.settings.dbName+'/invoices/'+result.invoice_date.getFullYear()+'/';
+							var filename = result.invoice_date.getFullYear()+'-'+(result.invoice_date.getMonth()+1)+'-'+result.invoice_date.getDate()+'_'+result.invoice_number+'_'+global.settings.companyName+'_'+result.to_client.name+'.pdf';
+							pdf.create(html, options).toFile(folder+filename, function(err, res) {
+								if (err) return console.log(err);
+								console.log(res); // { filename: '/app/businesscard.pdf' }
 
-						});
-					}
+							});
+						}
+					});
+					// PDF END
 				});
 			});
 		} else {

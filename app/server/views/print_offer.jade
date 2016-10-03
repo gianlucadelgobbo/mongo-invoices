@@ -2,7 +2,7 @@
 header
 	.logo
 		- if(_config.company.logo)
-			img(src=_config.company.logo, alt=_config.company.name)
+			img(src='/accounts/'+global.settings.dbName+'/'+_config.company.logo, alt=_config.company.name)
 		- else
 			span=_config.company.name
 	.company_row1!=_config.company.row1

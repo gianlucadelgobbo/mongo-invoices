@@ -36,6 +36,7 @@ form( method="post")#settings-form.form-horizontal
 		label.control-label.col-sm-2(for='company-logo')=__("Company logo")
 		.col-sm-10
 			input#company-logo.form-control(type='text', name='company[logo]', value=result.company.logo)
+			small='/app/public/accounts/'+global.settings.dbName+'/'
 	.form-group
 		label.control-label.col-sm-2(for='company-name')=__("Company name")
 		.col-sm-10

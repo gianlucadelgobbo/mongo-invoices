@@ -57,7 +57,7 @@ DB.update_settings = function(newData, userData, callback) {
 			console.log(o);
 			global._config = o;
 			if (!global._config.roles) global._config.roles = require('./../config.js')._config.roles;
-			DB.i18n.setLocale(o.defaultLocale);
+			i18nAdmin.setLocale(o.defaultLocale);
 			callback(e, o);
 		});
 	});

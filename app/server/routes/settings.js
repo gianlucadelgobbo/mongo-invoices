@@ -6,7 +6,7 @@ var helpers = require('../helpers/helpers');
 exports.get = function get(req, res) {
 	if (req.session.user == null){
 		res.redirect('/?from='+req.url);
-	} else if (req.session.user.role != 'admin'){
+	} else if (req.session.user.role != 'admin' && req.session.user.role != 'superadmin'){
 		res.redirect('/?from='+req.url);
 	} else {
 		DB.settings.findOne({}, function(e, result) {
