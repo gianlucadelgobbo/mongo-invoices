@@ -5,23 +5,27 @@
  */
 
 global.settings = {
-	port:		8003,
-	dbPort:		27017,
-	dbHost:		'localhost',
-	dbName:		"admin-linux",
-	root_path:	__dirname
+	port:			8005,
+	dbPort:			27017,
+	dbHost:			"localhost",
+	dbUsersName:	"admin",
+	root_path:		__dirname,
+	defaultLocales: ["en","it"],
+	defaultLocale: 	"en",
+	roles: require('./app/server/config.js')._roles.roles,
+	googleAnalytics: "UA-85060850-1"
 }
-var DB = require('./app/server/helpers/db-manager');
+var DBUsers = require('./app/server/helpers/db-users-manager');
 
-DB.init(function(){
+DBUsers.init(function(){
 	var exp = require('express');
 	var app = exp.createServer();
-	
-	require('./app/setup')(app, exp);
+
+	require('./app/server/setup')(app, exp);
 	require('./app/server/router')(app);
-	
+
 	app.listen(global.settings.port, function(){
 		console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 	});
-});	
+});
 
