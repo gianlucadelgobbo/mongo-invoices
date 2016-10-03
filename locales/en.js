@@ -257,5 +257,11 @@
 	"Password confirm": "Password confirm",
 	"Sender name": "Sender name",
 	"Sender email": "Sender email",
-	"Submit": "Submit"
+	"Submit": "Submit",
+	"Companies to manage": "Companies to manage",
+	"Company Name": "Company Name",
+	"DB Name": "DB Name",
+	"Please enter a valid Company Name": "Please enter a valid Company Name",
+	"Please enter a valid DB Name": "Please enter a valid DB Name",
+	"Account000": "Account000"
 }

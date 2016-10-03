@@ -1,4 +1,4 @@
-var DB = require('../modules/db-manager');
+var DB = require('./../helpers/db-manager');
 
 exports.get = function get(req, res) {
   if (req.session.user == null) {

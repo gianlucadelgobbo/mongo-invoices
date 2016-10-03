@@ -1,12 +1,13 @@
 var ObjectID = require('mongodb').ObjectID;
-var DB = require('../modules/db-manager');
-var helpers = require('./helpers');
+var DB = require('./../helpers/db-manager');
+var helpers = require('./../helpers/helpers');
 
 exports.get = function get(req, res) {
 	if (req.session.user == null) {
 		res.redirect('/?from='+req.url);
 	} else {
 		var msg = {};
+		var year;
 		if (req.query.id && req.query.del) {
 			DB.delete_invoice(req.query.id, function(err, obj){
 				if (obj){
@@ -21,10 +22,12 @@ exports.get = function get(req, res) {
 		var query = req.query.client ? {"to_client._id":req.query.client} : {};
 		if (!req.query.year) req.query.year = new Date().getFullYear();
 		if (req.query.year && req.query.year!="ALL Years") {
-			var year = parseInt(req.query.year);
+			year = parseInt(req.query.year);
 			var start = new Date(year-1, 11, 31);
 			var end = new Date(year+1, 0, 1);
 			query.invoice_date = {$gte: start, $lt: end}
+		} else {
+			year = req.query.year;
 		}
 
 		DB.invoices.find().toArray(function(e, result) {

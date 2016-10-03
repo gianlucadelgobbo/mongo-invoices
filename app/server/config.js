@@ -27,26 +27,6 @@ var _config = {
 			"decimal" : ","
 		}
 	},
-	"roles":{
-		"admin": {
-			"display_name" : "Administrator",
-			"admin" : true,
-			"write": true,
-			"read" : true
-		},
-		"editor": {
-			"display_name" : "Editor",
-			"admin" : false,
-			"write": true,
-			"read" : true
-		},
-		"viewer": {
-			"display_name" : "Viewer",
-			"admin" : false,
-			"write": false,
-			"read" : true
-		}
-	},
 	"googleAnalytics": "",
 	"emailDispatcher": {
 		"host"			: 'smtp.gmail.com',
@@ -56,6 +36,39 @@ var _config = {
 		"senderemail"	: ''
 	}
 }
+var _roles = {
+	"roles":{
+		"superadmin": {
+			"display_name" : "Super Administrator",
+			"superadmin" : true,
+			"admin" : true,
+			"write": true,
+			"read" : true
+		},
+		"admin": {
+			"display_name" : "Administrator",
+			"superadmin" : false,
+			"admin" : true,
+			"write": true,
+			"read" : true
+		},
+		"editor": {
+			"display_name" : "Editor",
+			"superadmin" : false,
+			"admin" : false,
+			"write": true,
+			"read" : true
+		},
+		"viewer": {
+			"display_name" : "Viewer",
+			"superadmin" : false,
+			"admin" : false,
+			"write": false,
+			"read" : true
+		}
+	}
+}
 if (typeof exports !== "undefined") exports._config = _config;
+if (typeof exports !== "undefined") exports._roles = _roles;
 //if (GLOBAL) GLOBAL._config = _config;
 //console.log(GLOBAL._config);

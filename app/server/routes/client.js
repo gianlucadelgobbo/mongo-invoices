@@ -1,7 +1,7 @@
 var ObjectID = require('mongodb').ObjectID;
-var DB = require('../modules/db-manager');
-var CT = require('../modules/country-list');
-var helpers = require('./helpers');
+var DB = require('../helpers/db-manager');
+var CT = require('../helpers/country-list');
+var helpers = require('../helpers/helpers');
 
 exports.get = function get(req, res) {
   if (req.session.user == null) {

@@ -1,4 +1,4 @@
-var DB = require('../modules/db-manager');
+var DB = require('./../helpers/db-manager');
 
 exports.get = function get(req, res) {
 	res.render('reset', { title: __("Reset Password"), email:req.query.e });

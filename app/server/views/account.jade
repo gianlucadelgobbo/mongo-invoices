@@ -1,6 +1,5 @@
 // preset form values if we receive a userdata object //
 - user = typeof(udata) != 'undefined' ? udata : {}
-- console.log(_config)
 
 -if (result._id)
 	h1.page-title
@@ -8,8 +7,8 @@
 		span.name_new=result.name
 - else
 	h1.page-title=__("New account")
-- console.log
-- if (result._id && !_config.roles[result.role].admin && user._id!=result._id)
+
+- if (result._id && !global.settings.roles[udata.role].admin && user._id!=result._id)
 	.alert.alert-danger
 		h4=__("There are some errors")
 		ul
@@ -30,6 +29,74 @@
 				ul
 					- for(a=0;a<msg.c.length;a++)
 						li=msg.c[a].m
+		p#sub2.subheading=__("Companies to manage")
+		hr
+		- if (udata._id)
+			- if (global.settings.roles[udata.role].superadmin && udata._id == result._id)
+				#companies
+					- each b,index in result.companies
+						.row(id="entry" + index, style="margin-bottom:10px")
+							label.control-label.col-sm-2=__("Company Name")
+							.col-sm-10
+								.row
+									.col-sm-3
+										input.form-control.col-sm-3(type='text', name='companies[' + index + '][companyname]', value=result.companies[index].companyname)
+									.col-sm-3
+										input.form-control.col-sm-3(type='text', name='companies[' + index + '][dbname]', value=result.companies[index].dbname)
+									.col-sm-3
+										button.btn.btn-default(disabled=!index ? "disabled" : undefined, type="button",onclick="$(this).parent().parent().parent().parent().remove()")
+											i.glyphicon.glyphicon-minus
+				.row
+					.col-sm-2
+					.col-sm-2
+						button.btn.btn-default(type="button")#btnAdd
+							i.glyphicon.glyphicon-plus
+			- else if (global.settings.roles[udata.role].admin && !global.settings.roles[result.role].superadmin && udata._id != result._id)
+				#companies
+					label.control-label.col-sm-2=__("Company Name")
+					.col-sm-10
+						- if (udata.companies)
+							- var userdbs = []
+							- if (result.companies)
+								- each b,index in result.companies
+									- if (result.companies[index] && result.companies[index].dbname)
+										- userdbs.push(result.companies[index].dbname)
+							- console.log(userdbs)
+							- each b,index in udata.companies
+								- console.log(udata.companies[index].dbname)
+								.checkbox
+									label
+										input(checked=userdbs.indexOf(udata.companies[index].dbname) >= 0 ? "checked" : undefined, type='checkbox', name='companies[' + index + '][dbname]', value=udata.companies[index].dbname)
+										input(type='hidden', name='companies[' + index + '][companyname]', value=udata.companies[index].companyname)
+										!=udata.companies[index].companyname
+			- else
+				#companies
+					label.control-label.col-sm-2=__("Company Name")
+					.col-sm-10
+						- if (udata.companies)
+							- var userdbs = []
+							- if (result.companies)
+								- each b,index in udata.companies
+									.checkbox=udata.companies[index].companyname
+		- else
+			.row(id="entry0", style="margin-bottom:10px")
+				label.control-label.col-sm-2=__("Company Name")
+				.col-sm-10
+					.row
+						.col-sm-3
+							input.form-control(type='text', placeholder=__("Name"), name='companies[0][companyname]')
+						.col-sm-3
+							input.form-control(type='text', placeholder=__("DB Name"), name='companies[0][dbname]')
+						.col-sm-3
+							button.btn.btn-default(disabled="disabled", type="button",onclick="$(this).parent().parent().parent().parent().remove()")
+								i.glyphicon.glyphicon-minus
+			.row
+				.col-sm-2
+				.col-sm-2
+					button.btn.btn-default(type="button")#btnAdd
+						i.glyphicon.glyphicon-plus
+
+
 		p#sub2.subheading=__("Personal information")
 		hr
 		#name-cg.form-group
@@ -44,14 +111,14 @@
 			label.control-label.col-sm-2(for='country-list')=__("Country")
 			.col-sm-10
 				select#country-list.form-control(name='country')
-					option= __("Please select a country")
+					option(value='')= __("Please select a country")
 					each item in countries
 						option(selected=item.name == result.country, value=item.name)=item.name
 		- if (result._id && user._id==result._id)
 			#roles-cg.form-group
 				label.control-label.col-sm-2(for='role')=__("Role")
 				.col-sm-10(style="padding-top:5px")
-					b=_config.roles[result.role].display_name
+					b=global.settings.roles[result.role].display_name
 				input#role(type='hidden', name='role', value=result.role)
 		- else if (user._id)
 			#roles-cg.form-group
@@ -59,14 +126,14 @@
 				.col-sm-10
 					select#role.form-control(name='role')
 						option= __("Please select a role")
-						- for (item in _config.roles)
-							option(selected=item == result.role,value=item)= _config.roles[item].display_name
+						- for (item in global.settings.roles)
+							option(selected=item == result.role,value=item)= global.settings.roles[item].display_name
 		- else
 			#roles-cg.form-group
 				label.control-label.col-sm-2(for='role')=__("Role")
 				.col-sm-10
-					input.form-control(disabled,value="Admin")
-					input#role(type='hidden', name='role', value="admin")
+					input.form-control(disabled,value="Super Administrator")
+					input#role(type='hidden', name='role', value="superadmin")
 		p#sub2.subheading=__("Access Credentials")
 		hr
 		#result-cg.form-group
@@ -80,7 +147,7 @@
 		.form-actions
 			- if (result._id)
 				button(type='submit')#account-form-btn2.btn.btn-success=__("Update")
-				- if (_config.roles[user.role].admin && user._id!=result._id)
+				- if (global.settings.roles[user.role].admin && user._id!=result._id)
 					button(type='button')#account-form-btn1.btn.btn-danger=__("Delete")
 			- else
 				button(type='submit')#account-form-btn1.btn.btn-success=__("Save")

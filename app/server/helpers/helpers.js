@@ -1,13 +1,14 @@
 var bcrypt = require('bcrypt-nodejs');
 var ObjectID = require('mongodb').ObjectID;
 var accounting = require('accounting');
-var DB = require('../modules/db-manager');
+var DBusers = require('./db-users-manager');
+var DB = require('./db-manager');
 var Validators = require('../../common/validators').Validators;
 
 // Forms validators //
 exports.validateFormLogin = function validateFormLogin(o,callback) {
 	var e = [];
-	DB.accounts.findOne({user:o.user}, function(err, result) {
+	DBusers.users.findOne({user:o.user}, function(err, result) {
 		if (result == null){
 			e.push({name:"user",m:__("User not found")});
 			callback(e, o);
@@ -22,13 +23,30 @@ exports.validateFormLogin = function validateFormLogin(o,callback) {
 
 exports.validateFormAccount = function validateFormAccount(o,callback) {
 	var e = [];
+	var companies = [];
+	if (o.companies) {
+		for (var a=0;a<o.companies.length;a++) {
+			if (o.companies[a].dbname){
+				if (!Validators.validateStringLength(o.companies[a].companyname, 3, 100)){
+					e.push({name:"name",m:__("Please enter a valid Company Name")});
+				}
+				if (!Validators.validateStringLength(o.companies[a].dbname, 3, 100)){
+					e.push({name:"name",m:__("Please enter a valid DB Name")});
+				}
+			} else {
+				o.companies.splice(a, 1);;
+			}
+		}
+	} else {
+		e.push({name:"name",m:__("Please enter a valid Company Name")});
+	}
 	if (!Validators.validateStringLength(o.name, 3, 100)){
 		e.push({name:"name",m:__("Please enter a valid Name")});
 	}
 	if (typeof o.country === "undefined" || !Validators.validateStringLength(o.country, 3, 50)){
 		e.push({name:"country",m:__("Please enter a Country")});
 	}
-	if (!_config.roles[o.role]){
+	if (!settings.roles[o.role]){
 		e.push({name:"role",m:__("Please enter a valid Role")});
 	}
 	if (((o.id && o.pass !== "") || !o.id) && !Validators.validateStringLength(o.pass, 3, 50)){
@@ -42,13 +60,13 @@ exports.validateFormAccount = function validateFormAccount(o,callback) {
 		callback(e, o);
 	} else {
 		var q = (o.id ? {_id:{$ne: new ObjectID(o.id)},email:o.email} : {email:o.email});
-		DB.accounts.findOne(q ,function(err, result) {
+		DBusers.users.findOne(q ,function(err, result) {
 			if (result) {
 				e.push({name:"email",m:__("Email already used from another account")});
 				callback(e, o);
 			} else {
 				var q = (o.id ? {_id:{$ne: new ObjectID(o.id)},user:o.user} : {user:o.user});
-				DB.accounts.findOne(q, function(err, result) {
+				DBusers.users.findOne(q, function(err, result) {
 					if (result){
 						e.push({name:"email",m:__("Username already in use")});
 					}

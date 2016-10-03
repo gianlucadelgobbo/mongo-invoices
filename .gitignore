@@ -6,4 +6,5 @@ node_modules
 out.log
 app.js
 app/public/css/style.css
-customize
+app/public/accounts/*
+customize-example

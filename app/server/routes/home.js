@@ -1,4 +1,4 @@
-var CT = require('../modules/country-list');
+var CT = require('../helpers/country-list');
 
 exports.get = function get(req, res) {
   if (req.session.user == null) {

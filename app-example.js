@@ -11,7 +11,7 @@ global.settings = {
 	dbName:		"admin-linux",
 	root_path:	__dirname
 }
-var DB = require('./app/server/modules/db-manager');
+var DB = require('./app/server/helpers/db-manager');
 
 DB.init(function(){
 	var exp = require('express');

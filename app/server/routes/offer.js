@@ -1,7 +1,7 @@
 var ObjectID = require('mongodb').ObjectID;
-var DB = require('../modules/db-manager');
+var DB = require('./../helpers/db-manager');
 var Validators = require('../../common/validators').Validators;
-var helpers = require('./helpers');
+var helpers = require('./../helpers/helpers');
 
 exports.get = function get(req, res) {
 	if (req.session.user == null) {

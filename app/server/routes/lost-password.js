@@ -1,6 +1,6 @@
 exports.post = function post(req, res) {
-	var DB = require('../modules/db-manager');
-	var EM = require('../modules/email-dispatcher');
+	var DB = require('./../helpers/db-manager');
+	var EM = require('./email-dispatcher');
 	// look up the user's account via their email //
 	if (global._config.emailDispatcher && global._config.emailDispatcher.host && global._config.emailDispatcher.password) {
 		DB.accounts.findOne({email: req.param('email')}, function (e, o) {

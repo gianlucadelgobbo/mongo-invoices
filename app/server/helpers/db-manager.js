@@ -1,7 +1,7 @@
+var Mongodb = require('mongodb').Db;
+var Server = require('mongodb').Server;
 
 var bcrypt = require('bcrypt-nodejs');
-var Db = require('mongodb').Db;
-var Server = require('mongodb').Server;
 
 var dbPort = global.settings.dbPort;
 var dbHost = global.settings.dbHost;
@@ -13,57 +13,29 @@ var ObjectID = require('mongodb').ObjectID;
 
 var accounting = require('accounting');
 
+var i18nAdmin = require('./i18n-admin');
 
 var DB = {};
-	DB.i18n = require('i18n');
-
-
-
-module.exports = DB;
 
 DB.init = function(callback) {
-	var dbName = global.settings.dbName;
-	DB.db = new Db(dbName, new Server(dbHost, dbPort, {auto_reconnect: true,safe:true}, {}));
-	console.log("stocazzo");
+	DB.db = new Mongodb(global.settings.dbName, new Server(dbHost, dbPort, {auto_reconnect: true,safe:true}, {}));
 	DB.db.open(function(e, d){
 		var e;
 		if (e) {
 			console.log(e);
 		} else {
-			console.log('connected to database: ' + dbName);
+			console.log('connected to database: ' + global.settings.dbName);
 			DB.db.collection('settings').findOne({}, function(e, o){
-				//console.dir(o.defaultLocale);
-				if (!o) o = require('./config.js')._config;
-
+				if (!o) o = require('./../config.js')._config;
 				global._config = o;
-				if (!global._config.roles) global._config.roles = require('./config.js')._config.roles;
-				//if (!global._config.emailDispatcher) global._config.emailDispatcher = require('./config.js')._config.emailDispatcher;
-				/*
-				global._config.port =		global.settings.port;
-				global._config.dbPort =		global.settings.dbPort;
-				global._config.dbHost =		global.settings.dbHost;
-				global._config.dbName =		global.settings.dbName;
-				 */
-				//GLOBAL._config.roles =		tmp.roles;
 				accounting.settings = 		global._config.accountingSettings;
-				DB.i18n.configure({
-				    // setup some locales - other locales default to en silently
-				    locales:		global._config.locales,
-					directory: 		global.settings.root_path + '/locales',
-					defaultLocale: 	global._config.defaultLocale,
-				    // where to register __() and __n() to, might be "global" if you know what you are doing
-				    register:		global
-				});
-				//console.dir(global.settings.root_path + '/locales');
-				//setLocale(GLOBAL._config.defaultLocale);
-				console.dir(getLocale());
-				DB.accounts = DB.db.collection('accounts');
+				i18nAdmin.setLocale(o.defaultLocale);
 				DB.clients = DB.db.collection('clients');
 				DB.invoices = DB.db.collection('invoices');
 				DB.offers = DB.db.collection('offers');
 				DB.settings = DB.db.collection('settings');
 				callback();
-			});	
+			});
 		}
 	});
 }
@@ -84,106 +56,12 @@ DB.update_settings = function(newData, userData, callback) {
 		DB.settings.findOne({_id:newData._id}, function(e, o){
 			console.log(o);
 			global._config = o;
-			if (!global._config.roles) global._config.roles = require('./config.js')._config.roles;
+			if (!global._config.roles) global._config.roles = require('./../config.js')._config.roles;
 			DB.i18n.setLocale(o.defaultLocale);
 			callback(e, o);
 		});
 	});
 }
-DB.insert_account = function(newData, callback) {
-	delete newData.id;
-	DB.saltAndHash(newData.pass, function(hash){
-		newData.pass = hash;
-	// append date stamp when record was created //
-		newData.date = moment().format('MMMM Do YYYY, h:mm:ss a');
-		DB.accounts.insert(newData, {safe: true}, function(err, records){
-			callback(err, records);
-		});
-	});
-}
-DB.update_account = function(newData, callback) {
-	DB.accounts.findOne({_id: new ObjectID(newData.id)}, function(e, o){
-		o.name 		= newData.name;
-		o.role 		= newData.role;
-		o.email 	= newData.email;
-		o.country 	= newData.country;
-		if (newData.pass == ''){
-			DB.accounts.save(o);
-			callback(o);
-		} else{
-			DB.saltAndHash(newData.pass, function(hash){
-				o.pass = hash;
-				DB.accounts.save(o);
-				callback(o);
-			});
-		}
-	});
-}
-DB.delete_account = function(id, callback) {
-	DB.accounts.remove({_id: new ObjectID(id)}, {safe: true}, function(err, records){
-		callback(err, records);
-	});
-}
-
-DB.setPassword = function(email, newPass, callback) {
-	DB.accounts.findOne({email:email}, function(e, o){
-		DB.saltAndHash(newPass, function(hash){
-			o.pass = hash;
-			DB.accounts.save(o);
-			callback(o);
-		});
-	});
-}
-
-DB.saltAndHash = function(pass, callback) {
-	bcrypt.genSalt(10, function(err, salt) {
-		bcrypt.hash(pass, salt, function(err, hash) {}, function(err, hash) {
-			callback(hash);
-		});
-	});
-}
-
-
-/*
-// just for testing - these are not actually being used //
-
-DB.findById = function(id, callback) {
-	DB.accounts.findOne({_id: new ObjectID(id)},
-		function(e, res) {
-		if (e) callback(e)
-		else callback(null, res)
-	});
-}
-
-
-DB.findByMultipleFields = function(a, callback) {
-// this takes an array of name/val pairs to search against {fieldName : 'value'} //
-	DB.accounts.find( { $or : a } ).toArray(
-		function(e, results) {
-		if (e) callback(e)
-		else callback(null, results)
-	});
-}
-
-DB.getEmail = function(email, callback) {
-	DB.accounts.findOne({email:email}, function(e, o){ callback(o); });
-}
-
-DB.getObjectId = function(id) {
-	return DB.accounts.db.bson_serializer.ObjectID.createFromHexString(id)
-}
-DB.getAllRecords = function(callback) {
-	DB.accounts.find().toArray(
-		function(e, res) {
-		if (e) callback(e)
-		else callback(null, res)
-	});
-}
-
-DB.delAllRecords = function(id, callback) {
-	DB.accounts.remove(); // reset accounts collection for testing //
-}
-*/
 
 DB.insert_invoice = function(newData, userData, callback) {
 	delete newData.id;
@@ -319,3 +197,5 @@ function unformatPrices(newInvoice){
 	if (newInvoice.items) {
 	}
 }
+
+module.exports = DB;

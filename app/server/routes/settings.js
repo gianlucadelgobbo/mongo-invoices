@@ -1,7 +1,7 @@
-var DB = require('../modules/db-manager');
+var DB = require('../helpers/db-manager');
 var ObjectID = require('mongodb').ObjectID;
-var CT = require('../modules/country-list');
-var helpers = require('./helpers');
+var CT = require('../helpers/country-list');
+var helpers = require('../helpers/helpers');
 
 exports.get = function get(req, res) {
 	if (req.session.user == null){
@@ -11,7 +11,7 @@ exports.get = function get(req, res) {
 	} else {
 		DB.settings.findOne({}, function(e, result) {
 			if (result) {
-				if (!result.emailDispatcher) result.emailDispatcher = require('../modules/config.js')._config.emailDispatcher;
+				if (!result.emailDispatcher) result.emailDispatcher = require('../config.js')._config.emailDispatcher;
 				res.render('settings', {	locals: { title: __('Settings'), countries : CT, result : result, msg:{}, udata : req.session.user } });
 			} else {
 				if (!global._config.emailDispatcher) global._config.emailDispatcher = require('./config.js')._config.emailDispatcher;

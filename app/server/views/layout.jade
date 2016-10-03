@@ -32,6 +32,22 @@ html
 			.container-fluid.cnt
 				div.row
 					div.col-sm-2
+						- if(locals.udata.companies.length>0)
+							.btn-group
+								a(href=locals.udata.role == 'admin' || locals.udata.role == 'superadmin' ? '/settings' : "#",style="width: 100%;text-align:left").btn.btn-default
+									b=global.settings.companyName+" "
+								button(type="button", data-toggle="dropdown", aria-haspopup="true", aria-expanded="false").btn.btn-default.dropdown-toggle
+									span.caret
+								ul.dropdown-menu
+									- each company in locals.udata.companies
+										- if (company && company.dbname && company.companyname)
+											li
+												a(href="/?dbname="+company.dbname)=company.companyname
+							br
+						- else
+							.list-group
+								.list-group-item
+									b=global.settings.companyName
 						.list-group
 							a(href="/clients").list-group-item
 								i.glyphicon.glyphicon-chevron-right.pull-right
@@ -51,16 +67,18 @@ html
 							a(href='/invoice').list-group-item.submenu
 								i.glyphicon.glyphicon-chevron-right.pull-right
 								span=__("New invoice")
+						.list-group
+							a(href='/account?id=' + locals.udata._id).list-group-item.submenu
+								i.glyphicon.glyphicon-chevron-right.pull-right
+								span=__("My account")
 							a(href='/accounts').list-group-item
 								i.glyphicon.glyphicon-chevron-right.pull-right
 								span=__("Accounts")
 							a(href='/account').list-group-item.submenu
 								i.glyphicon.glyphicon-chevron-right.pull-right
 								span=__("New account")				
-							a(href='/account?id='+locals.udata._id).list-group-item.submenu
-								i.glyphicon.glyphicon-chevron-right.pull-right
-								span=__("My account")
-							- if (locals.udata.role == 'admin')			
+
+							- if (global.settings.roles[locals.udata.role].admin)
 								a(href='/settings').list-group-item
 									i.glyphicon.glyphicon-chevron-right.pull-right
 									span=__("Settings")				
@@ -76,8 +94,7 @@ html
 		include modals/confirm
 		include modals/errors
 		script
-			if _config in this
-				var _config = !{JSON.stringify(_config)}
+			var _config = "#{JSON.stringify(_config)}"
 		script(src="/validators.js")
 		script(src="/accounting.js")
 		script(src="/lib/jquery.min.js")
