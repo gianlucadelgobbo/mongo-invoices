@@ -1,11 +1,10 @@
 {
   "name": "mongo-invoices",
-  "version": "0.0.0",
+  "version": "2.0.0",
   "description": "open-source invoice system build on node.js and mongodb",
   "main": "app.js",
   "dependencies": {
     "accounting": "~0.3.2",
-    "async": "^2.0.1",
     "bcrypt-nodejs": "0.0.3",
     "emailjs": "~0.3.2",
     "express": "~2.5.11",
@@ -14,7 +13,6 @@
     "jade": "~0.27.5",
     "moment": "~1.7.0",
     "mongodb": "~1.1.7",
-    "request": "^2.75.0",
     "stylus": "~0.29.0"
   },
   "devDependencies": {},
