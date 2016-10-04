@@ -48,7 +48,7 @@ html
 
 		script(src="/js/scripts.js")
 
-		- if (_config.googleAnalytics!="") {
+		- if (_config.googleAnalytics!="")
 			script(type="text/javascript").
 				var _gaq = _gaq || [];
 				_gaq.push(["_setAccount", "#{_config.googleAnalytics}"]);

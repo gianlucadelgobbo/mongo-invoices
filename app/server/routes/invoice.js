@@ -67,7 +67,6 @@ exports.post = function post(req, res) {
 							if (req.body.id) {
 								DB.update_invoice(req.body, req.session.user, function(e, o){
 									errors.push({name:"",m:__("Invoice saved with success")});
-									console.dir("bella");
 									res.render('invoice', {	locals: {	title: __("Invoice"), country:global._config.company.country, result : helpers.formatMoney(o), msg:{c:errors}, udata : req.session.user } });
 								});
 							} else {
@@ -145,15 +144,15 @@ exports.print = function print(req, res) {
 				var folder = '/accounts/'+global.settings.dbName+'/invoices/'+result.invoice_date.getFullYear()+'/';
 				var filename = result.invoice_date.getFullYear()+'-'+(result.invoice_date.getMonth()+1)+'-'+result.invoice_date.getDate()+'_'+result.invoice_number+'_'+global.settings.companyName+'_'+result.to_client.name+'.pdf';
 				res.render('print_invoice', { layout: 'print.jade' ,	locals: {	title: __("Invoice"), country:global._config.company.country, result : result, udata : req.session.user, file:folder+filename } }, function (error1, html1) {
-					res.send(html1);
 					// PDF START
 					var pdf = require('html-pdf');
 					var options = { format: 'A4',"header": {"height": "75mm"},"footer": {"height": "30mm"}};
 					res.render('print_invoice_pdf', { layout: 'print_pdf.jade' ,	locals: {	title: __("Invoice"), country:global._config.company.country, result : result, udata : req.session.user } }, function (error, html) {
 						if (!error) {
-							pdf.create(html, options).toFile('./app/public'+folder+filename, function(err, res) {
-								if (err) return console.log(err);
-								console.log(res); // { filename: '/app/businesscard.pdf' }
+							pdf.create(html, options).toFile('./app/public'+folder+filename, function(pdferr, pdfres) {
+								res.send(html1);
+								//if (pdferr) return console.log(pdferr);
+								//console.log(pdfres); // { filename: '/app/businesscard.pdf' }
 
 							});
 						}

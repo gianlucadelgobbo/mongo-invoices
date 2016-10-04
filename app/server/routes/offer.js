@@ -142,14 +142,14 @@ exports.print = function print(req, res) {
 					var options = { format: 'A4',"header": {"height": "75mm"},"footer": {"height": "30mm"}};
 					res.render('print_offer_pdf', { layout: 'print_pdf.jade' ,	locals: {	title: __("Offer"), country:global._config.company.country, result : result, udata : req.session.user } }, function (error, html) {
 						if (!error) {
-							pdf.create(html, options).toFile('./app/public'+folder+filename, function(err, res) {
-								if (err) return console.log(err);
-								console.log(res); // { filename: '/app/businesscard.pdf' }
+							pdf.create(html, options).toFile('./app/public'+folder+filename, function(pdferr, pdfres) {
+								res.send(html1);
+								//if (pdferr) return console.log(pdferr);
+								//console.log(pdfres); // { filename: '/app/businesscard.pdf' }
 							});
 						}
 					});
 					// PDF END
-					res.send(html1);
 				});
 			});
 		} else {
