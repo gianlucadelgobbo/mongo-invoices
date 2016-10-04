@@ -31,7 +31,7 @@
 						li=msg.c[a].m
 		p#sub2.subheading=__("Companies to manage")
 		hr
-		- if (udata._id)
+		- if (typeof(udata) != 'undefined' && udata._id)
 			- if (global.settings.roles[udata.role].superadmin && udata._id == result._id)
 				#companies
 					- each b,index in result.companies
