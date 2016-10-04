@@ -2,6 +2,7 @@ var DB = require('./../helpers/db-manager');
 var Validators = require('../../common/validators').Validators;
 var helpers = require('./../helpers/helpers');
 var ObjectID = require('mongodb').ObjectID;
+var fs = require("fs");
 
 exports.get = function get(req, res) {
 	if (req.session.user == null) {
@@ -143,21 +144,24 @@ exports.print = function print(req, res) {
 				result = helpers.formatMoney(result);
 				var folder = '/accounts/'+global.settings.dbName+'/invoices/'+result.invoice_date.getFullYear()+'/';
 				var filename = result.invoice_date.getFullYear()+'-'+(result.invoice_date.getMonth()+1)+'-'+result.invoice_date.getDate()+'_'+result.invoice_number+'_'+global.settings.companyName+'_'+result.to_client.name+'.pdf';
-				res.render('print_invoice', { layout: 'print.jade' ,	locals: {	title: __("Invoice"), country:global._config.company.country, result : result, udata : req.session.user, file:folder+filename } }, function (error1, html1) {
-					// PDF START
-					var pdf = require('html-pdf');
-					var options = { format: 'A4',"header": {"height": "75mm"},"footer": {"height": "30mm"}};
-					res.render('print_invoice_pdf', { layout: 'print_pdf.jade' ,	locals: {	title: __("Invoice"), country:global._config.company.country, result : result, udata : req.session.user } }, function (error, html) {
-						if (!error) {
-							pdf.create(html, options).toFile('./app/public'+folder+filename, function(pdferr, pdfres) {
-								res.send(html1);
-								//if (pdferr) return console.log(pdferr);
-								//console.log(pdfres); // { filename: '/app/businesscard.pdf' }
-
+				fs.writeFile('./app/public/accounts/'+global.settings.dbName+"/style_print.jade", "", { flag: 'wx' }, function (err) {
+					res.render('../../public/accounts/'+global.settings.dbName+"/style_print", {layout: false}, function (error_style, style) {
+						res.render('print_invoice', { layout: 'print.jade' ,	locals: {	title: __("Invoice"), country:global._config.company.country, result : result, udata : req.session.user, file:folder+filename, style:style } }, function (error1, html1) {
+							// PDF START
+							var pdf = require('html-pdf');
+							var options = { format: 'A4',"header": {"height": "75mm"},"footer": {"height": "30mm"}};
+							res.render('print_invoice_pdf', { layout: 'print_pdf.jade' ,	locals: {	title: __("Invoice"), country:global._config.company.country, result : result, udata : req.session.user, style:style } }, function (error, html) {
+								if (!error) {
+									pdf.create(html, options).toFile('./app/public'+folder+filename, function(pdferr, pdfres) {
+										res.send(html1);
+										//if (pdferr) return console.log(pdferr);
+										//console.log(pdfres); // { filename: '/app/businesscard.pdf' }
+									});
+								}
 							});
-						}
+							// PDF END
+						});
 					});
-					// PDF END
 				});
 			});
 		} else {

@@ -1,4 +1,4 @@
-header
+header#pageHeader
 	.logo
 		- console.log('file://' + global.settings.root_path+'/app/public/accounts/' + global.settings.dbName + '/' + _config.company.logo)
 		- if(_config.company.logo)
@@ -7,49 +7,50 @@ header
 			span=_config.company.name
 	.company_row1!=_config.company.row1
 	.company_row2!=_config.company.row2
-section.print_data.clearfix
-	table.print_data_col1
-		tr
-			td.nowrap.muted=__("Invoice number")
-			td.nowrap.paddingright.paddingleft=result.invoice_number
-			td.nowrap.muted=__("Invoice date")
-			- d = result.invoice_date;
-			td=d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear()
-		tr
-			td(colspan="2").nowrap.muted=__("Client")
-			td(colspan="2")
-				b=(result.to_client.name+" ")
-				br
-				span=result.to_client.address.street+" "+result.to_client.address.city+" "+result.to_client.address.country
-		tr
-			td(colspan="2").nowrap.muted=__("VAT number")
-			td(colspan="2")=result.to_client.vat_number
-		- if(country=="Italy")
+.cntPadd
+	section.print_data.clearfix
+		table.print_data_col1
 			tr
-				td(colspan="2").nowrap.muted=__("Fiscal code")
-				td(colspan="2")=result.to_client.fiscal_code
-	table.print_data_col2
-		tr
-			td.nowrap.muted=__("Payment")
-			td=result.payment
-		- if (typeof result.destination!=="undefined")
+				td.nowrap.muted=__("Invoice number")
+				td.nowrap.paddingright.paddingleft=result.invoice_number
+				td.nowrap.muted=__("Invoice date")
+				- d = result.invoice_date;
+				td=d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear()
 			tr
-				td.nowrap.muted=__("Shipped to")
-				td=result.destination
-		- if (typeof result.offer!=="undefined")
+				td(colspan="2").nowrap.muted=__("Client")
+				td(colspan="2")
+					b=(result.to_client.name+" ")
+					br
+					span=result.to_client.address.street+" "+result.to_client.address.city+" "+result.to_client.address.country
 			tr
-				td.nowrap.muted=__("Offer number")
-				td=result.offer.offer_number
+				td(colspan="2").nowrap.muted=__("VAT number")
+				td(colspan="2")=result.to_client.vat_number
+			- if(country=="Italy")
+				tr
+					td(colspan="2").nowrap.muted=__("Fiscal code")
+					td(colspan="2")=result.to_client.fiscal_code
+		table.print_data_col2
 			tr
-				td.nowrap.muted=__("Offer date")
-				- d = result.offer.offer_date;
-				td=(d ? d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear() :"")
-		- if (typeof result.delivery_date!=="undefined")
-			tr
-				td.nowrap.muted=__("Delivery date")
-				- d = result.delivery_date;
-				td=(d ? d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear() :"")
-section.print_items
+				td.nowrap.muted=__("Payment")
+				td=result.payment
+			- if (typeof result.destination!=="undefined")
+				tr
+					td.nowrap.muted=__("Shipped to")
+					td=result.destination
+			- if (typeof result.offer!=="undefined")
+				tr
+					td.nowrap.muted=__("Offer number")
+					td=result.offer.offer_number
+				tr
+					td.nowrap.muted=__("Offer date")
+					- d = result.offer.offer_date;
+					td=(d ? d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear() :"")
+			- if (typeof result.delivery_date!=="undefined")
+				tr
+					td.nowrap.muted=__("Delivery date")
+					- d = result.delivery_date;
+					td=(d ? d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear() :"")
+	section.print_items
 	table.table
 		thead
 			tr
@@ -91,7 +92,7 @@ section.print_items
 					.pull-right.muted=__("TOTAL")
 				td.price
 						div=_config.currency[0]+" "+result.total
-footer
+footer#pageFooter
 	b=__("Bank")
 	br
 	- for (a=0;a<_config.banks.length;a++)

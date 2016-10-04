@@ -7,7 +7,8 @@ html
 		link(href="/lib/smoothness/jquery-ui-1.9.0.custom.css",rel="stylesheet",type="text/css")
 		link(href="/lib/bootstrap-3.1.1-dist/css/bootstrap.min.css", rel="stylesheet")
 		link(href="/css/style.css", rel="stylesheet")
-		link(href="/print_templates.css", rel="stylesheet")
+		include print_style
+		!=style
 		| <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		| <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 		| <!--[if lt IE 9]>
@@ -39,8 +40,7 @@ html
 						br
 						a(href=file, target="_blank").btn.btn-primary=__("PRINT")
 			hr.clearfix
-		.print_container
-			.cntPadd!= body
+		.print_container!= body
 		div.noprint!="&nbsp"
 		div.noprint!="&nbsp"
 		script(src="/lib/jquery.min.js")
