@@ -17,7 +17,7 @@ if (global._config.emailDispatcher && global._config.emailDispatcher.host && glo
 			text         : 'something went wrong... :(',
 			attachment   : EM.composeEmail(account, host)
 		}, callback );
-	}
+	};
 
 	EM.composeEmail = function(o,host) {
 		var emailencoded = new Buffer(o.email).toString('base64');

@@ -35,7 +35,7 @@ var _config = {
 		"sendername"	: '',
 		"senderemail"	: ''
 	}
-}
+};
 var _roles = {
 	"roles":{
 		"superadmin": {
@@ -67,7 +67,7 @@ var _roles = {
 			"read" : true
 		}
 	}
-}
+};
 if (typeof exports !== "undefined") exports._config = _config;
 if (typeof exports !== "undefined") exports._roles = _roles;
 //if (GLOBAL) GLOBAL._config = _config;

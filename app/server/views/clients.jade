@@ -1,18 +1,19 @@
-
 h1.page-title=__("Clients")
 div
-	- if (typeof msg !== "undefined" && typeof msg.e !== "undefined" && msg.e.length)
+	- if (typeof msg !== "undefined" && typeof msg.e !== "undefined" && msg.e.length) {
 		.alert.alert-danger
 			h4=__("There are some errors")
 			ul
-				- for(a=0;a<msg.e.length;a++)
+				- for(var a=0;a<msg.e.length;a++)
 					li=msg.e[a].m
-	- if (typeof msg !== "undefined" && typeof msg.c !== "undefined" && msg.c.length)
+	- }
+	- if (typeof msg !== "undefined" && typeof msg.c !== "undefined" && msg.c.length) {
 		.alert.alert-success
 			h4=__("There are some messages")
 			ul
-				- for(a=0;a<msg.c.length;a++)
+				- for(var a=0;a<msg.c.length;a++)
 					li=msg.c[a].m
+	- }
 	table.table
 		thead
 			tr

@@ -1,8 +1,8 @@
 var queryResult;
 $(function() {
 	$(".disabled").attr('disabled', 'disabled');
-
-	$("#to_client").bind("keypress", function(event) {
+	var to_client = $("#to_client");
+	to_client.bind("keypress", function(event) {
 		console.log(event.keyCode);
 		if ($("#client_id").val()!="" &&  event.keyCode != 13) {
 			$("#client_id").val("");
@@ -16,10 +16,10 @@ $(function() {
 	});
 	
 	//autocomplete
-	$('#to_client').autocomplete({
+	to_client.autocomplete({
 		source: function(req,res){
 			getAutoCompleteList(req,"/api/clients");
-			var x = new Array();
+			var x = [];
 			for(var i=0;i<queryResult.length;i++){
 				x[i] = {"label" : queryResult[i].name, "value" : queryResult[i].name, idx : i};
 			}
@@ -40,7 +40,7 @@ $(function() {
 	$('#payment').autocomplete({
 		source: function(req,res){
 			getAutoCompleteList(req,"/api/payments");
-			var x = new Array();
+			var x = [];
 			for(var i=0;i<queryResult.length;i++){
 				x[i] = {"label" : queryResult[i], "value" : queryResult[i], idx : i};
 			}
@@ -120,21 +120,18 @@ function setOffer(_id,date,offer_number) {
 	$('#offer_id').val(_id);
 	$('#offer_number').val(offer_number);
 	$('#offer_date').val(date);
-	$('#offer_url').attr('href', '/offer/?id='+_id);
-	$('#offer_url').removeAttr('disabled');
+	$('#offer_url').attr('href', '/offer/?id='+_id).removeAttr('disabled');
 	$('.modal-alert').modal('hide');
 	return false;
 }
 
 function setBinds(){
-	$(".quantity").unbind("blur");
-	$(".price").unbind("blur");
-	$(".quantity").bind("blur",function() {
+	$(".quantity").unbind("blur").bind("blur",function() {
 		checkQuantity($(this));
 		getAmount($(this).parent().parent());
 		updateTotal();
 	});
-	$(".price").bind("blur",function() {
+	$(".price").unbind("blur").bind("blur",function() {
 		if(checkPrice($(this))) $(this).val(accounting.formatMoney(accounting.unformat($(this).val(), ",")));
 		getAmount($(this).parent().parent().parent());
 		updateTotal();
@@ -143,7 +140,7 @@ function setBinds(){
 	$('.description').autocomplete({
 		source: function(req,res){
 			getAutoCompleteList(req,"/api/products");
-			var x = new Array();
+			var x = [];
 			for(var i=0;i<queryResult.length;i++){
 				x[i] = {"label" : queryResult[i], "value" : queryResult[i], idx : i};
 			}
@@ -158,13 +155,14 @@ function setBinds(){
 }
 
 function checkDate() {
-	var d = $("#invoice_date").val().split("/");
+	var invoice_date = $("#invoice_date");
+	var d = invoice_date.val().split("/");
 	$.ajax({
 		url: "/api/invoices",
 		dataType: "json",
 		data: {
 			ajax: true,
-			invoice_date:$("#invoice_date").val(),
+			invoice_date:invoice_date.val(),
 			invoice_number:$("#invoice_number").val()
 		},
 		success: function( data ) {
@@ -219,7 +217,7 @@ function checkVATPerc(input){
 
 function checkInvoice(){
 	console.log("checkInvoice");
-	res = true;
+	var res = true;
 	// Check _id client
 	if (!$("#client_id").val()){
 		showModalError("Errore","Selezionare una ragione sociale", function () {setTimeout("\$(\"#client_id\").focus()",50)});
@@ -236,23 +234,26 @@ function getAmount(row){
 }
 
 function updateTotal(){
-	subtot=0;
+	var subtot=0;
+	var vat_perc = $('#vat_perc');
+	var shipping_costs = $('#shipping_costs')
 	$('.amount').each(function(){
 		if($(this).val()!="")
 			subtot += parseFloat(accounting.unformat($(this).val(), ","));
 	});
 	$('.subtotal').val(accounting.formatMoney(subtot));
 	var failed = false;
-	if (checkVATPerc($('#vat_perc'))) {
-		$('.vat_amount').val(accounting.formatMoney((subtot/100)*$('#vat_perc').val()));
+	if (checkVATPerc(vat_perc)) {
+		$('.vat_amount').val(accounting.formatMoney((subtot/100)*vat_perc.val()));
 	} else {
 		failed = true;
 	}
-	if(checkShippingCosts($('#shipping_costs'))) {
-		$('#shipping_costs').val(accounting.formatMoney(accounting.unformat($('#shipping_costs').val(), ",")));
+	if(checkShippingCosts(shipping_costs)) {
+		shipping_costs.val(accounting.formatMoney(accounting.unformat(shipping_costs.val(), ",")));
 	} else {
 		failed = true;
 	}
+	var tot;
 	if (failed) {
 		tot = "";
 	} else {
@@ -267,7 +268,7 @@ function updateTotal(){
 
 //Add row to table
 function addNewRow(){
-	rowNumber = $("#items tbody tr").length;
+	var rowNumber = $("#items tbody tr").length;
 	if($("#items tbody tr:last .price").val()!=""){
 	
 		$("#items tbody tr:last").clone().find("input,textarea").each(function() {

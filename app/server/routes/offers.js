@@ -21,14 +21,14 @@ exports.get = function get(req, res) {
 		var query = req.query.client ? {"to_client._id":req.query.client} : {};
 		var start = new Date(year-1, 11, 31);
 		var end = new Date(year+1, 0, 1);
-		query.offer_date = {$gte: start, $lt: end}
+		query.offer_date = {$gte: start, $lt: end};
 		DB.offers.find().toArray(function(e, result) {
-			var years = [new Date().getFullYear()]
+			var years = [new Date().getFullYear()];
 			for (var a=0;a<result.length;a++) {
 				var y = new Date(result[a].offer_date).getFullYear();
 				if (years.indexOf(y) == -1) years.push(y);
 			}
-			years.sort()
+			years.sort();
 			DB.offers.find(query).sort({offer_number:-1}).toArray(function(e, result) {
 				res.render('offers', {	locals: {	title: __("Offers"), result : helpers.formatMoney(result), msg:msg, udata : req.session.user,years:years,year:year } });
 			});

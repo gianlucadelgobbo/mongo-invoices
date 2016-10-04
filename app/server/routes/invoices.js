@@ -31,13 +31,13 @@ exports.get = function get(req, res) {
 		}
 
 		DB.invoices.find().toArray(function(e, result) {
-			var years = [new Date().getFullYear()]
+			var years = [new Date().getFullYear()];
 			for (var a=0;a<result.length;a++) {
 				var y = new Date(result[a].invoice_date).getFullYear();
 				if (years.indexOf(y) == -1) years.push(y);
 			}
-			years.sort()
-			console.log(query)
+			years.sort();
+			console.log(query);
 			if (req.query.client){
 				DB.clients.findOne({_id:new ObjectID(req.query.client)}, function(e, cliente) {
 					DB.invoices.find(query).sort({invoice_date:-1,invoice_number:-1}).toArray(function(e, result) {

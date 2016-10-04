@@ -21,14 +21,14 @@ div
 		.alert.alert-danger
 			h4=__("There are some errors")
 			ul
-				- for(a=0;a<msg.e.length;a++)
+				- for(var a=0;a<msg.e.length;a++)
 					li=msg.e[a].m
 
 	- if (typeof msg !== "undefined" && typeof msg.c !== "undefined" && msg.c.length)
 		.alert.alert-success
 			h4=__("There are some messages")
 			ul
-				- for(a=0;a<msg.c.length;a++)
+				- for(var a=0;a<msg.c.length;a++)
 					li=msg.c[a].m
 	table.table
 		thead

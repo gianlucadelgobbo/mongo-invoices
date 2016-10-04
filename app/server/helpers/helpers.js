@@ -83,13 +83,13 @@ exports.formatMoney = function formatMoney(result) {
 	result.vat_amount=accounting.formatMoney(result.vat_amount);
 	result.shipping_costs=accounting.formatMoney(result.shipping_costs);
 	result.total=accounting.formatMoney(result.total);
-	for (item in result.items) {
+	for (var item in result.items) {
 		if (result.items[item]) {
 			result.items[item].price=accounting.formatMoney(result.items[item].price);
 			result.items[item].amount=accounting.formatMoney(result.items[item].amount);
 		}
 	}
-	for (item in result) {
+	for (var item in result) {
 		result[item].subtotal=accounting.formatMoney(result[item].subtotal);
 		result[item].vat_amount=accounting.formatMoney(result[item].vat_amount);
 		result[item].shipping_costs=accounting.formatMoney(result[item].shipping_costs);

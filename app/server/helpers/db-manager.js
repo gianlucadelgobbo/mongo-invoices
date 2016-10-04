@@ -38,7 +38,7 @@ DB.init = function(callback) {
 			});
 		}
 	});
-}
+};
 
 // Accont insertion, update & deletion methods //
 
@@ -47,7 +47,7 @@ DB.insert_settings = function(newData, userData, callback) {
 	DB.settings.insert(newData, {safe: true}, function(err, records){
 		callback(err, records);
 	});
-}
+};
 DB.update_settings = function(newData, userData, callback) {
 
 	DB.settings.findOne({_id:new ObjectID(newData.id)}, function(e, o){
@@ -61,7 +61,7 @@ DB.update_settings = function(newData, userData, callback) {
 			callback(e, o);
 		});
 	});
-}
+};
 
 DB.insert_invoice = function(newData, userData, callback) {
 	delete newData.id;
@@ -84,7 +84,7 @@ DB.insert_invoice = function(newData, userData, callback) {
 	DB.invoices.insert(newData, {safe: true}, function(err, records){
 		callback(err, records);
 	});
-}
+};
 DB.update_invoice = function(newData, userData, callback) {
 	//console.log(newData.invoice_date);
 	DB.invoices.findOne({_id:new ObjectID(newData.id)}, function(e, o){
@@ -113,12 +113,12 @@ DB.update_invoice = function(newData, userData, callback) {
 			callback(e, o);
 		});
 	});
-}
+};
 DB.delete_invoice = function(id, callback) {
 	DB.invoices.remove({_id: new ObjectID(id)},{safe: true}, function(err, records){
 		callback(err, records);
 	});
-}
+};
 
 DB.insert_offer = function(newData, userData, callback) {
 	delete newData.id;
@@ -138,7 +138,7 @@ DB.insert_offer = function(newData, userData, callback) {
 		//console.log(records);
 		callback(err, records);
 	});
-}
+};
 DB.update_offer = function(newData, userData, callback) {
 	DB.offers.findOne({_id:new ObjectID(newData.id)}, function(e, o){
 		newData._id = o._id;
@@ -157,19 +157,19 @@ DB.update_offer = function(newData, userData, callback) {
 			callback(e, o);
 		});
 	});
-}
+};
 DB.delete_offer = function(id, callback) {
 	DB.offers.remove({_id: new ObjectID(id)},{safe: true}, function(err, records){
 		callback(err, records);
 	});
-}
+};
 
 DB.insert_client = function(newData, callback) {
 	delete newData.id;
 	DB.clients.insert(newData, {safe: true}, function(err, records){
 		callback(err, records);
 	});
-}
+};
 DB.update_client = function(newData, callback) {
 	DB.clients.findOne({_id:new ObjectID(newData.id)}, function(e, o){
 		newData._id = o._id;
@@ -177,12 +177,12 @@ DB.update_client = function(newData, callback) {
 		DB.clients.save(newData);
 		callback(newData);
 	});
-}
+};
 DB.delete_client = function(id, callback) {
 	DB.clients.remove({_id: new ObjectID(id)},{safe: true}, function(err, records){
 		callback(err, records);
 	});
-}
+};
 
 
 function unformatPrices(newInvoice){
@@ -190,7 +190,7 @@ function unformatPrices(newInvoice){
 	newInvoice.vat_amount=parseFloat(accounting.unformat(newInvoice.vat_amount, ","));
 	newInvoice.shipping_costs=parseFloat(accounting.unformat(newInvoice.shipping_costs, ","));
 	newInvoice.total=parseFloat(accounting.unformat(newInvoice.total, ","));
-	for (item in newInvoice.items) {
+	for (var item in newInvoice.items) {
 		newInvoice.items[item].price=parseFloat(accounting.unformat(newInvoice.items[item].price, ","));
 		newInvoice.items[item].amount=parseFloat(accounting.unformat(newInvoice.items[item].amount, ","));
 	}

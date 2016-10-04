@@ -10,6 +10,6 @@ i18nAdmin.init = function(callback) {
     register:		global
   });
   callback();
-}
+};
 
 module.exports = i18nAdmin;

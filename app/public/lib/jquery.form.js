@@ -364,8 +364,7 @@ $.fn.ajaxSubmit = function(options) {
         var SERVER_ABORT = 2;
 
         function getDoc(frame) {
-            var doc = frame.contentWindow ? frame.contentWindow.document : frame.contentDocument ? frame.contentDocument : frame.document;
-            return doc;
+            return frame.contentWindow ? frame.contentWindow.document : frame.contentDocument ? frame.contentDocument : frame.document;
         }
         
         // Rails CSRF hack (thanks to Yvan Barthelemy)
@@ -498,6 +497,7 @@ $.fn.ajaxSubmit = function(options) {
             var status = 'success', errMsg;
             try {
                 if (timedOut) {
+                    //noinspection ExceptionCaughtLocallyJS
                     throw 'timeout';
                 }
 

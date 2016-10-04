@@ -29,7 +29,7 @@ DBUsers.init = function(callback) {
 			});
 		}
 	});
-}
+};
 
 DBUsers.insert_user = function(newData, callback) {
 	delete newData.id;
@@ -42,7 +42,7 @@ DBUsers.insert_user = function(newData, callback) {
 			callback(err, records);
 		});
 	});
-}
+};
 DBUsers.update_user = function(newData, callback) {
 	DBUsers.users.findOne({_id: new ObjectID(newData.id)}, function(e, o){
 		o.name 		= newData.name;
@@ -61,14 +61,14 @@ DBUsers.update_user = function(newData, callback) {
 			});
 		}
 	});
-}
+};
 DBUsers.saltAndHash = function(pass, callback) {
 	bcrypt.genSalt(10, function(err, salt) {
 		bcrypt.hash(pass, salt, function(err, hash) {}, function(err, hash) {
 			callback(hash);
 		});
 	});
-}
+};
 // Accont insertion, update & deletion methods //
 /*
 DBUsers.insert_settings = function(newData, userData, callback) {

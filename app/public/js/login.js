@@ -8,11 +8,12 @@ $(document).ready(function(){
 				console.log(response);
 				var str = "<ul>";
 				var print = response.msg.e;
-				for(p in print) {
+				for(var p in print) {
 					if(print[p].name) {
-						$("[name='"+print[p].name+"']").parent().parent().addClass("error");
-						$("[name='"+print[p].name+"']").keydown(function() {$(this).parent().parent().removeClass("error")});
-						$("[name='"+print[p].name+"']").change(function() {$(this).parent().parent().removeClass("error")});
+						var jsel = $("[name='"+print[p].name+"']");
+						jsel.parent().parent().addClass("error");
+						jsel.keydown(function() {$(this).parent().parent().removeClass("error")});
+						jsel.change(function() {$(this).parent().parent().removeClass("error")});
 					}
 					if(print[p].m) str+= "<li>"+print[p].m+"</li>";
 				}
@@ -20,7 +21,8 @@ $(document).ready(function(){
 				console.log(str);
 	        	showModal('error', str);
 			} else {
-				window.location.href = $("[name='from']").val() ? $("[name='from']").val() : '/home';
+				var from = $("[name='from']");
+				window.location.href = from.val() ? from.val() : '/home';
 			}
 		},
 		error : function(e){
@@ -50,20 +52,16 @@ $(document).ready(function(){
 	});
 	
 });
-
+var get_credentials_alert = $('#get-credentials .alert');
 function showEmailAlert(m) {
-	$('#get-credentials .alert').attr('class', 'alert alert-error');
-	$('#get-credentials .alert').html(m);
-	$('#get-credentials .alert').show();
+	get_credentials_alert.attr('class', 'alert alert-error').html(m).show();
 }
 
 function hideEmailAlert() {
-    $('#get-credentials .alert').hide();
+	get_credentials_alert.hide();
 }
 
 function showEmailSuccess(m) {
-	$('#get-credentials .alert').attr('class', 'alert alert-success');
-	$('#get-credentials .alert').html(m);
-	$('#get-credentials .alert').fadeIn(500);
+	get_credentials_alert.attr('class', 'alert alert-success').html(m).fadeIn(500);
 }
 

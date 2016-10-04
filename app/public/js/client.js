@@ -6,11 +6,12 @@ $(document).ready(function(){
 		success	: function(response, status, xhr, $form){
 			var str = "<ul>";
 			var print = response.msg && response.msg.e && response.msg.e.length ? response.msg.e : response.msg.c;
-			for(p in print) {
+			for(var p in print) {
 				if(print[p].name) {
-					$("[name='"+print[p].name+"']").parent().parent().addClass("error");
-					$("[name='"+print[p].name+"']").keydown(function() {$(this).parent().parent().removeClass("error")});
-					$("[name='"+print[p].name+"']").change(function() {$(this).parent().parent().removeClass("error")});
+					var jsel = $("[name='"+print[p].name+"']");
+					jsel.parent().parent().addClass("error");
+					jsel.keydown(function() {$(this).parent().parent().removeClass("error")});
+					jsel.change(function() {$(this).parent().parent().removeClass("error")});
 				}
 				if(print[p].m) str+= "<li>"+print[p].m+"</li>";
 			}
