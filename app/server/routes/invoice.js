@@ -57,13 +57,13 @@ exports.post = function post(req, res) {
 		var d = req.body.invoice_date.split("/");
 		if (errors.length === 0){
 			DB.clients.findOne({_id:new ObjectID(req.body.to_client._id)},function(e, result) {
+				var d;
 				if (result) {
-					var d = req.body.invoice_date.split("/");
+					d = req.body.invoice_date.split("/");
 					var date = new Date(parseInt(d[2], 10),parseInt(d[1], 10)-1,parseInt(d[0], 10));
 					var q = {invoice_date:{$gt: date},invoice_number:(req.body.invoice_number-1).toString() };
 					DB.invoices.find(q).toArray(function(e, result) {
 						if(errors.length === 0){
-							var myid = req.body.id;
 							if (req.body.id) {
 								DB.update_invoice(req.body, req.session.user, function(e, o){
 									errors.push({name:"",m:__("Invoice saved with success")});
@@ -104,7 +104,7 @@ exports.post = function post(req, res) {
 				} else {
 					if (req.body.id) req.body._id = req.body.id;
 					errors.push({name:"to_client[name]",m:__("You have to insert a valid client")});
-					var d = req.body.offer_date.split("/");
+					d = req.body.offer_date.split("/");
 					req.body.invoice_date = new Date(parseInt(d[2], 10),parseInt(d[1], 10)-1,parseInt(d[0], 10));
 					if (req.body.delivery_date) {
 						d = req.body.delivery_date.split("/");
@@ -142,16 +142,16 @@ exports.print = function print(req, res) {
 		if (req.query.id) {
 			DB.invoices.findOne({_id:new ObjectID(req.query.id)},function(e, result) {
 				result = helpers.formatMoney(result);
-				res.render('print_invoice', { layout: 'print.jade' ,	locals: {	title: __("Invoice"), country:global._config.company.country, result : result, udata : req.session.user } }, function (error1, html1) {
+				var folder = '/accounts/'+global.settings.dbName+'/invoices/'+result.invoice_date.getFullYear()+'/';
+				var filename = result.invoice_date.getFullYear()+'-'+(result.invoice_date.getMonth()+1)+'-'+result.invoice_date.getDate()+'_'+result.invoice_number+'_'+global.settings.companyName+'_'+result.to_client.name+'.pdf';
+				res.render('print_invoice', { layout: 'print.jade' ,	locals: {	title: __("Invoice"), country:global._config.company.country, result : result, udata : req.session.user, file:folder+filename } }, function (error1, html1) {
 					res.send(html1);
 					// PDF START
 					var pdf = require('html-pdf');
 					var options = { format: 'A4',"header": {"height": "75mm"},"footer": {"height": "30mm"}};
 					res.render('print_invoice_pdf', { layout: 'print_pdf.jade' ,	locals: {	title: __("Invoice"), country:global._config.company.country, result : result, udata : req.session.user } }, function (error, html) {
 						if (!error) {
-							var folder = './app/public/accounts/'+global.settings.dbName+'/invoices/'+result.invoice_date.getFullYear()+'/';
-							var filename = result.invoice_date.getFullYear()+'-'+(result.invoice_date.getMonth()+1)+'-'+result.invoice_date.getDate()+'_'+result.invoice_number+'_'+global.settings.companyName+'_'+result.to_client.name+'.pdf';
-							pdf.create(html, options).toFile(folder+filename, function(err, res) {
+							pdf.create(html, options).toFile('./app/public'+folder+filename, function(err, res) {
 								if (err) return console.log(err);
 								console.log(res); // { filename: '/app/businesscard.pdf' }
 

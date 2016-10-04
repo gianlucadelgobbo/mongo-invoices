@@ -134,15 +134,15 @@ exports.print = function print(req, res) {
 		if (req.query.id) {
 			DB.offers.findOne({_id:new ObjectID(req.query.id)}, function(e, result) {
 				result = helpers.formatMoney(result);
-				res.render('print_offer', { layout: 'print.jade' ,	locals: {	title: __("Offer"), country:global._config.company.country, result : result, udata : req.session.user } }, function (error1, html1) {
+				var folder = '/accounts/'+global.settings.dbName+'/offers/'+result.offer_date.getFullYear()+'/';
+				var filename = result.offer_date.getFullYear()+'-'+(result.offer_date.getMonth()+1)+'-'+result.offer_date.getDate()+'_'+result.offer_number+'_'+global.settings.companyName+'_'+result.to_client.name+'.pdf';
+				res.render('print_offer', { layout: 'print.jade' ,	locals: {	title: __("Offer"), country:global._config.company.country, result : result, udata : req.session.user, file:folder+filename } }, function (error1, html1) {
 					// PDF START
 					var pdf = require('html-pdf');
 					var options = { format: 'A4',"header": {"height": "75mm"},"footer": {"height": "30mm"}};
 					res.render('print_offer_pdf', { layout: 'print_pdf.jade' ,	locals: {	title: __("Offer"), country:global._config.company.country, result : result, udata : req.session.user } }, function (error, html) {
 						if (!error) {
-							var folder = './app/public/accounts/'+global.settings.dbName+'/offers/'+result.offer_date.getFullYear()+'/';
-							var filename = result.offer_date.getFullYear()+'-'+(result.offer_date.getMonth()+1)+'-'+result.offer_date.getDate()+'_'+result.offer_number+'_'+global.settings.companyName+'_'+result.to_client.name+'.pdf';
-							pdf.create(html, options).toFile(folder+filename, function(err, res) {
+							pdf.create(html, options).toFile('./app/public'+folder+filename, function(err, res) {
 								if (err) return console.log(err);
 								console.log(res); // { filename: '/app/businesscard.pdf' }
 							});
