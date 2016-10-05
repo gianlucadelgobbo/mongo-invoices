@@ -144,7 +144,7 @@ function checkDate() {
 		success: function( data ) {
 			if (data.result.length) {
 				var d = new Date(data.result[data.result.length-1].offer_date);
-				showModalError("Errore","La data deve essere uguale o successiva al "+d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear(), function () {setTimeout("\$(\"#offer_date\").focus()",50)});
+				showModal('error', "La data deve essere uguale o successiva al "+d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear(), function () {setTimeout("\$(\"#offer_date\").focus()",50)});
 			}
 		}
 	});
@@ -153,7 +153,7 @@ function checkDate() {
 function checkQuantity(input){
 	if(!is_numeric(input.val())){
 		var id = input.attr("id");
-		showModalError("Errore","La quantità è un numero.", function () {setTimeout("\$(\"#"+id+"\").focus()",50)});
+		showModal('error', "La quantità è un numero.", function () {setTimeout("\$(\"#"+id+"\").focus()",50)});
 		return false;
 	}
 	return true;
@@ -162,7 +162,7 @@ function checkQuantity(input){
 function checkPrice(input){
 	if(!is_numeric(accounting.unformat(input.val(), ","))){
 		var id = input.attr("id");
-		showModalError("Errore","Il prezzo è un numero.", function () {setTimeout("\$(\"#"+id+"\").focus()",50)});
+		showModal('error', "Il prezzo è un numero.", function () {setTimeout("\$(\"#"+id+"\").focus()",50)});
 		return false;
 	}
 	return true;
@@ -171,7 +171,7 @@ function checkPrice(input){
 function checkShippingCosts(input){
 	if(input.val()!="" && !is_numeric(accounting.unformat(input.val()))){
 		var id = input.attr("id");
-		showModalError("Errore","L'importo deve essere un numero.", function () {setTimeout("\$(\"#"+id+"\").focus()",50)});
+		showModal('error', "L'importo deve essere un numero.", function () {setTimeout("\$(\"#"+id+"\").focus()",50)});
 		return false;
 	}
 	return true;
@@ -180,11 +180,11 @@ function checkShippingCosts(input){
 function checkVATPerc(input){
 	if(!is_numeric(input.val())){
 		var id = input.attr("id");
-		showModalError("Errore","L'IVA percentuale non è un numero.", function () {setTimeout("\$(\"#"+id+"\").focus()",50)});
+		showModal('error', "L'IVA percentuale non è un numero.", function () {setTimeout("\$(\"#"+id+"\").focus()",50)});
 		return false;
 	} else if(input.val()>100||input.val()<0) {
 		var id = input.attr("id");
-		showModalError("Errore","L'IVA percentuale deve essere compresa tra 0 e 100.", function () {setTimeout("\$(\"#"+id+"\").focus()",50)});
+		showModal('error', "L'IVA percentuale deve essere compresa tra 0 e 100.", function () {setTimeout("\$(\"#"+id+"\").focus()",50)});
 		return false;
 	} else {
 		return true;
@@ -196,7 +196,7 @@ function checkOffer(){
 	var res = true;
 	// Check _id client
 	if (!$("#client_id").val()){
-		showModalError("Errore","Selezionare una ragione sociale", function () {setTimeout("\$(\"#client_id\").focus()",50)});
+		showModal('error', "Selezionare una ragione sociale", function () {setTimeout("\$(\"#client_id\").focus()",50)});
 		res = false;
 	}
 	// Check counts
@@ -246,20 +246,27 @@ function updateTotal(){
 function addNewRow(){
 	var rowNumber = $("#items tbody tr").length;
 	if($("#items tbody tr:last .price").val()!=""){
-	
+
 		$("#items tbody tr:last").clone().find("input,textarea").each(function() {
-		    $(this).attr({
-		      'id': function(_, id) { 
-		      		//console.log(id);
-		      		//console.log(_);
-		      		//console.log((id.slice(0, id.lastIndexOf("_"))) + "_" + rowNumber);return (id.slice(0, id.lastIndexOf("_"))) + "_" + rowNumber
-		      },
-		      'name': function(_, name) { return (name = name.replace(rowNumber-1,rowNumber))},
-		      'value': ''
-		    });
+			$(this).attr({
+				'value': ''
+			});
+			if ($(this).html()) $(this).html("");
 		}).end().appendTo("#items");
+		resetItemNamesAndIDs();
 		setBinds();
 	}
+}
+
+function resetItemNamesAndIDs(){
+	$("#items tbody tr").each(function(index){
+		$(this).find("input,textarea").each(function() {
+			$(this).attr({
+				'id': function(_, id) { return (id.slice(0, id.lastIndexOf("_"))) + "_" + index },
+				'name': function(_, name) { return (name = name.substring(0,name.indexOf("[")+1)+index+name.substring(name.indexOf("]")))},
+			});
+		});
+	});
 }
 
 
@@ -267,4 +274,6 @@ function removeRow(t){
 	if($(t).parent().parent().parent().find(".price").length>1) {
 		$(t).parent().parent().remove();
 	}
+	resetItemNamesAndIDs();
+	updateTotal();
 }
