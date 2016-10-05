@@ -268,7 +268,6 @@ function updateTotal(){
 
 //Add row to table
 function addNewRow(){
-	var rowNumber = $("#items tbody tr").length;
 	if($("#items tbody tr:last .price").val()!=""){
 
 		$("#items tbody tr:last").clone().find("input,textarea").each(function() {

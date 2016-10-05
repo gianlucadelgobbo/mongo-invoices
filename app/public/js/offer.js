@@ -1,4 +1,3 @@
-var rowNumber = 1;
 var queryResult;
 $(function() {
 	$(".disabled").attr('disabled', 'disabled');
@@ -244,7 +243,6 @@ function updateTotal(){
 
 //Add row to table
 function addNewRow(){
-	var rowNumber = $("#items tbody tr").length;
 	if($("#items tbody tr:last .price").val()!=""){
 
 		$("#items tbody tr:last").clone().find("input,textarea").each(function() {

@@ -136,26 +136,24 @@ form(method="post", action="/invoice/?id="+result._id,onsubmit='$("[disabled]").
 				th.tabDelete
 		tbody
 			- var a = 0
-			- console.log(result.items)
 			- for(a=0;a<result.items.length;a++)
-				- if(result.items[a])
-					tr
-						td
-							input(type="text", name="items["+a+"][quantity]",value=result.items[a].quantity,id="quantity_"+a).form-control.quantity#quantity_0
-						td
-							textarea(type="text", name="items["+a+"][description]",id="description_"+a).description#description_0.form-control=result.items[a].description
-						td
-							.input-group
-								span.input-group-addon=_config.currency[0]
-								input(type="text", name="items["+a+"][price]",value=result.items[a].price,id="price_"+a).price#price_0.form-control
-						td
-							.input-group
-								span.input-group-addon=_config.currency[0]
-								input(type="text", name="items["+a+"][amount]",value=result.items[a].amount,id="amount_"+a, disabled).amount.form-control
-						td
-							a.btn(href="#", onclick="removeRow(this); return false;")
-								i.glyphicon.glyphicon-remove
-							script rowNumber++
+				tr
+					td
+						input(type="text", name="items["+a+"][quantity]",value=result.items[a].quantity,id="quantity_"+a).form-control.quantity#quantity_0
+					td
+						textarea(type="text", name="items["+a+"][description]",id="description_"+a).description#description_0.form-control=result.items[a].description
+					td
+						.input-group
+							span.input-group-addon=_config.currency[0]
+							input(type="text", name="items["+a+"][price]",value=result.items[a].price,id="price_"+a).price#price_0.form-control
+					td
+						.input-group
+							span.input-group-addon=_config.currency[0]
+							input(type="text", name="items["+a+"][amount]",value=result.items[a].amount,id="amount_"+a, disabled).amount.form-control
+					td
+						a.btn(href="#", onclick="removeRow(this); return false;")
+							i.glyphicon.glyphicon-remove
+						script rowNumber++
 		tfoot
 			tr
 				td
