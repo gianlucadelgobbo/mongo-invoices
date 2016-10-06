@@ -1222,7 +1222,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
     var width  = $tip[0].offsetWidth;
     var height = $tip[0].offsetHeight;
 
-    // manually read margins because getBoundingCustomerRect includes difference
+    // manually read margins because getBoundingClientRect includes difference
     var marginTop = parseInt($tip.css('margin-top'), 10);
     var marginLeft = parseInt($tip.css('margin-left'), 10);
 
@@ -1328,7 +1328,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
 
   Tooltip.prototype.getPosition = function () {
     var el = this.$element[0];
-    return $.extend({}, (typeof el.getBoundingCustomerRect == 'function') ? el.getBoundingCustomerRect() : {
+    return $.extend({}, (typeof el.getBoundingClientRect == 'function') ? el.getBoundingClientRect() : {
       width: el.offsetWidth,
       height: el.offsetHeight
     }, this.$element.offset())
