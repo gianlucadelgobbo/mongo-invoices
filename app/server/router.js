@@ -1,5 +1,6 @@
 var indexRoutes = require('./routes/index');
 var changedbRoutes = require('./routes/changedb');
+var startupRoutes = require('./routes/startup');
 var logoutRoutes = require('./routes/logout');
 var homeRoutes = require('./routes/home');
 var accountsRoutes = require('./routes/users');
@@ -25,6 +26,10 @@ module.exports = function(app) {
 
   // Logged-in redirect / homepage //
   app.get('/:dbname/home', homeRoutes.get);
+
+  // ChangeDB //
+  app.get('/startup', startupRoutes.get);
+  app.post('/startup', startupRoutes.post);
 
   // Settings //
   app.get('/:dbname/settings', settingsRoutes.get);

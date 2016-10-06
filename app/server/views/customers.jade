@@ -30,16 +30,18 @@ div
 				tr
 					td
 						div.btn-group
-							a.btn.btn-info(href="/invoices/?customer="+x._id)=__("Invoices")
+							a.btn.btn-info(href="/"+global.settings.dbName+"/invoices/?customer="+x._id)=__("Invoices")
 							button.btn.btn-info.dropdown-toggle(data-toggle="dropdown")
 								span.caret
 							ul.dropdown-menu
 								li
-									a(href="/customer/?id="+x._id)=__("Edit")
+									a(href="/"+global.settings.dbName+"/invoices/?customer="+x._id)=__("Invoices")
 								li
-									a(href="/customers/?id="+x._id+"&del="+1)=__("Delete")
+									a(href="/" + global.settings.dbName + "/customer/?id=" + x._id)=__("Edit")
+								li
+									a(href="/"+global.settings.dbName+"/customers/?id="+x._id+"&del="+1)=__("Delete")
 					td
-						a(href="/customer/?id="+x._id)=x.name
+						a(href="/"+global.settings.dbName+"/customer/?id="+x._id)=x.name
 					td.text-center=x.invoicesCount
 					td=x.vat_number
 					td=x.fiscal_code

@@ -5,7 +5,6 @@ exports.get = function get(req, res) {
 };
 
 exports.post = function post(req, res) {
-	console.log(req.body);
 	var nPass = req.body.pass;
 	// retrieve the user's email from the session to lookup their account and reset password //
 	var email = new Buffer(req.body.email, 'base64').toString('ascii');

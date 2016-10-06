@@ -7,13 +7,16 @@ html
 		link(href="/lib/smoothness/jquery-ui-1.9.0.custom.css",rel="stylesheet",type="text/css")
 		link(href="/lib/bootstrap-3.1.1-dist/css/bootstrap.min.css", rel="stylesheet")
 		link(href="/css/style.css", rel="stylesheet")
+		- if (typeof style !== "undefined")
+			include print_style
+			!=style
 		| <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		| <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 		| <!--[if lt IE 9]>
 		| <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
 		| <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 		| <![endif]-->
-	body
+	body.print_body
 		- if (locals.udata)
 			.navbar.navbar-inverse.navbar-fixed-top(role="navigation")
 				.container-fluid
@@ -68,13 +71,13 @@ html
 								i.glyphicon.glyphicon-chevron-right.pull-right
 								span=__("New invoice")
 						.list-group
-							a(href='/account?id=' + locals.udata._id).list-group-item.submenu
+							a(href="/account?id=" + locals.udata._id).list-group-item.submenu
 								i.glyphicon.glyphicon-chevron-right.pull-right
 								span=__("My account")
 							a(href="/"+global.settings.dbName+"/accounts").list-group-item
 								i.glyphicon.glyphicon-chevron-right.pull-right
 								span=__("Accounts")
-							a(href='/account").list-group-item.submenu
+							a(href="/account").list-group-item.submenu
 								i.glyphicon.glyphicon-chevron-right.pull-right
 								span=__("New account")				
 

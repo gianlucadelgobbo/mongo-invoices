@@ -54,7 +54,6 @@ DB.update_settings = function(newData, userData, callback) {
 		newData._id = o._id;
 		DB.settings.save(newData);
 		DB.settings.findOne({_id:newData._id}, function(e, o){
-			console.log(o);
 			global._config = o;
 			if (!global._config.roles) global._config.roles = require('./../config.js')._config.roles;
 			i18nAdmin.setLocale(o.defaultLocale);
@@ -141,11 +140,14 @@ DB.insert_offer = function(newData, userData, callback) {
 };
 DB.update_offer = function(newData, userData, callback) {
 	DB.offers.findOne({_id:new ObjectID(newData.id)}, function(e, o){
+		console.log(newData);
 		newData._id = o._id;
 		var d = newData.offer_date.split("/");
 		newData.offer_date = new Date(parseInt(d[2], 10),parseInt(d[1], 10)-1,parseInt(d[0], 10));
-		d = newData.delivery_date.split("/");
-		newData.delivery_date = new Date(parseInt(d[2], 10),parseInt(d[1], 10)-1,parseInt(d[0], 10));
+		if (newData.delivery_date!="") {
+			d = newData.delivery_date.split("/");
+			newData.delivery_date = new Date(parseInt(d[2], 10),parseInt(d[1], 10)-1,parseInt(d[0], 10));
+		}
 		newData.offer_number=parseInt(newData.offer_number);
 		newData.vat_perc=parseInt(newData.vat_perc);
 		unformatPrices(newData);
@@ -167,6 +169,9 @@ DB.delete_offer = function(id, callback) {
 DB.insert_customer = function(newData, callback) {
 	delete newData.id;
 	DB.customers.insert(newData, {safe: true}, function(err, records){
+		console.log("stocazzo");
+		console.log(err);
+		console.log(records);
 		callback(err, records);
 	});
 };

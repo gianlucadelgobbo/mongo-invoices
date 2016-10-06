@@ -1,4 +1,3 @@
-
 // preset form values if we receive a userdata object //
 - user = typeof(udata) != 'undefined' ? udata : {}
 
@@ -8,13 +7,7 @@
 		span.name_new=result.name
 - else
 	h1.page-title=__("New customer")
-
-
-
-
-
-
-form(method="post", action="/customer")#customer-form
+form(method="post", action="/"+global.settings.dbName+"/customer")#customer-form
 	// store the userId on the customer side in a hidden input field //
 	input#id(type='hidden', name='id', value=result._id)
 	- if (typeof msg !== "undefined" && typeof msg.e !== "undefined" && msg.e.length)
@@ -56,9 +49,9 @@ form(method="post", action="/customer")#customer-form
 	div.form-group
 		- if (result._id)
 			button(type='submit')#account-form-btn2.btn.btn-success=__("Update")
-			- if (_config.roles[user.role].admin && user._id!=result._id)
+			- if (global.settings.roles[user.role].admin && user._id!=result._id)
 				!=" "
-				a(href="/customers/?id="+result._id+"&del="+1)#account-form-btn1.btn.btn-danger=__("Delete")
+				a(href="/"+global.settings.dbName+"/customers/?id="+result._id+"&del="+1)#account-form-btn1.btn.btn-danger=__("Delete")
 		- else
 			button(type='submit')#account-form-btn1.btn.btn-success=__("Save")
 			!=" "

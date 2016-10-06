@@ -5,16 +5,26 @@ var DBusers = require('./db-users-manager');
 var DB = require('./db-manager');
 var Validators = require('../../common/validators').Validators;
 
-exports.canIseeThis = function canIseeThis(req) {
-	var res = true;
+exports.canIseeThis = function canIseeThis(req,callback) {
 	if(req.session.user == null) {
-		return false;
+		callback(false);
+	} else if(req.params.dbname && req.session.user.dbs.indexOf(req.params.dbname)==-1) {
+		callback(false);
+	} else if(req.params.dbname && global.settings.dbName != req.params.dbname) {
+		var index = req.session.user.dbs.indexOf(req.params.dbname);
+		global.settings.dbName = req.session.user.companies[index].dbname;
+		global.settings.companyName = req.session.user.companies[index].companyname;
+		DB.init(function () {
+			callback(true);
+		});
+	} else if(req.params.dbname && global.settings.dbName == req.params.dbname) {
+		callback(true);
+	//} else if(global.settings.dbName) {
+	//	callback(true);
+	} else {
+		callback(false);
 	}
-	if(req.session.user.dbs.indexOf(req.params.dbname)==-1) {
-		return false;
-	}
-	return res;
-}
+};
 
 exports.generateDBs = function generateDBs(o) {
 	var res = [];
@@ -106,12 +116,6 @@ exports.formatMoney = function formatMoney(result) {
 			result.items[item].price=accounting.formatMoney(result.items[item].price);
 			result.items[item].amount=accounting.formatMoney(result.items[item].amount);
 		}
-	}
-	for (var item in result) {
-		result[item].subtotal=accounting.formatMoney(result[item].subtotal);
-		result[item].vat_amount=accounting.formatMoney(result[item].vat_amount);
-		result[item].shipping_costs=accounting.formatMoney(result[item].shipping_costs);
-		result[item].total=accounting.formatMoney(result[item].total);
 	}
 	return result;
 };

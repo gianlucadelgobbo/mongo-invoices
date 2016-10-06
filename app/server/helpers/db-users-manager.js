@@ -22,7 +22,7 @@ DBUsers.init = function(callback) {
 		if (e) {
 			console.log(e);
 		} else {
-			console.log('Connected to database: ' + global.settings.dbUsersName);
+			console.log('Connected to database of Users: ' + global.settings.dbUsersName);
 			DBUsers.users = DBUsers.db.collection('users');
 			i18nAdmin.init(function() {
 				callback();

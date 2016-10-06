@@ -5,13 +5,13 @@
 		.pull-right
 			b=__("Change year")+"&nbsp;"
 			.btn-group
-				a.btn.btn-primary(href="/offers/?year="+year)=year
+				a.btn.btn-primary(href="/"+global.settings.dbName+"/offers/?year="+year)=year
 				button.btn.btn-primary.dropdown-toggle(data-toggle="dropdown")
 					span.caret
 				ul.dropdown-menu
 					each year in years
 						li
-							a(href="/offers/?year="+year)=year
+							a(href="/"+global.settings.dbName+"/offers/?year="+year)=year
 div
 	- if (typeof msg !== "undefined" && typeof msg.e !== "undefined" && msg.e.length)
 		.alert.alert-danger
@@ -44,15 +44,15 @@ div
 				tr
 					td
 						div.btn-group
-							a.btn.btn-info(href="/offer/?id="+x._id)=__("Edit")
+							a.btn.btn-info(href="/"+global.settings.dbName+"/offer/?id="+x._id)=__("Edit")
 							button.btn.btn-info.dropdown-toggle(data-toggle="dropdown")
 								span.caret
 							ul.dropdown-menu
 								li
-									a(href="/offers/?id="+x._id+"&del="+1)=__("Delete")
-									a(href="/print/offer/?id="+x._id)=__("Print")
-									a(href="/invoice/?offer"+x._id)=__("MAKE INVOICE")
-									a(href="/offer/?dup="+x._id)=__("DUPLICATE")
+									a(href="/"+global.settings.dbName+"/offers/?id="+x._id+"&del="+1)=__("Delete")
+									a(href="/"+global.settings.dbName+"/print/offer/?id="+x._id)=__("Print")
+									a(href="/"+global.settings.dbName+"/invoice/?offer"+x._id)=__("MAKE INVOICE")
+									a(href="/"+global.settings.dbName+"/offer/?dup="+x._id)=__("DUPLICATE")
 					td
 						span(class="label label-"+(x.offer_number==result.length-index ? "success" : "danger"))=x.offer_number
 					- if (x.offer_date)
@@ -61,7 +61,7 @@ div
 					- else 
 						td
 					td
-						a(href="/customer/?id="+x.to_client._id)=x.to_client.name
+						a(href="/"+global.settings.dbName+"/customer/?id="+x.to_client._id)=x.to_client.name
 					td=x.payment
 					td=x.destination
 					- var dd=""

@@ -3,7 +3,6 @@ $(function() {
 	$(".disabled").attr('disabled', 'disabled');
 	var to_client = $("#to_client");
 	to_client.bind("keypress", function(event) {
-		console.log(event.keyCode);
 		if ($("#customer_id").val()!="" &&  event.keyCode != 13) {
 			$("#customer_id").val("");
 			$(".street").val("");
@@ -236,7 +235,7 @@ function getAmount(row){
 function updateTotal(){
 	var subtot=0;
 	var vat_perc = $('#vat_perc');
-	var shipping_costs = $('#shipping_costs')
+	var shipping_costs = $('#shipping_costs');
 	$('.amount').each(function(){
 		if($(this).val()!="")
 			subtot += parseFloat(accounting.unformat($(this).val(), ","));

@@ -17,6 +17,7 @@ $(document).ready(function(){
 			}
 			str+= "</ul>";
         	showModal((response.msg && response.msg.e && response.msg.e.length ? 'error' : 'confirm'), str, forceCustomer);
+			if (response.msg.redirect) setTimeout("location.href='"+response.msg.redirect+"'", 3000);
 			$("h1 #name_new").html($("[name='name']").val());
 		},
 		error : function(e){

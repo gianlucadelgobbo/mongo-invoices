@@ -6,45 +6,13 @@ var helpers = require('./../helpers/helpers');
 exports.get = function get(req, res) {
   DBUsers.users.findOne({}, function (e, result) {
     if (result) {
-      if (req.session.user && global.settings.dbName) {
-        var redirect = req.query.from ? req.query.from : "/" + global.settings.dbName + "/home/";
-        res.redirect(redirect);
-      } else {
-        // check if the user's credentials are saved in a cookie //
-        if (req.cookies.user === undefined || req.cookies.pass === undefined || req.cookies.role === undefined) {
-          res.render('login', {
-            layout: "layout_nologged.jade",
-            locals: {title: __('Hello - Please Login To Your Account'), result: {}, from: req.query.from}
-          });
-        } else {
-          // attempt automatic login //
-          DBUsers.users.findOne({user: req.cookies.user}, function (e, o) {
-            if (o) {
-              if (o.pass === req.cookies.pass) {
-                o.dbs = helpers.generateDBs(o);
-                req.session.user = o;
-                global.settings.dbName = o.companies[0].dbname;
-                global.settings.companyName = o.companies[0].companyname;
-                DB.init(function () {
-                  var redirect = req.query.from ? req.query.from : "/" + global.settings.dbName + "/home/";
-                  res.redirect(redirect);
-                });
-              } else {
-                res.render('login', {layout: "layout_nologged.jade", locals: {title: __('Hello - Please Login To Your Account'), result: {}, from: req.query.from}});
-              }
-            } else {
-              res.render('login', {layout: "layout_nologged.jade", locals: {title: __('Hello - Please Login To Your Account'), result: {}, from: req.query.from}});
-            }
-          });
-        }
-      }
+      var redirect = req.query.from ? req.query.from : "/" + global.settings.dbName + "/";
+      res.redirect(redirect);
     } else {
-      res.redirect("/startup");
+      res.render('account_admin_new', {layout: "layout_nologged.jade", locals: {title: __('Signup'), countries : CT, result: {}}});
     }
   });
 };
-
-
 
 /*
   if (req.session.user && DBUsers.db) {
@@ -109,7 +77,7 @@ exports.post = function post(req, res) {
             res.send({msg:{e:e}}, 200);
           } else {
             o._id = o.id;
-            res.render('login', {layout: "layout_nologged.jade", locals: {title: __('Hello - Please Login To Your Account'), result: {}, from: req.query.from}});
+            res.render('login', { locals: { title: __('Hello - Please Login To Your Account'), result : o, msg:{e:e}, from:req.body.from}});
           }
         } else {
           o.dbs = helpers.generateDBs(o);

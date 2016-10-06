@@ -1,0 +1,104 @@
+h1.page-title
+	!=__("Account")+": "
+	span.name_new=result.name
+- if (result._id && !global.settings.roles[udata.role].admin && udata._id!=result._id)
+	.alert.alert-danger
+		h4=__("There are some errors")
+		ul
+			li=__("Your account can not create or edit accounts")
+- else
+	form( method="post")#account-form.form-horizontal
+		// store the userId on the customer side in a hidden input field //
+		input#id(type='hidden', name='id', value=result._id)
+		- if (typeof msg !== "undefined" && typeof msg.e !== "undefined" && msg.e.length)
+			.alert.alert-danger
+				h4=__("There are some errors")
+				ul
+					- for(var a=0;a<msg.e.length;a++)
+						li=msg.e[a].m
+		- if (typeof msg !== "undefined" && typeof msg.c !== "undefined" && msg.c.length)
+			.alert.alert-success
+				h4=__("There are some messages")
+				ul
+					- for(var a=0;a<msg.c.length;a++)
+						li=msg.c[a].m
+		p#sub2.subheading=__("Companies to manage")
+		hr
+		#companies
+			- if (result.companies)
+				- each b,index in result.companies
+					.row(id="entry" + index, style="margin-bottom:10px")
+						label.control-label.col-sm-2=__("Company Name")
+						.col-sm-10
+							.row
+								.col-sm-3
+									input.form-control.col-sm-3(type='text', name='companies[' + index + '][companyname]', value=result.companies[index].companyname)
+								.col-sm-3
+									input.form-control.col-sm-3(type='text', name='companies[' + index + '][dbname]', value=result.companies[index].dbname)
+								.col-sm-3
+									button.btn.btn-default(disabled=!index ? "disabled" : undefined, type="button",onclick="$(this).parent().parent().parent().parent().remove()")
+										i.glyphicon.glyphicon-minus
+		.row
+			.col-sm-2
+			.col-sm-2
+				button.btn.btn-default(type="button")#btnAdd
+					i.glyphicon.glyphicon-plus
+
+
+		p#sub2.subheading=__("Personal information")
+		hr
+		#name-cg.form-group
+			label.control-label.col-sm-2(for='name-tf')=__("Name")
+			.col-sm-10
+				input#name-tf.form-control(type='text', name='name', value=result.name)
+		#email-cg.form-group
+			label.control-label.col-sm-2(for='email-tf')=__("Email")
+			.col-sm-10
+				input#email-tf.form-control(type='text', name='email', value=result.email)
+		#country-cg.form-group
+			label.control-label.col-sm-2(for='country-list')=__("Country")
+			.col-sm-10
+				select#country-list.form-control(name='country')
+					option(value='')= __("Please select a country")
+					each item in countries
+						option(selected=item.name == result.country, value=item.name)=item.name
+		- if (result._id && udata._id==result._id)
+			#roles-cg.form-group
+				label.control-label.col-sm-2(for='role')=__("Role")
+				.col-sm-10(style="padding-top:5px")
+					b=global.settings.roles[result.role].display_name
+				input#role(type='hidden', name='role', value=result.role)
+		- else if (udata._id)
+			#roles-cg.form-group
+				label.control-label.col-sm-2(for='role')=__("Role")
+				.col-sm-10
+					select#role.form-control(name='role')
+						option= __("Please select a role")
+						- for (item in global.settings.roles)
+							option(selected=item == result.role,value=item)= global.settings.roles[item].display_name
+		- else
+			#roles-cg.form-group
+				label.control-label.col-sm-2(for='role')=__("Role")
+				.col-sm-10
+					input.form-control(disabled,value="Super Administrator")
+					input#role(type='hidden', name='role', value="superadmin")
+		p#sub2.subheading=__("Access Credentials")
+		hr
+		#result-cg.form-group
+			label.control-label.col-sm-2(for='user-tf')=__("Username")
+			.col-sm-10
+				input#user-tf.form-control(type='text', name='user', value=result.user,disabled=(result._id))
+		#pass-cg.form-group
+			label.control-label.col-sm-2(for='pass-tf')=__("Password")
+			.col-sm-10
+				input#pass-tf.form-control(type='password', name='pass', value='')
+		.form-actions
+			- if (result._id)
+				button(type='submit')#account-form-btn2.btn.btn-success=__("Update")
+				- if (global.settings.roles[udata.role].admin && udata._id!=result._id)
+					button(type='button')#account-form-btn1.btn.btn-danger=__("Delete")
+			- else
+				button(type='submit')#account-form-btn1.btn.btn-success=__("Save")
+				button(type='button')#account-form-btn2.btn=__("Cancel")
+	br
+- js = '/js/account.js'

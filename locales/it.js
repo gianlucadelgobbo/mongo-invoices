@@ -80,7 +80,7 @@
 	"Il codice fiscale non è corretto: il codice di controllo non corrisponde.": "Il codice fiscale non è Corretto: il codice di Controllo non corrisponde.",
 	"Invoice": "Fattura ",
 	"Please enter a valid Country": "Inserisci un Paese valido",
-	"Client saved with success": "Cliente salvato con successo",
+	"Customer saved with success": "Cliente salvato con successo",
 	"Revisions": "Revisioni",
 	"Invoice saved with success": "Fattura salvato con successo",
 	"There are some messages": "Ci sono dei messaggi",
@@ -89,7 +89,7 @@
 	"Il codice fiscale contiene un carattere non valido. I caratteri validi sono le cifre.": "Il codice fiscale contiene un carattere non valido. I caratteri validi sono le cifre.",
 	"La lunghezza della partita IVA non è corretta: la partita IVA dovrebbe essere lunga esattamente 11 caratteri.": "La lunghezza della partita IVA non è corretta: la partita IVA dovrebbe essere lunga esattamente 11 caratteri.",
 	"La partita IVA contiene un carattere non valido. I caratteri validi sono le cifre.": "La partita IVA contiene un carattere non valido. I caratteri validi sono le cifre.",
-	"Client deleted successfully": "Cliente eliminato correttamente",
+	"Customer deleted successfully": "Cliente eliminato correttamente",
 	"La partita IVA non è valida: il codice di controllo non corrisponde.": "La partita IVA non è valida: il codice di controllo non corrisponde.",
 	"Il codice fiscale non è valido: il codice di controllo non corrisponde.": "Il codice fiscale non è valido: il codice di controllo non corrisponde.",
 	"You have to insert a valid customer": "Devi inserire un cliente valido",
@@ -144,7 +144,7 @@
 	"Password updated": "Password aggiornata",
 	"Please log in": "Per favore log in",
 	"log in": "log in",
-	"Client not found": "Cliente non trovato",
+	"Customer not found": "Cliente non trovato",
 	"InvoicesCount": "Numero Fatture",
 	"User not found": "Utente non trovato",
 	"Companies to manage": "Aziende da gestire",
@@ -154,5 +154,6 @@
 	"Please enter a Country": "Inserisci una Nazione valida",
 	"Please enter a valid Role": "Inserisci un Ruolo valido",
 	"Please enter a valid DB Name": "Inserisci un Nome DB valido",
-	"Your account can not create or edit accounts": "Il tuo account non puo creare o modificare altri account"
+	"Your account can not create or edit accounts": "Il tuo account non puo creare o modificare altri account",
+	"Duplicate": "Duplica"
 }

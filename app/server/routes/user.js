@@ -1,20 +1,25 @@
 var ObjectID = require('mongodb').ObjectID;
-var DB = require('../helpers/db-manager');
 var DBUsers = require('../helpers/db-users-manager');
 var CT = require('../helpers/country-list');
 var helpers = require('../helpers/helpers');
 
 exports.get = function get(req, res) {
-  if (req.session.user == null){
-    res.redirect('/?from='+req.url);
-  } else {
+  if (req.session.user) {
     if (req.query.id) {
       DBUsers.users.findOne({_id:new ObjectID(req.query.id)}, function(e, result) {
-        res.render('account', {  locals: { title: __('Account'), countries : CT, result : result, udata : req.session.user } });
+        if (global.settings.roles[req.session.user.role].superadmin && req.session.user._id == result._id) {
+          res.render('account_admin', {  locals: { title: __('Account'), countries : CT, result : result, udata : req.session.user } });
+        } else if (global.settings.roles[req.session.user.role].admin || req.session.user._id == result._id) {
+          res.render('account_edit', {  locals: { title: __('Account'), countries : CT, result : result, udata : req.session.user } });
+        } else {
+          res.render('account_view', {  locals: { title: __('Account'), countries : CT, result : result, udata : req.session.user } });
+        }
       });
     } else {
-      res.render('account', {  locals: { title: __('Account'), countries : CT, result : {}, udata : req.session.user } });
+      res.render('account_new', {  locals: { title: __('Account'), countries : CT, result : {}, udata : req.session.user } });
     }
+  } else {
+    res.redirect('/?from='+req.url);
   }
 };
 
@@ -36,6 +41,7 @@ exports.post = function post(req, res) {
             var e = [];
             if (o){
               if (req.session.user._id == o._id){
+                o.dbs = helpers.generateDBs(o);
                 req.session.user = o;
                 // udpate the user's login cookies if they exists //
                 if (req.cookies.user !== undefined && req.cookies.pass !== undefined && req.cookies.role !== undefined){

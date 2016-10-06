@@ -24,7 +24,6 @@ $(document).ready(function(){
 			$("h1 #name_new").html($("[name='name']").val());
 		},
 		error : function(e){
-			console.log(e);
         	showModal('error', 'Please check account data');
 		}
 	});

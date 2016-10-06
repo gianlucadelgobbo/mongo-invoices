@@ -4,35 +4,37 @@ var Validators = require('../../common/validators').Validators;
 var helpers = require('./../helpers/helpers');
 
 exports.get = function get(req, res) {
-	if (req.session.user == null) {
-		res.redirect('/?from='+req.url);
-	} else {
-		if (req.query.id) {
-			DB.offers.findOne({_id:new ObjectID(req.query.id)},function(e, result) {
-				result = helpers.formatMoney(result);
-				res.render('offer', {	locals: {	title: __("Offer"), result : result, udata : req.session.user } });
-			});
+	helpers.canIseeThis(req, function (auth) {
+		if (auth) {
+			if (req.query.id) {
+				DB.offers.findOne({_id:new ObjectID(req.query.id)},function(e, result) {
+					result = helpers.formatMoney(result);
+					res.render('offer', {	locals: {	title: __("Offer"), country:global._config.company.country, result : result, udata : req.session.user } });
+				});
+			} else {
+				var dd = new Date();
+				var start = new Date(dd.getFullYear()+"-01-01");
+				var end = new Date(dd.getFullYear()+"-12-31");
+
+				DB.offers.find({offer_date:{$gte: start, $lt: end}},{offer_date:1,offer_number:1}).sort({offer_number:1}).toArray(function(e, resultOffer) {
+					if (req.query.dup) {
+						DB.offers.findOne({_id:new ObjectID(req.query.dup)},function(e, result) {
+							result = helpers.formatMoney(result);
+							result.offer_date = new Date();
+							result.offer_number = resultOffer.length+1;
+							delete result._id;
+							res.render('offer', {	locals: {	title: __("Offer"), country:global._config.company.country, result : result, udata : req.session.user } });
+						});
+					} else {
+						var resultEmpty = {offer_date:new Date(),offer_number:resultOffer.length+1,vat_perc:_config.vat_perc,to_client:{address:{}},offer:{},items:[{}]};
+						res.render('offer', {	locals: {	title: __("Offer"), country:global._config.company.country, result : resultEmpty, udata : req.session.user } });
+					}
+				});
+			}
 		} else {
-			var dd = new Date();
-			var start = new Date(dd.getFullYear()+"-01-01");
-			var end = new Date(dd.getFullYear()+"-12-31");
-			
-			DB.offers.find({offer_date:{$gte: start, $lt: end}},{offer_date:1,offer_number:1}).sort({offer_number:1}).toArray(function(e, resultOffer) {
-				if (req.query.dup) {
-					DB.offers.findOne({_id:new ObjectID(req.query.dup)},function(e, result) {
-						result = helpers.formatMoney(result);
-						result.offer_date = new Date();
-						result.offer_number = resultOffer.length+1;
-						delete result._id;
-						res.render('offer', {	locals: {	title: __("Offer"), result : result, udata : req.session.user } });
-					});
-				} else {
-					var resultEmpty = {offer_date:new Date(),offer_number:resultOffer.length+1,to_client:{address:{}},offer:{},items:[{}]};
-					res.render('offer', {	locals: {	title: __("Offer"), country:global._config.company.country, result : resultEmpty, udata : req.session.user } });
-				}
-			});
+			res.redirect('/?from='+req.url);
 		}
-	}
+	});
 };
 
 exports.post = function post(req, res) {
@@ -70,7 +72,7 @@ exports.post = function post(req, res) {
 										msg.c = [];
 										msg.c.push({name:"",m:__("Offer saved with success")});
 									}
-									res.redirect('/offer/?id='+o[0]._id);
+									res.redirect('/'+global.settings.dbName+'/offer/?id='+o[0]._id);
 									//res.render('offer', {	locals: {	title: __("Offer"), result : helpers.formatMoney(o[0]), msg:msg, udata : req.session.user } });
 								});
 							}
@@ -83,12 +85,12 @@ exports.post = function post(req, res) {
 								d = req.body.delivery_date.split("/");
 								req.body.delivery_date = new Date(parseInt(d[2], 10),parseInt(d[1], 10)-1,parseInt(d[0], 10));
 							}
-							if (req.body.offer.offer_date) {
-								d = req.body.offer.offer_date.split("/");
-								req.body.offer.offer_date = new Date(parseInt(d[2], 10),parseInt(d[1], 10)-1,parseInt(d[0], 10));
+							if (req.body.offer_date) {
+								d = req.body.offer_date.split("/");
+								req.body.offer_date = new Date(parseInt(d[2], 10),parseInt(d[1], 10)-1,parseInt(d[0], 10));
 							}
 							req.body.to_client.address={};
-							res.render('offer', {	locals: {	title: __("Offer"), result : req.body, msg:{e:errors}, udata : req.session.user } });
+							res.render('offer', {	locals: {	title: __("Offer"), country:global._config.company.country, result : req.body, msg:{e:errors}, udata : req.session.user } });
 						}
 					});
 				} else {
@@ -100,12 +102,12 @@ exports.post = function post(req, res) {
 						d = req.body.delivery_date.split("/");
 						req.body.delivery_date = new Date(parseInt(d[2], 10),parseInt(d[1], 10)-1,parseInt(d[0], 10));
 					}
-					if (req.body.offer.offer_date) {
-						d = req.body.offer.offer_date.split("/");
-						req.body.offer.offer_date = new Date(parseInt(d[2], 10),parseInt(d[1], 10)-1,parseInt(d[0], 10));
+					if (req.body.offer_date) {
+						d = req.body.offer_date.split("/");
+						req.body.offer_date = new Date(parseInt(d[2], 10),parseInt(d[1], 10)-1,parseInt(d[0], 10));
 					}
 					req.body.to_client.address={};
-					res.render('offer', {	locals: {	title: __("Offer"), result : req.body, msg:{e:errors}, udata : req.session.user } });
+					res.render('offer', {	locals: {	title: __("Offer"), country:global._config.company.country, result : req.body, msg:{e:errors}, udata : req.session.user } });
 				}
 			});
 		} else {
@@ -122,7 +124,7 @@ exports.post = function post(req, res) {
 				req.body.invoice.invoice_date = new Date(parseInt(d[2], 10),parseInt(d[1], 10)-1,parseInt(d[0], 10));
 			}
 			req.body.to_client.address={};
-			res.render('offer', {	locals: {	title: __("Offer"), result : req.body, msg:{e:errors}, udata : req.session.user } });
+			res.render('offer', {	locals: {	title: __("Offer"), country:global._config.company.country, result : req.body, msg:{e:errors}, udata : req.session.user } });
 		}
 	}
 };
@@ -138,7 +140,7 @@ exports.print = function print(req, res) {
 				var filename = result.offer_date.getFullYear()+'-'+(result.offer_date.getMonth()+1)+'-'+result.offer_date.getDate()+'_'+result.offer_number+'_'+global.settings.companyName+'_'+result.to_client.name+'.pdf';
 				fs.writeFile('./app/public/accounts/'+global.settings.dbName+"/style_print.jade", "", { flag: 'wx' }, function (err) {
 					res.render('../../public/accounts/'+global.settings.dbName+"/style_print", {layout: false}, function (error_style, style) {
-						res.render('print_offer', { layout: 'print.jade' ,	locals: {	title: __("Offer"), country:global._config.company.country, result : result, udata : req.session.user, file:folder+filename, style:style } }, function (error1, html1) {
+						res.render('print_offer', {locals: {	title: __("Offer"), country:global._config.company.country, result : result, udata : req.session.user, file:folder+filename, style:style } }, function (error1, html1) {
 							// PDF START
 							var pdf = require('html-pdf');
 							var options = { format: 'A4',"header": {"height": "75mm"},"footer": {"height": "30mm"}};

@@ -1,24 +1,27 @@
 var DB = require('../helpers/db-manager');
-var ObjectID = require('mongodb').ObjectID;
 var CT = require('../helpers/country-list');
 var helpers = require('../helpers/helpers');
 
 exports.get = function get(req, res) {
-	if (req.session.user == null){
-		res.redirect('/?from='+req.url);
-	} else if (req.session.user.role != 'admin' && req.session.user.role != 'superadmin'){
-		res.redirect('/?from='+req.url);
-	} else {
-		DB.settings.findOne({}, function(e, result) {
-			if (result) {
-				if (!result.emailDispatcher) result.emailDispatcher = require('../config.js')._config.emailDispatcher;
-				res.render('settings', {	locals: { title: __('Settings'), countries : CT, result : result, msg:{}, udata : req.session.user } });
+	helpers.canIseeThis(req, function (auth) {
+		if (auth) {
+			if (req.session.user.role != 'admin' && req.session.user.role != 'superadmin'){
+				res.redirect('/?from='+req.url);
 			} else {
-				if (!global._config.emailDispatcher) global._config.emailDispatcher = require('./config.js')._config.emailDispatcher;
-				res.render('settings', {	locals: { title: __('Settings'), countries : CT, result : _config, msg:{}, udata : req.session.user } });
+				DB.settings.findOne({}, function(e, result) {
+					if (result) {
+						if (!result.emailDispatcher) result.emailDispatcher = require('../config.js')._config.emailDispatcher;
+						res.render('settings', {	locals: { title: __('Settings'), countries : CT, result : result, msg:{}, udata : req.session.user } });
+					} else {
+						if (!global._config.emailDispatcher) global._config.emailDispatcher = require('./config.js')._config.emailDispatcher;
+						res.render('settings', {	locals: { title: __('Settings'), countries : CT, result : _config, msg:{}, udata : req.session.user } });
+					}
+				});
 			}
-		});
-	}
+		} else {
+			res.redirect('/?from='+req.url);
+		}
+	});
 };
 
 exports.post = function post(req, res) {

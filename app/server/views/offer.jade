@@ -1,6 +1,6 @@
 script
 	var rowNumber = 1
-form(method="post", action="/offer/?id="+result._id, onsubmit='$("[disabled]").removeAttr("disabled")')#offer
+form(method="post", action="/"+global.settings.dbName+"/offer/?id="+result._id, onsubmit='$("[disabled]").removeAttr("disabled")')#offer
 	.row
 		.col-sm-6
 			h1.page-title=(result.offer_number ? __("Offer")+": "+result.offer_number : __("New offer"))
@@ -8,10 +8,10 @@ form(method="post", action="/offer/?id="+result._id, onsubmit='$("[disabled]").r
 			.pull-right
 				input(type="submit", value=__("SAVE")).btn.btn-success
 				- if (result._id)
-					input(type="button", value=__("MAKE INVOICE"), onclick="window.location='/invoice/?offer="+result._id+"'").btn.btn-primary
-					input(type="button", value=__("DUPLICATE"), onclick="window.location='/offer/?dup="+result._id+"'").btn.btn-primary
-					input(type="button", value=__("PRINT"), onclick="window.location='/print/offer/?id="+result._id+"'").btn.btn-primary
-					//a.btn.btn-primary(href="/print/offer/?id="+result._id)=__("PRINT")
+					input(type="button", value=__("MAKE INVOICE"), onclick="window.location='/"+global.settings.dbName+"/invoice/?offer="+result._id+"'").btn.btn-primary
+					input(type="button", value=__("DUPLICATE"), onclick="window.location='/"+global.settings.dbName+"/offer/?dup="+result._id+"'").btn.btn-primary
+					input(type="button", value=__("PRINT"), onclick="window.location='/"+global.settings.dbName+"/print/offer/?id="+result._id+"'").btn.btn-primary
+					//a.btn.btn-primary(href="/"+global.settings.dbName+"/print/offer/?id="+result._id)=__("PRINT")
 					//input(type="button", value=__("DELETE")).btn.btn-danger
 					input(type="hidden", name="id", value=result._id)
 	hr
@@ -48,14 +48,14 @@ form(method="post", action="/offer/?id="+result._id, onsubmit='$("[disabled]").r
 						.input-group
 							label.input-group-addon(for='to_client')=__("Customer")
 							input(type="text", name="to_client[name]", value=result.to_client.name).form-control#to_client
-							a(href="/customer").btn.input-group-addon=__("Insert new customer")
+							a(href="/"+global.settings.dbName+"/customer").btn.input-group-addon=__("Insert new customer")
 							input(type="hidden", name="to_client[_id]", value=result.to_client._id)#customer_id
 			.row
 				.col-sm-12
 					.form-group
 						.input-group
 							label.input-group-addon(for='address')=__("Address")
-							input(type="text", name="to_client[address][street]", value=result.to_client.address.street, disabled).form-control.street#street
+							input(type="text", name="to_client[address][street]", value=result.to_client.address.street, disabled).form-control.street#address
 			.row
 				.col-sm-4
 					.form-group
@@ -116,9 +116,8 @@ form(method="post", action="/offer/?id="+result._id, onsubmit='$("[disabled]").r
 					.form-group
 						.input-group
 							label.input-group-addon(for='delivery_date')=__("Delivery date")
-							- var dd=""
-							- if (result.delivery_date)
-								dd = result.delivery_date.getDate()+"/"+(result.delivery_date.getMonth()+1)+"/"+result.delivery_date.getFullYear()
+							- var dd = ""
+							- if (result.delivery_date) dd = result.delivery_date.getDate()+"/"+(result.delivery_date.getMonth()+1)+"/"+result.delivery_date.getFullYear()
 							input(type="text", name="delivery_date", value=dd).form-control.date#delivery_date
 	hr
 	.form-group
@@ -163,7 +162,7 @@ form(method="post", action="/offer/?id="+result._id, onsubmit='$("[disabled]").r
 				td
 					.input-group
 						span.input-group-addon=_config.currency[0]
-						input(type="text", name="subtotal", value=result.subtotal, disabled).form-control.totals.subtotal.input-medium
+						input(type="text", name="subtotal", value=result.subtotal, disabled).form-control.totals#subtotal.input-medium
 				td
 			tr
 				td
@@ -196,7 +195,7 @@ form(method="post", action="/offer/?id="+result._id, onsubmit='$("[disabled]").r
 				td
 					.input-group
 						span.input-group-addon=_config.currency[0]
-						input(type="text", name="total", value=result.total, disabled).form-control.total.input-medium
+						input(type="text", name="total", value=result.total, disabled).form-control#total.input-medium
 				td
 	hr.clearfix
 	label.add-on(for='bank')=__("Bank")
@@ -215,10 +214,10 @@ form(method="post", action="/offer/?id="+result._id, onsubmit='$("[disabled]").r
 				br
 				input(type="submit", value=__("SAVE")).btn.btn-success
 				- if (result._id)
-					input(type="button", value=__("MAKE INVOICE"), onclick="window.location='/invoice/?offer="+result._id+"'").btn.btn-primary
-					input(type="button", value=__("DUPLICATE"), onclick="window.location='/offer/?dup="+result._id+"'").btn.btn-primary
-					input(type="button", value=__("PRINT"), onclick="window.location='/print/offer/?id="+result._id+"'").btn.btn-primary
-					//a.btn.btn-primary(href="/print/invoice/?id="+result._id)=__("PRINT")
+					input(type="button", value=__("MAKE INVOICE"), onclick="window.location='/"+global.settings.dbName+"/invoice/?offer="+result._id+"'").btn.btn-primary
+					input(type="button", value=__("DUPLICATE"), onclick="window.location='/"+global.settings.dbName+"/offer/?dup="+result._id+"'").btn.btn-primary
+					input(type="button", value=__("PRINT"), onclick="window.location='/"+global.settings.dbName+"/print/offer/?id="+result._id+"'").btn.btn-primary
+					//a.btn.btn-primary(href="/"+global.settings.dbName+"/print/invoice/?id="+result._id)=__("PRINT")
 					//input(type="button", value=__("DELETE")).btn.btn-danger
 
 - if (result.revisions)
