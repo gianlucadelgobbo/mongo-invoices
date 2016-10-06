@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	$('#client-form').ajaxForm({
+	$('#customer-form').ajaxForm({
 		beforeSubmit:  function(formData, jqForm, options) {
 			formData.push({ name: 'ajax', value: true });
 		},
@@ -16,17 +16,17 @@ $(document).ready(function(){
 				if(print[p].m) str+= "<li>"+print[p].m+"</li>";
 			}
 			str+= "</ul>";
-        	showModal((response.msg && response.msg.e && response.msg.e.length ? 'error' : 'confirm'), str, forceClient);
+        	showModal((response.msg && response.msg.e && response.msg.e.length ? 'error' : 'confirm'), str, forceCustomer);
 			$("h1 #name_new").html($("[name='name']").val());
 		},
 		error : function(e){
-        	showModal('error', 'Please check client data');
+        	showModal('error', 'Please check customer data');
 		}
 	});
 });
-function forceClient() {
-	$('#client-form').append("<input type=\"hidden\" name=\"force\" value=\"1\" />");
-	setTimeout("$('#client-form').submit()",500);
+function forceCustomer() {
+	$('#customer-form').append("<input type=\"hidden\" name=\"force\" value=\"1\" />");
+	setTimeout("$('#customer-form').submit()",500);
 //	$('#account-form-btn1').click();
 }
 
@@ -36,7 +36,7 @@ function validateForm(formData, jqForm, options) {
     console.log(form);
     errors = [];
 	if (!Validators.validateStringLength(form.name, 3, 50)){
-		errors.push('Please enter a valid Client');
+		errors.push('Please enter a valid Customer');
 	}
 	errors = errors.concat(Validators.checkVAT(form.vat_number));
 	errors = errors.concat(Validators.checkCF(form.fiscal_code));

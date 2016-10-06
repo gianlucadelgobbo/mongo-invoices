@@ -4,8 +4,8 @@ $(function() {
 	var to_client = $("#to_client");
 	to_client.bind("keypress", function(event) {
 		console.log(event.keyCode);
-		if ($("#client_id").val()!="" &&  event.keyCode != 13) {
-			$("#client_id").val("");
+		if ($("#customer_id").val()!="" &&  event.keyCode != 13) {
+			$("#customer_id").val("");
 			$(".street").val("");
 			$(".zipcode").val("");
 			$(".city").val("");
@@ -18,7 +18,7 @@ $(function() {
 	//autocomplete
 	to_client.autocomplete({
 		source: function(req,res){
-			getAutoCompleteList(req,"/api/clients");
+			getAutoCompleteList(req,"/api/customers");
 			var x = [];
 			for(var i=0;i<queryResult.length;i++){
 				x[i] = {"label" : queryResult[i].name, "value" : queryResult[i].name, idx : i};
@@ -28,7 +28,7 @@ $(function() {
 		minLength:3,
 		select: function(event, ui) {
 			var i= ui.item.idx;
-			$("#client_id").val(queryResult[i]._id);
+			$("#customer_id").val(queryResult[i]._id);
 			$(".street").val(queryResult[i].address.street);
 			$(".zipcode").val(queryResult[i].address.zipcode);
 			$(".city").val(queryResult[i].address.city);
@@ -218,9 +218,9 @@ function checkVATPerc(input){
 function checkInvoice(){
 	console.log("checkInvoice");
 	var res = true;
-	// Check _id client
-	if (!$("#client_id").val()){
-		showModal('error', "Selezionare una ragione sociale", function () {setTimeout("\$(\"#client_id\").focus()",50)});
+	// Check _id customer
+	if (!$("#customer_id").val()){
+		showModal('error', "Selezionare una ragione sociale", function () {setTimeout("\$(\"#customer_id\").focus()",50)});
 		res = false;
 	}
 	// Check counts

@@ -1,4 +1,4 @@
-h1.page-title=__("Clients")
+h1.page-title=__("Customers")
 div
 	- if (typeof msg !== "undefined" && typeof msg.e !== "undefined" && msg.e.length) {
 		.alert.alert-danger
@@ -18,7 +18,7 @@ div
 		thead
 			tr
 				th.tabActions=__("Actions")
-				th=__("Client")
+				th=__("Customer")
 				th=__("Invoices")
 				th=__("VAT number")
 				th=__("Fiscal code")
@@ -30,16 +30,16 @@ div
 				tr
 					td
 						div.btn-group
-							a.btn.btn-info(href="/invoices/?client="+x._id)=__("Invoices")
+							a.btn.btn-info(href="/invoices/?customer="+x._id)=__("Invoices")
 							button.btn.btn-info.dropdown-toggle(data-toggle="dropdown")
 								span.caret
 							ul.dropdown-menu
 								li
-									a(href="/client/?id="+x._id)=__("Edit")
+									a(href="/customer/?id="+x._id)=__("Edit")
 								li
-									a(href="/clients/?id="+x._id+"&del="+1)=__("Delete")
+									a(href="/customers/?id="+x._id+"&del="+1)=__("Delete")
 					td
-						a(href="/client/?id="+x._id)=x.name
+						a(href="/customer/?id="+x._id)=x.name
 					td.text-center=x.invoicesCount
 					td=x.vat_number
 					td=x.fiscal_code

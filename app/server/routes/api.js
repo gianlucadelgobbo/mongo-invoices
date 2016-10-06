@@ -1,12 +1,12 @@
 var DB = require('./../helpers/db-manager');
 
-exports.getClients = function getClients(req, res) {
+exports.getCustomers = function getCustomers(req, res) {
   if (req.session.user == null) {
     res.redirect('/?from='+req.url);
   } else {
     var query = {name:{$regex: req.query.term, $options: 'i' }};
     console.dir(query);
-    DB.clients.find(query).toArray(function(e, result) {
+    DB.customers.find(query).toArray(function(e, result) {
       console.dir(result);
       res.send(result);
     });

@@ -4,18 +4,18 @@
 
 -if (result._id)
 	h1.page-title
-		!=__("Client")+": "
+		!=__("Customer")+": "
 		span.name_new=result.name
 - else
-	h1.page-title=__("New client")
+	h1.page-title=__("New customer")
 
 
 
 
 
 
-form(method="post", action="/client")#client-form
-	// store the userId on the client side in a hidden input field //
+form(method="post", action="/customer")#customer-form
+	// store the userId on the customer side in a hidden input field //
 	input#id(type='hidden', name='id', value=result._id)
 	- if (typeof msg !== "undefined" && typeof msg.e !== "undefined" && msg.e.length)
 		.alert.alert-danger
@@ -30,8 +30,8 @@ form(method="post", action="/client")#client-form
 				- for(var a=0;a<msg.c.length;a++)
 					li=msg.c[a].m
 	div.form-group
-		label(for='cliente_new').control-label=__("Client")
-		input(type="text", name="name", value=result.name).form-control#cliente_new
+		label(for='customere_new').control-label=__("Customer")
+		input(type="text", name="name", value=result.name).form-control#customere_new
 	div.form-group
 		label(for='street').control-label=__("Address")
 		input(type="text", name="address[street]", value=result.address.street)#street.form-control
@@ -58,11 +58,11 @@ form(method="post", action="/client")#client-form
 			button(type='submit')#account-form-btn2.btn.btn-success=__("Update")
 			- if (_config.roles[user.role].admin && user._id!=result._id)
 				!=" "
-				a(href="/clients/?id="+result._id+"&del="+1)#account-form-btn1.btn.btn-danger=__("Delete")
+				a(href="/customers/?id="+result._id+"&del="+1)#account-form-btn1.btn.btn-danger=__("Delete")
 		- else
 			button(type='submit')#account-form-btn1.btn.btn-success=__("Save")
 			!=" "
 			button(type='button')#account-form-btn2.btn=__("Cancel")
 br.myClear
 		
-- js = '/js/client.js'
+- js = '/js/customer.js'

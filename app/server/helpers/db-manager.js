@@ -30,7 +30,7 @@ DB.init = function(callback) {
 				global._config = o;
 				accounting.settings = 		global._config.accountingSettings;
 				i18nAdmin.setLocale(o.defaultLocale);
-				DB.clients = DB.db.collection('clients');
+				DB.customers = DB.db.collection('clients');
 				DB.invoices = DB.db.collection('invoices');
 				DB.offers = DB.db.collection('offers');
 				DB.settings = DB.db.collection('settings');
@@ -164,22 +164,22 @@ DB.delete_offer = function(id, callback) {
 	});
 };
 
-DB.insert_client = function(newData, callback) {
+DB.insert_customer = function(newData, callback) {
 	delete newData.id;
-	DB.clients.insert(newData, {safe: true}, function(err, records){
+	DB.customers.insert(newData, {safe: true}, function(err, records){
 		callback(err, records);
 	});
 };
-DB.update_client = function(newData, callback) {
-	DB.clients.findOne({_id:new ObjectID(newData.id)}, function(e, o){
+DB.update_customer = function(newData, callback) {
+	DB.customers.findOne({_id:new ObjectID(newData.id)}, function(e, o){
 		newData._id = o._id;
 		delete newData.id;
-		DB.clients.save(newData);
+		DB.customers.save(newData);
 		callback(newData);
 	});
 };
-DB.delete_client = function(id, callback) {
-	DB.clients.remove({_id: new ObjectID(id)},{safe: true}, function(err, records){
+DB.delete_customer = function(id, callback) {
+	DB.customers.remove({_id: new ObjectID(id)},{safe: true}, function(err, records){
 		callback(err, records);
 	});
 };

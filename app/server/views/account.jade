@@ -15,7 +15,7 @@
 			li=__("Your account can not create or edit accounts")
 - else
 	form( method="post")#account-form.form-horizontal
-		// store the userId on the client side in a hidden input field //
+		// store the userId on the customer side in a hidden input field //
 		input#id(type='hidden', name='id', value=result._id)
 		- if (typeof msg !== "undefined" && typeof msg.e !== "undefined" && msg.e.length)
 			.alert.alert-danger

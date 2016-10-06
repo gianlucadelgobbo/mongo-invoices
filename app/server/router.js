@@ -1,4 +1,5 @@
 var indexRoutes = require('./routes/index');
+var changedbRoutes = require('./routes/changedb');
 var logoutRoutes = require('./routes/logout');
 var homeRoutes = require('./routes/home');
 var accountsRoutes = require('./routes/users');
@@ -6,8 +7,8 @@ var accountRoutes = require('./routes/user');
 var settingsRoutes = require('./routes/settings');
 var lostPasswordRoutes = require('./routes/lost-password');
 var resetPasswordRoutes = require('./routes/reset-password');
-var clientsRoutes = require('./routes/clients');
-var clientRoutes = require('./routes/client');
+var customersRoutes = require('./routes/customers');
+var customerRoutes = require('./routes/customer');
 var invoicesRoutes = require('./routes/invoices');
 var invoiceRoutes = require('./routes/invoice');
 var offerRoutes = require('./routes/offer');
@@ -23,14 +24,14 @@ module.exports = function(app) {
   app.get('/logout', logoutRoutes.get);
 
   // Logged-in redirect / homepage //
-  app.get('/home', homeRoutes.get);
+  app.get('/:dbname/home', homeRoutes.get);
 
   // Settings //
-  app.get('/settings', settingsRoutes.get);
-  app.post('/settings', settingsRoutes.post);
+  app.get('/:dbname/settings', settingsRoutes.get);
+  app.post('/:dbname/settings', settingsRoutes.post);
 
   // Accounts //
-  app.get('/accounts', accountsRoutes.get);
+  app.get('/:dbname/accounts', accountsRoutes.get);
   app.get('/account', accountRoutes.get);
   app.post('/account', accountRoutes.post);
 
@@ -39,29 +40,32 @@ module.exports = function(app) {
   app.get('/reset-password', resetPasswordRoutes.get);
   app.post('/reset-password', resetPasswordRoutes.post);
 
-  // Clients //
-  app.get('/clients', clientsRoutes.get);
-  app.get('/client', clientRoutes.get);
-  app.post('/client', clientRoutes.post);
+  // Customers //
+  app.get('/:dbname/customers', customersRoutes.get);
+  app.get('/:dbname/customer', customerRoutes.get);
+  app.post('/:dbname/customer', customerRoutes.post);
 
   // Invoices //
-  app.get('/invoices', invoicesRoutes.get);
-  app.get('/invoice', invoiceRoutes.get);
-  app.post('/invoice', invoiceRoutes.post);
-  app.get('/print/invoice', invoiceRoutes.print);
+  app.get('/:dbname/invoices', invoicesRoutes.get);
+  app.get('/:dbname/invoice', invoiceRoutes.get);
+  app.post('/:dbname/invoice', invoiceRoutes.post);
+  app.get('/:dbname/print/invoice', invoiceRoutes.print);
 
   // Offers //
-  app.get('/offers', offersRoutes.get);
-  app.get('/offer', offerRoutes.get);
-  app.post('/offer', offerRoutes.post);
-  app.get('/print/offer', offerRoutes.print);
+  app.get('/:dbname/offers', offersRoutes.get);
+  app.get('/:dbname/offer', offerRoutes.get);
+  app.post('/:dbname/offer', offerRoutes.post);
+  app.get('/:dbname/print/offer', offerRoutes.print);
 
   // Api //
-  app.get('/api/clients', apiRoutes.getClients);
-  app.get('/api/payments', apiRoutes.getPayments);
-  app.get('/api/invoices', apiRoutes.getInvoices);
-  app.get('/api/products', apiRoutes.getProducts);
-  app.get('/api/offers', apiRoutes.getOffers);
+  app.get('/api/:dbname/customers', apiRoutes.getCustomers);
+  app.get('/api/:dbname/payments', apiRoutes.getPayments);
+  app.get('/api/:dbname/invoices', apiRoutes.getInvoices);
+  app.get('/api/:dbname/products', apiRoutes.getProducts);
+  app.get('/api/:dbname/offers', apiRoutes.getOffers);
+
+  // ChangeDB //
+  app.get('/:dbname', changedbRoutes.get);
 
   // all other routes 404
   app.get('*', function(req, res) { res.render('404', { title: "Page Not Found"}); });

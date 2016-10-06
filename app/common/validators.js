@@ -1,10 +1,10 @@
 
 var Validators = {};
 
-Validators.checkClientID = function(clientID){
+Validators.checkCustomerID = function(customerID){
 	var errors = [];
-	if(!clientID){
-		errors.push({name:"to_client[name]",m:__("You have to insert a valid client")});
+	if(!customerID){
+		errors.push({name:"to_client[name]",m:__("You have to insert a valid customer")});
 	}
 	return errors;
 };

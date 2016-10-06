@@ -46,10 +46,10 @@ form(method="post", action="/offer/?id="+result._id, onsubmit='$("[disabled]").r
 				.col-sm-12
 					.form-group
 						.input-group
-							label.input-group-addon(for='to_client')=__("Client")
+							label.input-group-addon(for='to_client')=__("Customer")
 							input(type="text", name="to_client[name]", value=result.to_client.name).form-control#to_client
-							a(href="/client").btn.input-group-addon=__("Insert new client")
-							input(type="hidden", name="to_client[_id]", value=result.to_client._id)#client_id
+							a(href="/customer").btn.input-group-addon=__("Insert new customer")
+							input(type="hidden", name="to_client[_id]", value=result.to_client._id)#customer_id
 			.row
 				.col-sm-12
 					.form-group

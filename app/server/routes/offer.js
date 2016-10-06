@@ -42,12 +42,12 @@ exports.post = function post(req, res) {
 		//console.dir(req.body);
 		//controls
 		var errors = [];
-		errors = errors.concat(Validators.checkClientID(req.body.to_client._id));
+		errors = errors.concat(Validators.checkCustomerID(req.body.to_client._id));
 		errors = errors.concat(Validators.checkOfferNumber(req.body.offer_number));
 		errors = errors.concat(Validators.checkOfferDate(req.body.offer_date));
 		var d = req.body.offer_date.split("/");
 		if(errors.length === 0){
-			DB.clients.findOne({_id:new ObjectID(req.body.to_client._id)},function(e, result) {
+			DB.customers.findOne({_id:new ObjectID(req.body.to_client._id)},function(e, result) {
 				if (result) {
 					d = req.body.offer_date.split("/");
 					var date=new Date(parseInt(d[2], 10),parseInt(d[1], 10)-1,parseInt(d[0], 10));
@@ -93,7 +93,7 @@ exports.post = function post(req, res) {
 					});
 				} else {
 					if (req.body.id) req.body._id = req.body.id;
-					errors.push({name:"to_client[name]",m:__("You have to insert a valid client")});
+					errors.push({name:"to_client[name]",m:__("You have to insert a valid customer")});
 					d = req.body.offer_date.split("/");
 					req.body.offer_date = new Date(parseInt(d[2], 10),parseInt(d[1], 10)-1,parseInt(d[0], 10));
 					if (req.body.delivery_date) {
@@ -110,7 +110,7 @@ exports.post = function post(req, res) {
 			});
 		} else {
 			if (req.body.id) req.body._id = req.body.id;
-			errors.push({name:"to_client[name]",m:__("You have to insert a valid client")});
+			errors.push({name:"to_client[name]",m:__("You have to insert a valid customer")});
 			d = req.body.offer_date.split("/");
 			req.body.offer_date = new Date(parseInt(d[2], 10),parseInt(d[1], 10)-1,parseInt(d[0], 10));
 			if (req.body.delivery_date) {

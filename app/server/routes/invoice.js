@@ -51,13 +51,13 @@ exports.post = function post(req, res) {
 	} else {
 		//controls
 		var errors = [];
-		errors = errors.concat(Validators.checkClientID(req.body.to_client._id));
+		errors = errors.concat(Validators.checkCustomerID(req.body.to_client._id));
 		errors = errors.concat(Validators.checkInvoiceNumber(req.body.invoice_number));
 		errors = errors.concat(Validators.checkInvoiceDate(req.body.invoice_date));
 		errors = errors.concat(Validators.checkDeliveryDate(req.body.delivery_date));
 		var d = req.body.invoice_date.split("/");
 		if (errors.length === 0){
-			DB.clients.findOne({_id:new ObjectID(req.body.to_client._id)},function(e, result) {
+			DB.customers.findOne({_id:new ObjectID(req.body.to_client._id)},function(e, result) {
 				var d;
 				if (result) {
 					d = req.body.invoice_date.split("/");
@@ -103,7 +103,7 @@ exports.post = function post(req, res) {
 					});
 				} else {
 					if (req.body.id) req.body._id = req.body.id;
-					errors.push({name:"to_client[name]",m:__("You have to insert a valid client")});
+					errors.push({name:"to_client[name]",m:__("You have to insert a valid customer")});
 					d = req.body.offer_date.split("/");
 					req.body.invoice_date = new Date(parseInt(d[2], 10),parseInt(d[1], 10)-1,parseInt(d[0], 10));
 					if (req.body.delivery_date) {

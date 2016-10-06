@@ -77,7 +77,7 @@ exports.post = function post(req, res) {
               if (req.body.ajax) {
                 res.send({msg:{e:e}}, 200);
               } else {
-                res.render('account', {  locals: {  title: __("Client"), countries : CT, result : o[0], msg:{e:e}, udata : req.session.user } });
+                res.render('account', {  locals: {  title: __("Customer"), countries : CT, result : o[0], msg:{e:e}, udata : req.session.user } });
               }
             } else {
               e.push({name:"",m:__("Account saved with success")});
@@ -85,7 +85,7 @@ exports.post = function post(req, res) {
                 res.send({msg:{c:e}}, 200);
               } else {
                 DBUsers.users.findOne({_id:o[0]._id},function(err, result) {
-                  res.render('account', {  locals: {  title: __("Client"), countries : CT, result : result, msg:{c:e}, udata : req.session.user } });
+                  res.render('account', {  locals: {  title: __("Customer"), countries : CT, result : result, msg:{c:e}, udata : req.session.user } });
                 });
               }
             }

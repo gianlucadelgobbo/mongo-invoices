@@ -15,11 +15,11 @@ exports.get = function get(req, res) {
       global.settings.dbName = req.session.user.companies[index].dbname;
       global.settings.companyName = req.session.user.companies[index].companyname;
       DB.init(function(){
-        var redirect = req.query.from ? req.query.from : '/home';
+        var redirect = req.query.from ? req.query.from : "/"+global.settings.dbName+"/home/";
         res.redirect(redirect);
       });
     } else {
-      var redirect = req.query.from ? req.query.from : '/home';
+      var redirect = req.query.from ? req.query.from : "/"+global.settings.dbName+"/home/";
       res.redirect(redirect);
     }
 
@@ -41,11 +41,12 @@ exports.get = function get(req, res) {
           DBUsers.users.findOne({user: req.cookies.user}, function (e, o) {
             if (o) {
               if (o.pass === req.cookies.pass) {
+                o.dbs = helpers.generateDBs(o);
                 req.session.user = o;
                 global.settings.dbName = o.companies[0].dbname;
                 global.settings.companyName = o.companies[0].companyname;
                 DB.init(function(){
-                  var redirect = req.query.from ? req.query.from : '/home';
+                  var redirect = req.query.from ? req.query.from : "/"+global.settings.dbName+"/home/";
                   res.redirect(redirect);
                 });
               } else {
@@ -88,6 +89,7 @@ exports.post = function post(req, res) {
             res.render('login', { locals: { title: __('Hello - Please Login To Your Account'), result : o, msg:{e:e}, from:req.body.from}});
           }
         } else {
+          o.dbs = helpers.generateDBs(o);
           req.session.user = o;
           global.settings.dbName = o.companies[0].dbname;
           global.settings.companyName = o.companies[0].companyname;
@@ -97,7 +99,7 @@ exports.post = function post(req, res) {
               res.cookie('pass', o.pass, { maxAge: 900000 });
               res.cookie('role', o.role, { maxAge: 900000 });
             }
-            var redirect = req.body.from ? req.body.from : '/home';
+            var redirect = req.body.from ? req.body.from : "/"+global.settings.dbName+"/home/";
             res.redirect(redirect);
           });
         }
@@ -118,14 +120,15 @@ exports.post = function post(req, res) {
               e.push({name:"",m:__("Error updating account")});
             }
             if (e.length) {
-              res.render('account', {layout: "layout_nologged.jade", locals: {  title: __("Client"), countries : CT, result : o[0], msg:{e:e}, udata : req.session.user } });
+              res.render('account', {layout: "layout_nologged.jade", locals: {  title: __("Customer"), countries : CT, result : o[0], msg:{e:e}, udata : req.session.user } });
             } else {
               DBUsers.users.findOne({}, function(err, result) {
+                o.dbs = helpers.generateDBs(result);
                 req.session.user = result;
                 global.settings.dbName = result.companies[0].dbname;
                 global.settings.companyName = result.companies[0].companyname;
                 DB.init(function(){
-                  res.redirect("/home/");
+                  res.redirect("/"+global.settings.dbName+"/home/");
                 });
               });
             }

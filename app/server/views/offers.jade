@@ -31,7 +31,7 @@ div
 				th.tabActions=__("Actions")
 				th=__("Offer number")
 				th=__("Offer date")
-				th=__("Client")
+				th=__("Customer")
 				th=__("Payment")
 				th=__("Shipped to")
 				th=__("Delivery date")
@@ -61,7 +61,7 @@ div
 					- else 
 						td
 					td
-						a(href="/client/?id="+x.to_client._id)=x.to_client.name
+						a(href="/customer/?id="+x.to_client._id)=x.to_client.name
 					td=x.payment
 					td=x.destination
 					- var dd=""

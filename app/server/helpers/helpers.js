@@ -5,6 +5,24 @@ var DBusers = require('./db-users-manager');
 var DB = require('./db-manager');
 var Validators = require('../../common/validators').Validators;
 
+exports.canIseeThis = function canIseeThis(req) {
+	var res = true;
+	if(req.session.user == null) {
+		return false;
+	}
+	if(req.session.user.dbs.indexOf(req.params.dbname)==-1) {
+		return false;
+	}
+	return res;
+}
+
+exports.generateDBs = function generateDBs(o) {
+	var res = [];
+	for (var a=0;a<o.companies.length;a++) {
+		if (o.companies[a].dbname) res.push(o.companies[a].dbname);
+	}
+	return res;
+}
 // Forms validators //
 exports.validateFormLogin = function validateFormLogin(o,callback) {
 	var e = [];
@@ -99,10 +117,10 @@ exports.formatMoney = function formatMoney(result) {
 };
 
 
-exports.validateFormClient = function validateFormClient(o,callback) {
+exports.validateFormCustomer = function validateFormCustomer(o,callback) {
 	var e = [];
 	if (!Validators.validateStringLength(o.name, 3, 100)){
-		e.push({name:"name",m:__("Please enter a valid Client")});
+		e.push({name:"name",m:__("Please enter a valid Customer")});
 	}
 	if (o.force != 1) {
 		if (!Validators.validateStringLength(o.address.street, 3, 100)){

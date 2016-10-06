@@ -360,7 +360,7 @@ $.fn.ajaxSubmit = function(options) {
             }
         }
         
-        var CLIENT_TIMEOUT_ABORT = 1;
+        var Customer_TIMEOUT_ABORT = 1;
         var SERVER_ABORT = 2;
 
         function getDoc(frame) {
@@ -399,7 +399,7 @@ $.fn.ajaxSubmit = function(options) {
 
             // support timout
             if (s.timeout) {
-                timeoutHandle = setTimeout(function() { timedOut = true; cb(CLIENT_TIMEOUT_ABORT); }, s.timeout);
+                timeoutHandle = setTimeout(function() { timedOut = true; cb(Customer_TIMEOUT_ABORT); }, s.timeout);
             }
             
             // look for server aborts
@@ -475,7 +475,7 @@ $.fn.ajaxSubmit = function(options) {
                 log('cannot access response document: ', ex);
                 e = SERVER_ABORT;
             }
-            if (e === CLIENT_TIMEOUT_ABORT && xhr) {
+            if (e === Customer_TIMEOUT_ABORT && xhr) {
                 xhr.abort('timeout');
                 return;
             }

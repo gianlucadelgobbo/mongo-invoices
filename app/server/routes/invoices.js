@@ -19,7 +19,7 @@ exports.get = function get(req, res) {
 				}
 			});
 		}
-		var query = req.query.client ? {"to_client._id":req.query.client} : {};
+		var query = req.query.customer ? {"to_client._id":req.query.customer} : {};
 		if (!req.query.year) req.query.year = new Date().getFullYear();
 		if (req.query.year && req.query.year!="ALL Years") {
 			year = parseInt(req.query.year);
@@ -38,10 +38,10 @@ exports.get = function get(req, res) {
 			}
 			years.sort();
 			console.log(query);
-			if (req.query.client){
-				DB.clients.findOne({_id:new ObjectID(req.query.client)}, function(e, cliente) {
+			if (req.query.customer){
+				DB.customers.findOne({_id:new ObjectID(req.query.customer)}, function(e, customere) {
 					DB.invoices.find(query).sort({invoice_date:-1,invoice_number:-1}).toArray(function(e, result) {
-						res.render('invoices', {	locals: { title: __("Invoices"), result : helpers.formatMoney(result), msg:msg, udata : req.session.user,years:years,year:year,cliente:{id:req.query.client,name:cliente.name } }});
+						res.render('invoices', {	locals: { title: __("Invoices"), result : helpers.formatMoney(result), msg:msg, udata : req.session.user,years:years,year:year,customere:{id:req.query.customer,name:customere.name } }});
 					});
 				});
 			} else {

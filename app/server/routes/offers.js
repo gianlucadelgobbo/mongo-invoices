@@ -18,7 +18,7 @@ exports.get = function get(req, res) {
 			});
 		}
 		var year = parseInt(req.query.year ? req.query.year : new Date().getFullYear());
-		var query = req.query.client ? {"to_client._id":req.query.client} : {};
+		var query = req.query.customer ? {"to_client._id":req.query.customer} : {};
 		var start = new Date(year-1, 11, 31);
 		var end = new Date(year+1, 0, 1);
 		query.offer_date = {$gte: start, $lt: end};

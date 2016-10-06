@@ -42,44 +42,44 @@ html
 									- each company in locals.udata.companies
 										- if (company && company.dbname && company.companyname)
 											li
-												a(href="/?dbname="+company.dbname)=company.companyname
+												a(href="/"+company.dbname)=company.companyname
 							br
 						- else
 							.list-group
 								.list-group-item
 									b=global.settings.companyName
 						.list-group
-							a(href="/clients").list-group-item
+							a(href="/"+global.settings.dbName+"/customers").list-group-item
 								i.glyphicon.glyphicon-chevron-right.pull-right
-								span=__("Clients")
-							a(href="/client").list-group-item.submenu
+								span=__("Customers")
+							a(href="/"+global.settings.dbName+"/customer").list-group-item.submenu
 								i.glyphicon.glyphicon-chevron-right.pull-right
-								span=__("New client")
-							a(href='/offers').list-group-item
+								span=__("New customer")
+							a(href="/"+global.settings.dbName+"/offers").list-group-item
 								i.glyphicon.glyphicon-chevron-right.pull-right
 								span=__("Offers")
-							a(href='/offer').list-group-item.submenu
+							a(href="/"+global.settings.dbName+"/offer").list-group-item.submenu
 								i.glyphicon.glyphicon-chevron-right.pull-right
 								span=__("New offer")				
-							a(href="/invoices").list-group-item
+							a(href="/"+global.settings.dbName+"/invoices").list-group-item
 								i.glyphicon.glyphicon-chevron-right.pull-right
 								span=__("Invoices")
-							a(href='/invoice').list-group-item.submenu
+							a(href="/"+global.settings.dbName+"/invoice").list-group-item.submenu
 								i.glyphicon.glyphicon-chevron-right.pull-right
 								span=__("New invoice")
 						.list-group
 							a(href='/account?id=' + locals.udata._id).list-group-item.submenu
 								i.glyphicon.glyphicon-chevron-right.pull-right
 								span=__("My account")
-							a(href='/accounts').list-group-item
+							a(href="/"+global.settings.dbName+"/accounts").list-group-item
 								i.glyphicon.glyphicon-chevron-right.pull-right
 								span=__("Accounts")
-							a(href='/account').list-group-item.submenu
+							a(href='/account").list-group-item.submenu
 								i.glyphicon.glyphicon-chevron-right.pull-right
 								span=__("New account")				
 
 							- if (global.settings.roles[locals.udata.role].admin)
-								a(href='/settings').list-group-item
+								a(href="/"+global.settings.dbName+"/settings").list-group-item
 									i.glyphicon.glyphicon-chevron-right.pull-right
 									span=__("Settings")				
 					div.col-sm-10!= body
@@ -93,7 +93,7 @@ html
 		include modals/alert
 		include modals/confirm
 		include modals/errors
-		- var conf = JSON.stringify(_config)
+		- var conf = JSON.stringify(global._config)
 		script
 			var _config = !{conf}
 		script(src="/validators.js")
@@ -107,10 +107,10 @@ html
 		script(src="/js/scripts.js")
 		- if (typeof js != 'undefined')
 			script(src=js)
-		- if (_config.googleAnalytics!="")
+		- if (global._config.googleAnalytics!="")
 			script(type="text/javascript").
 				var _gaq = _gaq || [];
-				_gaq.push(["_setAccount", '#{_config.googleAnalytics}']);
+				_gaq.push(["_setAccount", '#{global._config.googleAnalytics}']);
 				_gaq.push(["_trackPageview"]);
 				(function () {
 					var ga = document.createElement("script");
