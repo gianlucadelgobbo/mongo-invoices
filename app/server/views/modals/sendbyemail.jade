@@ -1,0 +1,49 @@
+
+.modal-sendbyemail.modal.fade
+	.modal-dialog
+		.modal-content
+			div.modal-header
+				button.close(data-dismiss='modal') x
+				h3="Send by email"
+			div.modal-body
+				form( method="post")#sendbyemail
+					fieldset
+						legend=__("From")
+						.fromemail=global._config.emailDispatcher.sendername+" <"+global._config.emailDispatcher.senderemail+">"
+					br
+					fieldset
+						legend
+							.row
+								.col-sm-6=__("To")
+								.col-sm-6
+									.text-right
+										select
+						.row
+							.col-sm-6
+								.form-group.form-group-sm
+									label(for="to_name")=__("Name")
+									input(type="text").form-control#to_name
+							.col-sm-6
+								.form-group.form-group-sm
+									label(for="to_email")=__("Email")
+									input(type="text", id="bbb").form-control#to_email
+					.form-group.form-group-sm
+						label(for="subject")=__("Subject")
+						- d = result.invoice_date;
+						input(type="text", value=result.to_client.name + " | " + __("Invoice number") + ": " + result.invoice_number + " - " + d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear() + " " + global.settings.companyName).form-control#subject
+
+					.form-group.form-group-sm
+						label(for="subject")=__("Subject")
+						- d = result.invoice_date;
+						textarea.form-control#text=result.to_client.name + " | " + __("Invoice number") + ": " + result.invoice_number + " - " + d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear() + " " + global.settings.companyName
+					.form-group.form-group-sm
+						label(for="file")=__("Attachment")
+						- d = result.invoice_date;
+						input(type="text", value=file.substring(file.lastIndexOf("/"))).form-control#file
+
+
+					button(type="submit")#submit.btn.btn-primary="Send"
+					button(data-dismiss="modal")#cancel.btn="Cancel"
+					div.alert.alert-error.hide
+					button(data-dismiss="alert").close
+			div.modal-footer

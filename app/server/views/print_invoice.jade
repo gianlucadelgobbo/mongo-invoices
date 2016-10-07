@@ -1,10 +1,14 @@
-.container.noprint
+.noprint
 	div.row
 		.col-sm-7
 			h1.page-title=__("Print")
 		.col-sm-5
 			.pull-right
-				a(href=file, target="_blank").btn.btn-primary=__("PRINT")
+				a.btn.btn-primary(href=file, download=file)=__("DOWNLOAD")
+				input(type="button", value=__("PRINT"), onclick="window.location='" + file + "'").btn.btn-primary
+				input(type="button", value=__("EDIT"), onclick="window.location='/" + global.settings.dbName + "/invoice/?id=" + result._id + "'").btn.btn-primary
+				input(type="button", value=__("SEND"), onclick="window.location='/" + global.settings.dbName + "/invoice/?id=" + result._id + "'").btn.btn-primary
+					//a(href=file, target="_blank").btn.btn-primary=__("PRINT")
 	hr.clearfix
 .print_container
 	header#pageHeader
@@ -107,3 +111,5 @@
 		- for (a=0;a<_config.banks.length;a++)
 			- if (_config.banks[a]==result.bank)
 				span=_config.banks[a]
+include modals/sendbyemail
+

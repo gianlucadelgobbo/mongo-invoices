@@ -146,31 +146,40 @@ exports.post = function post(req, res) {
 
 exports.print = function print(req, res) {
 	helpers.canIseeThis(req, function (auth) {
+		console.log("1");
 		if (auth) {
 			if (req.query.id) {
 				DB.invoices.findOne({_id:new ObjectID(req.query.id)},function(e, result) {
+					console.log("2");
 					result = helpers.formatMoney(result);
 					var folder = '/accounts/'+global.settings.dbName+'/invoices/'+result.invoice_date.getFullYear()+'/';
 					var filename = result.invoice_date.getFullYear()+'-'+(result.invoice_date.getMonth()+1)+'-'+result.invoice_date.getDate()+'_'+result.invoice_number+'_'+global.settings.companyName+'_'+result.to_client.name+'.pdf';
-					fs.writeFile('./warehouse/'+global.settings.dbName+"/style_print.jade", "", { flag: 'wx' }, function (err) {
+					//fs.writeFile('./warehouse/'+global.settings.dbName+"/style_print.jade", "", { flag: 'wx' }, function (err) {
 						res.render('../../../warehouse/accounts/'+global.settings.dbName+"/style_print", {layout: false}, function (error_style, style) {
+							console.log("3");
 							res.render('print_invoice', {locals: {	title: __("Invoice"), country:global._config.company.country, result : result, udata : req.session.user, file:folder+filename, style:style, js:false } }, function (error1, html1) {
+								console.log("4");
+								res.send(html1);
 								// PDF START
 								var pdf = require('html-pdf');
 								var options = { format: 'A4',"header": {"height": "75mm"},"footer": {"height": "30mm"}};
 								res.render('print_invoice_pdf', { layout: 'print_pdf.jade' ,	locals: {	title: __("Invoice"), country:global._config.company.country, result : result, udata : req.session.user, style:style } }, function (error, html) {
+									console.log("5");
+									console.log(error);
 									if (!error) {
-										pdf.create(html, options).toFile('./warehouse'+folder+filename, function(pdferr, pdfres) {
-											res.send(html1);
+										//pdf.create(html, options).toFile('./warehouse'+folder+filename, function(pdferr, pdfres) {
+										console.log("6");
+										console.log(html1);
+										//res.send(html1);
 											//if (pdferr) return console.log(pdferr);
 											//console.log(pdfres); // { filename: '/app/businesscard.pdf' }
-										});
+										//});
 									}
 								});
 								// PDF END
 							});
 						});
-					});
+					//});
 				});
 			} else {
 				res.redirect('/invoices');

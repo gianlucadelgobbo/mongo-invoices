@@ -155,5 +155,12 @@
 	"Please enter a valid Role": "Inserisci un Ruolo valido",
 	"Please enter a valid DB Name": "Inserisci un Nome DB valido",
 	"Your account can not create or edit accounts": "Il tuo account non puo creare o modificare altri account",
-	"Duplicate": "Duplica"
+	"Duplicate": "Duplica",
+	"DOWNLOAD": "DOWNLOAD",
+	"EDIT": "EDIT",
+	"SEND": "SEND",
+	"To": "To",
+	"Subject": "Subject",
+	"From": "From",
+	"Attachment": "Attachment"
 }
