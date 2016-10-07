@@ -19,9 +19,10 @@ Setup
 
 1. Run `npm install`
 2. Copy `app-example.js` to `app.js`
-3. Launch http://localhost:8005/
-3. Create your first account (Administrator)
-5. Start to work :)
+3. Launch  `node app`
+4. Open http://localhost:8005/
+5. Create your first account (Administrator)
+6. Start to work :)
 
 
 Contributing
