@@ -1,7 +1,7 @@
 !!!
 html
 	head
-		title= title
+		title= title+(global.settings.companyName ? " | "+global.settings.companyName : "")+ " | Mongo Invoices"
 		meta(name="viewport", content="width=device-width, initial-scale=1")
 		
 		link(href="/lib/smoothness/jquery-ui-1.9.0.custom.css",rel="stylesheet",type="text/css")
@@ -26,7 +26,7 @@ html
 							span.icon-bar
 							span.icon-bar
 							span.icon-bar
-						a.navbar-brand(href="/")!="Control Panel"
+						a.navbar-brand(href="/")!=title+(global.settings.companyName ? " | "+global.settings.companyName : "")+ " | Mongo Invoices"
 					.collapse.navbar-collapse#bs-example-navbar-collapse-1
 						.navbar-form.navbar-right
 							a(href="/logout")#btn-logout.btn.btn-primary

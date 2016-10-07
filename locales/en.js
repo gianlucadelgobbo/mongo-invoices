@@ -263,5 +263,6 @@
 	"DB Name": "DB Name",
 	"Please enter a valid Company Name": "Please enter a valid Company Name",
 	"Please enter a valid DB Name": "Please enter a valid DB Name",
-	"Account000": "Account000"
+	"Account000": "Account000",
+	"Duplicate": "Duplicate"
 }

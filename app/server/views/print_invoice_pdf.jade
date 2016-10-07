@@ -1,7 +1,7 @@
 header#pageHeader
 	.logo
 		- if(_config.company.logo)
-			img(src='file://' + global.settings.root_path+'/app/public/accounts/' + global.settings.dbName + '/' + _config.company.logo, alt=_config.company.name)
+			img(src='file://' + global.settings.root_path+'/warehouse/accounts/' + global.settings.dbName + '/' + _config.company.logo, alt=_config.company.name)
 		- else
 			span=_config.company.name
 	.company_row1!=_config.company.row1
