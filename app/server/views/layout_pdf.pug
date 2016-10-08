@@ -1,8 +1,8 @@
-!!!
 html
 	head
 		title= title
 		include print_style
 		!=style
 	body
-		.print_container!=body
+		.print_container
+			block content

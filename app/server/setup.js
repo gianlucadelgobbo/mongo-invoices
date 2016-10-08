@@ -9,8 +9,8 @@ module.exports = function(app, exp) {
 	var env = process.env.NODE_ENV || 'development';
 	if ('development' == env) {
 		app.set('views', global.settings.root_path + '/app/server/views');
-		app.set('view engine', 'jade');
-		app.set('view options', { doctype : 'html', pretty : true });
+		app.set('view engine', 'pug');
+		//app.set('view options', { doctype : 'html', pretty : true });
 		app.use(bodyParser.urlencoded({ extended: false }));
 		app.use(cookieParser());
 		app.use(session({ secret: 'super-duper-secret-secret', resave: false, saveUninitialized: true, cookie: { maxAge: 60000 } }));

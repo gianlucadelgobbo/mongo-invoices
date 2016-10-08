@@ -1,0 +1,63 @@
+extends layout
+block content
+	// preset form values if we receive a userdata object //
+	- user = typeof(udata) != 'undefined' ? udata : {}
+
+	-if (result._id)
+		h1.page-title
+			!=__("Customer")+": "
+			span.name_new=result.name
+	- else
+		h1.page-title=__("New customer")
+	form(method="post", action="/"+global.settings.dbName+"/customer")#customer-form
+		// store the userId on the customer side in a hidden input field //
+		input#id(type='hidden', name='id', value=result._id)
+		- if (typeof msg !== "undefined" && typeof msg.e !== "undefined" && msg.e.length)
+			.alert.alert-danger
+				h4=__("There are some errors")
+				ul
+					- for(var a=0;a<msg.e.length;a++)
+						li=msg.e[a].m
+		- if (typeof msg !== "undefined" && typeof msg.c !== "undefined" && msg.c.length)
+			.alert.alert-success
+				h4=__("There are some messages")
+				ul
+					- for(var a=0;a<msg.c.length;a++)
+						li=msg.c[a].m
+		div.form-group
+			label(for='customere_new').control-label=__("Customer")
+			input(type="text", name="name", value=result.name).form-control#customere_new
+		div.form-group
+			label(for='street').control-label=__("Address")
+			input(type="text", name="address[street]", value=result.address.street)#street.form-control
+		div.form-group
+			label(for='zipcode').control-label=__("ZIP code")
+			input(type="text", name="address[zipcode]", value=result.address.zipcode)#zipcode.form-control
+		div.form-group
+			label(for='city').control-label=__("City")
+			input(type="text", name="address[city]", value=result.address.city)#city.form-control
+		div.form-group
+			label(for='country').control-label=__("Country")
+			select(name="address[country]",onchange=country=='Italy' ? "$('#fiscal_code').parent().toggle($(this).val()=='Italy')" : undefined)#country.form-control
+					option(value="")= __("Please select a country")
+					each item in countries
+						option(selected=item.name == result.address.country, value=item.name)=item.name
+		div.form-group
+			label(for='vat_number').control-label=__("VAT number")
+			input(type="text", name="vat_number", value=result.vat_number)#vat_number.form-control
+		div.form-group(style=(country=="Italy" && result.address.country=="Italy" ? "" : "display:none;"))
+			label(for='fiscal_code').control-label=__("Fiscal code")
+			input(type="text", name="fiscal_code", value=result.fiscal_code)#fiscal_code.form-control
+		div.form-group
+			- if (result._id)
+				button(type='submit')#account-form-btn2.btn.btn-success=__("Update")
+				- if (global.settings.roles[user.role].admin && user._id!=result._id)
+					!=" "
+					a(href="/"+global.settings.dbName+"/customers/?id="+result._id+"&del="+1)#account-form-btn1.btn.btn-danger=__("Delete")
+			- else
+				button(type='submit')#account-form-btn1.btn.btn-success=__("Save")
+				!=" "
+				button(type='button')#account-form-btn2.btn=__("Cancel")
+	br.myClear
+
+	- js = '/js/customer.js'

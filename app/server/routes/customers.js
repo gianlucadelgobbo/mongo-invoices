@@ -22,7 +22,7 @@ exports.get = function get(req, res) {
           DB.invoices.find({"to_client._id":arr[index]._id.toString()}).toArray(function (e, result) {
             conta++;
             arr[index].invoicesCount = result.length;
-            if (conta == arr.length) res.render('customers', {  locals: { title: __("Customers"), result : arr, msg: msg, udata : req.session.user } });
+            if (conta == arr.length) res.render('customers', { title: __("Customers"), result : arr, msg: msg, udata : req.session.user });
           });
         });
       });

@@ -10,7 +10,7 @@ exports.get = function get(req, res) {
 			if (req.query.id) {
 				DB.offers.findOne({_id:new ObjectID(req.query.id)},function(e, result) {
 					result = helpers.formatMoney(result);
-					res.render('offer', {	locals: {	title: __("Offer"), country:global._config.company.country, result : result, udata : req.session.user } });
+					res.render('offer', {	title: __("Offer"), country:global._config.company.country, result : result, udata : req.session.user });
 				});
 			} else {
 				var dd = new Date();
@@ -24,11 +24,11 @@ exports.get = function get(req, res) {
 							result.offer_date = new Date();
 							result.offer_number = resultOffer.length+1;
 							delete result._id;
-							res.render('offer', {	locals: {	title: __("Offer"), country:global._config.company.country, result : result, udata : req.session.user } });
+							res.render('offer', {	title: __("Offer"), country:global._config.company.country, result : result, udata : req.session.user });
 						});
 					} else {
 						var resultEmpty = {offer_date:new Date(),offer_number:resultOffer.length+1,vat_perc:_config.vat_perc,to_client:{address:{}},offer:{},items:[{}]};
-						res.render('offer', {	locals: {	title: __("Offer"), country:global._config.company.country, result : resultEmpty, udata : req.session.user } });
+						res.render('offer', {	title: __("Offer"), country:global._config.company.country, result : resultEmpty, udata : req.session.user });
 					}
 				});
 			}
@@ -61,7 +61,7 @@ exports.post = function post(req, res) {
 							if (req.body.id) {
 								DB.update_offer(req.body, req.session.user, function(e, o){
 									errors.push({name:"",m:__("Offer saved with success")});
-									res.render('offer', {	locals: {	title: __("Offer"), country:global._config.company.country, result : helpers.formatMoney(o), msg:{c:errors}, udata : req.session.user } });
+									res.render('offer', {	title: __("Offer"), country:global._config.company.country, result : helpers.formatMoney(o), msg:{c:errors}, udata : req.session.user });
 								});
 							} else {
 								DB.insert_offer(req.body, req.session.user, function(e,o){
@@ -74,7 +74,7 @@ exports.post = function post(req, res) {
 										msg.c.push({name:"",m:__("Offer saved with success")});
 									}
 									res.redirect('/'+global.settings.dbName+'/offer/?id='+o[0]._id);
-									//res.render('offer', {	locals: {	title: __("Offer"), result : helpers.formatMoney(o[0]), msg:msg, udata : req.session.user } });
+									//res.render('offer', {	title: __("Offer"), result : helpers.formatMoney(o[0]), msg:msg, udata : req.session.user });
 								});
 							}
 						} else {
@@ -91,7 +91,7 @@ exports.post = function post(req, res) {
 								req.body.offer_date = new Date(parseInt(d[2], 10),parseInt(d[1], 10)-1,parseInt(d[0], 10));
 							}
 							req.body.to_client.address={};
-							res.render('offer', {	locals: {	title: __("Offer"), country:global._config.company.country, result : req.body, msg:{e:errors}, udata : req.session.user } });
+							res.render('offer', {	title: __("Offer"), country:global._config.company.country, result : req.body, msg:{e:errors}, udata : req.session.user });
 						}
 					});
 				} else {
@@ -108,7 +108,7 @@ exports.post = function post(req, res) {
 						req.body.offer_date = new Date(parseInt(d[2], 10),parseInt(d[1], 10)-1,parseInt(d[0], 10));
 					}
 					req.body.to_client.address={};
-					res.render('offer', {	locals: {	title: __("Offer"), country:global._config.company.country, result : req.body, msg:{e:errors}, udata : req.session.user } });
+					res.render('offer', {	title: __("Offer"), country:global._config.company.country, result : req.body, msg:{e:errors}, udata : req.session.user });
 				}
 			});
 		} else {
@@ -125,7 +125,7 @@ exports.post = function post(req, res) {
 				req.body.invoice.invoice_date = new Date(parseInt(d[2], 10),parseInt(d[1], 10)-1,parseInt(d[0], 10));
 			}
 			req.body.to_client.address={};
-			res.render('offer', {	locals: {	title: __("Offer"), country:global._config.company.country, result : req.body, msg:{e:errors}, udata : req.session.user } });
+			res.render('offer', {	title: __("Offer"), country:global._config.company.country, result : req.body, msg:{e:errors}, udata : req.session.user });
 		}
 	}
 };
@@ -139,13 +139,13 @@ exports.print = function print(req, res) {
 				result = helpers.formatMoney(result);
 				var folder = '/accounts/'+global.settings.dbName+'/offers/'+result.offer_date.getFullYear()+'/';
 				var filename = result.offer_date.getFullYear()+'-'+(result.offer_date.getMonth()+1)+'-'+result.offer_date.getDate()+'_'+result.offer_number+'_'+global.settings.companyName+'_'+result.to_client.name+'.pdf';
-				fs.writeFile('./warehouse/'+global.settings.dbName+"/style_print.jade", "", { flag: 'wx' }, function (err) {
+				fs.writeFile('./warehouse/'+global.settings.dbName+"/style_print.pug", "", { flag: 'wx' }, function (err) {
 					res.render('../../../warehouse/accounts/'+global.settings.dbName+"/style_print", {layout: false}, function (error_style, style) {
-						res.render('print_offer', {locals: {	title: __("Offer"), country:global._config.company.country, result : result, udata : req.session.user, file:folder+filename, style:style, js:false } }, function (error1, html1) {
+						res.render('offer_preview', {	title: __("Offer"), country:global._config.company.country, result : result, udata : req.session.user, file:folder+filename, style:style, js:false }, function (error1, html1) {
 							// PDF START
 							var pdf = require('html-pdf');
 							var options = { format: 'A4',"header": {"height": "75mm"},"footer": {"height": "30mm"}};
-							res.render('print_offer_pdf', { layout: 'print_pdf.jade' ,	locals: {	title: __("Offer"), country:global._config.company.country, result : result, udata : req.session.user, style:style } }, function (error, html) {
+							res.render('offer_pdf', { layout: 'layout_pdf.pug' ,	locals: {	title: __("Offer"), country:global._config.company.country, result : result, udata : req.session.user, style:style } }, function (error, html) {
 								if (!error) {
 									pdf.create(html, options).toFile('./warehouse'+folder+filename, function(pdferr, pdfres) {
 										res.send(html1);

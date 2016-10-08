@@ -1,16 +1,9 @@
-.noprint
-	div.row
-		.col-sm-7
-			h1.page-title=__("Print")
-		.col-sm-5
-			.pull-right
-				a(href=file, target="_blank").btn.btn-primary=__("PRINT")
-	hr.clearfix
-.print_container
+extends layout_pdf
+block content
 	header#pageHeader
 		.logo
 			- if(_config.company.logo)
-				img(src='/accounts/'+global.settings.dbName+'/'+_config.company.logo, alt=_config.company.name)
+				img(src='file://' + global.settings.root_path+'/warehouse/accounts/' + global.settings.dbName + '/' + _config.company.logo, alt=_config.company.name)
 			- else
 				span=_config.company.name
 		.company_row1!=_config.company.row1

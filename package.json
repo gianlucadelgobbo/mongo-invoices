@@ -16,7 +16,7 @@
     "method-override": "^2.3.6",
     "moment": "~2.15.1",
     "mongodb": "~2.2.10",
-    "pug": "^0.1.0",
+    "pug": "^2.0.0-beta6",
     "stylus": "~0.54.5"
   },
   "devDependencies": {},

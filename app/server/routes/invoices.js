@@ -39,12 +39,12 @@ exports.get = function get(req, res) {
 				if (req.query.customer){
 					DB.customers.findOne({_id:new ObjectID(req.query.customer)}, function(e, customere) {
 						DB.invoices.find(query).sort({invoice_date:-1,invoice_number:-1}).toArray(function(e, result) {
-							res.render('invoices', {	locals: { title: __("Invoices"), result : helpers.formatMoney(result), msg:msg, udata : req.session.user,years:years,year:year,customere:{id:req.query.customer,name:customere.name } }});
+							res.render('invoices', { title: __("Invoices"), result : helpers.formatMoney(result), msg:msg, udata : req.session.user,years:years,year:year,customere:{id:req.query.customer,name:customere.name }});
 						});
 					});
 				} else {
 					DB.invoices.find(query).sort({invoice_date:-1,invoice_number:-1}).toArray(function(e, result) {
-						res.render('invoices', {	locals: { title: __("Invoices"), result : helpers.formatMoney(result), msg:msg, udata : req.session.user,years:years,year:year }});
+						res.render('invoices', { title: __("Invoices"), result : helpers.formatMoney(result), msg:msg, udata : req.session.user,years:years,year:year });
 					});
 				}
 			});

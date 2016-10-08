@@ -8,10 +8,10 @@ exports.get = function get(req, res) {
     if (auth) {
       if (req.query.id) {
         DB.customers.findOne({_id:new ObjectID(req.query.id)}, function(e, result) {
-          res.render('customer', {  locals: { title: __("Customer"), countries : CT, country : global._config.company.country, result : result , udata : req.session.user } });
+          res.render('customer', { title: __("Customer"), countries : CT, country : global._config.company.country, result : result , udata : req.session.user });
         });
       } else {
-        res.render('customer', {  locals: { title: __("Customer"), countries : CT, country : global._config.company.country, result : {address:{}}, udata : req.session.user } });
+        res.render('customer', { title: __("Customer"), countries : CT, country : global._config.company.country, result : {address:{}}, udata : req.session.user });
       }
     } else {
       res.redirect('/?from='+req.url);
@@ -29,7 +29,7 @@ exports.post = function post(req, res) {
           res.send({msg:{e:e}}, 200);
         } else {
           o._id = o.id;
-          res.render('customer', {  locals: { title: __("Customer"), countries : CT, country : global._config.company.country, result : o, msg:{e:e}, udata : req.session.user } });
+          res.render('customer', { title: __("Customer"), countries : CT, country : global._config.company.country, result : o, msg:{e:e}, udata : req.session.user });
         }
       } else {
         if (req.body.id) {
@@ -42,7 +42,7 @@ exports.post = function post(req, res) {
                 res.send({msg:{e:e}}, 200);
               } else {
                 o._id = o.id;
-                res.render('customer', {  locals: { title: __("Customer"), countries : CT, country : global._config.company.country, result : o, msg:{e:e}, udata : req.session.user } });
+                res.render('customer', { title: __("Customer"), countries : CT, country : global._config.company.country, result : o, msg:{e:e}, udata : req.session.user });
               }
             } else {
               e.push({name:"",m:__("Customer saved with success")});
@@ -50,7 +50,7 @@ exports.post = function post(req, res) {
                 res.send({msg:{c:e}}, 200);
               } else {
                 DB.customers.findOne({_id:new ObjectID(id)},function(err, result) {
-                  res.render('customer', {  locals: { title: __("Customer"), countries : CT, country : global._config.company.country, result : result, msg:{c:e}, udata : req.session.user } });
+                  res.render('customer', { title: __("Customer"), countries : CT, country : global._config.company.country, result : result, msg:{c:e}, udata : req.session.user });
                 });
               }
             }
@@ -65,7 +65,7 @@ exports.post = function post(req, res) {
               if (req.body.ajax) {
                 res.send({msg:{e:e}}, 200);
               } else {
-                res.render('customer', {  locals: { title: __("Customer"), countries : CT, country : global._config.company.country, result : o[0], msg:{e:e}, udata : req.session.user } });
+                res.render('customer', { title: __("Customer"), countries : CT, country : global._config.company.country, result : o[0], msg:{e:e}, udata : req.session.user });
               }
             } else {
               e.push({name:"",m:__("Customer saved with success")});
@@ -73,7 +73,7 @@ exports.post = function post(req, res) {
                 res.send({msg:{c:e,redirect:"/"+global.settings.dbName+"/customer?id="+ o[0]._id}}, 200);
               } else {
                 DB.customers.findOne({_id:o[0]._id},function(err, result) {
-                  res.render('customer', {  locals: { title: __("Customer"), countries : CT, country : global._config.company.country, result : result, msg:{c:e}, udata : req.session.user } });
+                  res.render('customer', { title: __("Customer"), countries : CT, country : global._config.company.country, result : result, msg:{c:e}, udata : req.session.user });
                 });
               }
             }

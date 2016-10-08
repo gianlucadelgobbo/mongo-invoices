@@ -29,7 +29,7 @@ exports.get = function get(req, res) {
 				}
 				years.sort();
 				DB.offers.find(query).sort({offer_number:-1}).toArray(function(e, result) {
-					res.render('offers', {	locals: {	title: __("Offers"), result : helpers.formatMoney(result), msg:msg, udata : req.session.user,years:years,year:year } });
+					res.render('offers', {	title: __("Offers"), result : helpers.formatMoney(result), msg:msg, udata : req.session.user,years:years,year:year});
 				});
 			});
 		} else {

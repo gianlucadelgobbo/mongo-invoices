@@ -9,7 +9,7 @@ exports.get = function get(req, res) {
       var redirect = req.query.from ? req.query.from : "/" + global.settings.dbName + "/";
       res.redirect(redirect);
     } else {
-      res.render('account_admin_new', {layout: "layout_nologged.jade", locals: {title: __('Signup'), countries : CT, result: {}}});
+      res.render('account_admin_new', {layout: "layout_nologged.pug", locals: {title: __('Signup'), countries : CT, result: {}}});
     }
   });
 };
@@ -39,7 +39,7 @@ exports.get = function get(req, res) {
       if (result) {
         // check if the user's credentials are saved in a cookie //
         if (req.cookies.user === undefined || req.cookies.pass === undefined || req.cookies.role === undefined) {
-          res.render('login', {layout: "layout_nologged.jade", locals: {title: __('Hello - Please Login To Your Account'), result: {}, from: req.query.from}});
+          res.render('login', {layout: "layout_nologged.pug", locals: {title: __('Hello - Please Login To Your Account'), result: {}, from: req.query.from}});
         } else {
           // attempt automatic login //
           DBUsers.users.findOne({user: req.cookies.user}, function (e, o) {
@@ -54,15 +54,15 @@ exports.get = function get(req, res) {
                   res.redirect(redirect);
                 });
               } else {
-                res.render('login', {layout: "layout_nologged.jade", locals: {title: __('Hello - Please Login To Your Account'), result: {}, from: req.query.from}});
+                res.render('login', {layout: "layout_nologged.pug", locals: {title: __('Hello - Please Login To Your Account'), result: {}, from: req.query.from}});
               }
             } else {
-              res.render('login', {layout: "layout_nologged.jade", locals: {title: __('Hello - Please Login To Your Account'), result: {}, from: req.query.from}});
+              res.render('login', {layout: "layout_nologged.pug", locals: {title: __('Hello - Please Login To Your Account'), result: {}, from: req.query.from}});
             }
           });
         }
       } else {
-        res.render('account', {layout: "layout_nologged.jade", locals: {title: __('Signup'), countries: CT, result: {}}});
+        res.render('account', {layout: "layout_nologged.pug", locals: {title: __('Signup'), countries: CT, result: {}}});
       }
     });
   }
@@ -77,7 +77,7 @@ exports.post = function post(req, res) {
             res.send({msg:{e:e}}, 200);
           } else {
             o._id = o.id;
-            res.render('login', { locals: { title: __('Hello - Please Login To Your Account'), result : o, msg:{e:e}, from:req.body.from}});
+            res.render('login', {layout: "layout_nologged.pug", locals: { title: __('Hello - Please Login To Your Account'), result : o, msg:{e:e}, from:req.body.from}});
           }
         } else {
           o.dbs = helpers.generateDBs(o);
@@ -102,7 +102,7 @@ exports.post = function post(req, res) {
             res.send({msg:{e:e}}, 200);
           } else {
             if (o.id) o._id = o.id;
-            res.render('account', {layout: "layout_nologged.jade", locals: {  title: __("Account"), countries : CT, result : o, msg:{e:e} } });
+            res.render('account', {layout: "layout_nologged.pug", locals: {  title: __("Account"), countries : CT, result : o, msg:{e:e} } });
           }
         } else {
           DBUsers.insert_user(req.body, function(e, o){
@@ -111,7 +111,7 @@ exports.post = function post(req, res) {
               e.push({name:"",m:__("Error updating account")});
             }
             if (e.length) {
-              res.render('account', {layout: "layout_nologged.jade", locals: {  title: __("Customer"), countries : CT, result : o[0], msg:{e:e}, udata : req.session.user } });
+              res.render('account', {layout: "layout_nologged.pug", locals: {  title: __("Customer"), countries : CT, result : o[0], msg:{e:e}, udata : req.session.user } });
             } else {
               DBUsers.users.findOne({}, function(err, result) {
                 o.dbs = helpers.generateDBs(result);

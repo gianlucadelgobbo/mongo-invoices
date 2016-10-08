@@ -19,7 +19,7 @@ exports.get = function get(req, res) {
       var q = [];
       for(var a=0;a<req.session.user.companies.length;a++) if(req.session.user.companies[a].dbname) q.push(req.session.user.companies[a].dbname);
       DBUsers.users.find({ "companies.dbname": { $in: q } }).toArray(function(e, result) {
-        res.render('accounts', {  locals: { title: __('Accounts'), result : result, msg: msg, udata : req.session.user } });
+        res.render('accounts', { title: __('Accounts'), result : result, msg: msg, udata : req.session.user});
       });
     } else {
       res.redirect('/?from='+req.url);

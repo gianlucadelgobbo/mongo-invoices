@@ -1,0 +1,44 @@
+extends layout
+block content
+	h1.page-title=__("Accounts")
+	div
+		- if (typeof msg !== "undefined" && typeof msg.e !== "undefined" && msg.e.length) {
+			.alert.alert-danger
+				h4=__("There are some errors")
+				ul
+					- for(var a=0;a<msg.e.length;a++)
+						li=msg.e[a].m
+		- }
+		- if (typeof msg !== "undefined" && typeof msg.c !== "undefined" && msg.c.length) {
+			.alert.alert-success
+				h4=__("There are some messages")
+				ul
+					- for(var a=0;a<msg.c.length;a++)
+						li=msg.c[a].m
+		- }
+		table.table
+			thead
+				tr
+					th.tabActions=__("Actions")
+					th=__("Name")
+					th=__("Email")
+					th=__("User")
+					th=__("Country")
+					th=__("Role")
+			tbody
+				each x in result
+					tr
+						td
+							div.btn-group
+								a.btn.btn-info(href="/account/?id="+x._id)=__("Edit")
+								button.btn.btn-info.dropdown-toggle(data-toggle="dropdown")
+									span.caret
+								ul.dropdown-menu
+									li
+										a#dett_customere(href="/accounts/?id="+x._id+"&del="+1)=__("Delete")
+						td
+							a(href="/account/?id="+x._id)=x.name
+						td=x.email
+						td=x.user
+						td=x.country
+						td=x.role
