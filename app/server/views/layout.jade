@@ -1,7 +1,7 @@
-!!!
-html
+doctype html
+html(lang=global.settings.defaultLocale)
 	head
-		title= title+(global.settings.companyName ? " | "+global.settings.companyName : "")+ " | Mongo Invoices"
+		title = (typeof(title)!=="undefined" ? title+" | " : "")+(global.settings.companyName ? global.settings.companyName : "")+ " | Mongo Invoices"
 		meta(name="viewport", content="width=device-width, initial-scale=1")
 		
 		link(href="/lib/smoothness/jquery-ui-1.9.0.custom.css",rel="stylesheet",type="text/css")
@@ -26,7 +26,7 @@ html
 							span.icon-bar
 							span.icon-bar
 							span.icon-bar
-						a.navbar-brand(href="/")!=title+(global.settings.companyName ? " | "+global.settings.companyName : "")+ " | Mongo Invoices"
+						a.navbar-brand(href="/")!=title
 					.collapse.navbar-collapse#bs-example-navbar-collapse-1
 						.navbar-form.navbar-right
 							a(href="/logout")#btn-logout.btn.btn-primary
@@ -85,9 +85,11 @@ html
 								a(href="/"+global.settings.dbName+"/settings").list-group-item
 									i.glyphicon.glyphicon-chevron-right.pull-right
 									span=__("Settings")				
-					div.col-sm-10!= body
+					div.col-sm-10
+						block content
 		- else 
-			.container-fluid.cnt!= body
+			.container-fluid.cnt
+				block content
 			a(href="https://github.com/gianlucadelgobbo/mongo-invoices")
 				img#github-banner(style="position:absolute;top:0px;right:0;border:0;", src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67", alt="Fork me on GitHub")
 

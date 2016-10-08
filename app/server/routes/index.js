@@ -122,8 +122,8 @@ exports.post = function post(req, res) {
               res.cookie('pass', o.pass, { maxAge: 900000 });
               res.cookie('role', o.role, { maxAge: 900000 });
             }
-            var redirect = req.body.from ? req.body.from : "/"+global.settings.dbName+"/home/";
-            res.redirect(redirect);
+            var rr = req.body.from!="undefined" ? req.body.from : "/"+global.settings.dbName+"/home/";
+            res.redirect(rr);
           });
         }
       });

@@ -1,32 +1,33 @@
+extends layout_nologged
+block content
+	div.col-sm-4.col-sm-offset-4#login-container
+		form(method="post")#login-form.well
+			input(type="hidden", name="from", value=typeof(from)!=="undefined" ? from : "undefined")
+			h1.page-title="Mongo invoices"
+			p.subheading="Please Login To Your Account"
+			- if (typeof errors !== "undefined" && errors.length)
+				.alert.alert-danger
+					h4="There are some errors"
+					ul
+						- for(var a=0;a<errors.length;a++)
+							li=errors[a].m
+			.form-group
+				label Username
+				input(type="text", name="user", value=(typeof(result)!=="undefined" && typeof(result.user)!=="undefined" ? result.user : undefined)).form-control.required
+			.form-group
+				label Password
+				input(type="password", name="pass").form-control.required
+			.row
+				.col-sm-6
+					label.checkbox(for="remember-me")="Remember Me"
+						input(type="checkbox", name="remember-me", id="remember-me", value="true", checked='checked')
+				.col-sm-6
+					.checkbox.pull-right
+						a(href='#',onclick="$('#get-credentials').modal('show');return false;")#forgot-password="Forgot Your Password?"
+			button(type="submit").btn.btn-primary
+				i.glyphicon.glyphicon-lock.icon-white
+				=" "+"Sign in"
 
-div.col-sm-4.col-sm-offset-4#login-container
-	form(method="post")#login-form.well
-		input(type="hidden", name="from", value=from)
-		h1.page-title="Mongo invoices"
-		p.subheading="Please Login To Your Account"
-		- if (typeof errors !== "undefined" && errors.length)
-			.alert.alert-danger
-				h4="There are some errors"
-				ul
-					- for(var a=0;a<errors.length;a++)
-						li=errors[a].m
-		.form-group
-			label Username 
-			input(type="text", name="user", value=result.user).form-control.required
-		.form-group
-			label Password
-			input(type="password", name="pass").form-control.required
-		.row
-			.col-sm-6
-				label.checkbox(for="remember-me")="Remember Me"
-					input(type="checkbox", name="remember-me", id="remember-me", value="true", checked='checked')
-			.col-sm-6
-				.checkbox.pull-right
-					a(href='#',onclick="$('#get-credentials').modal('show');return false;")#forgot-password="Forgot Your Password?"
-		button(type="submit").btn.btn-primary
-			i.glyphicon.glyphicon-lock.icon-white
-			=" "+"Sign in"
-			
-include modals/lost-password
+	include modals/lost-password
 
-- js = '/js/login.js'
+	- js = '/js/login.js'
