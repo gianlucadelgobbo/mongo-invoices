@@ -1,6 +1,7 @@
 var indexRoutes = require('./routes/index');
 var changedbRoutes = require('./routes/changedb');
 var startupRoutes = require('./routes/startup');
+var sendemailRoutes = require('./routes/send-email');
 var logoutRoutes = require('./routes/logout');
 var homeRoutes = require('./routes/home');
 var accountsRoutes = require('./routes/users');
@@ -30,6 +31,10 @@ module.exports = function(app) {
   // ChangeDB //
   app.get('/startup', startupRoutes.get);
   app.post('/startup', startupRoutes.post);
+
+  // SendMail //
+  app.get('/sendemail', sendemailRoutes.get);
+  app.post('/sendemail', sendemailRoutes.post);
 
   // Settings //
   app.get('/:dbname/settings', settingsRoutes.get);

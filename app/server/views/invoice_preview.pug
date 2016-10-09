@@ -7,10 +7,12 @@ block content
 			.col-sm-5
 				.pull-right
 					a.btn.btn-primary(href=file, download=file)=__("DOWNLOAD")
+					span!="&nbsp;"
 					input(type="button", value=__("PRINT"), onclick="window.location='" + file + "'").btn.btn-primary
+					span!="&nbsp;"
 					input(type="button", value=__("EDIT"), onclick="window.location='/" + global.settings.dbName + "/invoice/?id=" + result._id + "'").btn.btn-primary
-					input(type="button", value=__("SEND"), onclick="window.location='/" + global.settings.dbName + "/invoice/?id=" + result._id + "'").btn.btn-primary
-						//a(href=file, target="_blank").btn.btn-primary=__("PRINT")
+					span!="&nbsp;"
+					input(type="button", value=__("SEND"), onclick="$('.modal-sendbyemail .alert').hide();showModal('sendbyemail');").btn.btn-primary
 		hr.clearfix
 	.print_container
 		header#pageHeader
@@ -114,4 +116,3 @@ block content
 				- if (_config.banks[a]==result.bank)
 					span=_config.banks[a]
 	include modals/sendbyemail
-

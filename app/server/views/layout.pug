@@ -91,7 +91,7 @@ html(lang=global.settings.defaultLocale)
 		include modals/confirm
 		include modals/errors
 		- var conf = JSON.stringify(global._config)
-		script
+		script.
 			var _config = !{conf}
 		script(src="/validators.js")
 		script(src="/accounting.js")

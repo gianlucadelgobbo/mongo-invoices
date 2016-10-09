@@ -133,14 +133,17 @@ block content
 			.col-sm-10
 				input#password2.form-control(type='password', name='emailDispatcher[password_confirm]')
 		.form-group
-			label.control-label.col-sm-2(for='v')=__("Sender name")
+			label.control-label.col-sm-2(for='sendername')=__("Sender name")
 			.col-sm-10
 				input#sendername.form-control(type='text', name='emailDispatcher[sendername]', value=result.emailDispatcher.sendername)
 		.form-group
 			label.control-label.col-sm-2(for='senderemail')=__("Sender email")
 			.col-sm-10
 				input#senderemail.form-control(type='text', name='emailDispatcher[senderemail]', value=result.emailDispatcher.senderemail)
-		hr
+		.form-group
+			label.control-label.col-sm-2(for="signature")=__("Signature")
+			.col-sm-10
+				textarea(rows="10", name="emailDispatcher[signature]", id="signature").form-control=result.emailDispatcher.signature
 		.form-group
 			.col-sm-10.col-sm-offset-2
 				button(type='submit').btn.btn-success=__("Save")

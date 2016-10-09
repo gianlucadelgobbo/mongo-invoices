@@ -33,7 +33,8 @@ var _config = {
 		"user" 			: '',
 		"password" 		: '',
 		"sendername"	: '',
-		"senderemail"	: ''
+		"senderemail"	: '',
+		"signature"		: ''
 	}
 };
 var _roles = {

@@ -169,9 +169,6 @@ DB.delete_offer = function(id, callback) {
 DB.insert_customer = function(newData, callback) {
 	delete newData.id;
 	DB.customers.insert(newData, {safe: true}, function(err, records){
-		console.log("stocazzo");
-		console.log(err);
-		console.log(records);
 		callback(err, records);
 	});
 };

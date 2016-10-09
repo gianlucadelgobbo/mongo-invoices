@@ -12,8 +12,7 @@ exports.get = function get(req, res) {
       } else {
         // check if the user's credentials are saved in a cookie //
         if (req.cookies.user === undefined || req.cookies.pass === undefined || req.cookies.role === undefined) {
-          res.render('login', {layout: "layout_nologged.pug", locals: {title: __('Hello - Please Login To Your Account'), result: {}, from: req.query.from}
-          });
+          res.render('login', {layout: "layout_nologged.pug", title: __('Hello - Please Login To Your Account'), result: {}, from: req.query.from});
         } else {
           // attempt automatic login //
           DBUsers.users.findOne({user: req.cookies.user}, function (e, o) {
@@ -28,10 +27,10 @@ exports.get = function get(req, res) {
                   res.redirect(redirect);
                 });
               } else {
-                res.render('login', {layout: "layout_nologged.pug", locals: {title: __('Hello - Please Login To Your Account'), result: {}, from: req.query.from}});
+                res.render('login', {layout: "layout_nologged.pug", title: __('Hello - Please Login To Your Account'), result: {}, from: req.query.from});
               }
             } else {
-              res.render('login', {layout: "layout_nologged.pug", locals: {title: __('Hello - Please Login To Your Account'), result: {}, from: req.query.from}});
+              res.render('login', {layout: "layout_nologged.pug", title: __('Hello - Please Login To Your Account'), result: {}, from: req.query.from});
             }
           });
         }
@@ -107,7 +106,7 @@ exports.post = function post(req, res) {
             res.send({msg:{e:e}}, 200);
           } else {
             o._id = o.id;
-            res.render('login', {layout: "layout_nologged.pug", locals: {title: __('Hello - Please Login To Your Account'), result: {}, from: req.query.from}});
+            res.render('login', {layout: "layout_nologged.pug", title: __('Hello - Please Login To Your Account'), result: {}, from: req.query.from, errors: e});
           }
         } else {
           o.dbs = helpers.generateDBs(o);
@@ -115,7 +114,7 @@ exports.post = function post(req, res) {
           global.settings.dbName = o.companies[0].dbname;
           global.settings.companyName = o.companies[0].companyname;
           DB.init(function(){
-            if (req.param('remember-me') == 'true'){
+            if (req.params.rememberme == 'true'){
               res.cookie('user', o.user, { maxAge: 900000 });
               res.cookie('pass', o.pass, { maxAge: 900000 });
               res.cookie('role', o.role, { maxAge: 900000 });
@@ -132,7 +131,7 @@ exports.post = function post(req, res) {
             res.send({msg:{e:e}}, 200);
           } else {
             if (o.id) o._id = o.id;
-            res.render('account', {layout: "layout_nologged.pug", locals: {  title: __("Account"), countries : CT, result : o, msg:{e:e} } });
+            res.render('account', {layout: "layout_nologged.pug", title: __("Account"), countries : CT, result : o, msg:{e:e} });
           }
         } else {
           DBUsers.insert_user(req.body, function(e, o){
@@ -141,7 +140,7 @@ exports.post = function post(req, res) {
               e.push({name:"",m:__("Error updating account")});
             }
             if (e.length) {
-              res.render('account', {layout: "layout_nologged.pug", locals: {  title: __("Customer"), countries : CT, result : o[0], msg:{e:e}, udata : req.session.user } });
+              res.render('account', {layout: "layout_nologged.pug", title: __("Customer"), countries : CT, result : o[0], msg:{e:e}, udata : req.session.user});
             } else {
               DBUsers.users.findOne({}, function(err, result) {
                 o.dbs = helpers.generateDBs(result);

@@ -162,5 +162,13 @@
 	"To": "To",
 	"Subject": "Subject",
 	"From": "From",
-	"Attachment": "Attachment"
+	"Attachment": "Attachment",
+	"EMAIL": "EMAIL",
+	"Text": "Text",
+	"Close": "Close",
+	"Loading": "Loading",
+	"Email invoice template": "Email invoice template",
+	"Signature": "Signature",
+	"Dear {{result.to_client.name}},\nin attach you find the invoice number {{result.invoice_number}} of the {{date}}\n\nBest Regards": "Dear {{result.to_client.name}},\nin attach you find the invoice number {{result.invoice_number}} of the {{date}}\n\nBest Regards",
+	"{{result.to_client.name}} | Invoice number {{result.invoice_number}} - {{date}}": "{{result.to_client.name}} | Invoice number {{result.invoice_number}} - {{date}}"
 }

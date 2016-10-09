@@ -8,10 +8,10 @@ block content
 				.pull-right
 					input(type="submit", value=__("SAVE")).btn.btn-success
 					- if (result._id)
+						span!="&nbsp;"
 						input(type="button", value=__("DUPLICATE"), onclick="window.location='/"+global.settings.dbName+"/invoice/?dup="+result._id+"'").btn.btn-primary
+						span!="&nbsp;"
 						input(type="button", value=__("PRINT"), onclick="window.location='/"+global.settings.dbName+"/print/invoice/?id="+result._id+"'").btn.btn-primary
-						//a.btn.btn-primary(href="/"+global.settings.dbName+"/print/invoice/?id="+result._id)=__("PRINT")
-						//input(type="button", value=__("DELETE")).btn.btn-danger
 						input(type="hidden", name="id", value=result._id)
 		hr
 		- if (typeof msg !== "undefined" && typeof msg.e !== "undefined" && msg.e.length)
@@ -213,10 +213,11 @@ block content
 					br
 					input(type="submit", value=__("SAVE")).btn.btn-success
 					- if (result._id)
-						input(type="button", value=__("DUPLICATE"), onclick="window.location='/"+global.settings.dbName+"/invoice/?dup="+result._id+"'").btn.btn-primary
-						input(type="button", value=__("PRINT"), onclick="window.location='/"+global.settings.dbName+"/print/invoice/?id="+result._id+"'").btn.btn-primary
-						//a.btn.btn-primary(href="/"+global.settings.dbName+"/print/invoice/?id="+result._id)=__("PRINT")
-						//input(type="button", value=__("DELETE")).btn.btn-danger
+						span!="&nbsp;"
+						input(type="button", value=__("DUPLICATE"), onclick="window.location='/" + global.settings.dbName + "/invoice/?dup=" + result._id + "'").btn.btn-primary
+						span!="&nbsp;"
+						input(type="button", value=__("PRINT"), onclick="window.location='/" + global.settings.dbName + "/print/invoice/?id=" + result._id + "'").btn.btn-primary
+						input(type="hidden", name="id", value=result._id)
 
 	- if (result.revisions)
 		br

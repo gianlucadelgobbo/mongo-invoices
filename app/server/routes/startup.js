@@ -85,7 +85,7 @@ exports.post = function post(req, res) {
           global.settings.dbName = o.companies[0].dbname;
           global.settings.companyName = o.companies[0].companyname;
           DB.init(function(){
-            if (req.param('remember-me') == 'true'){
+            if (req.params.rememberme == 'true'){
               res.cookie('user', o.user, { maxAge: 900000 });
               res.cookie('pass', o.pass, { maxAge: 900000 });
               res.cookie('role', o.role, { maxAge: 900000 });

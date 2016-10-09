@@ -42,7 +42,7 @@ exports.post = function post(req, res) {
 	if (req.session.user == null) {
 			res.redirect('/?from='+req.url);
 	} else {
-		//console.dir(req.body);
+		console.dir(req.body);
 		//controls
 		var errors = [];
 		errors = errors.concat(Validators.checkCustomerID(req.body.to_client._id));
@@ -131,36 +131,41 @@ exports.post = function post(req, res) {
 };
 
 exports.print = function print(req, res) {
-	if (req.session.user == null) {
-		res.redirect('/?from='+req.url);
-	} else {
-		if (req.query.id) {
-			DB.offers.findOne({_id:new ObjectID(req.query.id)}, function(e, result) {
-				result = helpers.formatMoney(result);
-				var folder = '/accounts/'+global.settings.dbName+'/offers/'+result.offer_date.getFullYear()+'/';
-				var filename = result.offer_date.getFullYear()+'-'+(result.offer_date.getMonth()+1)+'-'+result.offer_date.getDate()+'_'+result.offer_number+'_'+global.settings.companyName+'_'+result.to_client.name+'.pdf';
-				fs.writeFile('./warehouse/'+global.settings.dbName+"/style_print.pug", "", { flag: 'wx' }, function (err) {
-					res.render('../../../warehouse/accounts/'+global.settings.dbName+"/style_print", {layout: false}, function (error_style, style) {
-						res.render('offer_preview', {	title: __("Offer"), country:global._config.company.country, result : result, udata : req.session.user, file:folder+filename, style:style, js:false }, function (error1, html1) {
-							// PDF START
-							var pdf = require('html-pdf');
-							var options = { format: 'A4',"header": {"height": "75mm"},"footer": {"height": "30mm"}};
-							res.render('offer_pdf', { layout: 'layout_pdf.pug' ,	locals: {	title: __("Offer"), country:global._config.company.country, result : result, udata : req.session.user, style:style } }, function (error, html) {
-								if (!error) {
-									pdf.create(html, options).toFile('./warehouse'+folder+filename, function(pdferr, pdfres) {
-										res.send(html1);
-										//if (pdferr) return console.log(pdferr);
-										//console.log(pdfres); // { filename: '/app/businesscard.pdf' }
-									});
-								}
+	helpers.canIseeThis(req, function (auth) {
+		if (auth) {
+			if (req.query.id) {
+				DB.offers.findOne({_id:new ObjectID(req.query.id)}, function(e, result) {
+					result = helpers.formatMoney(result);
+					var folder = '/accounts/'+global.settings.dbName+'/offers/'+result.offer_date.getFullYear()+'/';
+					var filename = result.offer_date.getFullYear()+'-'+(result.offer_date.getMonth()+1)+'-'+result.offer_date.getDate()+'_'+result.offer_number+'_'+global.settings.companyName+'_'+result.to_client.name+'.pdf';
+					//fs.writeFile('./warehouse/'+global.settings.dbName+"/style_print.pug", "", { flag: 'wx' }, function (err) {
+						res.render('accounts/'+global.settings.dbName+"/style_print", {layout: false}, function (error_style, style) {
+							console.log(error_style);
+							res.render('offer_preview', {	title: __("Offer"), country:global._config.company.country, result : result, udata : req.session.user, file:folder+filename, style:style, js:false }, function (error1, html1) {
+								console.log(error1);
+								// PDF START
+								var pdf = require('html-pdf');
+								var options = { format: 'A4',"header": {"height": "75mm"},"footer": {"height": "30mm"}};
+								res.render('offer_pdf', { layout: 'layout_pdf.pug', title: __("Offer"), country:global._config.company.country, result : result, udata : req.session.user, style:style}, function (error, html) {
+									console.log(error);
+									if (!error) {
+										pdf.create(html, options).toFile('./warehouse'+folder+filename, function(pdferr, pdfres) {
+											res.send(html1);
+											//if (pdferr) return console.log(pdferr);
+											//console.log(pdfres); // { filename: '/app/businesscard.pdf' }
+										});
+									}
+								});
+								// PDF END
 							});
-							// PDF END
 						});
-					});
+					//});
 				});
-			});
+			} else {
+				res.redirect('/invoices');
+			}
 		} else {
-			res.redirect('/offers');
+			res.redirect('/?from='+req.url);
 		}
-	}
+	});
 };
