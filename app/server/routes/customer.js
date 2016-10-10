@@ -8,10 +8,11 @@ exports.get = function get(req, res) {
     if (auth) {
       if (req.query.id) {
         DB.customers.findOne({_id:new ObjectID(req.query.id)}, function(e, result) {
+          if (!result.contacts) result.contacts = [];
           res.render('customer', { title: __("Customer"), countries : CT, country : global._config.company.country, result : result , udata : req.session.user });
         });
       } else {
-        res.render('customer', { title: __("Customer"), countries : CT, country : global._config.company.country, result : {address:{}}, udata : req.session.user });
+        res.render('customer', { title: __("Customer"), countries : CT, country : global._config.company.country, result : {address:{}, contacts:[]}, udata : req.session.user });
       }
     } else {
       res.redirect('/?from='+req.url);

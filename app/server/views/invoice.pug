@@ -217,7 +217,6 @@ block content
 						input(type="button", value=__("DUPLICATE"), onclick="window.location='/" + global.settings.dbName + "/invoice/?dup=" + result._id + "'").btn.btn-primary
 						span!="&nbsp;"
 						input(type="button", value=__("PRINT"), onclick="window.location='/" + global.settings.dbName + "/print/invoice/?id=" + result._id + "'").btn.btn-primary
-						input(type="hidden", name="id", value=result._id)
 
 	- if (result.revisions)
 		br

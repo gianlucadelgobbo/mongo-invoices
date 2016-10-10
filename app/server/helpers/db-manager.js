@@ -86,7 +86,7 @@ DB.insert_invoice = function(newData, userData, callback) {
 	});
 };
 DB.update_invoice = function(newData, userData, callback) {
-	//console.log(newData.invoice_date);
+	console.log(newData.id);
 	DB.invoices.findOne({_id:new ObjectID(newData.id)}, function(e, o){
 		newData._id = o._id;
 		var d = newData.invoice_date.split("/");
@@ -177,6 +177,7 @@ DB.update_customer = function(newData, callback) {
 	DB.customers.findOne({_id:new ObjectID(newData.id)}, function(e, o){
 		newData._id = o._id;
 		delete newData.id;
+		console.log(newData);
 		DB.customers.save(newData);
 		callback(newData);
 	});

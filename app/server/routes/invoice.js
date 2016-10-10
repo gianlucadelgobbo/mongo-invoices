@@ -145,11 +145,15 @@ exports.print = function print(req, res) {
 			if (req.query.id) {
 				DB.invoices.findOne({_id:new ObjectID(req.query.id)},function(e, result) {
 					result = helpers.formatMoney(result);
+					//console.log(result);
 					var folder = '/accounts/'+global.settings.dbName+'/invoices/'+result.invoice_date.getFullYear()+'/';
 					var filename = result.invoice_date.getFullYear()+'-'+(result.invoice_date.getMonth()+1)+'-'+result.invoice_date.getDate()+'_'+result.invoice_number+'_'+global.settings.companyName+'_'+result.to_client.name+'.pdf';
+					DB.customers.findOne({_id:new ObjectID(result.to_client._id)},function(e, to_client) {
+						if (!to_client.contacts) to_client.contacts = [];
 					//fs.writeFile('./warehouse/'+global.settings.dbName+"/style_print.pug", "", { flag: 'wx' }, function (err) {
 						res.render('accounts/'+global.settings.dbName+"/style_print", {layout: false}, function (error_style, style) {
-							res.render('invoice_preview', {	title: __("Invoice"), country:global._config.company.country, result : result, udata : req.session.user, file:folder+filename, style:style, js:"/js/sendemail.js"}, function (error1, html1) {
+							res.render('invoice_preview', {	title: __("Invoice"), country:global._config.company.country, result : result, udata : req.session.user, file:folder+filename, style:style, js:"/js/sendemail.js", to_client:to_client}, function (error1, html1) {
+								console.log(error1);
 								// PDF START
 								var pdf = require('html-pdf');
 								var options = { format: 'A4',"header": {"height": "75mm"},"footer": {"height": "30mm"}};
@@ -165,7 +169,7 @@ exports.print = function print(req, res) {
 								// PDF END
 							});
 						});
-					//});
+					});
 				});
 			} else {
 				res.redirect('/invoices');

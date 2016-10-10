@@ -25,6 +25,13 @@ module.exports = function(app) {
   // Log Out //
   app.get('/logout', logoutRoutes.get);
 
+  // Api //
+  app.get('/api/customers', apiRoutes.getCustomers);
+  app.get('/api/payments', apiRoutes.getPayments);
+  app.get('/api/invoices', apiRoutes.getInvoices);
+  app.get('/api/products', apiRoutes.getProducts);
+  app.get('/api/offers', apiRoutes.getOffers);
+
   // Logged-in redirect / homepage //
   app.get('/:dbname/home', homeRoutes.get);
 
@@ -66,13 +73,6 @@ module.exports = function(app) {
   app.get('/:dbname/offer', offerRoutes.get);
   app.post('/:dbname/offer', offerRoutes.post);
   app.get('/:dbname/print/offer', offerRoutes.print);
-
-  // Api //
-  app.get('/api/:dbname/customers', apiRoutes.getCustomers);
-  app.get('/api/:dbname/payments', apiRoutes.getPayments);
-  app.get('/api/:dbname/invoices', apiRoutes.getInvoices);
-  app.get('/api/:dbname/products', apiRoutes.getProducts);
-  app.get('/api/:dbname/offers', apiRoutes.getOffers);
 
   // ChangeDB //
   app.get('/:dbname', changedbRoutes.get);

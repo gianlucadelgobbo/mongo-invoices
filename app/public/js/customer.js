@@ -30,7 +30,32 @@ function forceCustomer() {
 	setTimeout("$('#customer-form').submit()",500);
 //	$('#account-form-btn1').click();
 }
+function addNewRow(){
+	var clone = $("#contacts .input-group:last").clone();
+	console.log(clone);
+	clone.find("input").each(function() {
+		$(this).val('');
+	});
+	console.log(clone);
+	clone = clone.find("button").each(function() {
+		$(this).removeClass("disabled");
+	});
+	console.log(clone);
+	clone.end().appendTo("#contacts");
+	resetItemNamesAndIDs();
+}
 
+function resetItemNamesAndIDs(){
+	$("#contacts .input-group").each(function(index){
+		$(this).find("input,button").each(function() {
+			//$(this).removeClass("disabled");
+			$(this).attr({
+				'id': function(_, id) { return (id.slice(0, id.lastIndexOf("_"))) + "_" + index },
+				'name': function(_, name) { return (name = name.substring(0,name.indexOf("[")+1)+index+name.substring(name.indexOf("]")))},
+			});
+		});
+	});
+}
 /*
 function validateForm(formData, jqForm, options) { 
     var form = $(jqForm[0]).formParams();
