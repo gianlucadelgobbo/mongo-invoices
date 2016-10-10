@@ -19,13 +19,14 @@ var DBUsers = require('./app/server/helpers/db-users-manager');
 
 DBUsers.init(function(){
 	var exp = require('express');
-	var app = exp.createServer();
+	var app = exp();
+	app.set('port', process.env.PORT || global.settings.port);
 
 	require('./app/server/setup')(app, exp);
 	require('./app/server/router')(app);
 
-	app.listen(global.settings.port, function(){
-		console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
+	app.listen(app.get('port'), function(){
+		console.log("Express server listening on port %d in %s mode", app.get('port'), app.settings.env);
 	});
 });
 
