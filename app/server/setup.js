@@ -6,8 +6,8 @@ var session = require('express-session');
 var methodOverride = require('method-override');
 
 module.exports = function(app, exp) {
-	var env = process.env.NODE_ENV || 'development';
-	if ('development' == env) {
+	//var env = process.env.NODE_ENV || 'development';
+	//if ('development' == env) {
 		app.set('views', [global.settings.root_path + '/app/server/views', global.settings.root_path + '/warehouse']);
 		app.set('view engine', 'pug');
 		//app.set('view options', { doctype : 'html', pretty : true });
@@ -20,5 +20,5 @@ module.exports = function(app, exp) {
 		app.use(exp.static(global.settings.root_path + '/app/public'));
 		app.use(exp.static(global.settings.root_path + '/warehouse'));
 		//app.use(DB.i18n.init);
-	}
+	//}
 };
