@@ -6,7 +6,7 @@ var helpers = require('./../helpers/helpers');
 exports.get = function get(req, res) {
   DBUsers.users.findOne({}, function (e, result) {
     if (result) {
-      if (req.session.user && global.settings.dbName) {
+      if (req.session && req.session.user && global.settings.dbName) {
         var redirect = req.query.from ? req.query.from : "/" + global.settings.dbName + "/home/";
         res.redirect(redirect);
       } else {
