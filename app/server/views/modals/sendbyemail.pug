@@ -17,7 +17,7 @@
 								.col-sm-6=__("To")
 								.col-sm-6
 									.text-right
-										select
+										select.form-control
 						.row
 							.col-sm-6
 								.form-group.form-group-sm
@@ -27,13 +27,18 @@
 								.form-group.form-group-sm
 									label(for="to_email")=__("Email")
 									input(type="text", name="to_email", value="g.delgobbo@avnode.org").form-control#to_email
-					- d = result.invoice_date;
 					- var msg = {}
 					- for (var item in global.settings.defaultLocales)
 						- msg[global.settings.defaultLocales[item]] = {}
 						- msg[global.settings.defaultLocales[item]].label = global.settings.defaultLocales[item]
-						- msg[global.settings.defaultLocales[item]].subject = __({phrase: "{{result.to_client.name}} | Invoice number {{result.invoice_number}} - {{date}}",                                                    locale: global.settings.defaultLocales[item]}, {result:result, date:d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear()})+ " " + global.settings.companyName
-						- msg[global.settings.defaultLocales[item]].text    = __({phrase: "Dear {{result.to_client.name}},\nin attach you find the invoice number {{result.invoice_number}} of the {{date}}\n\nBest Regards", 	locale: global.settings.defaultLocales[item]}, {result:result, date:d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear()})+ global._config.emailDispatcher.signature
+						- if (result.invoice_number)
+							- d = result.invoice_date;
+							- msg[global.settings.defaultLocales[item]].subject = __({phrase: "{{result.to_client.name}} | Invoice number {{result.invoice_number}} - {{date}}",                                                    locale: global.settings.defaultLocales[item]}, {result:result, date:d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear()})+ " " + global.settings.companyName
+							- msg[global.settings.defaultLocales[item]].text    = __({phrase: "Dear {{result.to_client.name}},\nin attach you find the invoice number {{result.invoice_number}} of the {{date}}\n\nBest Regards",    locale: global.settings.defaultLocales[item]}, {result:result, date:d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear()})+ global._config.emailDispatcher.signature
+						- else
+							- d = result.offer_date;
+							- msg[global.settings.defaultLocales[item]].subject = __({phrase: "{{result.to_client.name}} | Offer number {{result.offer_number}} - {{date}}",                                                    locale: global.settings.defaultLocales[item]}, {result:result, date:d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear()})+ " " + global.settings.companyName
+							- msg[global.settings.defaultLocales[item]].text    = __({phrase: "Dear {{result.to_client.name}},\nin attach you find the offer number {{result.offer_number}} of the {{date}}\n\nBest Regards",    locale: global.settings.defaultLocales[item]}, {result:result, date:d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear()})+ global._config.emailDispatcher.signature
 					- var text = msg["en"].text
 					- var subject = msg["en"].subject
 					- msgA = JSON.stringify(msg)
@@ -45,7 +50,7 @@
 								label(for="subject")=__("Subject")
 							.col-sm-6
 								.text-right
-									select(onchange="$('#text').val(msgA[this.value].text);$('#subject').val(msgA[this.value].subject);")
+									select.form-control(onchange="$('#text').html(msgA[this.value].text);$('#subject').val(msgA[this.value].subject);")
 										- for (var item in msg)
 											- console.log(item)
 											- console.log(msg[item])

@@ -4,10 +4,7 @@ exports.get = function get(req, res) {
   res.send('stocazzoooooooooooo');
 };
 exports.post = function post(req, res) {
-  console.log("server1");
   if(req.session.user) {
-    console.log("server2");
-    console.log(req.body);
     //if (auth) {
       var email = require('emailjs');
 
@@ -17,8 +14,6 @@ exports.post = function post(req, res) {
         password    : global._config.emailDispatcher.password,
         ssl: true
       });
-      console.log("server3");
-      console.log(global._config.emailDispatcher);
       server.send({
         text: req.body.text,
         from: global._config.emailDispatcher.sendername+' <'+ global._config.emailDispatcher.senderemail + ">",
@@ -26,16 +21,12 @@ exports.post = function post(req, res) {
         cc: '',
         subject: req.body.subject,
         attachment: [
-          {data:req.body.text, alternative:true},
+          {data:req.body.text.replace(/(?:\r\n|\r|\n)/g, '<br />'), alternative:true},
           {path:req.body.folderfile, type:"application/pdf", name:req.body.file}
         ]
       }, function (err, message) {
-        console.log("wilson");
-        console.log(err || message);
         if (err) {
-          console.log("err");
-          console.log(err.toString());
-          res.send(err.toString());
+          res.send(err.smtp);
         } else {
           res.send(false);
         }

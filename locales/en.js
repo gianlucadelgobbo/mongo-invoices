@@ -267,5 +267,7 @@
 	"Duplicate": "Duplicate",
 	"Hello {{result.to_client.name}}": "Hello {{result.to_client.name}}",
 	"Dear {{result.to_client.name}},\nin attach you find the invoice number {{result.invoice_number}} of the {{date}}\n\nBest Regards": "Dear {{result.to_client.name}},\nin attach you find the invoice number {{result.invoice_number}} of the {{date}}\n\nBest Regards",
-	"{{result.to_client.name}} | Invoice number {{result.invoice_number}} - {{date}}": "{{result.to_client.name}} | Invoice number {{result.invoice_number}} - {{date}}"
+	"{{result.to_client.name}} | Invoice number {{result.invoice_number}} - {{date}}": "{{result.to_client.name}} | Invoice number {{result.invoice_number}} - {{date}}",
+	"{{result.to_client.name}} | Offer number {{result.offer_number}} - {{date}}": "{{result.to_client.name}} | Offer number {{result.offer_number}} - {{date}}",
+	"Dear {{result.to_client.name}},\nin attach you find the offer number {{result.offer_number}} of the {{date}}\n\nBest Regards": "Dear {{result.to_client.name}},\nin attach you find the offer number {{result.offer_number}} of the {{date}}\n\nBest Regards"
 }

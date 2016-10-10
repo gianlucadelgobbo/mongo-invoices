@@ -140,19 +140,14 @@ exports.print = function print(req, res) {
 					var filename = result.offer_date.getFullYear()+'-'+(result.offer_date.getMonth()+1)+'-'+result.offer_date.getDate()+'_'+result.offer_number+'_'+global.settings.companyName+'_'+result.to_client.name+'.pdf';
 					//fs.writeFile('./warehouse/'+global.settings.dbName+"/style_print.pug", "", { flag: 'wx' }, function (err) {
 						res.render('accounts/'+global.settings.dbName+"/style_print", {layout: false}, function (error_style, style) {
-							console.log(error_style);
-							res.render('offer_preview', {	title: __("Offer"), country:global._config.company.country, result : result, udata : req.session.user, file:folder+filename, style:style, js:false }, function (error1, html1) {
-								console.log(error1);
+							res.render('offer_preview', {	title: __("Offer"), country:global._config.company.country, result : result, udata : req.session.user, file:folder+filename, style:style, js:"/js/sendemail.js" }, function (error1, html1) {
 								// PDF START
 								var pdf = require('html-pdf');
 								var options = { format: 'A4',"header": {"height": "75mm"},"footer": {"height": "30mm"}};
 								res.render('offer_pdf', { layout: 'layout_pdf.pug', title: __("Offer"), country:global._config.company.country, result : result, udata : req.session.user, style:style}, function (error, html) {
-									console.log(error);
 									if (!error) {
 										pdf.create(html, options).toFile('./warehouse'+folder+filename, function(pdferr, pdfres) {
 											res.send(html1);
-											//if (pdferr) return console.log(pdferr);
-											//console.log(pdfres); // { filename: '/app/businesscard.pdf' }
 										});
 									}
 								});
