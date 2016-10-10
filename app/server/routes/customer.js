@@ -71,7 +71,7 @@ exports.post = function post(req, res) {
             } else {
               e.push({name:"",m:__("Customer saved with success")});
               if (req.body.ajax) {
-                res.send({msg:{c:e,redirect:"/"+global.settings.dbName+"/customer?id="+ o[0]._id}}, 200);
+                res.send({msg:{c:e,redirect:"/"+global.settings.dbName+"/customer?id="+ o._id}}, 200);
               } else {
                 DB.customers.findOne({_id:o[0]._id},function(err, result) {
                   res.render('customer', { title: __("Customer"), countries : CT, country : global._config.company.country, result : result, msg:{c:e}, udata : req.session.user });
