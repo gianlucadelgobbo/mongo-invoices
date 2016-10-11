@@ -52,7 +52,7 @@ DB.update_settings = function(newData, userData, callback) {
 
 	DB.settings.findOne({_id:new ObjectID(newData.id)}, function(e, o){
 		newData._id = o._id;
-		if (!newData.emailDispatcher.password) newData.emailDispatcher.password = o.emailDispatcher.password;
+		if (!newData.emailDispatcher.password && o.emailDispatcher && o.emailDispatcher.password) newData.emailDispatcher.password = o.emailDispatcher.password;
 		DB.settings.save(newData);
 		DB.settings.findOne({_id:newData._id}, function(e, o){
 			global._config = o;
