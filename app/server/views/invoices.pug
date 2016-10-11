@@ -5,10 +5,12 @@ block content
 			h1.page-title=__("Invoices")+" "+year+(typeof customere != "undefined" ? " "+customere.name : "")
 		.col-sm-6
 			.pull-right
-				b=__("Change year")+"&nbsp;"
-				.btn-group
+				label(for="changeyear")
+					=__("Change year")
+					!="&nbsp;&nbsp;"
+				.btn-group(style="display:inline-block")
 					a.btn.btn-primary(href="/invoices/?year="+year)=year
-					button.btn.btn-primary.dropdown-toggle(data-toggle="dropdown")
+					button.btn.btn-primary.dropdown-toggle(data-toggle="dropdown")#changeyear
 						span.caret
 					ul.dropdown-menu
 						li
