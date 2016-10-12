@@ -103,8 +103,9 @@ block content
 							.input-group
 								label.input-group-addon(for='offer_number')=__("Offer number")
 								input(type="text", name="offer[offer_number]", value=result.offer.offer_number, disabled).form-control#offer_number
-								a.input-group-addon.btn.btn-default(onclick='showOffers()')=__("Select offer")
-								a.input-group-addon.btn(href='#', disabled)#offer_url=__("View")
+								a.input-group-addon.btn.btn-default(onclick='showOffers()')=__("Select")
+								a.input-group-addon.btn(href='#', disabled)#offer_url
+									i.glyphicon.glyphicon-eye-open
 						input(type="hidden", name="offer[offer_id]", value=result.offer.offer_id)#offer_id
 				.row
 					.col-sm-12

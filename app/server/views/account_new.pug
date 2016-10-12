@@ -27,79 +27,81 @@ block content
 					ul
 						- for(var a=0;a<msg.c.length;a++)
 							li=msg.c[a].m
-			p#sub2.subheading=__("Companies to manage")
-			hr
-			#companies
-				label.control-label.col-sm-2=__("Company Name")
-				.col-sm-10
-					- if (udata.companies)
-						- var userdbs = []
-						- if (result.companies)
-							each b,index in result.companies
-								- if (result.companies[index] && result.companies[index].dbname)
-									- userdbs.push(result.companies[index].dbname)
-						each b,index in udata.companies
-							.checkbox
-								label
-									input(checked=userdbs.indexOf(udata.companies[index].dbname) >= 0 ? "checked" : undefined, type='checkbox', name='companies[' + index + '][dbname]', value=udata.companies[index].dbname)
-									input(type='hidden', name='companies[' + index + '][companyname]', value=udata.companies[index].companyname)
-									!=udata.companies[index].companyname
+			fieldset
+				legend#sub2.subheading=__("Companies to manage")
+				#companies
+					label.control-label.col-sm-2=__("Company Name")
+					.col-sm-10
+						- if (udata.companies)
+							- var userdbs = []
+							- if (result.companies)
+								each b,index in result.companies
+									- if (result.companies[index] && result.companies[index].dbname)
+										- userdbs.push(result.companies[index].dbname)
+							each b,index in udata.companies
+								.checkbox
+									label
+										input(checked=userdbs.indexOf(udata.companies[index].dbname) >= 0 ? "checked" : undefined, type='checkbox', name='companies[' + index + '][dbname]', value=udata.companies[index].dbname)
+										input(type='hidden', name='companies[' + index + '][companyname]', value=udata.companies[index].companyname)
+										!=udata.companies[index].companyname
 
 
-			p#sub2.subheading=__("Personal information")
-			hr
-			#name-cg.form-group
-				label.control-label.col-sm-2(for='name-tf')=__("Name")
-				.col-sm-10
-					input#name-tf.form-control(type='text', name='name', value=result.name)
-			#email-cg.form-group
-				label.control-label.col-sm-2(for='email-tf')=__("Email")
-				.col-sm-10
-					input#email-tf.form-control(type='text', name='email', value=result.email)
-			#country-cg.form-group
-				label.control-label.col-sm-2(for='country-list')=__("Country")
-				.col-sm-10
-					select#country-list.form-control(name='country')
-						option(value='')= __("Please select a country")
-						each item in countries
-							option(selected=item.name == result.country, value=item.name)=item.name
-			- if (result._id && user._id==result._id)
-				#roles-cg.form-group
-					label.control-label.col-sm-2(for='role')=__("Role")
-					.col-sm-10(style="padding-top:5px")
-						b=global.settings.roles[result.role].display_name
-					input#role(type='hidden', name='role', value=result.role)
-			- else if (user._id)
-				#roles-cg.form-group
-					label.control-label.col-sm-2(for='role')=__("Role")
+			fieldset
+				legend#sub2.subheading=__("Personal information")
+				#name-cg.form-group
+					label.control-label.col-sm-2(for='name-tf')=__("Name")
 					.col-sm-10
-						select#role.form-control(name='role')
-							option= __("Please select a role")
-							- for (item in global.settings.roles)
-								option(selected=item == result.role,value=item)= global.settings.roles[item].display_name
-			- else
-				#roles-cg.form-group
-					label.control-label.col-sm-2(for='role')=__("Role")
+						input#name-tf.form-control(type='text', name='name', value=result.name)
+				#email-cg.form-group
+					label.control-label.col-sm-2(for='email-tf')=__("Email")
 					.col-sm-10
-						input.form-control(disabled,value="Super Administrator")
-						input#role(type='hidden', name='role', value="superadmin")
-			p#sub2.subheading=__("Access Credentials")
-			hr
-			#result-cg.form-group
-				label.control-label.col-sm-2(for='user-tf')=__("Username")
-				.col-sm-10
-					input#user-tf.form-control(type='text', name='user', value=result.user,disabled=(result._id))
-			#pass-cg.form-group
-				label.control-label.col-sm-2(for='pass-tf')=__("Password")
-				.col-sm-10
-					input#pass-tf.form-control(type='password', name='pass', value='')
-			.form-actions
-				- if (result._id)
-					button(type='submit')#account-form-btn2.btn.btn-success=__("Update")
-					- if (global.settings.roles[user.role].admin && user._id!=result._id)
-						button(type='button')#account-form-btn1.btn.btn-danger=__("Delete")
+						input#email-tf.form-control(type='text', name='email', value=result.email)
+				#country-cg.form-group
+					label.control-label.col-sm-2(for='country-list')=__("Country")
+					.col-sm-10
+						select#country-list.form-control(name='country')
+							option(value='')= __("Please select a country")
+							each item in countries
+								option(selected=item.name == result.country, value=item.name)=item.name
+				- if (result._id && user._id==result._id)
+					#roles-cg.form-group
+						label.control-label.col-sm-2(for='role')=__("Role")
+						.col-sm-10(style="padding-top:5px")
+							b=global.settings.roles[result.role].display_name
+						input#role(type='hidden', name='role', value=result.role)
+				- else if (user._id)
+					#roles-cg.form-group
+						label.control-label.col-sm-2(for='role')=__("Role")
+						.col-sm-10
+							select#role.form-control(name='role')
+								option= __("Please select a role")
+								- for (item in global.settings.roles)
+									option(selected=item == result.role,value=item)= global.settings.roles[item].display_name
 				- else
-					button(type='submit')#account-form-btn1.btn.btn-success=__("Save")
-					button(type='button')#account-form-btn2.btn=__("Cancel")
-		br
+					#roles-cg.form-group
+						label.control-label.col-sm-2(for='role')=__("Role")
+						.col-sm-10
+							input.form-control(disabled,value="Super Administrator")
+							input#role(type='hidden', name='role', value="superadmin")
+			fieldset
+				legend#sub2.subheading=__("Access Credentials")
+				#result-cg.form-group
+					label.control-label.col-sm-2(for='user-tf')=__("Username")
+					.col-sm-10
+						input#user-tf.form-control(type='text', name='user', value=result.user,disabled=(result._id))
+				#pass-cg.form-group
+					label.control-label.col-sm-2(for='pass-tf')=__("Password")
+					.col-sm-10
+						input#pass-tf.form-control(type='password', name='pass', value='')
+			hr
+			.form-actions.pull-right
+				.clearfix
+					- if (result._id)
+						button(type='submit')#account-form-btn2.btn.btn-success=__("Update")
+						- if (global.settings.roles[user.role].admin && user._id!=result._id)
+							span!="&nbsp;"
+							button(type='button')#account-form-btn1.btn.btn-danger=__("Delete")
+					- else
+						button(type='submit')#account-form-btn1.btn.btn-success=__("Save")
+				br
 	- js = '/js/account.js'

@@ -58,7 +58,7 @@ html(lang=global.settings.defaultLocale)
 							a(href="/" + global.settings.dbName + "/invoice")=__("New invoice")
 					ul.nav.navbar-nav.navbar-right
 						li
-							a(href="#", data-toggle="dropdown", role="button", aria-haspopup="true", aria-expanded="false", style="padding-top:10px;padding-bottom:10px;text-align:left").dropdown-toggle
+							a(href="#", onmouseup="var bella = $(this);setTimeout(function() {bella.parent().parent().parent().scrollTop(1000);}, 300)", data-toggle="dropdown", role="button", aria-haspopup="true", aria-expanded="false", style="padding-top:12px;padding-bottom:5px;text-align:left").dropdown-toggle
 								i(style="font-size:26px").glyphicon.glyphicon-cog.icon-white
 							ul.dropdown-menu
 								li
