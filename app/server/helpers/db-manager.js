@@ -45,7 +45,7 @@ DB.init = function(callback) {
 DB.insert_settings = function(newData, userData, callback) {
 	delete newData.id;
 	DB.settings.insert(newData, {safe: true}, function(err, records){
-		callback(err, records);
+		callback(err, records.ops[0]);
 	});
 };
 DB.update_settings = function(newData, userData, callback) {
@@ -82,7 +82,7 @@ DB.insert_invoice = function(newData, userData, callback) {
 	newData.revisions = [];
 	newData.revisions.push({userID : userData._id,username: userData.name,time : new Date()});
 	DB.invoices.insert(newData, {safe: true}, function(err, records){
-		callback(err, records);
+		callback(err, records.ops[0]);
 	});
 };
 DB.update_invoice = function(newData, userData, callback) {
@@ -136,7 +136,7 @@ DB.insert_offer = function(newData, userData, callback) {
 	newData.revisions.push({userID : userData._id,username: userData.name,time : new Date()});
 	DB.offers.insert(newData, {safe: true}, function(err, records){
 		//console.log(records);
-		callback(err, records);
+		callback(err, records.ops[0]);
 	});
 };
 DB.update_offer = function(newData, userData, callback) {
@@ -170,7 +170,7 @@ DB.delete_offer = function(id, callback) {
 DB.insert_customer = function(newData, callback) {
 	delete newData.id;
 	DB.customers.insert(newData, {safe: true}, function(err, records){
-		callback(err, records);
+		callback(err, records.ops[0]);
 	});
 };
 DB.update_customer = function(newData, callback) {

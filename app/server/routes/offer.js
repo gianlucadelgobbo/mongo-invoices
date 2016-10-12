@@ -70,7 +70,7 @@ exports.post = function post(req, res) {
               msg.c = [];
               msg.c.push({name:"",m:__("Offer saved with success")});
               }
-              res.redirect('/'+global.settings.dbName+'/offer/?id='+o[0]._id);
+              res.redirect('/'+global.settings.dbName+'/offer/?id='+o._id);
               //res.render('offer', {  title: __("Offer"), result : helpers.formatMoney(o[0]), msg:msg, udata : req.session.user });
             });
             }
@@ -159,7 +159,7 @@ exports.print = function print(req, res) {
           });
         });
       } else {
-        res.redirect('/invoices');
+        res.redirect('/offers');
       }
     } else {
       res.redirect('/?from='+req.url);
