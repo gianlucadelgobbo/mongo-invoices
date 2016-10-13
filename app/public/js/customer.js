@@ -32,15 +32,12 @@ function forceCustomer() {
 }
 function addNewRow(){
 	var clone = $("#contacts .input-group:last").clone();
-	console.log(clone);
 	clone.find("input").each(function() {
 		$(this).val('');
 	});
-	console.log(clone);
 	clone = clone.find("button").each(function() {
 		$(this).removeClass("disabled");
 	});
-	console.log(clone);
 	clone.end().appendTo("#contacts");
 	resetItemNamesAndIDs();
 }

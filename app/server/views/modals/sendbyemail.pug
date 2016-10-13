@@ -43,12 +43,22 @@
 						- msg[global.settings.defaultLocales[item]].label = global.settings.defaultLocales[item]
 						- if (result.invoice_number)
 							- d = result.invoice_date;
-							- msg[global.settings.defaultLocales[item]].subject = __({phrase: "{{result.to_client.name}} | Invoice number {{result.invoice_number}} - {{date}}",                                                    locale: global.settings.defaultLocales[item]}, {result:result, date:d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear()})+ " " + global.settings.companyName
-							- msg[global.settings.defaultLocales[item]].text    = __({phrase: "Dear {{result.to_client.name}},\nin attach you find the invoice number {{result.invoice_number}} of the {{date}}\n\nBest Regards",    locale: global.settings.defaultLocales[item]}, {result:result, date:d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear()})+ (global._config.emailDispatcher.signature ? global._config.emailDispatcher.signature : "")
+							- msg[global.settings.defaultLocales[item]].subject = __({phrase: "{{result.to_client.name}} | Invoice number {{result.invoice_number}} - {{date}}",    locale: global.settings.defaultLocales[item]}, {result:result, date:d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear()})+ " " + global.settings.companyName
+							- msg[global.settings.defaultLocales[item]].text    = __({phrase: "Dear {{result.to_client.name}}",    													locale: global.settings.defaultLocales[item]}, {result:result})
+							- msg[global.settings.defaultLocales[item]].text    += ",\n"
+							- msg[global.settings.defaultLocales[item]].text    += __({phrase: "in attach you find the invoice number {{result.invoice_number}} of the {{date}}",    locale: global.settings.defaultLocales[item]}, {result:result, date:d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear()})
+							- msg[global.settings.defaultLocales[item]].text    += "\n\n"
+							- msg[global.settings.defaultLocales[item]].text    += __({phrase: "Best Regards",    																	locale: global.settings.defaultLocales[item]})
+							- msg[global.settings.defaultLocales[item]].text    += (global._config.emailDispatcher.signature ? "\n\n"+global._config.emailDispatcher.signature : "")
 						- else
 							- d = result.offer_date;
-							- msg[global.settings.defaultLocales[item]].subject = __({phrase: "{{result.to_client.name}} | Offer number {{result.offer_number}} - {{date}}",                                                    locale: global.settings.defaultLocales[item]}, {result:result, date:d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear()})+ " " + global.settings.companyName
-							- msg[global.settings.defaultLocales[item]].text    = __({phrase: "Dear {{result.to_client.name}},\nin attach you find the offer number {{result.offer_number}} of the {{date}}\n\nBest Regards",    locale: global.settings.defaultLocales[item]}, {result:result, date:d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear()})+ (global._config.emailDispatcher.signature ? global._config.emailDispatcher.signature : "")
+							- msg[global.settings.defaultLocales[item]].subject = __({phrase: "{{result.to_client.name}} | Offer number {{result.offer_number}} - {{date}}",	locale: global.settings.defaultLocales[item]}, {result:result, date:d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear()})+ " " + global.settings.companyName
+							- msg[global.settings.defaultLocales[item]].text     = __({phrase: "Dear {{result.to_client.name}}",    											locale: global.settings.defaultLocales[item]}, {result:result})
+							- msg[global.settings.defaultLocales[item]].text    += ",\n"
+							- msg[global.settings.defaultLocales[item]].text    += __({phrase: "in attach you find the offer number {{result.offer_number}} of the {{date}}",   locale: global.settings.defaultLocales[item]}, {result:result, date:d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear()})
+							- msg[global.settings.defaultLocales[item]].text    += "\n\n"
+							- msg[global.settings.defaultLocales[item]].text    += __({phrase: "Best Regards",    																locale: global.settings.defaultLocales[item]})
+							- msg[global.settings.defaultLocales[item]].text    += (global._config.emailDispatcher.signature ? "\n\n"+global._config.emailDispatcher.signature : "")
 					- var text = msg["en"].text
 					- var subject = msg["en"].subject
 					- msgA = JSON.stringify(msg)

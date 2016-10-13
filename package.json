@@ -19,7 +19,10 @@
     "pug": "^2.0.0-beta6",
     "stylus": "~0.54.5"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-i18n-linter": "0.0.3"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

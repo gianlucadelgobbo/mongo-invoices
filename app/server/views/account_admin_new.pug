@@ -1,4 +1,4 @@
-extends layout
+extends layout_nologged
 block content
 	h1.page-title=__("New account")
 
@@ -25,17 +25,32 @@ block content
 							li=msg.c[a].m
 			fieldset
 				legend#sub2.subheading=__("Companies to manage")
-				.row(id="entry0", style="margin-bottom:10px")
-					label.control-label.col-sm-2=__("Company Name")
-					.col-sm-10
-						.row
-							.col-sm-3
-								input.form-control(type='text', placeholder=__("Name"), name='companies[0][companyname]')
-							.col-sm-3
-								input.form-control(type='text', placeholder=__("DB Name"), name='companies[0][dbname]')
-							.col-sm-3
-								button.btn.btn-default(disabled="disabled", type="button",onclick="$(this).parent().parent().parent().parent().remove()")
-									i.glyphicon.glyphicon-minus
+				#companies
+					- if (result.companies)
+						each b,index in result.companies
+							.row(id="entry" + index, style="margin-bottom:10px")
+								label.control-label.col-sm-2=__("Company Name")
+								.col-sm-10
+									.row
+										.col-sm-3
+											input.form-control.col-sm-3(type='text', name='companies[' + index + '][companyname]', value=result.companies[index].companyname)
+										.col-sm-3
+											input.form-control.col-sm-3(type='text', name='companies[' + index + '][dbname]', value=result.companies[index].dbname)
+										.col-sm-3
+											button.btn.btn-default(disabled=!index ? "disabled" : undefined, type="button",onclick="$(this).parent().parent().parent().parent().remove()")
+												i.glyphicon.glyphicon-minus
+					- else
+						.row(id="entry0", style="margin-bottom:10px")
+							label.control-label.col-sm-2=__("Company Name")
+							.col-sm-10
+								.row
+									.col-sm-3
+										input.form-control(type='text', placeholder=__("Name"), name='companies[0][companyname]')
+									.col-sm-3
+										input.form-control(type='text', placeholder=__("DB Name"), name='companies[0][dbname]')
+									.col-sm-3
+										button.btn.btn-default(disabled="disabled", type="button",onclick="$(this).parent().parent().parent().parent().remove()")
+											i.glyphicon.glyphicon-minus
 				.row
 					.col-sm-2
 					.col-sm-2

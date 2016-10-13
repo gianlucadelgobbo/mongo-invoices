@@ -3,7 +3,7 @@ html(lang=global.settings.defaultLocale)
 	head
 		title=(typeof(title)!=="undefined" ? title+" | " : "")+(global.settings.companyName ? global.settings.companyName : "")+ " | Mongo Invoices"
 		meta(name="viewport", content="width=device-width, initial-scale=1")
-		
+
 		link(href="/lib/smoothness/jquery-ui-1.9.0.custom.css",rel="stylesheet",type="text/css")
 		link(href="/lib/bootstrap/css/bootstrap.min.css", rel="stylesheet")
 		link(href="/css/style.css", rel="stylesheet")
@@ -62,11 +62,11 @@ html(lang=global.settings.defaultLocale)
 								i(style="font-size:26px").glyphicon.glyphicon-cog.icon-white
 							ul.dropdown-menu
 								li
-									a(href="/account?id=" + udata._id)=__("My account")
+									a(href="/"+global.settings.dbName+"/account?id=" + udata._id)=__("My account")
 								li
 									a(href="/" + global.settings.dbName + "/accounts")=__("Accounts")
 								li
-									a(href="/account")=__("New account")
+									a(href="/"+global.settings.dbName+"/account")=__("New account")
 
 								- if (global.settings.roles[udata.role].admin)
 									li

@@ -4,25 +4,22 @@ $(document).ready(function(){
 			formData.push({ name: 'ajax', value: true });
 		},
 		success	: function(response, status, xhr, $form){
-			if (response.msg && response.msg.e && response.msg.e.length) {
-				console.log(response);
-				var str = "<ul>";
-				var print = response.msg.e;
-				for(var p in print) {
-					if(print[p].name) {
-						var jsel = $("[name='"+print[p].name+"']");
-						jsel.parent().parent().addClass("error");
-						jsel.keydown(function() {$(this).parent().parent().removeClass("error")});
-						jsel.change(function() {$(this).parent().parent().removeClass("error")});
-					}
-					if(print[p].m) str+= "<li>"+print[p].m+"</li>";
+			var str = "<ul>";
+			var print = response.msg && response.msg.e && response.msg.e.length ? response.msg.e : response.msg.c;
+			for(var p in print) {
+				if(print[p].name) {
+					var jsel = $("[name='"+print[p].name+"']");
+					jsel.parent().parent().addClass("error");
+					jsel.keydown(function() {$(this).parent().parent().removeClass("error")});
+					jsel.change(function() {$(this).parent().parent().removeClass("error")});
 				}
-				str+= "</ul>";
-				console.log(str);
-	        	showModal('error', str);
+				if(print[p].m) str+= "<li>"+print[p].m+"</li>";
+			}
+			str+= "</ul>";
+			if (response.msg && response.msg.e && response.msg.e.length) {
+				showModal('error', str);
 			} else {
-				var from = $("[name='from']");
-				window.location.href = from.val() ? from.val() : '/home';
+				location.href=response.msg.redirect
 			}
 		},
 		error : function(e){

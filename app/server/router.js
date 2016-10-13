@@ -49,8 +49,8 @@ module.exports = function(app) {
 
   // Accounts //
   app.get('/:dbname/accounts', accountsRoutes.get);
-  app.get('/account', accountRoutes.get);
-  app.post('/account', accountRoutes.post);
+  app.get('/:dbname/account', accountRoutes.get);
+  app.post('/:dbname/account', accountRoutes.post);
 
   // password reset //
   app.post('/lost-password', lostPasswordRoutes.post);

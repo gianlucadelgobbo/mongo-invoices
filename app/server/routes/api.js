@@ -10,7 +10,7 @@ exports.getCustomers = function getCustomers(req, res) {
       console.dir(query);
       DB.customers.find(query).toArray(function(e, result) {
         console.dir(result);
-        res.send(result);
+        res.status(200).send(result);
       });
     }
 
@@ -24,7 +24,7 @@ exports.getPayments = function getPayments(req, res) {
     console.dir(query);
     DB.invoices.distinct("payment", query, function(e, result) {
       console.dir(result);
-      res.send(result);
+      res.status(200).send(result);
     });
   }
 };
@@ -35,14 +35,14 @@ exports.getInvoices = function getInvoices(req, res) {
   console.dir(q);
   DB.invoices.find(q).toArray(function(e, result) {
     console.dir(result);
-    res.send({result:result});
+    res.status(200).send({result:result});
   });
 };
 
 exports.getOffers = function getInvoices(req, res) {
   DB.offers.find({},{offer_number:1,offer_date:1,to_client:1,description:1}).sort({offer_number:-1}).toArray(function(e, result) {
     console.dir(result);
-    res.send({result:result});
+    res.status(200).send({result:result});
   });
 };
 
@@ -54,7 +54,7 @@ exports.getProducts = function getProducts(req, res) {
     console.dir(query);
     DB.invoices.distinct('items.description', query, function(e, result) {
       console.dir(result);
-      res.send(result);
+      res.status(200).send(result);
     });
   }
 };

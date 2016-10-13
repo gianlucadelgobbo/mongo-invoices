@@ -1,7 +1,7 @@
 var helpers = require('./../helpers/helpers');
 
 exports.get = function get(req, res) {
-  res.send('stocazzoooooooooooo');
+  res.status(200).send('stocazzoooooooooooo');
 };
 exports.post = function post(req, res) {
   if(req.session.user) {
@@ -26,9 +26,9 @@ exports.post = function post(req, res) {
         ]
       }, function (err, message) {
         if (err) {
-          res.send(err.smtp);
+          res.status(200).send(err.smtp);
         } else {
-          res.send(false);
+          res.status(200).send(false);
         }
 
       });

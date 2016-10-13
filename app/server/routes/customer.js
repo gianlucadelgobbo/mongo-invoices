@@ -26,9 +26,8 @@ exports.post = function post(req, res) {
       helpers.validateFormCustomer(req.body, function(e, o) {
         if (e.length) {
           if (req.body.ajax) {
-            res.send({msg:{e:e}}, 200);
+            res.status(200).send({msg:{e:e}});
           } else {
-            o._id = o.id;
             res.render('customer', { title: __("Customer"), countries : CT, country : global._config.company.country, result : o, msg:{e:e}, udata : req.session.user });
           }
         } else {
@@ -39,15 +38,15 @@ exports.post = function post(req, res) {
               if (!o) e.push({name:"", m:__("Error updating customer")});
               if (e.length) {
                 if (req.body.ajax) {
-                  res.send({msg:{e:e}}, 200);
+                  res.status(200).send({msg:{e:e}});
                 } else {
                   o._id = o.id;
                   res.render('customer', { title: __("Customer"), countries : CT, country : global._config.company.country, result : o, msg:{e:e}, udata : req.session.user });
                 }
               } else {
-                e.push({name:"",m:__("Customer saved with success")});
+                e.push({m:__("Customer saved with success")});
                 if (req.body.ajax) {
-                  res.send({msg:{c:e}}, 200);
+                  res.status(200).send({msg:{c:e}});
                 } else {
                   DB.customers.findOne({_id:new ObjectID(id)},function(err, result) {
                     res.render('customer', { title: __("Customer"), countries : CT, country : global._config.company.country, result : result, msg:{c:e}, udata : req.session.user });
@@ -63,14 +62,14 @@ exports.post = function post(req, res) {
               }
               if (e.length) {
                 if (req.body.ajax) {
-                  res.send({msg:{e:e}}, 200);
+                  res.status(200).send({msg:{e:e}});
                 } else {
                   res.render('customer', { title: __("Customer"), countries : CT, country : global._config.company.country, result : o[0], msg:{e:e}, udata : req.session.user });
                 }
               } else {
                 e.push({name:"",m:__("Customer saved with success")});
                 if (req.body.ajax) {
-                  res.send({msg:{c:e,redirect:"/"+global.settings.dbName+"/customer?id="+ o._id}}, 200);
+                  res.status(200).send({msg:{c:e,redirect:"/"+global.settings.dbName+"/customer?id="+ o._id}});
                 } else {
                   DB.customers.findOne({_id:o[0]._id},function(err, result) {
                     res.render('customer', { title: __("Customer"), countries : CT, country : global._config.company.country, result : result, msg:{c:e}, udata : req.session.user });

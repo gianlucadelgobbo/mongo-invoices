@@ -156,7 +156,7 @@ exports.print = function print(req, res) {
                 res.render('invoice_pdf', { layout: 'layout_pdf.pug' ,  title: __("Invoice"), country:global._config.company.country, result : result, udata : req.session.user, style:style }, function (error, html) {
                   if (!error) {
                     pdf.create(html, options).toFile('./warehouse'+folder+filename, function(pdferr, pdfres) {
-                      res.send(html1);
+                      res.status(200).send(html1);
                     });
                   }
                 });

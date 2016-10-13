@@ -86,7 +86,6 @@ DB.insert_invoice = function(newData, userData, callback) {
 	});
 };
 DB.update_invoice = function(newData, userData, callback) {
-	console.log(newData.id);
 	DB.invoices.findOne({_id:new ObjectID(newData.id)}, function(e, o){
 		newData._id = o._id;
 		var d = newData.invoice_date.split("/");
@@ -141,7 +140,6 @@ DB.insert_offer = function(newData, userData, callback) {
 };
 DB.update_offer = function(newData, userData, callback) {
 	DB.offers.findOne({_id:new ObjectID(newData.id)}, function(e, o){
-		console.log(newData);
 		newData._id = o._id;
 		var d = newData.offer_date.split("/");
 		newData.offer_date = new Date(parseInt(d[2], 10),parseInt(d[1], 10)-1,parseInt(d[0], 10));
@@ -177,7 +175,6 @@ DB.update_customer = function(newData, callback) {
 	DB.customers.findOne({_id:new ObjectID(newData.id)}, function(e, o){
 		newData._id = o._id;
 		delete newData.id;
-		console.log(newData);
 		DB.customers.save(newData);
 		callback(newData);
 	});

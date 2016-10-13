@@ -215,7 +215,6 @@ function checkVATPerc(input){
 }
 
 function checkInvoice(){
-	console.log("checkInvoice");
 	var res = true;
 	// Check _id customer
 	if (!$("#customer_id").val()){

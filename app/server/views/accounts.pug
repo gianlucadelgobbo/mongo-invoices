@@ -35,9 +35,9 @@ block content
 									span.caret
 								ul.dropdown-menu
 									li
-										a#dett_customere(href="/accounts/?id="+x._id+"&del="+1)=__("Delete")
+										a#dett_customere(href="/"+global.settings.dbName+"/accounts/?id="+x._id+"&del="+1)=__("Delete")
 						td
-							a(href="/account/?id="+x._id)=x.name
+							a(href="/"+global.settings.dbName+"/account/?id="+x._id)=x.name
 						td=x.email
 						td=x.user
 						td=x.country
