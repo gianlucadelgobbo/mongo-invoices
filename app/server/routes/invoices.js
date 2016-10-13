@@ -37,14 +37,14 @@ exports.get = function get(req, res) {
 				}
 				years.sort();
 				if (req.query.customer){
-					DB.customers.findOne({_id:new ObjectID(req.query.customer)}, function(e, customere) {
+					DB.customers.findOne({_id:new ObjectID(req.query.customer)}, function(e, customer) {
 						DB.invoices.find(query).sort({invoice_date:-1,invoice_number:-1}).toArray(function(e, result) {
-							res.render('invoices', { title: __("Invoices"), result : helpers.formatMoney(result), msg:msg, udata : req.session.user,years:years,year:year,customere:{id:req.query.customer,name:customere.name }});
+							res.render('invoices', { title: __("Invoices"), result : helpers.formatMoneyList(result), msg:msg, udata : req.session.user,years:years,year:year,customer:{id:req.query.customer,name:customer.name }});
 						});
 					});
 				} else {
 					DB.invoices.find(query).sort({invoice_date:-1,invoice_number:-1}).toArray(function(e, result) {
-						res.render('invoices', { title: __("Invoices"), result : helpers.formatMoney(result), msg:msg, udata : req.session.user,years:years,year:year });
+						res.render('invoices', { title: __("Invoices"), result : helpers.formatMoneyList(result), msg:msg, udata : req.session.user,years:years,year:year });
 					});
 				}
 			});

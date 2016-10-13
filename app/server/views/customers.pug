@@ -33,12 +33,14 @@ block content
 						tr
 							td
 								div.btn-group
-									a.btn.btn-primary(href="/"+global.settings.dbName+"/invoices/?customer="+x._id)=__("Invoices")
+									a.btn.btn-primary(href="/"+global.settings.dbName+"/invoices/?year=ALL%20Years&customer="+x._id)=__("Invoices")
 									button.btn.btn-primary.dropdown-toggle(data-toggle="dropdown")
 										span.caret
 									ul.dropdown-menu
 										li
-											a(href="/"+global.settings.dbName+"/invoices/?customer="+x._id)=__("Invoices")
+											a(href="/" + global.settings.dbName + "/invoices/?year=ALL%20Years&customer=" + x._id)=__("Invoices")
+										li
+											a(href="/" + global.settings.dbName + "/offers/?year=ALL%20Years&customer=" + x._id)=__("Offers")
 										li
 											a(href="/" + global.settings.dbName + "/customer/?id=" + x._id)=__("Edit")
 										li
