@@ -6,8 +6,8 @@ block content
 				h1.page-title=__("Print")
 			.col-sm-5
 				.pull-right
-					a.btn.btn-primary(href=file, download=file)=__("DOWNLOAD")
-					span!="&nbsp;"
+					- var filename = file.substring(file.lastIndexOf("/")+1);
+					a.btn.btn-primary(href=file, download=filename)=__("DOWNLOAD")span!="&nbsp;"
 					input(type="button", value=__("PRINT"), onclick="window.location='" + file + "'").btn.btn-primary
 					span!="&nbsp;"
 					input(type="button", value=__("EDIT"), onclick="window.location='/" + global.settings.dbName + "/offer/?id=" + result._id + "'").btn.btn-primary
