@@ -1,4 +1,5 @@
 {
+	"2016": 2016,
 	"Hello - Please Login To Your Account": "Hello - Please Login To Your Account",
 	"Warning": "Warning",
 	"Cancel": "Cancel",
@@ -137,5 +138,7 @@
 	"in attach you find the offer number {{result.offer_number}} of the {{date}}": "in attach you find the offer number {{result.offer_number}} of the {{date}}",
 	"Make invoice": "Make invoice",
 	"DELETE": "DELETE",
-	"Invoice deleted successfully": "Invoice deleted successfully"
+	"Invoice deleted successfully": "Invoice deleted successfully",
+	"ALL Years": "ALL Years",
+	"offers": "offers"
 }

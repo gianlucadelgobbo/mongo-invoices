@@ -130,7 +130,7 @@ block content
 								input(type="text", name="delivery_date", value=dd).form-control.date#delivery_date
 		hr
 		.container_overflow
-			table.table.tabCnt#items
+			table.table.tabCnt
 				thead
 					tr
 						th.tabQuantity=__("Quantity")
@@ -138,7 +138,7 @@ block content
 						th.tabPrice=__("Price")
 						th.tabAmount=__("Amount")
 						th.tabDelete
-				tbody
+				tbody#items
 					- var a = 0
 					- for(a=0;a<result.items.length;a++)
 						tr
@@ -171,7 +171,7 @@ block content
 						td
 							.input-group
 								span.input-group-addon=_config.currency[0]
-								input(type="text", name="subtotal", value=result.subtotal, disabled).form-control.totals.subtotal.input-medium
+								input(type="text", name="subtotal", value=result.subtotal, disabled).form-control.totals.subtotal#subtotal.input-medium
 						td
 					tr
 						td
@@ -204,7 +204,7 @@ block content
 						td
 							.input-group
 								span.input-group-addon=_config.currency[0]
-								input(type="text", name="total", value=result.total, disabled).form-control.total.input-medium
+								input(type="text", name="total", value=result.total, disabled).form-control.total#total.input-medium
 						td
 		hr.clearfix
 		label.add-on(for='bank')=__("Bank")
@@ -239,4 +239,3 @@ block content
 
 	br
 	- js = '/js/invoice.js'
-include modals/sendbyemail

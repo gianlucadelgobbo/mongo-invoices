@@ -160,9 +160,8 @@
 	"Dear {{result.to_client.name}}": "Caro {{result.to_client.name}}",
 	"in attach you find the invoice number {{result.invoice_number}} of the {{date}}": "in allegato la fattura {{result.invoice_number}} del {{date}}",
 	"Best Regards": "Cordiali saluti",
-	"Start Up success!!! Redirecting...": "Start Up success!!! Redirecting...",
+	"Start Up success!!! Redirecting...": "Start Up eseguito con successo!!! Rindirizzamento...",
 	"stocazzo": "bella",
-	"in attach you find the offer number {{result.offer_number}} of the {{date}}": "in attach you find the offer number {{result.offer_number}} of the {{date}}",
-	"offers": "offers",
+	"in attach you find the offer number {{result.offer_number}} of the {{date}}": "in allegato l'offerta {{result.offer_number}} del {{date}}",
 	"ALL Years": "TUTTI gli Anni"
 }
