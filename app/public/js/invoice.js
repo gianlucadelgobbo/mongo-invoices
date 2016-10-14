@@ -134,7 +134,6 @@ function setBinds(){
 		if(checkPrice($(this))) $(this).val(accounting.formatMoney(accounting.unformat($(this).val(), ",")));
 		getAmount($(this).parent().parent().parent());
 		updateTotal();
-		addNewRow();
 	});
 	$('.description').autocomplete({
 		source: function(req,res){
@@ -266,17 +265,11 @@ function updateTotal(){
 
 //Add row to table
 function addNewRow(){
-	if($("#items tbody tr:last .price").val()!=""){
-
-		$("#items tbody tr:last").clone().find("input,textarea").each(function() {
-			$(this).attr({
-				'value': ''
-			});
-			if ($(this).html()) $(this).html("");
-		}).end().appendTo("#items");
-		resetItemNamesAndIDs();
-		setBinds();
-	}
+	$("#items tr:last").clone().find("input,textarea").each(function() {
+		$(this).val('');
+	}).end().appendTo("#items");
+	resetItemNamesAndIDs();
+	setBinds();
 }
 
 function resetItemNamesAndIDs(){

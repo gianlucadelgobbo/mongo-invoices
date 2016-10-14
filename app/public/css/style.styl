@@ -1,6 +1,5 @@
 .cnt
 	margin-top 71px
-	overflow-x scroll
 .submenu
 	background-color #F9F9F9
 
@@ -12,18 +11,18 @@ legend.subheading
 	margin-top 0
 th
 	white-space nowrap
+.tabCnt
+	min-width 710px
 .tabQuantity
-	min-width 50px
+	width 50px
 .tabDescription
 	min-width 280px
 .tabPrice
-	min-width 150px
-
+	width 150px
 .tabAmount
-	min-width 150px
-
+	width 150px
 .tabDelete
-	min-width 50px
+	width 50px
 .tabActions
 	min-width 130px
 .nowrap
@@ -44,8 +43,6 @@ th
 	width  795px
 	min-height  1080px
 	margin 0 auto 0 auto
-.print_container_overflow
-	overflow-x scroll
 .print_container header
 	font-size  18px
 
@@ -117,4 +114,6 @@ th
 	.navbar,.noprint 
 		display  none
 	
-	
+@media (max-width: 767px)
+	.container_overflow
+		overflow-x scroll

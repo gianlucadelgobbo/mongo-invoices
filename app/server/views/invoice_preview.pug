@@ -15,11 +15,10 @@ block content
 					span!="&nbsp;"
 					input(type="button", value=__("SEND"), onclick="$('.modal-sendbyemail .alert').hide();showModal('sendbyemail');").btn.btn-primary
 		hr.clearfix
-	.print_container_overflow
+	.container_overflow
 		.print_container
 			header#pageHeader
 				.logo
-					- console.log('file://' + global.settings.root_path+'/warehouse/' + global.settings.dbName + '/' + _config.company.logo)
 					- if(_config.company.logo)
 						img(src='/accounts/'+global.settings.dbName+'/'+_config.company.logo, alt=_config.company.name)
 					- else

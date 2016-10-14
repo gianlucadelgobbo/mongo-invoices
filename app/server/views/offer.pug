@@ -128,77 +128,83 @@ block content
 			textarea(name="description").form-control#description
 				!=result.description
 		hr
-		table.table#items
-			thead
-				tr
-					th.tabQuantity=__("Quantity")
-					th.tabDescription=__("Description")
-					th.tabPrice=__("Price")
-					th.tabAmount=__("Amount")
-					th.tabDelete
-			tbody
-				- var a = 0
-				- for(a=0;a<result.items.length;a++)
+		.container_overflow
+			table.table.tabCnt
+				thead
+					tr
+						th.tabQuantity=__("Quantity")
+						th.tabDescription=__("Description")
+						th.tabPrice=__("Price")
+						th.tabAmount=__("Amount")
+						th.tabDelete
+				tbody#items
+					- var a = 0
+					- for(a=0;a<result.items.length;a++)
+						tr
+							td
+								input(type="text", name="items["+a+"][quantity]",value=result.items[a].quantity,id="quantity_"+a).form-control.quantity
+							td
+								textarea(type="text", name="items["+a+"][description]",id="description_"+a).description.form-control=result.items[a].description
+							td
+								.input-group
+									span.input-group-addon=_config.currency[0]
+									input(type="text", name="items["+a+"][price]",value=result.items[a].price,id="price_"+a).price.form-control
+							td
+								.input-group
+									span.input-group-addon=_config.currency[0]
+									input(type="text", name="items["+a+"][amount]",value=result.items[a].amount,id="amount_"+a, disabled).amount.form-control
+							td
+								a.btn(href="#", onclick="removeRow(this); return false;")
+									i.glyphicon.glyphicon-remove
+				tfoot
+					tr
+						td(colspan="5")
+							.text-center
+								a.btn.btn-primary(href="#", onclick="addNewRow(); return false;")
+									i.glyphicon.glyphicon-plus
 					tr
 						td
-							input(type="text", name="items["+a+"][quantity]",value=result.items[a].quantity,id="quantity_"+a).form-control.quantity
 						td
-							textarea(type="text", name="items["+a+"][description]",id="description_"+a).description.form-control=result.items[a].description
 						td
-							.input-group
-								span.input-group-addon=_config.currency[0]
-								input(type="text", name="items["+a+"][price]",value=result.items[a].price,id="price_"+a).price.form-control
+							label.pull-right(for='subtotal')=__("Subtotal")
 						td
 							.input-group
 								span.input-group-addon=_config.currency[0]
-								input(type="text", name="items["+a+"][amount]",value=result.items[a].amount,id="amount_"+a, disabled).amount.form-control
+								input(type="text", name="subtotal", value=result.subtotal, disabled).form-control.totals#subtotal.input-medium
 						td
-							a.btn(href="#", onclick="removeRow(this); return false;")
-								i.glyphicon.glyphicon-remove
-			tfoot
-				tr
-					td
-					td
-					td
-						label.pull-right(for='subtotal')=__("Subtotal")
-					td
-						.input-group
-							span.input-group-addon=_config.currency[0]
-							input(type="text", name="subtotal", value=result.subtotal, disabled).form-control.totals#subtotal.input-medium
-					td
-				tr
-					td
-					td
-					td
-						.input-group
-							label.input-group-addon(for='vat_perc')=__("VAT")
-							input(type="text", name="vat_perc", value=result.vat_perc).form-control#vat_perc.input-mini
-							span.input-group-addon %
-					td
-						.input-group
-							span.input-group-addon=_config.currency[0]
-							input(type="text", name="vat_amount", value=result.vat_amount, disabled).form-control.totals.vat_amount.input-medium
-					td
-				tr
-					td
-					td
-					td
-						label.pull-right(for='shipping_costs')=__("Shipping costs")
-					td
-						.input-group
-							span.input-group-addon=_config.currency[0]
-							input(type="text", name="shipping_costs", value=result.shipping_costs).form-control.totals#shipping_costs.input-medium
-					td
-				tr
-					td
-					td
-					td
-						label.pull-right(for='total')=__("TOTAL")
-					td
-						.input-group
-							span.input-group-addon=_config.currency[0]
-							input(type="text", name="total", value=result.total, disabled).form-control#total.input-medium
-					td
+					tr
+						td
+						td
+						td
+							.input-group
+								label.input-group-addon(for='vat_perc')=__("VAT")
+								input(type="text", name="vat_perc", value=result.vat_perc).form-control#vat_perc.input-mini
+								span.input-group-addon %
+						td
+							.input-group
+								span.input-group-addon=_config.currency[0]
+								input(type="text", name="vat_amount", value=result.vat_amount, disabled).form-control.totals.vat_amount.input-medium
+						td
+					tr
+						td
+						td
+						td
+							label.pull-right(for='shipping_costs')=__("Shipping costs")
+						td
+							.input-group
+								span.input-group-addon=_config.currency[0]
+								input(type="text", name="shipping_costs", value=result.shipping_costs).form-control.totals#shipping_costs.input-medium
+						td
+					tr
+						td
+						td
+						td
+							label.pull-right(for='total')=__("TOTAL")
+						td
+							.input-group
+								span.input-group-addon=_config.currency[0]
+								input(type="text", name="total", value=result.total, disabled).form-control#total.input-medium
+						td
 		hr.clearfix
 		label.add-on(for='bank')=__("Bank")
 		select(id="bank",name="bank").form-control
