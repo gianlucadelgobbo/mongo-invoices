@@ -108,6 +108,7 @@ exports.validateFormAccount = function validateFormAccount(o,callback) {
 };
 
 exports.formatMoney = function formatMoney(result) {
+	console.log(result);
 	accounting.settings = global._config.accountingSettings;
 	result.subtotal=accounting.formatMoney(result.subtotal);
 	result.vat_amount=accounting.formatMoney(result.vat_amount);
@@ -120,6 +121,15 @@ exports.formatMoney = function formatMoney(result) {
 		}
 	}
 	return result;
+};
+
+exports.formatMoneyList = function formatMoneyList(result) {
+	console.log(result);
+	var res = [];
+	for (var item in result) {
+		res.push(this.formatMoney(result[item]));
+	}
+	return res;
 };
 
 

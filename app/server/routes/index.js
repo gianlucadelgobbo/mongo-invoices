@@ -12,6 +12,7 @@ exports.get = function get(req, res) {
       } else {
         // check if the user's credentials are saved in a cookie //
         if (req.cookies === undefined || req.cookies.user === undefined || req.cookies.pass === undefined || req.cookies.role === undefined) {
+          console.log(global.settings);
           res.render('login', {layout: "layout_nologged.pug", title: __('Hello - Please Login To Your Account'), result: {}, from: req.query.from});
         } else {
           // attempt automatic login //

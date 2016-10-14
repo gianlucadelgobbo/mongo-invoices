@@ -1,4 +1,6 @@
 {
+	"2013": 2013,
+	"2016": 2016,
 	"Please Login To Your Account": "Accedi al tuo account",
 	"Sign in": "Accedi",
 	"Forgot Your Password": "Hai dimenticato la password?",
@@ -160,5 +162,7 @@
 	"Best Regards": "Cordiali saluti",
 	"Start Up success!!! Redirecting...": "Start Up success!!! Redirecting...",
 	"stocazzo": "bella",
-	"in attach you find the offer number {{result.offer_number}} of the {{date}}": "in attach you find the offer number {{result.offer_number}} of the {{date}}"
+	"in attach you find the offer number {{result.offer_number}} of the {{date}}": "in attach you find the offer number {{result.offer_number}} of the {{date}}",
+	"offers": "offers",
+	"ALL Years": "TUTTI gli Anni"
 }
