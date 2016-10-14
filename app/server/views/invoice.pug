@@ -12,6 +12,8 @@ block content
 						input(type="button", value=__("DUPLICATE"), onclick="window.location='/"+global.settings.dbName+"/invoice/?dup="+result._id+"'").btn.btn-primary
 						span!="&nbsp;"
 						input(type="button", value=__("PRINT"), onclick="window.location='/"+global.settings.dbName+"/print/invoice/?id="+result._id+"'").btn.btn-primary
+						span!="&nbsp;"
+						input(type="button", value=__("DELETE"), onclick="window.location='/" + global.settings.dbName + "/invoices/?id=" + result._id + "&del=1'").btn.btn-danger
 						input(type="hidden", name="id", value=result._id)
 		hr
 		- if (typeof msg !== "undefined" && typeof msg.e !== "undefined" && msg.e.length)

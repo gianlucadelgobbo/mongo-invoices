@@ -4,7 +4,7 @@ block content
 		.col-sm-6
 			h1.page-title=__("Invoices")+" "+year+(typeof customere != "undefined" ? " "+customere.name : "")
 		.col-sm-6
-			.pull-right
+			.pull-right.page-title
 				label(for="changeyear")
 					=__("Change year")
 					!="&nbsp;&nbsp;"
@@ -33,6 +33,7 @@ block content
 				ul
 					- for(var a=0;a<msg.c.length;a++)
 						li=msg.c[a].m
+	.container_overflow
 		table.table
 			thead
 				tr
@@ -58,9 +59,10 @@ block content
 									span.caret
 								ul.dropdown-menu
 									li
-										a(href="/"+global.settings.dbName+"/invoices/?id="+x._id+"&del="+1)=__("Delete")
-										a(href="/"+global.settings.dbName+"/print/invoice/?id="+x._id)=__("Print")
+										a(href="/"+global.settings.dbName+"/invoice/?id="+x._id)=__("Edit")
 										a(href="/"+global.settings.dbName+"/invoice/?dup="+x._id)=__("Duplicate")
+										a(href="/" + global.settings.dbName + "/print/invoice/?id=" + x._id)=__("Print")
+										a(href="/" + global.settings.dbName + "/invoices/?id=" + x._id + "&del=" + 1)=__("Delete")
 						td
 							span(class="label label-"+(x.invoice_number==result.length-index ? "success" : "danger"))=x.invoice_number
 						- dd = new Date(x.invoice_date)
@@ -78,4 +80,9 @@ block content
 						td.text-right=x.vat_amount
 						td.text-right=x.shipping_costs
 						td.text-right=x.total
-
+		br
+		br
+		br
+		br
+		br
+		br

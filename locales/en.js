@@ -134,5 +134,8 @@
 	"MAKE INVOICE": "MAKE INVOICE",
 	"Duplicate": "Duplicate",
 	"{{result.to_client.name}} | Offer number {{result.offer_number}} - {{date}}": "{{result.to_client.name}} | Offer number {{result.offer_number}} - {{date}}",
-	"in attach you find the offer number {{result.offer_number}} of the {{date}}": "in attach you find the offer number {{result.offer_number}} of the {{date}}"
+	"in attach you find the offer number {{result.offer_number}} of the {{date}}": "in attach you find the offer number {{result.offer_number}} of the {{date}}",
+	"Make invoice": "Make invoice",
+	"DELETE": "DELETE",
+	"Invoice deleted successfully": "Invoice deleted successfully"
 }
