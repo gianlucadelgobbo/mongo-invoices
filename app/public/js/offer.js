@@ -215,7 +215,7 @@ function updateTotal(){
 		if($(this).val()!="")
 			subtot += parseFloat(accounting.unformat($(this).val(), ","));
 	});
-	$('.subtotal').val(accounting.formatMoney(subtot));
+	$('#subtotal').val(accounting.formatMoney(subtot));
 	var failed = false;
 	if (checkVATPerc(vat_perc)) {
 		$('.vat_amount').val(accounting.formatMoney((subtot/100)*vat_perc.val()));
