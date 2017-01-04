@@ -164,5 +164,9 @@
 	"Start Up success!!! Redirecting...": "Start Up eseguito con successo!!! Rindirizzamento...",
 	"stocazzo": "bella",
 	"in attach you find the offer number {{result.offer_number}} of the {{date}}": "in allegato l'offerta {{result.offer_number}} del {{date}}",
-	"ALL Years": "TUTTI gli Anni"
+	"ALL Years": "TUTTI gli Anni",
+	"{{client_name}} | Invoice number {{result.invoice_number}} - {{date}}": "{{client_name}} | Invoice number {{result.invoice_number}} - {{date}}",
+	"Dear {{client_name}}": "Dear {{client_name}}",
+	"{{result.to_client.name}} xxx Invoice number {{result.invoice_number}} - {{date}}": "{{result.to_client.name}} xxx Invoice number {{result.invoice_number}} - {{date}}",
+	"{{result.to_client.name}} • Invoice number {{result.invoice_number}} - {{date}}": "{{result.to_client.name}} • Invoice number {{result.invoice_number}} - {{date}}"
 }

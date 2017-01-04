@@ -140,5 +140,9 @@
 	"DELETE": "DELETE",
 	"Invoice deleted successfully": "Invoice deleted successfully",
 	"ALL Years": "ALL Years",
-	"offers": "offers"
+	"offers": "offers",
+	"{{client_name}} | Invoice number {{result.invoice_number}} - {{date}}": "{{client_name}} | Invoice number {{result.invoice_number}} - {{date}}",
+	"Dear {{client_name}}": "Dear {{client_name}}",
+	"{{result.to_client.name}} xxx Invoice number {{result.invoice_number}} - {{date}}": "{{result.to_client.name}} xxx Invoice number {{result.invoice_number}} - {{date}}",
+	"{{result.to_client.name}} • Invoice number {{result.invoice_number}} - {{date}}": "{{result.to_client.name}} • Invoice number {{result.invoice_number}} - {{date}}"
 }

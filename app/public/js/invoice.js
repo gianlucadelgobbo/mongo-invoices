@@ -273,7 +273,7 @@ function addNewRow(){
 }
 
 function resetItemNamesAndIDs(){
-	$("#items tr").each(function(index){
+	$("#items tr").each(function(index) {
 		$(this).find("input,textarea").each(function() {
 			$(this).attr({
 				'id': function(_, id) { return (id.slice(0, id.lastIndexOf("_"))) + "_" + index },

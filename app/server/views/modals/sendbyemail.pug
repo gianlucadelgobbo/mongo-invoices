@@ -37,13 +37,14 @@
                   label(for="to_email")=__("Email")
                   input(type="text", name="to_email", value=to_client.contacts && to_client.contacts.length && to_client.contacts[item].email ? to_client.contacts[0].email : "").form-control#to_email
           - var msg = {}
+          - var client_name = to_client.contacts && to_client.contacts.length && to_client.contacts[0].name ? to_client.contacts[0].name : result.to_client.name;
           - for (var item in global.settings.defaultLocales)
             - msg[global.settings.defaultLocales[item]] = {}
             - msg[global.settings.defaultLocales[item]].label = global.settings.defaultLocales[item]
             - if (result.invoice_number)
               - d = result.invoice_date;
-              - msg[global.settings.defaultLocales[item]].subject = __({phrase: "{{result.to_client.name}} | Invoice number {{result.invoice_number}} - {{date}}",    locale: global.settings.defaultLocales[item]}, {result:result, date:d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear()})+ " " + global.settings.companyName
-              - msg[global.settings.defaultLocales[item]].text    = __({phrase: "Dear {{result.to_client.name}}",                              locale: global.settings.defaultLocales[item]}, {result:result})
+              - msg[global.settings.defaultLocales[item]].subject = __({phrase: "{{result.to_client.name}} • Invoice number {{result.invoice_number}} - {{date}}",    locale: global.settings.defaultLocales[item]}, {result:result, date:d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear()})+ " " + global.settings.companyName
+              - msg[global.settings.defaultLocales[item]].text    = __({phrase: "Dear {{client_name}}",                              locale: global.settings.defaultLocales[item]}, {client_name:client_name})
               - msg[global.settings.defaultLocales[item]].text    += ",\n"
               - msg[global.settings.defaultLocales[item]].text    += __({phrase: "in attach you find the invoice number {{result.invoice_number}} of the {{date}}",    locale: global.settings.defaultLocales[item]}, {result:result, date:d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear()})
               - msg[global.settings.defaultLocales[item]].text    += "\n\n"
@@ -52,7 +53,7 @@
             - else
               - d = result.offer_date;
               - msg[global.settings.defaultLocales[item]].subject = __({phrase: "{{result.to_client.name}} | Offer number {{result.offer_number}} - {{date}}",  locale: global.settings.defaultLocales[item]}, {result:result, date:d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear()})+ " " + global.settings.companyName
-              - msg[global.settings.defaultLocales[item]].text     = __({phrase: "Dear {{result.to_client.name}}",                          locale: global.settings.defaultLocales[item]}, {result:result})
+              - msg[global.settings.defaultLocales[item]].text     = __({phrase: "Dear {{client_name}}",                          locale: global.settings.defaultLocales[item]}, {result:result})
               - msg[global.settings.defaultLocales[item]].text    += ",\n"
               - msg[global.settings.defaultLocales[item]].text    += __({phrase: "in attach you find the offer number {{result.offer_number}} of the {{date}}",   locale: global.settings.defaultLocales[item]}, {result:result, date:d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear()})
               - msg[global.settings.defaultLocales[item]].text    += "\n\n"
