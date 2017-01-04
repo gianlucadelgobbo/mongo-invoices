@@ -1,6 +1,7 @@
 {
 	"2013": 2013,
 	"2016": 2016,
+	"2017": 2017,
 	"Please Login To Your Account": "Accedi al tuo account",
 	"Sign in": "Accedi",
 	"Forgot Your Password": "Hai dimenticato la password?",
