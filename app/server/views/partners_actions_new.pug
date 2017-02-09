@@ -11,6 +11,8 @@ block content
             .col-sm-6
               .pull-right
                 - if (result._id)
+                  a.btn.btn-success(href="/" + global.settings.dbName + "/partners/" + project + "/actions/" + result._id + "/")=__("Analize")
+                  !=" "
                   button#account-form-btn2.btn.btn-success(type='submit')=__("Update")
                   !=" "
                   a(href="/" + global.settings.dbName + "/partners/" + project + "/actions/?id=" + result._id + "&del=" + 1)#account-form-btn1.btn.btn-danger=__("Delete")
@@ -55,6 +57,8 @@ block content
           .form-actions.pull-right
             .clearfix
               - if (result._id)
+                a.btn.btn-success(href="/" + global.settings.dbName + "/partners/" + project + "/actions/" + result._id + "/")=__("Analize")
+                !=" "
                 button(type='submit')#account-form-btn2.btn.btn-success=__("Update")
                 !=" "
                 a(href="/" + global.settings.dbName + "/partners/" + project + "/actions/?id=" + result._id + "&del=" + 1)#account-form-btn1.btn.btn-danger=__("Delete")
