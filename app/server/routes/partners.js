@@ -28,6 +28,8 @@ exports.getPartners = function getPartners(req, res) {
         console.log("sto qui");
         //console.log(result);
         if (req.params.project) sez = req.url.split(req.params.project)[1].split("/").join("");
+        console.log(result.length);
+        console.log(query);
         if (!result.length && query == {}) {
           console.log("importing spreadsheets");
           helpers.getPartners(function(result){
