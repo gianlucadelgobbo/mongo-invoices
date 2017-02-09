@@ -196,6 +196,7 @@ DB.insert_action = function(newData, callback) {
 };
 DB.update_action = function(newData, callback) {
   DB.actions.findOne({_id:new ObjectID(newData._id)}, function(e, o){
+    newData._id = o._id;
     DB.actions.save(newData);
     callback(newData);
   });
