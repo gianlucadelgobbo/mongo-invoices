@@ -30,7 +30,7 @@ exports.getPartners = function getPartners(req, res) {
         if (req.params.project) sez = req.url.split(req.params.project)[1].split("/").join("");
         console.log(result.length);
         console.log(query);
-        if (!result.length && query == {}) {
+        if (!result.length && sez == "") {
           console.log("importing spreadsheets");
           helpers.getPartners(function(result){
             //console.log(result);
