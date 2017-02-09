@@ -1,0 +1,19 @@
+#sidebar.sidebar-offcanvas
+  .col-md-12
+    h3=__("Partners")
+    ul.nav.nav-pills.nav-stacked
+      li(class=global.settings.currenturl.indexOf("/partners/")+10 == global.settings.currenturl.length ? "active" : undefined)
+        a(href="/" + global.settings.dbName + "/partners/")=__("All Partners")
+      li(class=global.settings.currenturl.lastIndexOf("/partners/facebookgroups/") == 12 ? "active" : undefined)
+        a(href="/" + global.settings.dbName + "/partners/facebookgroups/")=__("Facebook groups")
+      li
+        select.form-control(onchange="window.location=this.value")
+          option=__("Please select a Project")
+          option(value="/" + global.settings.dbName + "/partners/" + "LPM-2017" + "/", selected=project=="LPM-2017" ? "selected" : undefined)="LPM 2017"
+          option(value="/" + global.settings.dbName + "/partners/" + "LCF-2017" + "/", selected=project=="LCF-2017" ? "selected" : undefined)="LCF 2017"
+      li(class=(!project ? "disabled" : global.settings.currenturl.indexOf("/partners/"+project+"/")+("/partners/"+project+"/").length == global.settings.currenturl.length ? "active" : undefined))
+        a(href="/" + global.settings.dbName + "/partners/"+project+"/")=__("Partners")
+      li(class=(!project ? "disabled" : global.settings.currenturl.indexOf("/partners/"+project+"/channels/")+("/partners/"+project+"/channels/").length == global.settings.currenturl.length ? "active" : undefined))
+        a(href="/" + global.settings.dbName + "/partners/" + project + "/channels/")=__("Channels")
+      li(class=(!project ? "disabled" : global.settings.currenturl.indexOf("/partners/"+project+"/actions/")+("/partners/"+project+"/actions/").length == global.settings.currenturl.length ? "active" : undefined))
+        a(href="/" + global.settings.dbName + "/partners/" + project + "/actions/")=__("Actions")

@@ -1,0 +1,80 @@
+extends layout
+block content
+  .row-offcanvas.row-offcanvas-left.cnt
+    include sidebar_partners
+    #main
+      .col-md-12
+        .row
+          .col-md-9
+            h1.page-title=__("Actions")+": "+project
+          .col-md-3
+            .pull-right
+              a.btn.btn-primary(href="/" + global.settings.dbName + "/partners/"+project+"/actions/new/")=__("New Action")
+
+        div
+          if (typeof msg !== "undefined" && typeof msg.e !== "undefined" && msg.e.length)
+            .alert.alert-danger
+              h4=__("There are some errors")
+              ul
+                - for(var a=0;a<msg.e.length;a++)
+                  li=msg.e[a].m
+          if (typeof msg !== "undefined" && typeof msg.c !== "undefined" && msg.c.length)
+            .alert.alert-success
+              h4=__("There are some messages")
+              ul
+                - for(var a=0;a<msg.c.length;a++)
+                  li=msg.c[a].m
+        .container_overflow.container_overflow_margin
+          table.table(data-toggle="table", data-sortable="true", data-toolbar="#toolbar", data-search="true", data-show-toggle="true", data-show-columns="true", data-show-export="true", data-minimum-count-columns="2", data-pagination="true", data-page-list="[10, 25, 50, 100, ALL]", data-show-footer="false", class="table table-hover")
+            thead
+              tr
+                th=__("Actions")
+                th(data-field="date" data-sortable="true")=__("Date")
+                th(data-field="name" data-sortable="true")=__("Name")
+                th(data-field="lastanalysis" data-sortable="true")=__("Last analysis")
+                th(data-field="posts" data-sortable="true")=__("Posts")
+                th(data-field="performance" data-sortable="true")=__("Performance")
+
+            tbody
+              if results
+                - var index = 0
+                each result in results
+                  tr
+                    td
+                      .btn-group
+                        a.btn.btn-primary(href="/" + global.settings.dbName + "/partners/"+project+"/actions/"+result._id+"/")=(index+1)+" "+__("Analysis")
+                        button.btn.btn-primary.dropdown-toggle(data-toggle="dropdown")
+                          span.caret
+                        ul.dropdown-menu
+                          li
+                            a(href="/" + global.settings.dbName + "/partners/"+project+"/actions/"+result._id+"/")=__("Analysis")
+                          li
+                            a(href="/" + global.settings.dbName + "/partners/"+project+"/actions/"+result._id+"/edit/")=__("Edit")
+                          li
+                            a(href="/" + global.settings.dbName + "/partners/"+project+"/actions/?id="+result._id+"&del=1")=__("Delete")
+                    td
+                      - d = new Date(result.date);
+                      if d
+                        !=d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear()
+                    td
+                      a(href="/" + global.settings.dbName + "/partners/"+project+"/actions/"+result._id+"/")=result.name
+                    td
+                      if result.analysis && result.analysis.length
+                        !=result.analysis[result.analysis.length-1].date
+                      else
+                        !=__("NO ANALISIS PERFORMED")
+                    td
+                      if result.facebook
+                        a(href=result.facebook, target="_blank")
+                          i.icon-fontello-facebook-squared
+                        !=" "
+                      if result.twitter
+                        a(href=result.twitter, target="_blank")
+                          i.icon-fontello-twitter-squared
+                        !=" "
+                      if result.instagram
+                        a(href=result.instagram, target="_blank")
+                          i.icon-fontello-instagram
+                    td=result.performance
+
+                  - index++

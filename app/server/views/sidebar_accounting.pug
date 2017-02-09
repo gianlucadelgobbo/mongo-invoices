@@ -1,0 +1,17 @@
+#sidebar.sidebar-offcanvas
+  .col-md-12
+    h3=__("Accounting")
+    ul.nav.nav-pills.nav-stacked
+      - console.log(global.settings.currenturl)
+      li(class=global.settings.currenturl.indexOf('/accounting/customers/')>0 && global.settings.currenturl.indexOf('/accounting/customers/new/')==-1 ? "active" : undefined)
+        a(href="/" + global.settings.dbName + "/accounting/customers/")=__("Customers")
+      li(class=global.settings.currenturl.indexOf('/accounting/customers/new/')>0 ? "active" : undefined)
+        a(href="/" + global.settings.dbName + "/accounting/customers/new/")=__("New customer")
+      li(class=global.settings.currenturl.indexOf('/accounting/offers/')>0 ? "active" : undefined)
+        a(href="/" + global.settings.dbName + "/accounting/offers/")=__("Offers")
+      li(class=global.settings.currenturl.indexOf('/accounting/offer/')>0 ? "active" : undefined)
+        a(href="/" + global.settings.dbName + "/accounting/offer/")=__("New offer")
+      li(class=global.settings.currenturl.indexOf('/accounting/invoices/')>0 ? "active" : undefined)
+        a(href="/" + global.settings.dbName + "/accounting/invoices/")=__("Invoices")
+      li(class=global.settings.currenturl.indexOf('/accounting/invoice/')>0 ? "active" : undefined)
+        a(href="/" + global.settings.dbName + "/accounting/invoice/")=__("New invoice")

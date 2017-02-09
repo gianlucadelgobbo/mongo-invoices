@@ -1,0 +1,206 @@
+extends layout
+block content
+  .row-offcanvas.row-offcanvas-left.cnt
+    include sidebar_partners
+    #main
+      pre#test.hide=JSON.stringify(result, null, '\t')
+      script(type='text/javascript').
+        var action = !{JSON.stringify(result)};
+        var dbName = "!{result.dbName}";
+      .col-md-12
+        form(method="post", action="/" + global.settings.dbName + "/partners/"+project+"/actions/new/")#customer-form
+          .row
+            .col-sm-8
+              h1.page-title=(result._id ? __("Action") + ": " + result.name : __("New action")+": "+project)
+              .small=__("Project")+": "+result.project
+              .small=__("Date")+": "+result.date
+              .small=__("Check Extras Facebook Groups")+": "+(result.fbgroups ? __("YES") : __("NO"))
+              .small
+                b=__("Posts")
+                  ul(style="line-height:1.7")
+                    li
+                      span="Facebook: "
+                      if result.facebook
+                        a(href=result.facebook, target="_blank")=result.facebook
+                        !=" "
+                        span#FB-loggedin.label.label-success(style='display: none;')=__("LOGIN OK")
+                        a#FB-login.label.label-danger(href='#', onclick='FBlogin()')=__("LOGIN")
+                      else
+                        span.label.label-default=__("NONE")
+                    li="Twitter: "
+                      if result.twitter
+                        a(href=result.twitter, target="_blank")=result.twitter
+                      else
+                        span.label.label-default=__("NONE")
+                    li="Instagram: "
+                      if result.instagram
+                        a(href=result.instagram, target="_blank")=result.instagram
+                      else
+                        span.label.label-default=__("NONE")
+            .col-sm-4
+              .pull-right
+                .pull-right
+                  a.btn.btn-success(href="/" + global.settings.dbName + "/partners/"+project+"/actions/" + result._id + "/edit/")=__("Edit")
+                  !=" "
+                  a.btn.btn-danger(href="/" + global.settings.dbName + "/partners/"+project+"/actions/" + result._id + "/?del=1")=__("Delete")
+          hr
+          #analysisList
+            if result.analysis && result.analysis.length
+              ol.nav.nav-pills.nav-stacked
+                each analysis, index in result.analysis
+                  li
+                    a(href='#', onclick='loadAnalysis('+index+');')=(index+1)+"# "+analysis.date
+            else
+              !=__("NO ANALISIS PERFORMED")
+            hr
+          #logAnalysis.hide
+            p
+              span.statusFacebookCheck.hide
+                i.glyphicon.glyphicon-refresh.glyphicon-refresh-animate.text-danger
+                !=" "
+                !=__("Checking Facebook Post")
+              span.statusFacebookCheckDone.hide
+                i.glyphicon.glyphicon-ok.text-success
+                !=" "
+                !=__("Facebook Post Check DONE")
+            p
+              span.statusTwitterCheck.hide
+                i.glyphicon.glyphicon-refresh.glyphicon-refresh-animate.text-danger
+                !=" "
+                !=__("Checking Twitter Post")
+              span.statusTwitterCheckDone.hide
+                i.glyphicon.glyphicon-ok.text-success
+                !=" "
+                !=__("Twitter Post Check DONE")
+            p
+              span.statusInstagramCheck.hide
+                i.glyphicon.glyphicon-refresh.glyphicon-refresh-animate.text-danger
+                !=" "
+                !=__("Checking Instagram Post")
+              span.statusInstagramCheckDone.hide
+                i.glyphicon.glyphicon-ok.text-success
+                !=" "
+                !=__("Instagram Post Check DONE")
+            p
+              span.statusChannelsCheck.hide
+                i.glyphicon.glyphicon-refresh.glyphicon-refresh-animate.text-danger
+                !=" "
+                !=__("Checking Project Channels")
+              span.statusChannelsCheckDone.hide
+                i.glyphicon.glyphicon-ok.text-success
+                !=" "
+                !=__("Project Channels Check DONE")
+            p
+              span.statusExtraChannelsCheck.hide
+                i.glyphicon.glyphicon-refresh.glyphicon-refresh-animate.text-danger
+                !=" "
+                !=__("Checking Extra Channels")
+              span.statusExtraChannelsCheckDone.hide
+                i.glyphicon.glyphicon-ok.text-success
+                !=" "
+                !=__("Extra Channels Check DONE")
+            p
+              span.statusNotMonitoredChannelsCheck.hide
+                i.glyphicon.glyphicon-refresh.glyphicon-refresh-animate.text-danger
+                !=" "
+                !=__("Checking Not Project Channels")
+              span.statusNotMonitoredChannelsCheckDone.hide
+                i.glyphicon.glyphicon-ok.text-success
+                !=" "
+                !=__("Project Not Channels Check DONE")
+          #startAnalysis
+            p.text-center
+              a.btn.btn-danger.btn-lg(href='#', onclick='startAnalysis()')=__(" >> START ANALISIS <<  ")
+            hr
+          #analysisResults.hide
+            .row
+              .col-md-4
+                h3 Facebook
+                #res_FB
+                  .text-center
+                    if result.facebook
+                      i.loading-big.glyphicon.glyphicon-refresh.glyphicon-refresh-animate
+                    else
+                      span.label.label-default=__("NONE")
+
+              .col-md-4
+                h3 Twitter
+                #res_TW
+                  ul#res_TW_retweets_list
+                  ul#res_TW_likes_list
+                  if result.twitter
+                    i.loading-big.glyphicon.glyphicon-refresh.glyphicon-refresh-animate
+                  else
+                    span.label.label-default=__("NONE")
+              .col-md-4
+                h3 Instagram
+                #res_IN
+                  if result.instagram
+                    i.loading-big.glyphicon.glyphicon-refresh.glyphicon-refresh-animate
+                  else
+                    span.label.label-default=__("NONE")
+
+            h2=__("Channels")+": "+project
+            table#table(data-toggle="table", data-sortable="true", data-toolbar="#toolbar", data-search="true", data-show-toggle="true", data-show-columns="true", data-show-export="true", data-minimum-count-columns="2", data-pagination="true", data-page-list="[10, 25, 50, 100, ALL]", data-show-footer="false", class="table table-hover")
+              thead
+                tr
+                  th
+              tbody
+            if result.fbgroups
+              h2=__("Extras")+": "+project
+              table#table_extras(data-toggle="table", data-sortable="true", data-toolbar="#toolbar_extras", data-search="true", data-show-toggle="true", data-show-columns="true", data-show-export="true", data-minimum-count-columns="2", data-pagination="true", data-page-list="[10, 25, 50, 100, ALL]", data-show-footer="false", class="table table-hover")
+                thead
+                  tr
+                    th
+                tbody
+            h2=__("Not Partners Channels")
+            table#table_not_partners(data-toggle="table", data-sortable="true", data-toolbar="#toolbar_not_partners", data-search="true", data-show-toggle="true", data-show-columns="true", data-show-export="true", data-minimum-count-columns="2", data-pagination="true", data-page-list="[10, 25, 50, 100, ALL]", data-show-footer="false", class="table table-hover")
+              thead
+                tr
+                  th
+              tbody
+          #saveAnalysis.hide
+            p.text-center
+              a.btn.btn-danger.btn-lg(href='#', onclick='saveAnalysis()')=__(" >> SAVE ANALISIS <<  ")
+            hr
+
+          //
+            - if (typeof msg !== "undefined" && typeof msg.e !== "undefined" && msg.e.length)
+              .alert.alert-danger
+                h4=__("There are some errors")
+                ul
+                  - for(var a=0;a<msg.e.length;a++)
+                    li=msg.e[a].m
+            - if (typeof msg !== "undefined" && typeof msg.c !== "undefined" && msg.c.length)
+              .alert.alert-success
+                h4=__("There are some messages")
+                ul
+                  - for(var a=0;a<msg.c.length;a++)
+                    li=msg.c[a].m
+            .form-group
+              label(for='action_new').control-label=__("Action name")
+              input(type="text", name="name", value=result.name).form-control#action_new
+            .form-group
+              label(for='facebook').control-label=__("Facebook post")
+              input(type="text", name="facebook", value=result.facebook)#facebook.form-control
+            .form-group
+              label(for='twitter').control-label=__("Twitter post")
+              input(type="text", name="twitter", value=result.twitter)#twitter.form-control
+            .form-group
+              label(for='instagram').control-label=__("Instagram post")
+              input(type="text", name="instagram", value=result.instagram)#instagram.form-control
+            .form-group
+              label(for='fbgroups').control-label=__("Include Facebook groups")
+              input(type="checkbox", name="fbgroups", value=1, checked=result.fbgroups ? "checked" : undefined)#fbgroups.form-control
+              input(type="hidden", name="project", value=project)
+
+            .form-actions.pull-right
+              .clearfix
+                - if (result._id)
+                  button(type='submit')#account-form-btn2.btn.btn-success=__("Update")
+                  !=" "
+                  a(href="/" + global.settings.dbName + "/customers/?id=" + result._id + "&del=" + 1)#account-form-btn1.btn.btn-danger=__("Delete")
+                - else
+                  button(type='submit')#account-form-btn1.btn.btn-success=__("Save")
+
+              br

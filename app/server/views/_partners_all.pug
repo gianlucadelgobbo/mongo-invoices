@@ -1,0 +1,130 @@
+extends layout
+block content
+  .row-offcanvas.row-offcanvas-left.cnt
+    include sidebar_partners
+    #main
+      .col-md-12
+        h1.page-title=__("All Partners")
+        div
+          if (typeof msg !== "undefined" && typeof msg.e !== "undefined" && msg.e.length)
+            .alert.alert-danger
+              h4=__("There are some errors")
+              ul
+                - for(var a=0;a<msg.e.length;a++)
+                  li=msg.e[a].m
+          if (typeof msg !== "undefined" && typeof msg.c !== "undefined" && msg.c.length)
+            .alert.alert-success
+              h4=__("There are some messages")
+              ul
+                - for(var a=0;a<msg.c.length;a++)
+                  li=msg.c[a].m
+        .container_overflow.container_overflow_margin
+          table.table(data-toggle="table", data-sortable="true", data-toolbar="#toolbar", data-search="true", data-show-toggle="true", data-show-columns="true", data-show-export="true", data-minimum-count-columns="2", data-pagination="true", data-page-list="[10, 25, 50, 100, ALL]", data-show-footer="false", class="table table-hover")
+            thead
+              tr
+                th.tabActions=__("Actions")
+                th(data-field="delegate" data-sortable="true")=__("Delegate")
+                th(data-field="brand" data-sortable="true")=__("Brand")
+                th(data-field="type" data-sortable="true")=__("Type")
+                th(data-field="avnode" data-sortable="true")=__("Avnode")
+                th(data-field="country" data-sortable="true")=__("Country")
+                th(data-field="website" data-sortable="true")=__("Website")
+                th(data-field="contacts" data-sortable="true")=__("Contacts")
+                th(data-field="partnerships" data-sortable="true")=__("Partnerships")
+                th(data-field="channels" data-sortable="true")=__("Channels")
+            tbody
+              if result
+                each x in result
+                  tr
+                    td
+                      div.btn-group
+                        a.btn.btn-primary(href="/"+global.settings.dbName+"/invoices/?year=ALL%20Years&customer="+x._id)=__("Invoices")
+                        button.btn.btn-primary.dropdown-toggle(data-toggle="dropdown")
+                          span.caret
+                        ul.dropdown-menu
+                          li
+                            a(href="/" + global.settings.dbName + "/invoices/?year=ALL%20Years&customer=" + x._id)=__("Invoices")
+                          li
+                            a(href="/" + global.settings.dbName + "/offers/?year=ALL%20Years&customer=" + x._id)=__("Offers")
+                          li
+                            a(href="/" + global.settings.dbName + "/customer/?id=" + x._id)=__("Edit")
+                          li
+                            a(href="/"+global.settings.dbName+"/customers/?id="+x._id+"&del="+1)=__("Delete")
+                    td=x.delegate
+                    td
+                      a(href="/" + global.settings.dbName + "/customer/?id=" + x._id)=x.brand
+                    td=x.type
+                    td=x.avnode
+                    td=x.country
+                    td
+                      each website in x.websites
+                        a(href=website)!=website
+                    td
+                      each contact in x.contacts
+                        p(style="white-space: nowrap;")
+                          span!=contact.name + " " + contact.surname + " &lt;" + contact.email + "&gt;"
+                          !=" "
+                          span.label.label-info!=contact.lang
+                          !=" "
+                          each type in contact.types
+                            span.label.label-default!=type
+
+                    td
+                      each partnership in x.partnerships
+                        p
+                          b=partnership.name
+                          br
+                          !=partnership.group
+                          br
+                          !=partnership.status
+                        if partnership.notes!=""
+                          p
+                            b=__("Notes")
+                            br
+                            !=partnership.notes
+                    td
+                      each channel in x.channels
+                        p
+                          if channel.type == "FB-Page"
+                            i.icon-facebook-squared
+                            b!=" Page "
+                            !=channel.profilename + " "
+                            !=" "
+                            a(href=channel.url,target="_blank")=channel.url
+                          else if channel.type == "FB-Group"
+                            i.icon-facebook-squared
+                            b!=" Group "
+                            !=channel.profilename + " "
+                            !=" "
+                            a(href=channel.url,target="_blank")=channel.url
+                          else if channel.type == "FB-Profile"
+                            i.icon-facebook-squared
+                            b!=" Profile "
+                            !=channel.profilename + " "
+                            !=" "
+                            a(href=channel.url,target="_blank")=channel.url
+                          else if channel.type == "Twitter"
+                            i.icon-twitter-squared
+                            b!=" Profile "
+                            !=channel.profilename + " "
+                            !=" "
+                            a(href=channel.url,target="_blank")=channel.url
+                          else if channel.type == "Instagram"
+                            i.icon-instagram
+                            b!=" Profile "
+                            !=channel.profilename + " "
+                            !=" "
+                            a(href=channel.url,target="_blank")=channel.url
+                          else if channel.type == "WebSite"
+                            i.glyphicon.glyphicon-globe
+                            b!=" WebSite "
+                            !=channel.profilename + " "
+                            !=" "
+                            a(href=channel.url,target="_blank")=channel.url
+                          else
+                            i.glyphicon.glyphicon-globe
+                            b!=" " + channel.type + " "
+                            !=channel.profilename + " "
+                            !=" "
+                            a(href=channel.url,target="_blank")=channel.url
+

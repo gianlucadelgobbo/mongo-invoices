@@ -1,0 +1,84 @@
+extends layout
+block content
+	- user = typeof(udata) != 'undefined' ? udata : {}
+	form(method="post", action="/" + global.settings.dbName + "/customer")#customer-form
+		.row
+			.col-sm-6
+				h1.page-title=(result._id ? __("Customer") + ": " + result.name : __("New customer"))
+			.col-sm-6
+				.pull-right
+					- if (result._id)
+						button(type='submit')#account-form-btn2.btn.btn-success=__("Update")
+						- if (global.settings.roles[user.role].admin && user._id!=result._id)
+							!=" "
+							a(href="/" + global.settings.dbName + "/customers/?id=" + result._id + "&del=" + 1)#account-form-btn1.btn.btn-danger=__("Delete")
+					- else
+						button(type='submit')#account-form-btn1.btn.btn-success=__("Save")
+
+					input(type="hidden", name="id", value=result._id)
+		hr
+		- if (typeof msg !== "undefined" && typeof msg.e !== "undefined" && msg.e.length)
+			.alert.alert-danger
+				h4=__("There are some errors")
+				ul
+					- for(var a=0;a<msg.e.length;a++)
+						li=msg.e[a].m
+		- if (typeof msg !== "undefined" && typeof msg.c !== "undefined" && msg.c.length)
+			.alert.alert-success
+				h4=__("There are some messages")
+				ul
+					- for(var a=0;a<msg.c.length;a++)
+						li=msg.c[a].m
+		.form-group
+			label(for='customere_new').control-label=__("Customer")
+			input(type="text", name="name", value=result.name).form-control#customere_new
+		.form-group
+			label(for='street').control-label=__("Address")
+			input(type="text", name="address[street]", value=result.address.street)#street.form-control
+		.form-group
+			label(for='zipcode').control-label=__("ZIP code")
+			input(type="text", name="address[zipcode]", value=result.address.zipcode)#zipcode.form-control
+		.form-group
+			label(for='city').control-label=__("City")
+			input(type="text", name="address[city]", value=result.address.city)#city.form-control
+		.form-group
+			label(for='country').control-label=__("Country")
+			select(name="address[country]",onchange=country=='Italy' ? "$('#fiscal_code').parent().toggle($(this).val()=='Italy')" : undefined)#country.form-control
+					option(value="")= __("Please select a country")
+					each item in countries
+						option(selected=item.name == result.address.country, value=item.name)=item.name
+		.form-group
+			label(for='vat_number').control-label=__("VAT number")
+			input(type="text", name="vat_number", value=result.vat_number)#vat_number.form-control
+		.form-group(style=(country=="Italy" && result.address.country=="Italy" ? "" : "display:none;"))
+			label(for='fiscal_code').control-label=__("Fiscal code")
+			input(type="text", name="fiscal_code", value=result.fiscal_code)#fiscal_code.form-control
+		- if (!result.contacts.length) result.contacts.push({name:"", email:""})
+
+		.form-group
+			label(for='contacts_name_0').control-label=__("Contacts")
+			#contacts
+				- for (var item in result.contacts)
+
+					.input-group
+						span.input-group-btn
+							input(type="text", id="contacts_name_"+item+"" ,name="contacts["+item+"][name]", placeholder=__("Name"), value=typeof(result.contacts[item]) !== "undefined" ? result.contacts[0].name : "").form-control
+						span.input-group-btn
+							input(type="text", id="contacts_email_"+item+"", name="contacts["+item+"][email]", placeholder=__("Email"), value=typeof(result.contacts[item]) !== "undefined" ? result.contacts[0].email : "").form-control
+						span.input-group-btn
+							button.btn.btn-default(type="button", class=item==0 ? "disabled" : undefined, onclick="$(this).parent().parent().remove()")="-"
+		.form-group
+			button.btn.btn-primary(type="button", id="contacts_remove_"+item+"", onclick="addNewRow()")="+"
+		hr
+		.form-actions.pull-right
+			.clearfix
+				- if (result._id)
+					button(type='submit')#account-form-btn2.btn.btn-success=__("Update")
+					- if (global.settings.roles[user.role].admin && user._id!=result._id)
+						!=" "
+						a(href="/"+global.settings.dbName+"/customers/?id="+result._id+"&del="+1)#account-form-btn1.btn.btn-danger=__("Delete")
+				- else
+					button(type='submit')#account-form-btn1.btn.btn-success=__("Save")
+
+			br
+	- js = '/js/customer.js'

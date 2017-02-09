@@ -1,0 +1,17 @@
+extends layout
+block content
+  .row-offcanvas.row-offcanvas-left.cnt
+    include sidebar_partners
+    #main
+      .col-md-12
+        .row
+          .col-sm-6
+            h1.page-title=__("Partner") + ": " + result.brand
+          .col-sm-6
+            .pull-right
+                a.btn.btn-success(href="/" + global.settings.dbName + "/partners/partner/" + result._id + "/edit/")=__("Edit")
+                !=" "
+                a.btn.btn-danger(href="/" + global.settings.dbName + "/partners/partner/" + result._id + "/?del=1")=__("Delete")
+        hr
+        pre=JSON.stringify(result, null, '\t')
+

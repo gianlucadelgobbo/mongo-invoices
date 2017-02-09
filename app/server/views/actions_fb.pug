@@ -1,0 +1,37 @@
+#res_FB
+  table.table
+    tr
+      td ID
+      td=results.analysis[0].facebook.id
+    tr
+      td=__("From")
+      td=results.analysis[0].facebook.from.name
+    tr
+      td=__("Post date")
+      td=results.analysis[0].facebook.created_time
+  table.table
+    each anal in results.analysis
+      - fbanal = anal.facebook
+      tr
+        td(colspan=2)=fbanal.checkdate
+      tr
+        td=__("Likes")
+        td=fbanal.likes.data.length
+      tr
+        td=__("Comments")
+        td=fbanal.comments.data.length
+      tr
+        td=__("Shares")
+        td
+          p=__("Total") + ": " + fbanal.shares.count
+          - var shares = 0
+          - var comments = 0
+          - var likes = 0
+          each item in fbanal.sharedposts.data
+            -console.log(item)
+            - shares+=item.shares && item.shares.count ? parseInt(item.shares.count) : 0
+            - comments+=item.comments && item.comments.data ? item.comments.data.length : 0
+            - likes+=item.likes && item.likes.data ? item.likes.data.length : 0
+          p=__("Shares") + ": " + shares
+          p=__("Comments") + ": " + comments
+          p=__("Likes") + ": " + likes
