@@ -28,8 +28,20 @@ exports.getPartners = function getPartners(req, res) {
         console.log("sto qui");
         //console.log(result);
         if (req.params.project) sez = req.url.split(req.params.project)[1].split("/").join("");
+        if (!result.length && query == {}) {
+          console.log("importing spreadsheets");
+          helpers.getPartners(function(result){
+            //console.log(result);
+            DB.insert_partner(result,function() {
+              res.render('partners'+(sez ? "_"+sez : ""), { title: __("Partners"), project:req.params.project, result : result, msg: msg, udata : req.session.user, js:'/js/partners.js', bootstraptable:true  });
+            });
+          });
+        } else {
+          console.log(sez);
+          res.render('partners'+(sez ? "_"+sez : ""), { title: __("Partners"), project:req.params.project, result : result, msg: msg, udata : req.session.user, js:'/js/partners.js', bootstraptable:true  });
+        }
+
         console.log(sez);
-        res.render('partners'+(sez ? "_"+sez : ""), { title: __("Partners"), project:req.params.project, result : result, msg: msg, udata : req.session.user, js:'/js/partners.js', bootstraptable:true  });
       });
     } else {
       res.redirect('/?from='+req.url);
