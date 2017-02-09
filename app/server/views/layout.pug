@@ -1,106 +1,105 @@
 doctype html
 html(lang=global.settings.defaultLocale)
-	head
-		title=(typeof(title)!=="undefined" ? title+" | " : "")+(global.settings.companyName ? global.settings.companyName : "")+ " | Mongo Invoices"
-		meta(name="viewport", content="width=device-width, initial-scale=1")
+  head
+    title=(typeof(title)!=="undefined" ? title+" | " : "")+(global.settings.companyName ? global.settings.companyName : "")+ " | Mongo Invoices"
+    meta(name="viewport", content="width=device-width, initial-scale=1")
 
-		link(href="/lib/smoothness/jquery-ui-1.9.0.custom.css",rel="stylesheet",type="text/css")
-		link(href="/lib/bootstrap/css/bootstrap.min.css", rel="stylesheet")
-		link(href="/css/style.css", rel="stylesheet")
-		- if (typeof style !== "undefined")
-			include print_style
-			!=style
-		| <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-		| <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-		| <!--[if lt IE 9]>
-		| <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-		| <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-		| <![endif]-->
-	body.print_body
-		.navbar.navbar-inverse.navbar-fixed-top(role="navigation")
-			.container-fluid
-				.navbar-header
-					button.navbar-toggle(type="button", data-toggle="collapse", data-target="#bs-example-navbar-collapse-1")
-						span.sr-only!="Toggle navigation"
-						span.icon-bar
-						span.icon-bar
-						span.icon-bar
-					a.navbar-brand(href="/")
-						i.glyphicon.glyphicon-th.icon-white
-				.collapse.navbar-collapse#bs-example-navbar-collapse-1
+    link(href="/lib/smoothness/jquery-ui-1.9.0.custom.css",rel="stylesheet",type="text/css")
+    link(href="/lib/bootstrap/css/bootstrap.min.css", rel="stylesheet",type="text/css")
+    link(href="/css/fontello.css", rel="stylesheet", type="text/css")
+    link(href="/css/style.css", rel="stylesheet", type="text/css")
+    - if (typeof style !== "undefined")
+      include print_style
+      !=style
+    if bootstraptable
+      link(href="/lib/bootstrap-table/bootstrap-table.min.css", rel="stylesheet", type="text/css")
 
-					ul.nav.navbar-nav
-						if udata.companies.length > 0
-							li
-								a(href="#", data-toggle="dropdown", role="button", aria-haspopup="true", aria-expanded="false", style="width: 100%;text-align:left").dropdown-toggle
-									b=global.settings.companyName + " "
-									span.caret
-								ul.dropdown-menu
-									each company in udata.companies
-										- if (company && company.dbname && company.companyname)
-										li
-											a(href="/" + company.dbname)=company.companyname
-						else
-							li
-								b=global.settings.companyName
-					ul.nav.navbar-nav
-						li
-							a(href="/" + global.settings.dbName + "/customers")=__("Customers")
-						li
-							a(href="/" + global.settings.dbName + "/customer")=__("New customer")
-						li
-							a(href="/" + global.settings.dbName + "/offers")=__("Offers")
-						li
-							a(href="/" + global.settings.dbName + "/offer")=__("New offer")
-						li
-							a(href="/" + global.settings.dbName + "/invoices")=__("Invoices")
-						li
-							a(href="/" + global.settings.dbName + "/invoice")=__("New invoice")
-					ul.nav.navbar-nav.navbar-right
-						li
-							a(href="#", onmouseup="var bella = $(this);setTimeout(function() {bella.parent().parent().parent().scrollTop(1000);}, 300)", data-toggle="dropdown", role="button", aria-haspopup="true", aria-expanded="false", style="padding-top:12px;padding-bottom:5px;text-align:left").dropdown-toggle
-								i(style="font-size:26px").glyphicon.glyphicon-cog.icon-white
-							ul.dropdown-menu
-								li
-									a(href="/"+global.settings.dbName+"/account?id=" + udata._id)=__("My account")
-								li
-									a(href="/" + global.settings.dbName + "/accounts")=__("Accounts")
-								li
-									a(href="/"+global.settings.dbName+"/account")=__("New account")
+    | <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    | <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    | <!--[if lt IE 9]>
+    | <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    | <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    | <![endif]-->
+  body.print_body
+    .navbar.navbar-inverse.navbar-fixed-top(role="navigation")
+      .container-fluid
+        .navbar-header
+          button.navbar-toggle(type="button", data-toggle="collapse", data-target="#bs-example-navbar-collapse-1")
+            span.sr-only!="Toggle navigation"
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand(href="/")
+            i.glyphicon.glyphicon-th.icon-white
+        .collapse.navbar-collapse#bs-example-navbar-collapse-1
 
-								- if (global.settings.roles[udata.role].admin)
-									li
-										a(href="/" + global.settings.dbName + "/settings")=__("Settings")
-								li
-									a(href="/logout")
-										i.glyphicon.glyphicon-lock.icon-white
-										!=" "+__("Log Out")
-		.container-fluid.cnt
-			block content
+          ul.nav.navbar-nav
+            if udata.companies.length > 0
+              li
+                a(href="#", data-toggle="dropdown", role="button", aria-haspopup="true", aria-expanded="false", style="width: 100%;text-align:left").dropdown-toggle
+                  b=global.settings.companyName + " "
+                  span.caret
+                ul.dropdown-menu
+                  each company in udata.companies
+                    - if (company && company.dbname && company.companyname)
+                    li
+                      a(href="/" + company.dbname)=company.companyname
+            else
+              li
+                b=global.settings.companyName
+          ul.nav.navbar-nav
+            li(class=global.settings.currenturl.indexOf('/accounting/')>0 ? "active" : undefined)
+              a(href="/" + global.settings.dbName + "/accounting/customers/")=__("Accounting")
+            li(class=global.settings.currenturl.indexOf('/partners/')>0 ? "active" : undefined)
+              a(href="/" + global.settings.dbName + "/partners/")=__("Partners")
+          ul.nav.navbar-nav.navbar-right
+            li
+              a(href="#", onmouseup="var bella = $(this);setTimeout(function() {bella.parent().parent().parent().scrollTop(1000);}, 300)", data-toggle="dropdown", role="button", aria-haspopup="true", aria-expanded="false", style="padding-top:12px;padding-bottom:5px;text-align:left").dropdown-toggle
+                i(style="font-size:26px").glyphicon.glyphicon-cog.icon-white
+              ul.dropdown-menu
+                li
+                  a(href="/"+global.settings.dbName+"/account?id=" + udata._id)=__("My account")
+                li
+                  a(href="/" + global.settings.dbName + "/accounts")=__("Accounts")
+                li
+                  a(href="/"+global.settings.dbName+"/account")=__("New account")
 
-		include modals/alert
-		include modals/confirm
-		include modals/errors
-		- var conf = JSON.stringify(global._config)
-		script.
-			var _config = !{conf}
-		script(src="/validators.js")
-		script(src="/accounting.js")
-		script(src="/lib/jquery.min.js")
-		script(src="/lib/jquery.form.js")
-		script(src="/lib/bootstrap/js/bootstrap.min.js")
-		script(src="/lib/jquery-ui-1.9.0.custom.min.js")
-		script(src="/lib/jquerymx-3.2.custom.min.js")
+                - if (global.settings.roles[udata.role].admin)
+                  li
+                    a(href="/" + global.settings.dbName + "/settings")=__("Settings")
+                li
+                  a(href="/logout")
+                    i.glyphicon.glyphicon-lock.icon-white
+                    !=" "+__("Log Out")
+    block content
 
-		script(src="/js/scripts.js")
-		- if (typeof js != 'undefined')
-			script(src=js)
-		- if (global._config.googleAnalytics!="")
-			script(type="text/javascript").
-				(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject'] = r;i[r]=i[r]||function(){
-				(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-				m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-				})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-				ga('create', '#{global._config.googleAnalytics}', 'auto');
-				ga('send', 'pageview');
+    include modals/alert
+    include modals/confirm
+    include modals/errors
+    - var conf = JSON.stringify(global._config)
+    script.
+      var _config = !{conf}
+    script(src="/validators.js")
+    script(src="/accounting.js")
+    script(src="/lib/jquery.min.js")
+    script(src="/lib/jquery.form.js")
+    script(src="/lib/bootstrap/js/bootstrap.min.js")
+    script(src="/lib/jquery-ui-1.9.0.custom.min.js")
+    script(src="/lib/jquerymx-3.2.custom.min.js")
+
+    script(src="/js/scripts.js")
+    - if (typeof js != 'undefined')
+      script(src=js)
+    - if (global._config.googleAnalytics!="")
+    if bootstraptable
+      script(src="/lib/bootstrap-table/bootstrap-table.min.js")
+      script(src="/lib/bootstrap-table/locale/bootstrap-table-en-US.min.js")
+
+    script(type="text/javascript").
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject'] = r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+      ga('create', '#{global._config.googleAnalytics}', 'auto');
+      ga('send', 'pageview');
 

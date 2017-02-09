@@ -17,6 +17,7 @@
     "moment": "~2.15.1",
     "mongodb": "~2.2.10",
     "pug": "^2.0.0-beta6",
+    "request": "^2.79.0",
     "stylus": "~0.54.5"
   },
   "scripts": {

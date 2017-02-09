@@ -1,81 +1,85 @@
 extends layout
 block content
-	.row
-		.col-sm-6
-			h1.page-title=__("Invoices")+" "+__(year)+(typeof customer != "undefined" ? " "+customer.name : "")
-		.col-sm-6
-			.pull-right.page-title
-				label(for="changeyear")
-					=__("Change year")
-					!="&nbsp;&nbsp;"
-				.btn-group(style="display:inline-block")
-					a.btn.btn-primary(href="/invoices/?year="+year + (typeof customer != "undefined" ? "&customer=" + customer.id : ""))=__(year)
-					button.btn.btn-primary.dropdown-toggle(data-toggle="dropdown")#changeyear
-						span.caret
-					ul.dropdown-menu
-						li
-							a(href="/"+global.settings.dbName+"/invoices/?year=ALL Years" + (typeof customer != "undefined" ? "&customer=" + customer.id : ""))=__("ALL Years")
-						each year in years
-							li
-								a(href="/"+global.settings.dbName+"/invoices/?year="+year+(typeof customer != "undefined" ? "&customer="+customer.id : ""))=year
-	div
-		- if (typeof msg !== "undefined" && typeof msg.e !== "undefined" && msg.e.length)
-			.alert.alert-danger
-				h4=__("There are some errors")
-				ul
-					- for(var a=0;a<msg.e.length;a++)
-						li=msg.e[a].m
-		- if (typeof msg !== "undefined" && typeof msg.c !== "undefined" && msg.c.length)
-			.alert.alert-success
-				h4=__("There are some messages")
-				ul
-					- for(var a=0;a<msg.c.length;a++)
-						li=msg.c[a].m
-	.container_overflow.container_overflow_margin
-		table.table
-			thead
-				tr
-					th.tabActions=__("Actions")
-					th=__("Invoice number")
-					th=__("Invoice date")
-					th=__("Customer")
-					th=__("Payment")
-					th=__("Shipped to")
-					th=__("Offer")
-					th=__("Delivery date")
-					th.text-right=__("Subtotal")
-					th.text-right=__("VAT")
-					th.text-right=__("Shipping costs")
-					th.text-right=__("TOTAL")
-			tbody
-				each x, index in result
-					tr
-						td
-							div.btn-group
-								a.btn.btn-primary(href="/"+global.settings.dbName+"/invoice/?id="+x._id)=__("Edit")
-								button.btn.btn-primary.dropdown-toggle(data-toggle="dropdown")
-									span.caret
-								ul.dropdown-menu
-									li
-										a(href="/"+global.settings.dbName+"/invoice/?id="+x._id)=__("Edit")
-										a(href="/"+global.settings.dbName+"/invoice/?dup="+x._id)=__("Duplicate")
-										a(href="/" + global.settings.dbName + "/print/invoice/?id=" + x._id)=__("Print")
-										a(href="/" + global.settings.dbName + "/invoices/?id=" + x._id + "&del=" + 1)=__("Delete")
-						td
-							span.h3(style="margin-top:2px;display:inline-block;")
-								span(class=" label label-"+(typeof customer != "undefined" || parseInt(year)!=year ? "info" : x.invoice_number==result.length-index ? "success" : "danger"))=x.invoice_number
-						- dd = new Date(x.invoice_date)
-						td=dd.getDate()+"/"+(dd.getMonth()+1)+"/"+dd.getFullYear()
-						td
-							a(href="/"+global.settings.dbName+"/customer/?id="+x.to_client._id)=x.to_client.name
-						td=x.payment
-						td=x.destination
-						td=x.offer_number
-						- var dd=""
-						if x.delivery_date
-							- dd = x.delivery_date.getDate()+"/"+(x.delivery_date.getMonth()+1)+"/"+x.delivery_date.getFullYear()
-						td=dd
-						td.text-right=x.subtotal
-						td.text-right=x.vat_amount
-						td.text-right=x.shipping_costs
-						td.text-right=x.total
+  .row-offcanvas.row-offcanvas-left.cnt
+    include sidebar_accounting
+    #main
+      .col-md-12
+        .row
+          .col-sm-6
+            h1.page-title=__("Invoices")+" "+__(year)+(typeof customer != "undefined" ? " "+customer.name : "")
+          .col-sm-6
+            .pull-right.page-title
+              label(for="changeyear")
+                =__("Change year")
+                !="&nbsp;&nbsp;"
+              .btn-group(style="display:inline-block")
+                a.btn.btn-primary(href="/invoices/?year="+year + (typeof customer != "undefined" ? "&customer=" + customer.id : ""))=__(year)
+                button.btn.btn-primary.dropdown-toggle(data-toggle="dropdown")#changeyear
+                  span.caret
+                ul.dropdown-menu
+                  li
+                    a(href="/"+global.settings.dbName+"/invoices/?year=ALL Years" + (typeof customer != "undefined" ? "&customer=" + customer.id : ""))=__("ALL Years")
+                  each year in years
+                    li
+                      a(href="/"+global.settings.dbName+"/invoices/?year="+year+(typeof customer != "undefined" ? "&customer="+customer.id : ""))=year
+        div
+          - if (typeof msg !== "undefined" && typeof msg.e !== "undefined" && msg.e.length)
+            .alert.alert-danger
+              h4=__("There are some errors")
+              ul
+                - for(var a=0;a<msg.e.length;a++)
+                  li=msg.e[a].m
+          - if (typeof msg !== "undefined" && typeof msg.c !== "undefined" && msg.c.length)
+            .alert.alert-success
+              h4=__("There are some messages")
+              ul
+                - for(var a=0;a<msg.c.length;a++)
+                  li=msg.c[a].m
+        .container_overflow.container_overflow_margin
+          table.table
+            thead
+              tr
+                th.tabActions=__("Actions")
+                th=__("Invoice number")
+                th=__("Invoice date")
+                th=__("Customer")
+                th=__("Payment")
+                th=__("Shipped to")
+                th=__("Offer")
+                th=__("Delivery date")
+                th.text-right=__("Subtotal")
+                th.text-right=__("VAT")
+                th.text-right=__("Shipping costs")
+                th.text-right=__("TOTAL")
+            tbody
+              each x, index in result
+                tr
+                  td
+                    div.btn-group
+                      a.btn.btn-primary(href="/"+global.settings.dbName+"/invoice/?id="+x._id)=__("Edit")
+                      button.btn.btn-primary.dropdown-toggle(data-toggle="dropdown")
+                        span.caret
+                      ul.dropdown-menu
+                        li
+                          a(href="/"+global.settings.dbName+"/invoice/?id="+x._id)=__("Edit")
+                          a(href="/"+global.settings.dbName+"/invoice/?dup="+x._id)=__("Duplicate")
+                          a(href="/" + global.settings.dbName + "/print/invoice/?id=" + x._id)=__("Print")
+                          a(href="/" + global.settings.dbName + "/invoices/?id=" + x._id + "&del=" + 1)=__("Delete")
+                  td
+                    span.h3(style="margin-top:2px;display:inline-block;")
+                      span(class=" label label-"+(typeof customer != "undefined" || parseInt(year)!=year ? "info" : x.invoice_number==result.length-index ? "success" : "danger"))=x.invoice_number
+                  - dd = new Date(x.invoice_date)
+                  td=dd.getDate()+"/"+(dd.getMonth()+1)+"/"+dd.getFullYear()
+                  td
+                    a(href="/"+global.settings.dbName+"/customer/?id="+x.to_client._id)=x.to_client.name
+                  td=x.payment
+                  td=x.destination
+                  td=x.offer_number
+                  - var dd=""
+                  if x.delivery_date
+                    - dd = x.delivery_date.getDate()+"/"+(x.delivery_date.getMonth()+1)+"/"+x.delivery_date.getFullYear()
+                  td=dd
+                  td.text-right=x.subtotal
+                  td.text-right=x.vat_amount
+                  td.text-right=x.shipping_costs
+                  td.text-right=x.total

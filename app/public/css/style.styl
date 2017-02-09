@@ -1,121 +1,166 @@
 .cnt
-	margin-top 71px
+  margin-top 51px
 .submenu
-	background-color #F9F9F9
+  background-color #F9F9F9
 
-.submenu > a 
-	padding-left 20px
+.submenu > a
+  padding-left 20px
 legend.subheading
-	padding-top 10px
+  padding-top 10px
 .page-title
-	margin-top 0
-	margin-bottom 10px
+  margin-top 0
+  margin-bottom 10px
 th
-	white-space nowrap
+  white-space nowrap
 .tabCnt
-	min-width 710px
+  min-width 710px
 .tabQuantity
-	width 50px
+  width 50px
 .tabDescription
-	min-width 280px
+  min-width 280px
 .tabPrice
-	width 150px
+  width 150px
 .tabAmount
-	width 150px
+  width 150px
 .tabDelete
-	width 50px
+  width 50px
 .tabActions
-	min-width 130px
+  min-width 130px
 .nowrap
-	white-space:nowrap
-	
+  white-space nowrap
+
 .paddingright
-	padding-right:10px
+  padding-right 10px
 
 .paddingleft
-	padding-left:10px
+  padding-left 10px
 
 .print_body
-	background-color  #f9f9f9
-	
+  background-color  #f9f9f9
+
 .print_container
-	font-size  15px
-	background-color  #FFF
-	width  795px
-	min-height  1080px
-	margin 0 auto 0 auto
+  font-size  15px
+  background-color  #FFF
+  width  795px
+  min-height  1080px
+  margin 0 auto 0 auto
 .print_container header
-	font-size  18px
+  font-size  18px
 
 .print_container .quantity
-	width 60px
+  width 60px
 
 .print_container .description
-	width 280px
+  width 280px
 
 .print_container .price
-	width 90px
-	text-align right
+  width 90px
+  text-align right
 
 .print_container header .logo
-	margin  0 0 20px -15px
-	height  80px
-	font-size  35px
+  margin  0 0 20px -15px
+  height  80px
+  font-size  35px
 
 .print_container .print_data
-	margin  40px 0 20px 0
+  margin  40px 0 20px 0
 
 .print_container .print_items
-	min-height 570px
+  min-height 570px
 
 .print_container header .company_row2
-	color  #999
+  color  #999
 
 .cntPadd
-	padding 50px 50px 50px 125px
+  padding 50px 50px 50px 125px
 
 .print_data table
-	float  left
+  float  left
 
 .print_data_col1
-	float  left
-	width  55%
-	margin-right  5%
+  float  left
+  width  55%
+  margin-right  5%
 
 .print_data_col2
-	float  left
-	width  40%
+  float  left
+  width  40%
 
 .print_data table td
-	vertical-align  top
-	padding-bottom	5px
+  vertical-align  top
+  padding-bottom  5px
 .btn-group
-	display: flex;
+  display flex
 .modal-header h3
-	margin:0;
+  margin 0
 .glyphicon-refresh-animate
-	-animation: spin .7s infinite linear;
-	-webkit-animation: spin2 .7s infinite linear;
+  -animation spin .7s infinite linear
+  -webkit-animation spin2 .7s infinite linear
 .ui-menu
-	z-index 1000
+  z-index 1000
 @-webkit-keyframes spin2 {
-  from { -webkit-transform: rotate(0deg);}
-  to { -webkit-transform: rotate(360deg);}
+  from { -webkit-transform:rotate(0deg) }
+  to { -webkit-transform:rotate(360deg) }
 }
 
 @keyframes spin {
-  from { transform: scale(1) rotate(0deg);}
-  to { transform: scale(1) rotate(360deg);}
+  from { transform:scale(1) rotate(0deg) }
+  to { transform:scale(1) rotate(360deg) }
 }
-@media print 
-	body
-		padding  0
-	
-	.navbar,.noprint 
-		display  none
-	
-@media (max-width: 767px)
-	.container_overflow
-		overflow-x scroll
-	.container_overflow_margin
-		padding-bottom 150px
+@media print
+  body
+    padding  0
+
+  .navbar,.noprint
+    display  none
+
+@media (max-width 767px)
+  .container_overflow
+    overflow-x scroll
+  .container_overflow_margin
+    padding-bottom 150px
+
+
+body,html
+  height 100%
+
+.row-offcanvas
+  height 100%
+
+#sidebar
+  width inherit
+  min-width 220px
+  max-width 220px
+  background-color #f5f5f5
+  float left
+  height 100%
+  position relative
+  overflow-y auto
+  overflow-x hidden
+
+#main
+  height 100%
+  padding-top 20px
+  margin-left 220px
+
+.loading-big
+  font-size 38px
+
+@media screen and (max-width 768px)
+  .row-offcanvas
+    position relative
+    -webkit-transition all 0.25s ease-out
+    -moz-transition all 0.25s ease-out
+    transition all 0.25s ease-out
+    width calc(100% + 220px)
+
+
+  .row-offcanvas-left
+    left -220px
+
+  .row-offcanvas-left.active
+    left 0
+
+  .sidebar-offcanvas
+    position absolute
+    top 0
