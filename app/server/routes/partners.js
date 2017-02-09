@@ -3,6 +3,48 @@ var DB = require('./../helpers/db-manager');
 var helpers = require('./../helpers/helpers');
 var CT = require('../helpers/country-list');
 
+/* EXTRAS */
+
+exports.getExtras = function getExtras(req, res) {
+  helpers.canIseeThis(req, function (auth) {
+    if (auth) {
+      var msg = {};
+      if (req.query.id && req.query.del) {
+        DB.delete_partner(req.query.id, function(err, obj){
+          if (obj){
+            msg.c = [];
+            msg.c.push({name:"",m:__("Partner deleted successfully")});
+          } else {
+            msg.e = [];
+            msg.e.push({name:"",m:__("Partner not found")});
+          }
+        });
+      }
+      //var query = {"channels.0":{ $exists:true }};
+      var query = {};
+      DB.extras.find(query)/*.sort({brand: 1})*/.toArray(function (e, result) {
+        var sez = "";
+        console.log("sto qui");
+        //console.log(result);
+        if (req.params.import) {
+          console.log("importing spreadsheets");
+          /*helpers.getPartners(function(result){
+            //console.log(result);
+            DB.insert_partner(result,function() {
+              res.render('partners'+(sez ? "_"+sez : ""), { title: __("Partners"), project:req.params.project, result : result, msg: msg, udata : req.session.user, js:'/js/partners.js', bootstraptable:true  });
+            });
+          });*/
+        } else {
+          console.log(sez);
+          res.render('partners_extras', { title: __("Channels"), project:req.params.project, result : result, msg: msg, udata : req.session.user, js:'/js/partners.js', bootstraptable:true  });
+        }
+      });
+    } else {
+      res.redirect('/?from='+req.url);
+    }
+  });
+};
+
 /* PARTNERS */
 
 exports.getPartners = function getPartners(req, res) {
@@ -30,7 +72,7 @@ exports.getPartners = function getPartners(req, res) {
         if (req.params.project) sez = req.url.split(req.params.project)[1].split("/").join("");
         console.log(result.length);
         console.log(query);
-        if (!result.length && sez == "") {
+        if (req.params.import) {
           console.log("importing spreadsheets");
           helpers.getPartners(function(result){
             //console.log(result);
@@ -42,8 +84,6 @@ exports.getPartners = function getPartners(req, res) {
           console.log(sez);
           res.render('partners'+(sez ? "_"+sez : ""), { title: __("Partners"), project:req.params.project, result : result, msg: msg, udata : req.session.user, js:'/js/partners.js', bootstraptable:true  });
         }
-
-        console.log(sez);
       });
     } else {
       res.redirect('/?from='+req.url);

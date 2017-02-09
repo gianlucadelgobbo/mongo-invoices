@@ -5,7 +5,7 @@
       li(class=global.settings.currenturl.indexOf("/partners/")+10 == global.settings.currenturl.length ? "active" : undefined)
         a(href="/" + global.settings.dbName + "/partners/")=__("All Partners")
       li(class=global.settings.currenturl.lastIndexOf("/partners/facebookgroups/") == 12 ? "active" : undefined)
-        a(href="/" + global.settings.dbName + "/partners/facebookgroups/")=__("Facebook groups")
+        a(href="/" + global.settings.dbName + "/partners/extras/")=__("Extra Channels")
       li
         select.form-control(onchange="window.location=this.value")
           option=__("Please select a Project")

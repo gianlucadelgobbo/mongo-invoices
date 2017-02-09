@@ -247,5 +247,7 @@
 	"Extra Channels Check DONE": "Extra Channels Check DONE",
 	"Checking Not Project Channels": "Checking Not Project Channels",
 	"Project Not Channels Check DONE": "Project Not Channels Check DONE",
-	"Analize": "Analize"
+	"Analize": "Analize",
+	"N°": "N°",
+	"Partners Extra Channels": "Partners Extra Channels"
 }

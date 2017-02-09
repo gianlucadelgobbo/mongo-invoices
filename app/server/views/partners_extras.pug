@@ -1,0 +1,87 @@
+extends layout
+block content
+  .row-offcanvas.row-offcanvas-left.cnt
+    include sidebar_partners
+    #main
+      .col-md-12
+        h1.page-title=__("Extra Channels")
+        div
+          if (typeof msg !== "undefined" && typeof msg.e !== "undefined" && msg.e.length)
+            .alert.alert-danger
+              h4=__("There are some errors")
+              ul
+                - for(var a=0;a<msg.e.length;a++)
+                  li=msg.e[a].m
+          if (typeof msg !== "undefined" && typeof msg.c !== "undefined" && msg.c.length)
+            .alert.alert-success
+              h4=__("There are some messages")
+              ul
+                - for(var a=0;a<msg.c.length;a++)
+                  li=msg.c[a].m
+        .container_overflow.container_overflow_margin
+          table.table(data-toggle="table", data-sortable="true", data-toolbar="#toolbar", data-search="true", data-show-toggle="true", data-show-columns="true", data-show-export="true", data-minimum-count-columns="2", data-pagination="true", data-page-list="[10, 25, 50, 100, ALL]", data-show-footer="false", class="table table-hover")
+            thead
+              tr
+                th(data-field="index", data-sortable="true")=__("N°")
+                th(data-field="name", data-sortable="true")=__("Name")
+                th(data-field="channel", data-sortable="true")=__("Channel")
+                th(data-field="url", data-sortable="true")=__("URL")
+            tbody
+              if result
+                  - index = 0;
+                  each channel in result
+                    - console.log(channel)
+                    - index++
+
+                    tr
+                      td=index
+                      td
+                        b=channel.name
+                      //td=pp.group
+                      //td=pp.status
+
+                      td
+                        if channel.type == "FB-Page"
+                          i.icon-fontello-facebook-squared
+                          b!=" Page "
+                        else if channel.type == "FB-Group"
+                          i.icon-fontello-facebook-squared
+                          b!=" Group "
+                        else if channel.type == "FB-Profile"
+                          i.icon-fontello-facebook-squared
+                          b!=" Profile "
+                        else if channel.type == "Twitter"
+                          i.icon-fontello-twitter-squared
+                          b!=" Profile "
+                        else if channel.type == "Instagram"
+                          i.icon-fontello-instagram
+                          b!=" Profile "
+                        else if channel.type == "WebSite"
+                          i.glyphicon.glyphicon-globe
+                          b!=" WebSite "
+                        else
+                          i.glyphicon.glyphicon-globe
+                          b!=" " + channel.type + " "
+                      td
+                        a(href=channel.url,target="_blank")=channel.url
+                      //td=x.delegate
+                        td
+                          a(href="/" + global.settings.dbName + "/customer/?id=" + x._id)=x.brand
+                        td=x.avnode
+                        td=x.country
+                        td
+                          each website in x.websites
+                            a(href=website)!=website
+                        td
+                          each contact in x.contacts
+                            p(style="white-space: nowrap;")
+                              span!=contact.name + " " + contact.surname + " &lt;" + contact.email + "&gt;"
+                              !=" "
+                              span.label.label-info!=contact.lang
+                              !=" "
+                              each type in contact.types
+                                span.label.label-default!=type
+                        td
+
+
+

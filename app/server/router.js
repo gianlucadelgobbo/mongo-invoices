@@ -68,6 +68,7 @@ module.exports = function(app) {
 
   // Partners //
   app.get('/:dbname/partners', partnersRoutes.getPartners);
+  app.get('/:dbname/partners/extras/', partnersRoutes.getExtras);
   app.get('/:dbname/partners/partner/new', partnersRoutes.newPartner);
   app.post('/:dbname/partners/partner/new', partnersRoutes.setPartner);
   app.get('/:dbname/partners/partner/:partner', partnersRoutes.getPartner);
