@@ -227,11 +227,11 @@ block content
                 input(type="submit", value=__("SAVE")).btn.btn-success
                 - if (result._id)
                   span!="&nbsp;"
-                  input(type="button", value=__("MAKE INVOICE"), onclick="window.location='/" + global.settings.dbName + "/invoice/?offer=" + result._id + "'").btn.btn-primary
+                  input(type="button", value=__("MAKE INVOICE"), onclick="window.location='/"+global.settings.dbName+"/accounting/invoice/?offer=" + result._id + "'").btn.btn-primary
                   span!="&nbsp;"
-                  input(type="button", value=__("DUPLICATE"), onclick="window.location='/" + global.settings.dbName + "/offer/?dup=" + result._id + "'").btn.btn-primary
+                  input(type="button", value=__("DUPLICATE"), onclick="window.location='/"+global.settings.dbName+"/accounting/offer/?dup=" + result._id + "'").btn.btn-primary
                   span!="&nbsp;"
-                  input(type="button", value=__("PRINT"), onclick="window.location='/" + global.settings.dbName + "/print/offer/?id=" + result._id + "'").btn.btn-primary
+                  input(type="button", value=__("PRINT"), onclick="window.location='/"+global.settings.dbName+"/accounting/print/offer/?id=" + result._id + "'").btn.btn-primary
 
 
         - if (result.revisions)

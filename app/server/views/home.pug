@@ -1,38 +1,42 @@
 extends layout
 block content
-	.row
-		.col-sm-4
-			div.well
-				h1=__('Customers')
-				ul
-					li
-						a(href="/"+global.settings.dbName+"/customers")
-						span=__("Customers")
-					li
-						a(href="/"+global.settings.dbName+"/customer")
-						span=__("New customer")
-				hr
+  .row-offcanvas.row-offcanvas-left.cnt
+    include sidebar_accounting
+    #main
+      .col-md-12
+        .row
+          .col-sm-4
+            div.well
+              h1=__('Customers')
+              ul
+                li
+                  a(href="/"+global.settings.dbName+"/customers")
+                  span=__("Customers")
+                li
+                  a(href="/"+global.settings.dbName+"/customer")
+                  span=__("New customer")
+              hr
 
-		.col-sm-4
-			div.well
-				h1=__('Offers')
-				ul
-					li
-						a(href="/"+global.settings.dbName+"/invoices")
-						span=__("Invoices")
-					li
-						a(href="/"+global.settings.dbName+"/invoice")
-						span=__("New invoice")
-				hr
+          .col-sm-4
+            div.well
+              h1=__('Offers')
+              ul
+                li
+                  a(href="/"+global.settings.dbName+"/invoices")
+                  span=__("Invoices")
+                li
+                  a(href="/"+global.settings.dbName+"/invoice")
+                  span=__("New invoice")
+              hr
 
-		.col-sm-4
-			div.well
-				h1=__('Invoices')
-				ul
-					li
-						a(href="/"+global.settings.dbName+"/offers")
-						span=__("Offers")
-					li
-						a(href="/"+global.settings.dbName+"/offer")
-						span=__("New offer")
-				hr
+          .col-sm-4
+            div.well
+              h1=__('Invoices')
+              ul
+                li
+                  a(href="/"+global.settings.dbName+"/offers")
+                  span=__("Offers")
+                li
+                  a(href="/"+global.settings.dbName+"/offer")
+                  span=__("New offer")
+              hr

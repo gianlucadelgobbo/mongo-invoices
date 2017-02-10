@@ -79,7 +79,7 @@ exports.post = function post(req, res) {
                       msg.c = [];
                       msg.c.push({name:"",m:__("Invoice saved with success")});
                     }
-                    res.redirect('/'+global.settings.dbName+'/invoice/?id='+o._id.toString());
+                    res.redirect('/'+global.settings.dbName+'/accounting/invoice/?id='+o._id.toString());
 //                  res.render('invoice', {  title: __("Invoice"), country:global._config.company.country, result : helpers.formatMoney(o[0]), msg:msg, udata : req.session.user });
                   });
                 }
@@ -166,7 +166,7 @@ exports.print = function print(req, res) {
           });
         });
       } else {
-        res.redirect('/invoices');
+        res.redirect('/'+global.settings.dbName+'/accounting/invoices');
       }
     } else {
       res.redirect('/?from='+req.url);
