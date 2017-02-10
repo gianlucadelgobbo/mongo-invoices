@@ -20,7 +20,7 @@ $(function() {
 	//autocomplete
 	to_client.autocomplete({
 		source: function(req,res){
-			getAutoCompleteList(req,"/api/customers");
+			getAutoCompleteList(req,"/api/accounting/customers");
 			var x = [];
 			for(var i=0;i<queryResult.length;i++){
 				x[i] = {"label" : queryResult[i].name, "value" : queryResult[i].name, idx : i};
@@ -41,7 +41,7 @@ $(function() {
 	});
 	$('#payment').autocomplete({
 		source: function(req,res){
-			getAutoCompleteList(req,"/api/payments");
+			getAutoCompleteList(req,"/api/accounting/payments");
 			var x = [];
 			for(var i=0;i<queryResult.length;i++){
 				x[i] = {"label" : queryResult[i], "value" : queryResult[i], idx : i};
@@ -113,7 +113,7 @@ function setBinds(){
 	});
 	$('.description').autocomplete({
 		source: function(req,res){
-			getAutoCompleteList(req,"/api/products");
+			getAutoCompleteList(req,"/api/accounting/products");
 			var x = [];
 			for(var i=0;i<queryResult.length;i++){
 				x[i] = {"label" : queryResult[i], "value" : queryResult[i], idx : i};
@@ -132,7 +132,7 @@ function checkDate() {
 	var offer_date = $("#offer_date");
 	var d = offer_date.val().split("/");
 	$.ajax({
-		url: "/api/offers",
+		url: "/api/accounting/offers",
 		dataType: "json",
 		data: {
 			ajax: true,

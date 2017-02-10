@@ -13,15 +13,15 @@ block content
                 =__("Change year")
                 !="&nbsp;&nbsp;"
               .btn-group(style="display:inline-block")
-                a.btn.btn-primary(href="/invoices/?year="+year + (typeof customer != "undefined" ? "&customer=" + customer.id : ""))=__(year)
+                a.btn.btn-primary(href="/"+global.settings.dbName+"/accounting/invoices/?year="+year + (typeof customer != "undefined" ? "&customer=" + customer.id : ""))=__(year)
                 button.btn.btn-primary.dropdown-toggle(data-toggle="dropdown")#changeyear
                   span.caret
                 ul.dropdown-menu
                   li
-                    a(href="/"+global.settings.dbName+"/invoices/?year=ALL Years" + (typeof customer != "undefined" ? "&customer=" + customer.id : ""))=__("ALL Years")
+                    a(href="/"+global.settings.dbName+"/accounting/invoices/?year=ALL Years" + (typeof customer != "undefined" ? "&customer=" + customer.id : ""))=__("ALL Years")
                   each year in years
                     li
-                      a(href="/"+global.settings.dbName+"/invoices/?year="+year+(typeof customer != "undefined" ? "&customer="+customer.id : ""))=year
+                      a(href="/"+global.settings.dbName+"/accounting/invoices/?year="+year+(typeof customer != "undefined" ? "&customer="+customer.id : ""))=year
         div
           - if (typeof msg !== "undefined" && typeof msg.e !== "undefined" && msg.e.length)
             .alert.alert-danger
@@ -56,15 +56,15 @@ block content
                 tr
                   td
                     div.btn-group
-                      a.btn.btn-primary(href="/"+global.settings.dbName+"/invoice/?id="+x._id)=__("Edit")
+                      a.btn.btn-primary(href="/"+global.settings.dbName+"/accounting/invoice/?id="+x._id)=__("Edit")
                       button.btn.btn-primary.dropdown-toggle(data-toggle="dropdown")
                         span.caret
                       ul.dropdown-menu
                         li
-                          a(href="/"+global.settings.dbName+"/invoice/?id="+x._id)=__("Edit")
-                          a(href="/"+global.settings.dbName+"/invoice/?dup="+x._id)=__("Duplicate")
-                          a(href="/" + global.settings.dbName + "/print/invoice/?id=" + x._id)=__("Print")
-                          a(href="/" + global.settings.dbName + "/invoices/?id=" + x._id + "&del=" + 1)=__("Delete")
+                          a(href="/"+global.settings.dbName+"/accounting/invoice/?id="+x._id)=__("Edit")
+                          a(href="/"+global.settings.dbName+"/accounting/invoice/?dup="+x._id)=__("Duplicate")
+                          a(href="/" + global.settings.dbName + "/accounting/print/invoice/?id=" + x._id)=__("Print")
+                          a(href="/" + global.settings.dbName + "/accounting/invoices/?id=" + x._id + "&del=" + 1)=__("Delete")
                   td
                     span.h3(style="margin-top:2px;display:inline-block;")
                       span(class=" label label-"+(typeof customer != "undefined" || parseInt(year)!=year ? "info" : x.invoice_number==result.length-index ? "success" : "danger"))=x.invoice_number

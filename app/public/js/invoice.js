@@ -17,7 +17,7 @@ $(function() {
 	//autocomplete
 	to_client.autocomplete({
 		source: function(req,res){
-			getAutoCompleteList(req,"/api/customers");
+			getAutoCompleteList(req,"/api/accounting/customers");
 			var x = [];
 			for(var i=0;i<queryResult.length;i++){
 				x[i] = {"label" : queryResult[i].name, "value" : queryResult[i].name, idx : i};
@@ -38,7 +38,7 @@ $(function() {
 	});
 	$('#payment').autocomplete({
 		source: function(req,res){
-			getAutoCompleteList(req,"/api/payments");
+			getAutoCompleteList(req,"/api/accounting/payments");
 			var x = [];
 			for(var i=0;i<queryResult.length;i++){
 				x[i] = {"label" : queryResult[i], "value" : queryResult[i], idx : i};
@@ -101,7 +101,7 @@ function showOffers() {
 	showModal("alert", "Loading...");
 	$.ajax({
 		'async': false,
-		url: "/api/offers",
+		url: "/api/accounting/offers",
 		dataType: "json",
 		success: function( data ) {
 			var str = "<div class=\"list-group\">";
@@ -137,7 +137,7 @@ function setBinds(){
 	});
 	$('.description').autocomplete({
 		source: function(req,res){
-			getAutoCompleteList(req,"/api/products");
+			getAutoCompleteList(req,"/api/accounting/products");
 			var x = [];
 			for(var i=0;i<queryResult.length;i++){
 				x[i] = {"label" : queryResult[i], "value" : queryResult[i], idx : i};
@@ -156,7 +156,7 @@ function checkDate() {
 	var invoice_date = $("#invoice_date");
 	var d = invoice_date.val().split("/");
 	$.ajax({
-		url: "/api/invoices",
+		url: "/api/accounting/invoices",
 		dataType: "json",
 		data: {
 			ajax: true,
