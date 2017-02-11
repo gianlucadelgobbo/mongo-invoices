@@ -355,8 +355,10 @@ exports.setAction = function setAction(req, res) {
               } else {
                 e.push({m:__("Action saved with success")});
                 if (req.body.ajax) {
+                  console.log("req.body.ajax");
                   res.status(200).send({msg:{c:e}});
                 } else {
+                  console.log("req.body. no   ajax");
                   DB.actions.findOne({_id:new ObjectID(req.body._id)},function(err, result) {
                     res.render('partners_actions_new', { title: __("Action"), project:req.params.project, result : result, msg: {c:e}, udata : req.session.user, js:'/js/partners.js' });
                   });

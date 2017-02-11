@@ -638,8 +638,8 @@ function saveAnalysis() {
   $.ajax({
     type: "POST",
     url: "/"+dbName+"/partners/"+action.project+"/actions/"+action._id+"/edit",
-    data: action,
-    dataType: "json",
+    data: action/*,
+    dataType: "json",*/
   }).done(function (msg){
     console.log("Analisis SAVE end");
     console.log(msg);
