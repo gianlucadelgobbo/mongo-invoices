@@ -338,9 +338,6 @@ exports.setAction = function setAction(req, res) {
             res.render('partners_actions_new', { title: __("Action"), project:req.params.project, result : o, msg: {e:e}, udata : req.session.user, js:'/js/partners.js' });
           }
         } else {
-          delete o.ajax;
-          delete o.dbName;
-
           if (req.body._id) {
             //var id = req.body.id;
             DB.update_action(o, function(o){
