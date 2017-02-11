@@ -88,9 +88,9 @@ function startAnalysis() {
 }
 function startCheck() {
   console.log("startCheck");
-  var start;
-  for (var item in checkStatus) start = checkStatus[item];
-  if (start) checkChannels();
+  var start = [];
+  for (var item in checkStatus) start.push(checkStatus[item]);
+  if (start.indexOf(false)==-1) checkChannels();
 }
 function checkFBPostActivities() {
   console.log("checkFBPostActivities");
@@ -535,7 +535,8 @@ function FBchannelUrlFormatter(value, row, index) {
   //return "https://fb.com/"+row.id+"";
 }
 function FBchannelPartnerLinkFormatter(value, row, index) {
-  return "<a href=\"/"+dbName+"/partners/partner/"+row._id+"/\" target=\"_blank\">"+row.name+"</a>";
+  var url = row._id ? "/"+dbName+"/partners/partner/"+row._id+"/" : row.url;
+  return "<a href=\""+url+"\" target=\"_blank\">"+row.name+"</a>";
 }
 function FBchannelTimeFormatter(value, row, index) {
   var d = new Date(row.lastpost);

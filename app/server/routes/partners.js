@@ -71,7 +71,7 @@ exports.getPartners = function getPartners(req, res) {
         //console.log(result);
         if (req.params.project) sez = req.url.split(req.params.project)[1].split("/").join("");
         console.log(result.length);
-        console.log(req);
+        //console.log(req);
         if (req.query.import) {
           console.log("importing spreadsheets");
           helpers.getPartners(function(result){
