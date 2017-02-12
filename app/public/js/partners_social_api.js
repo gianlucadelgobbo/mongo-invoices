@@ -46,8 +46,17 @@ function FBlogin() {
 
 function loadAnalysis(id) {
   console.log("loadAnalysis "+id);
+  conta = chIndex = 0;
   currentAnalysis = id;
   console.log(action.analysis[id]);
+  $("#analysisList").addClass("hide");
+  $("#startAnalysis").addClass("hide");
+  $("#analysisResults").removeClass("hide");
+  if (action.facebook) drawFBPostActivities();
+  if (action.twitter) drawTWPostActivities();
+  drawChannels();
+  drawExtraFBGroups();
+  drawnot_partners();
 }
 function startAnalysis() {
   console.log("startAnalysis");
@@ -92,6 +101,7 @@ function startCheck() {
   for (var item in checkStatus) start.push(checkStatus[item]);
   if (start.indexOf(false)==-1) checkChannels();
 }
+
 function checkFBPostActivities() {
   console.log("checkFBPostActivities");
   FB.getLoginStatus(function(res) {
@@ -101,7 +111,6 @@ function checkFBPostActivities() {
     }
   });
 }
-
 function getFBPostActivities(accessToken) {
   console.log("getFBPostActivities");
   var results = {};
@@ -141,12 +150,12 @@ function getFBPostActivities(accessToken) {
   });
 }
 function drawFBPostActivities(){
-  console.log("drawResult");
+  console.log("drawFBPostActivities");
+  console.log(action.analysis[currentAnalysis].facebook);
   $.ajax({
     type: "POST",
     url: "/ajax/drawFBPostActivities",
-    data: action,
-    dataType: "html",
+    data: action.analysis[currentAnalysis].facebook,
   }).done(function (html){
     $("#res_FB").html(html);
     $("#logAnalysis .statusFacebookCheck").addClass("hide");
@@ -156,8 +165,8 @@ function drawFBPostActivities(){
 function getFBNext(o, accessToken, callback){
   console.log("getFBNext");
   var obj = o;
-  console.log(obj.data);
-  if (obj.paging && obj.paging.next) {
+  if (obj) console.log(obj.data);
+  if (obj && obj.paging && obj.paging.next) {
     FB.api(obj.paging.next, 'get', {access_token:accessToken}, function (results) {
       console.log(results);
       for (var item in obj.data) results.data.push(obj.data[item]);
@@ -181,43 +190,6 @@ function getFBNext(o, accessToken, callback){
 
 function checkChannels() {
   console.log("checkChannels");
-  $('#table').bootstrapTable('destroy').bootstrapTable({
-    columns: [
-      {field: 'index', title: 'Index', sortable: true},
-      {field: 'name', title: 'Name', sortable: true, formatter: "FBchannelPartnerLinkFormatter"},
-      {field: 'type', title: 'Type', sortable: true, formatter: "FBchannelTypeFormatter"},
-      {field: 'url', title: 'Url', sortable: true, formatter: "FBchannelUrlFormatter"},
-      {field: 'lastpost', title: 'Last Post', sortable: true, formatter: "FBchannelTimeFormatter"},
-      {field: 'likes', title: 'Members/Likes', sortable: true},
-      {field: 'sharedpost', title: 'Shared', sortable: true, formatter: "FBchannelShareFormatter", sorter: "FBchannelShareSorter"},
-      {field: 'liked', title: 'Liked', sortable: true, formatter: "FBchannelLikedFormatter"},
-      {field: 'commented', title: 'Commented', sortable: true, formatter: "FBchannelCommentedFormatter"}
-    ]
-  });
-  $('#table_extras').bootstrapTable('destroy').bootstrapTable({
-    columns: [
-      {field: 'index', title: 'Index', sortable: true},
-      {field: 'name', title: 'Name', sortable: true, formatter: "FBchannelUrlFormatter"},
-      {field: 'type', title: 'Type', sortable: true, formatter: "FBchannelTypeFormatter"},
-      {field: 'lastpost', title: 'Last Post', sortable: true, formatter: "FBchannelTimeFormatter"},
-      {field: 'likes', title: 'Members/Likes', sortable: true},
-      {field: 'sharedpost', title: 'Shared', sortable: true, formatter: "FBchannelShareFormatter", sorter: "FBchannelShareSorter"},
-      {field: 'liked', title: 'Liked', sortable: true, formatter: "FBchannelLikedFormatter"},
-      {field: 'commented', title: 'Commented', sortable: true, formatter: "FBchannelCommentedFormatter"}
-    ]
-  });
-  $('#table_not_partners').bootstrapTable('destroy').bootstrapTable({
-    columns: [
-      {field: 'index', title: 'Index', sortable: true},
-      {field: 'name', title: 'Name', sortable: true, formatter: "FBchannelUrlFormatter"},
-      {field: 'type', title: 'Type', sortable: true, formatter: "FBchannelTypeFormatter"},
-      {field: 'lastpost', title: 'Last Post', sortable: true, formatter: "FBchannelTimeFormatter"},
-      {field: 'likes', title: 'Members/Likes', sortable: true},
-      {field: 'sharedpost', title: 'Shared', sortable: true, formatter: "FBchannelShareFormatter", sorter: "FBchannelShareSorter"},
-      {field: 'liked', title: 'Liked', sortable: true, formatter: "FBchannelLikedFormatter"},
-      {field: 'commented', title: 'Commented', sortable: true, formatter: "FBchannelCommentedFormatter"}
-    ]
-  });
   conta = chIndex = 0;
   setTimeout(checkChannel(), 500);
 }
@@ -243,38 +215,102 @@ function checkChannel() {
     }
   } else {
     console.log("checkChannels End");
+    drawChannels();
     $("#logAnalysis .statusChannelsCheck").addClass("hide");
     $("#logAnalysis .statusChannelsCheckDone").removeClass("hide");
     getNotPartners();
     if (action.fbgroups) checkExtraFBGroups();
   }
 }
+function drawChannels() {
+  console.log("drawChannels");
+  $('#table').bootstrapTable('destroy').bootstrapTable({
+    columns: [
+      {field: 'index', title: 'Index', sortable: true},
+      {field: 'name', title: 'Name', sortable: true, formatter: "FBchannelPartnerLinkFormatter"},
+      {field: 'type', title: 'Type', sortable: true, formatter: "FBchannelTypeFormatter"},
+      {field: 'url', title: 'Url', sortable: true, formatter: "FBchannelUrlFormatter"},
+      {field: 'lastpost', title: 'Last Post', sortable: true, formatter: "FBchannelTimeFormatter"},
+      {field: 'likes', title: 'Members/Likes', sortable: true},
+      {field: 'sharedpost', title: 'Shared', sortable: true, formatter: "FBchannelShareFormatter", sorter: "FBchannelShareSorter"},
+      {field: 'liked', title: 'Liked', sortable: true, formatter: "FBchannelLikedFormatter"},
+      {field: 'commented', title: 'Commented', sortable: true, formatter: "FBchannelCommentedFormatter"}
+    ]
+  });
+  action.analysis[currentAnalysis].channels.forEach(function (ch, chIndex) {
+    console.log(ch.type);
+    switch (ch.type) {
+      case "FB-Group" :
+      case "FB-Page" :
+      case "FB-Profile" :
+        $('#table').bootstrapTable('insertRow', {
+          index: chIndex,
+          row: {
+            index: chIndex,
+            name: ch.brand,
+            _id: ch._id,
+            id: ch.id,
+            type: ch.type,
+            profilename: ch.profilename,
+            url: ch.url,
+            lastpost: ch.lastpost,
+            likes: ch.likes,
+            sharedpost: ch.sharedpost,
+            liked: ch.liked,
+            commented: ch.commented
+          }
+        });
+        break;
+      case "Twitter" :
+        $('#table').bootstrapTable('insertRow', {
+          index: chIndex,
+          row: {
+            index: chIndex,
+            name: ch.brand,
+            _id: ch._id,
+            id: ch.id,
+            type: ch.type,
+            profilename: ch.profilename,
+            url: ch.url,
+            lastpost: ch.lastpost,
+            likes: ch.likes,
+            sharedpost: ch.sharedpost,
+            liked: ch.liked
+          }
+        });
+        break;
+      default :
+        $('#table').bootstrapTable('insertRow', {
+          index: chIndex,
+          row: {
+            index: chIndex,
+            name: ch.brand,
+            _id: ch._id,
+            id: "-",
+            type: ch.type,
+            profilename: ch.profilename,
+            url: ch.url,
+            lastpost: "-",
+            likes: "-",
+            sharedpost: "-",
+            liked: "-",
+            commented: "-"
+          }
+        });
+        break;
+    }
+  });
+}
 
 function checkChannelNOTMonitoredchannel(ch) {
   if (!action.analysis[currentAnalysis].channels) action.analysis[currentAnalysis].channels = [];
   action.analysis[currentAnalysis].channels.push(ch);
-  $('#table').bootstrapTable('insertRow', {
-    index: chIndex,
-    row: {
-      index: chIndex,
-      name: ch.brand,
-      _id: ch._id,
-      id: "-",
-      type: ch.type,
-      profilename: ch.profilename,
-      url: ch.url,
-      lastpost: "-",
-      likes: "-",
-      sharedpost: "-",
-      liked: "-",
-      commented: "-"
-    }
-  });
   chIndex++;
   $("#test").html(JSON.stringify(action, null, '\t'));
   setTimeout(checkChannel(), 500);
 }
-function checkChannelTWchannel(ch, likes) {
+function checkChannelTWchannel(channel, likes) {
+  var ch = channel;
   console.log("checkChannelTWchannel");
   console.log(ch);
   var data = ch.url.split("/");
@@ -289,38 +325,27 @@ function checkChannelTWchannel(ch, likes) {
   .done(function( data ) {
     var result = JSON.parse(data)[0];
     console.log(result);
-    ch.id = result.id;
+    ch.id = result.id.toString();
     ch.likes = result.followers_count;
     ch.lastpost = result.status.created_at;
     ch.liked = false;
     ch.sharedpost = {};
-    for (var item in action.analysis[currentAnalysis].twitter.likes)
-      if (action.analysis[currentAnalysis].twitter.likes[item].id == ch.id)
-        ch.liked = true;
-    if (action.analysis[currentAnalysis].twitter.retweets)
-      for (var item2 in action.analysis[currentAnalysis].twitter.retweets)
-        if (action.analysis[currentAnalysis].twitter.retweets[item2].id == ch.id)
-          ch.sharedpost = action.analysis[currentAnalysis].twitter.retweets[item2];
+
+    if (action.analysis[currentAnalysis].twitter) {
+      if (action.analysis[currentAnalysis].twitter.likes)
+        for (var item in action.analysis[currentAnalysis].twitter.likes)
+          if (action.analysis[currentAnalysis].twitter.likes[item].id.toString() == ch.id)
+            ch.liked = true;
+      if (action.analysis[currentAnalysis].twitter.retweets)
+        for (var item2 in action.analysis[currentAnalysis].twitter.retweets)
+          if (action.analysis[currentAnalysis].twitter.retweets[item2].user.id.toString() == ch.id)
+            ch.sharedpost = action.analysis[currentAnalysis].twitter.retweets[item2];
+    }
+
     if (!action.analysis[currentAnalysis].channels) action.analysis[currentAnalysis].channels = [];
     action.analysis[currentAnalysis].channels.push(ch);
     if (!action.analysis[currentAnalysis].channels_ids) action.analysis[currentAnalysis].channels_ids = [];
     action.analysis[currentAnalysis].channels_ids.push(ch.id.toString());
-    $('#table').bootstrapTable('insertRow', {
-      index: chIndex,
-      row: {
-        index: chIndex,
-        name: ch.brand,
-        _id: ch._id,
-        id: ch.id,
-        type: ch.type,
-        profilename: ch.profilename,
-        url: ch.url,
-        lastpost: ch.lastpost,
-        likes: ch.likes,
-        sharedpost: ch.sharedpost,
-        liked: ch.liked
-      }
-    });
     chIndex++;
     $("#test").html(JSON.stringify(action, null, '\t'));
     setTimeout(checkChannel(), 500);
@@ -339,22 +364,26 @@ function checkChannelFBchannel(ch, likes) {
       ch.commented = false;
       ch.lastpost = posts.data && posts.data[0] && posts.data[0].created_time ? posts.data[0].created_time : "-";
 
-      for (var item in action.analysis[currentAnalysis].facebook.likes.data)
-        if (action.analysis[currentAnalysis].facebook.likes.data[item].id == ch.id)
-          ch.liked = true;
-      if (action.analysis[currentAnalysis].facebook.sharedposts)
-        for (var item2 in action.analysis[currentAnalysis].facebook.sharedposts.data)
-          if (action.analysis[currentAnalysis].facebook.sharedposts.data[item2].id.split("_")[0] == ch.id)
-            ch.sharedpost = action.analysis[currentAnalysis].facebook.sharedposts.data[item2];
+      if (action.analysis[currentAnalysis].facebook){
+        if (action.analysis[currentAnalysis].facebook.likes)
+          for (var item in action.analysis[currentAnalysis].facebook.likes.data)
+            if (action.analysis[currentAnalysis].facebook.likes.data[item].id == ch.id)
+              ch.liked = true;
+        if (action.analysis[currentAnalysis].facebook.sharedposts)
+          for (var item2 in action.analysis[currentAnalysis].facebook.sharedposts.data)
+            if (action.analysis[currentAnalysis].facebook.sharedposts.data[item2].id.split("_")[0] == ch.id)
+              ch.sharedpost = action.analysis[currentAnalysis].facebook.sharedposts.data[item2];
+        if (action.analysis[currentAnalysis].facebook.comments)
+          for (var item3 in action.analysis[currentAnalysis].facebook.comments.data)
+            if (action.analysis[currentAnalysis].facebook.comments.data[item3].id == ch.id)
+              ch.commented = true;
+      }
 
-
-      for (var item3 in action.analysis[currentAnalysis].facebook.comments.data)
-        if (action.analysis[currentAnalysis].facebook.comments.data[item3].id == ch.id)
-          ch.commented = true;
       if (!action.analysis[currentAnalysis].channels) action.analysis[currentAnalysis].channels = [];
       action.analysis[currentAnalysis].channels.push(ch);
       if (!action.analysis[currentAnalysis].channels_ids) action.analysis[currentAnalysis].channels_ids = [];
       action.analysis[currentAnalysis].channels_ids.push(ch.id);
+      /*
       $('#table').bootstrapTable('insertRow', {
         index: chIndex,
         row: {
@@ -372,6 +401,7 @@ function checkChannelFBchannel(ch, likes) {
           commented: ch.commented
         }
       });
+       */
       chIndex++;
       $("#test").html(JSON.stringify(action, null, '\t'));
       setTimeout(checkChannel(), 500);
@@ -384,111 +414,141 @@ function getNotPartners() {
   console.log("getNotPartners");
   action.analysis[currentAnalysis].not_partners = [];
   var not_partners = {};
-  for (var item in action.analysis[currentAnalysis].facebook.likes.data)
-    if (action.analysis[currentAnalysis].channels_ids.indexOf(action.analysis[currentAnalysis].facebook.likes.data[item].id) == -1){
-      var ch = action.analysis[currentAnalysis].facebook.likes.data[item];
-      console.log("liked");
-      console.log(ch);
-      if (!not_partners[ch.id]) {
-        not_partners[ch.id] = {
-          id: ch.id,
-          type: "FB",
-          profilename: ch.name,
-          lastpost: "-",
-          url: "https://facebook.com/"+ch.id,
-          //likes: ch.likes,
-          sharedpost: {},
-          liked: false,
-          commented: false
-        };
-      }
-      not_partners[ch.id].liked = true;
-    }
-  if (action.analysis[currentAnalysis].facebook.sharedposts)
-    for (var item2 in action.analysis[currentAnalysis].facebook.sharedposts.data)
-      if (action.analysis[currentAnalysis].channels_ids.indexOf(action.analysis[currentAnalysis].facebook.sharedposts.data[item2].id.split("_")[0]) == -1) {
-        var ch = action.analysis[currentAnalysis].facebook.sharedposts.data[item2];
-        console.log("fb shared");
-        console.log(ch);
-        if (!not_partners[ch.from.id]) {
-          not_partners[ch.from.id] = {
-            id: ch.from.id,
-            type: "FB",
-            profilename: ch.from.name,
-            lastpost: "-",
-            //likes: ch.likes,
-            sharedpost: {},
-            liked: false,
-            commented: false
-          };
-        }
-        not_partners[ch.from.id].sharedpost = ch;
-      }
 
-  for (var item3 in action.analysis[currentAnalysis].facebook.comments.data)
-    if (action.analysis[currentAnalysis].channels_ids.indexOf(action.analysis[currentAnalysis].facebook.comments.data[item3].id) == -1){
-      var ch = action.analysis[currentAnalysis].facebook.comments.data[item3];
-      console.log("fb commented");
-      console.log(ch);
-      if (!not_partners[ch.from.id]) {
-        not_partners[ch.from.id] = {
-          id: ch.from.id,
-          type: "FB",
-          profilename: ch.from.name,
-          lastpost: "-",
-          //likes: ch.likes,
-          sharedpost: {},
-          liked: false,
-          commented: false
-        };
-      }
-      not_partners[ch.from.id].commented = true;
-    }
-  for (var item in action.analysis[currentAnalysis].twitter.likes)
-    if (action.analysis[currentAnalysis].channels_ids.indexOf(action.analysis[currentAnalysis].twitter.likes[item].id) == -1){
-      var ch = action.analysis[currentAnalysis].twitter.likes[item];
-      console.log("twitter liked");
-      console.log(ch);
-      if (!not_partners[ch.id]) {
-        not_partners[ch.id] = {
-          id: ch.id,
-          type: "Twitter",
-          profilename: ch.profilename,
-          lastpost: "-",
-          url: ch.url,
-          //likes: ch.likes,
-          sharedpost: {},
-          liked: true
-        };
-      }
-      not_partners[ch.id].liked = true;
-    }
-  if (action.analysis[currentAnalysis].twitter.retweets)
-    for (var item2 in action.analysis[currentAnalysis].twitter.retweets)
-      if (action.analysis[currentAnalysis].channels_ids.indexOf(action.analysis[currentAnalysis].twitter.retweets[item2].user.id) == -1) {
-        var ch = action.analysis[currentAnalysis].twitter.retweets[item2];
-        console.log("twitter retweetted");
-        console.log(ch);
-        if (!not_partners[ch.user.id]) {
-          not_partners[ch.user.id] = {
-            id: ch.user.id,
-            type: "Twitter",
-            profilename: ch.user.name,
-            lastpost: "-",
-            url: "https://twitter.com/"+ch.user.screen_name,
-            //likes: ch.likes,
-            sharedpost: {},
-            liked: false
-          };
+  /* CHECK FACEBOOK NOT PARTNERS */
+  if (action.analysis[currentAnalysis].facebook){
+    if (action.analysis[currentAnalysis].facebook.likes)
+      for (var item in action.analysis[currentAnalysis].facebook.likes.data)
+        if (action.analysis[currentAnalysis].channels_ids.indexOf(action.analysis[currentAnalysis].facebook.likes.data[item].id) == -1){
+          var ch = action.analysis[currentAnalysis].facebook.likes.data[item];
+          console.log("liked");
+          console.log(ch);
+          if (!not_partners[ch.id]) {
+            not_partners[ch.id] = {
+              id: ch.id,
+              type: "FB",
+              profilename: ch.name,
+              lastpost: "-",
+              url: "https://facebook.com/"+ch.id,
+              //likes: ch.likes,
+              sharedpost: {},
+              liked: false,
+              commented: false
+            };
+          }
+          not_partners[ch.id].liked = true;
         }
-        not_partners[ch.user.id].sharedpost = ch;
+    if (action.analysis[currentAnalysis].facebook.sharedposts)
+      for (var item2 in action.analysis[currentAnalysis].facebook.sharedposts.data)
+        if (action.analysis[currentAnalysis].channels_ids.indexOf(action.analysis[currentAnalysis].facebook.sharedposts.data[item2].id.split("_")[0]) == -1) {
+          var ch = action.analysis[currentAnalysis].facebook.sharedposts.data[item2];
+          console.log("fb shared");
+          console.log(ch);
+          if (!not_partners[ch.from.id]) {
+            not_partners[ch.from.id] = {
+              id: ch.from.id,
+              type: "FB",
+              profilename: ch.from.name,
+              lastpost: "-",
+              //likes: ch.likes,
+              sharedpost: {},
+              liked: false,
+              commented: false
+            };
+          }
+          not_partners[ch.from.id].sharedpost = ch;
+        }
+    if (action.analysis[currentAnalysis].facebook.comments)
+      for (var item3 in action.analysis[currentAnalysis].facebook.comments.data)
+        if (action.analysis[currentAnalysis].channels_ids.indexOf(action.analysis[currentAnalysis].facebook.comments.data[item3].id) == -1){
+          var ch = action.analysis[currentAnalysis].facebook.comments.data[item3];
+          console.log("fb commented");
+          console.log(ch);
+          if (!not_partners[ch.from.id]) {
+            not_partners[ch.from.id] = {
+              id: ch.from.id,
+              type: "FB",
+              profilename: ch.from.name,
+              lastpost: "-",
+              //likes: ch.likes,
+              sharedpost: {},
+              liked: false,
+              commented: false
+            };
+          }
+          not_partners[ch.from.id].commented = true;
+        }
+  }
+
+  /* CHECK TWITTER NOT PARTNERS */
+  console.log(action.analysis[currentAnalysis].channels_ids);
+  if (action.analysis[currentAnalysis].twitter) {
+    if (action.analysis[currentAnalysis].twitter.likes) {
+      for (var item in action.analysis[currentAnalysis].twitter.likes) {
+        console.log("twitter "+action.analysis[currentAnalysis].twitter.likes[item].profilename+" "+action.analysis[currentAnalysis].twitter.likes[item].id.toString()+" "+action.analysis[currentAnalysis].channels_ids.indexOf(action.analysis[currentAnalysis].twitter.likes[item].id.toString()));
+        if (action.analysis[currentAnalysis].channels_ids.indexOf(action.analysis[currentAnalysis].twitter.likes[item].id.toString()) == -1) {
+          var ch = action.analysis[currentAnalysis].twitter.likes[item];
+          console.log("twitter liked");
+          console.log(ch);
+          if (!not_partners[ch.id.toString()]) {
+            not_partners[ch.id.toString()] = {
+              id: ch.id.toString(),
+              type: "Twitter",
+              profilename: ch.profilename,
+              lastpost: "-",
+              url: ch.url,
+              //likes: ch.likes,
+              sharedpost: {},
+              liked: true
+            };
+          }
+          not_partners[ch.id.toString()].liked = true;
+        }
       }
+    }
+    if (action.analysis[currentAnalysis].twitter.retweets) {
+      for (var item2 in action.analysis[currentAnalysis].twitter.retweets){
+        console.log("twitter "+action.analysis[currentAnalysis].twitter.retweets[item2].user.name+" "+action.analysis[currentAnalysis].twitter.retweets[item2].user.id+" "+action.analysis[currentAnalysis].channels_ids.indexOf(action.analysis[currentAnalysis].twitter.retweets[item2].user.id.toString()));
+        if (action.analysis[currentAnalysis].channels_ids.indexOf(action.analysis[currentAnalysis].twitter.retweets[item2].user.id.toString()) == -1) {
+          var ch = action.analysis[currentAnalysis].twitter.retweets[item2];
+          console.log("twitter retweetted");
+          console.log(ch);
+          if (!not_partners[ch.user.id.toString()]) {
+            not_partners[ch.user.id.toString()] = {
+              id: ch.user.id.toString(),
+              type: "Twitter",
+              profilename: ch.user.name,
+              lastpost: "-",
+              url: "https://twitter.com/"+ch.user.screen_name,
+              //likes: ch.likes,
+              sharedpost: {},
+              liked: false
+            };
+          }
+          not_partners[ch.user.id.toString()].sharedpost = ch;
+        }
+      }
+    }
+  }
+
   for (var item in not_partners)
     action.analysis[currentAnalysis].not_partners.push(not_partners[item]);
   drawnot_partners();
 }
 function drawnot_partners() {
   console.log("drawnot_partners");
+  $('#table_not_partners').bootstrapTable('destroy').bootstrapTable({
+    columns: [
+      {field: 'index', title: 'Index', sortable: true},
+      {field: 'name', title: 'Name', sortable: true, formatter: "FBchannelUrlFormatter"},
+      {field: 'type', title: 'Type', sortable: true, formatter: "FBchannelTypeFormatter"},
+      {field: 'lastpost', title: 'Last Post', sortable: true, formatter: "FBchannelTimeFormatter"},
+      {field: 'likes', title: 'Members/Likes', sortable: true},
+      {field: 'sharedpost', title: 'Shared', sortable: true, formatter: "FBchannelShareFormatter", sorter: "FBchannelShareSorter"},
+      {field: 'liked', title: 'Liked', sortable: true, formatter: "FBchannelLikedFormatter"},
+      {field: 'commented', title: 'Commented', sortable: true, formatter: "FBchannelCommentedFormatter"}
+    ]
+  });
   var index = 1;
   for (var item in action.analysis[currentAnalysis].not_partners){
     var ch = action.analysis[currentAnalysis].not_partners[item];
@@ -517,8 +577,6 @@ function drawnot_partners() {
   $("#logAnalysis .statusNotMonitoredChannelsCheckDone").removeClass("hide");
   if (!action.fbgroups) analysisEnd();
 }
-
-
 
 function FBchannelShareSorter(a,b){
   console.log("FBchannelShareSorter");
@@ -554,18 +612,21 @@ function FBchannelShareFormatter(value, row, index) {
   if (row.sharedpost && row.sharedpost.error) {
     str = "<span class=\"label label-danger\">"+row.sharedpost.error+"</span>";
   } else if (row.sharedpost) {
-    if (row.type=="Twitter") {
+    if (row.type == "Twitter") {
       var d = new Date(row.sharedpost.created_at);
-      var likes = row.sharedpost.favorite_count ? row.sharedpost.favorite_count : 0;
-      var shares = row.sharedpost.retweet_count ? row.sharedpost.retweet_count : 0;
-      str = d.getDate() ? "<a class=\""+row.sharedpost.created_at+"\" href=\""+row.url+"\" target=\"_blank\">"+d.getDate()+" / "+(d.getMonth()+1)+" / "+d.getFullYear()+"</a><br />R: "+shares+" / L: "+likes+"" : error;
+      //var likes = row.sharedpost.favorite_count ? row.sharedpost.favorite_count : 0;
+      //var shares = row.sharedpost.retweet_count ? row.sharedpost.retweet_count : 0;
+      //str = d.getDate() ? "<a class=\""+row.sharedpost.created_at+"\" href=\""+row.url+"\" target=\"_blank\">"+d.getDate()+" / "+(d.getMonth()+1)+" / "+d.getFullYear()+"</a><br />R: "+shares+" / L: "+likes+"" : error;
+      str = d.getDate() ? "<a class=\"" + row.sharedpost.created_at + "\" href=\"" + row.url + "\" target=\"_blank\">" + d.getDate() + " / " + (d.getMonth() + 1) + " / " + d.getFullYear() + "</a>" : error;
     } else {
       var d = new Date(row.sharedpost.created_time);
       var likes = row.sharedpost.likes && row.sharedpost.likes.data && row.sharedpost.likes.data.length ? row.sharedpost.likes.data.length : 0;
       var shares = row.sharedpost.shares && row.sharedpost.shares.count ? row.sharedpost.shares.count : 0;
       var comments = row.sharedpost.comments && row.sharedpost.comments.count ? row.sharedpost.comments.count : 0;
-      str = d.getDate() ? "<a class=\""+row.sharedpost.created_time+"\" href=\"https://facebook.com/"+row.sharedpost.id+"\" target=\"_blank\">"+d.getDate()+" / "+(d.getMonth()+1)+" / "+d.getFullYear()+"</a><br />S: "+shares+" / L: "+likes+" / C: "+comments+"" : error;
+      str = d.getDate() ? "<a class=\"" + row.sharedpost.created_time + "\" href=\"https://facebook.com/" + row.sharedpost.id + "\" target=\"_blank\">" + d.getDate() + " / " + (d.getMonth() + 1) + " / " + d.getFullYear() + "</a><br />S: " + shares + " / L: " + likes + " / C: " + comments + "" : error;
     }
+  } else if(["Twitter","FB","FB-Group","FB-Page","FB-Profile"].indexOf(row.type)!=-1){
+    str = "<span class=\"label label-danger\">NOT SHARED</span>";
   }
   return str;
 }
@@ -579,7 +640,7 @@ function FBchannelLikedFormatter(value, row, index) {
   return booleanFormatter(row.liked);
 }
 function booleanFormatter(val) {
-  return "<span class=\"label label-"+(val ? "success" : "danger")+"\">"+val+"</span>";
+  return "<span class=\"label label-"+(String(val)=="true" ? "success" : "danger")+"\">"+val+"</span>";
 }
 function FBchannelTypeFormatter(value, row, index) {
   return "<span class=\"label label-primary\">"+row.type+"</span>";
@@ -609,28 +670,46 @@ function checkExtraFBGroups() {
           if (!action.analysis[currentAnalysis].extras) action.analysis[currentAnalysis].extras = [];
           action.analysis[currentAnalysis].extras.push(val);
           if (index==action.extras.length-1){
-            $("#logAnalysis .statusExtraChannelsCheck").addClass("hide");
-            $("#logAnalysis .statusExtraChannelsCheckDone").removeClass("hide");
+            drawExtraFBGroups();
             analysisEnd();
           }
-          $('#table_extras').bootstrapTable('insertRow', {
-            index: index,
-            row: {
-              index: index,
-              id: val.id,
-              profilename: val.name,
-              type: val.type,
-              likes: val.members,
-              lastpost: val.lastpost,
-              sharedpost: val.sharedpost,
-              liked: val.liked,
-              commented: val.commented
-            }
-          });
         });
       });
     });
   }
+}
+function drawExtraFBGroups() {
+  console.log("drawExtraFBGroups");
+  $('#table_extras').bootstrapTable('destroy').bootstrapTable({
+    columns: [
+      {field: 'index', title: 'Index', sortable: true},
+      {field: 'name', title: 'Name', sortable: true, formatter: "FBchannelUrlFormatter"},
+      {field: 'type', title: 'Type', sortable: true, formatter: "FBchannelTypeFormatter"},
+      {field: 'lastpost', title: 'Last Post', sortable: true, formatter: "FBchannelTimeFormatter"},
+      {field: 'likes', title: 'Members/Likes', sortable: true},
+      {field: 'sharedpost', title: 'Shared', sortable: true, formatter: "FBchannelShareFormatter", sorter: "FBchannelShareSorter"},
+      {field: 'liked', title: 'Liked', sortable: true, formatter: "FBchannelLikedFormatter"},
+      {field: 'commented', title: 'Commented', sortable: true, formatter: "FBchannelCommentedFormatter"}
+    ]
+  });
+  action.analysis[currentAnalysis].extras.forEach(function(val, index) {
+    $('#table_extras').bootstrapTable('insertRow', {
+      index: index,
+      row: {
+        index: index,
+        id: val.id,
+        profilename: val.name,
+        type: val.type,
+        likes: val.members,
+        lastpost: val.lastpost,
+        sharedpost: val.sharedpost,
+        liked: val.liked,
+        commented: val.commented
+      }
+    });
+  });
+  $("#logAnalysis .statusExtraChannelsCheck").addClass("hide");
+  $("#logAnalysis .statusExtraChannelsCheckDone").removeClass("hide");
 }
 
 function saveAnalysis() {
@@ -700,7 +779,7 @@ function drawTWPostActivities(){
   $.ajax({
     type: "POST",
     url: "/ajax/drawTWPostActivities",
-    data: action,
+    data: action.analysis[currentAnalysis].twitter,
     dataType: "html",
   }).done(function (html){
     $("#logAnalysis .statusTwitterCheck").addClass("hide");

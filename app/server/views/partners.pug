@@ -32,7 +32,6 @@ block content
                 th(data-field="delegate" data-sortable="true")=__("Delegate")
                 th(data-field="brand" data-sortable="true")=__("Brand")
                 th(data-field="type" data-sortable="true")=__("Type")
-                th(data-field="avnode" data-sortable="true")=__("Avnode")
                 th(data-field="country" data-sortable="true")=__("Country")
                 th(data-field="website" data-sortable="true")=__("Website")
                 th(data-field="contacts" data-sortable="true")=__("Contacts")
@@ -57,9 +56,8 @@ block content
                             a(href="/"+global.settings.dbName+"/partners/partner/"+x._id+"/edit/?del=1")=__("Delete")
                     td=x.delegate
                     td
-                      a(href="/" + global.settings.dbName + "/partners/partner/"+x._id+"/")=x.brand
+                      a(title=x.brand, href="/" + global.settings.dbName + "/partners/partner/"+x._id+"/")=x.brand
                     td=x.type
-                    td=x.avnode
                     td=x.country
                     td
                       each website in x.websites
