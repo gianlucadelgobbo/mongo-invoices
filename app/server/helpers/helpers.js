@@ -103,6 +103,7 @@ exports.validateFormAccount = function validateFormAccount(o,callback) {
   } else {
     e.push({name:"name",m:__("Please enter a valid Company Name")});
   }
+  if (!e.length) o.companies = companies;
   if (!Validators.validateStringLength(o.name, 3, 100)){
     e.push({name:"name",m:__("Please enter a valid Name")});
   }
