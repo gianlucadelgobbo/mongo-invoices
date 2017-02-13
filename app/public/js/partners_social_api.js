@@ -591,7 +591,8 @@ function FBchannelUrlFormatter(value, row, index) {
   console.log("FBchannelUrlFormatter");
   console.log(row);
   //var url = row.type=="Twitter" ? "https://twitter.com/account/redirect_by_id/"+row.id : row.type.indexOf("FB")!=-1 ? "https://facebook.com/"+row.id : row.url;
-  return "<a href=\""+row.url+"\" target=\"_blank\">"+row.profilename+"</a>";
+  var url = row.url ? row.url : row.type.indexOf("FB")!=-1 ? "https://facebook.com/"+row.id : "#";
+  return "<a href=\""+url+"\" target=\"_blank\">"+row.profilename+"</a>";
   //return "https://fb.com/"+row.id+"";
 }
 function FBchannelPartnerLinkFormatter(value, row, index) {
@@ -653,7 +654,7 @@ function checkExtraFBGroups() {
   console.log("checkExtraFBGroups");
   if(action.extras && action.extras.length){
     action.extras.forEach(function(val,index,array){
-      FB.api('/'+val.id+'/members?limit=0&summary=total_count', 'get', {access_token:accessToken,limit:1500}, function (group) {
+      FB.api('/'+val.id+'/members?limit=1&summary=total_count', 'get', {access_token:accessToken,limit:1500}, function (group) {
         console.log(group);
         val.members = group.summary && group.summary.total_count ? group.summary.total_count : "-";
         console.log(val.members);
