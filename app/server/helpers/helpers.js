@@ -83,19 +83,22 @@ exports.validateFormAccount = function validateFormAccount(o,callback) {
   var e = [];
   var companies = [];
   if (o.companies) {
-    for (var a=0;a<o.companies.length;a++) {
-      //if (o.companies[a].dbname){
-        if (!Validators.validateStringLength(o.companies[a].companyname, 3, 100)){
-          e.push({name:"name",m:__("Please enter a valid Company Name")});
-        }
-        if (typeof o.companies[a].dbname=="undefined"){
-          e.push({name:"name",m:__("Please enter a valid DB Name")});
-        } else  if (!Validators.validateStringLength(o.companies[a].dbname, 3, 100)){
-          e.push({name:"name",m:__("Please enter a valid DB Name")});
-        }
-      //} else {
-      //  o.companies.splice(a, 1);;
-      //}
+    for (var a = 0; a < o.companies.length; a++) {
+      if (Validators.validateStringLength(o.companies[a].dbname, 3, 100)) {
+        companies.push({dbname: o.companies[a].dbname, companyname: o.companies[a].companyname});
+      }
+    }
+  }
+  if (companies.length) {
+    for (var a=0;a<companies.length;a++) {
+      if (!Validators.validateStringLength(companies[a].companyname, 3, 100)){
+        e.push({name:"name",m:__("Please enter a valid Company Name")});
+      }
+      if (typeof companies[a].dbname=="undefined"){
+        e.push({name:"name",m:__("Please enter a valid DB Name")});
+      } else  if (!Validators.validateStringLength(companies[a].dbname, 3, 100)){
+        e.push({name:"name",m:__("Please enter a valid DB Name")});
+      }
     }
   } else {
     e.push({name:"name",m:__("Please enter a valid Company Name")});
