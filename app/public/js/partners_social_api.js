@@ -588,6 +588,8 @@ function FBchannelShareSorter(a,b){
   return new Date(b.created_time) - new Date(a.created_time);
 }
 function FBchannelUrlFormatter(value, row, index) {
+  console.log("FBchannelUrlFormatter");
+  console.log(row);
   //var url = row.type=="Twitter" ? "https://twitter.com/account/redirect_by_id/"+row.id : row.type.indexOf("FB")!=-1 ? "https://facebook.com/"+row.id : row.url;
   return "<a href=\""+row.url+"\" target=\"_blank\">"+row.profilename+"</a>";
   //return "https://fb.com/"+row.id+"";
