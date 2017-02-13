@@ -9,8 +9,12 @@
       li
         select.form-control(onchange="window.location=this.value")
           option=__("Please select a Project")
-          option(value="/" + global.settings.dbName + "/partners/" + "LPM-2017" + "/", selected=project=="LPM-2017" ? "selected" : undefined)="LPM 2017"
-          option(value="/" + global.settings.dbName + "/partners/" + "LCF-2017" + "/", selected=project=="LCF-2017" ? "selected" : undefined)="LCF 2017"
+          option(value="/" + global.settings.dbName + "/partners/" + "AVnode" + "/", selected=project == "AVnode" ? "selected" : undefined)="AVnode"
+          option(value="/" + global.settings.dbName + "/partners/" + "LPM_15-18" + "/", selected=project == "LPM_15-18" ? "selected" : undefined)="LPM_15-18"
+          option(value="/" + global.settings.dbName + "/partners/" + "LPM-2017" + "/", selected=project == "LPM-2017" ? "selected" : undefined)="LPM 2017"
+          option(value="/" + global.settings.dbName + "/partners/" + "LCF-2017" + "/", selected=project == "LCF-2017" ? "selected" : undefined)="LCF 2017"
+          option(value="/" + global.settings.dbName + "/partners/" + "LPM-Past" + "/", selected=project == "LPM-2017" ? "selected" : undefined)="LPM Past"
+          option(value="/" + global.settings.dbName + "/partners/" + "LCF-Past" + "/", selected=project == "LCF-Past" ? "selected" : undefined)="LCF Past"
       li(class=(!project ? "disabled" : global.settings.currenturl.indexOf("/partners/"+project+"/")+("/partners/"+project+"/").length == global.settings.currenturl.length ? "active" : undefined))
         a(href="/" + global.settings.dbName + "/partners/"+project+"/")=__("Partners")
       li(class=(!project ? "disabled" : global.settings.currenturl.indexOf("/partners/"+project+"/channels/")+("/partners/"+project+"/channels/").length == global.settings.currenturl.length ? "active" : undefined))
