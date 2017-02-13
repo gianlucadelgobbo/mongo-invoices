@@ -144,5 +144,7 @@
 	"{{client_name}} | Invoice number {{result.invoice_number}} - {{date}}": "{{client_name}} | Invoice number {{result.invoice_number}} - {{date}}",
 	"Dear {{client_name}}": "Dear {{client_name}}",
 	"{{result.to_client.name}} xxx Invoice number {{result.invoice_number}} - {{date}}": "{{result.to_client.name}} xxx Invoice number {{result.invoice_number}} - {{date}}",
-	"{{result.to_client.name}} • Invoice number {{result.invoice_number}} - {{date}}": "{{result.to_client.name}} • Invoice number {{result.invoice_number}} - {{date}}"
+	"{{result.to_client.name}} • Invoice number {{result.invoice_number}} - {{date}}": "{{result.to_client.name}} • Invoice number {{result.invoice_number}} - {{date}}",
+	"Accounting": "Accounting",
+	"Partners": "Partners"
 }
