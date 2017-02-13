@@ -1,150 +1,154 @@
 extends layout
 block content
-  .container-fluid.cnt
-    // preset form values if we receive a userdata object //
-    - user = typeof(udata) != 'undefined' ? udata : {}
-  
-    h1.page-title=__("Settings")
-    form( method="post")#settings-form.form-horizontal
-      input(type="hidden", name="id", value=result._id)
-      - if (typeof msg !== "undefined" && typeof msg.e !== "undefined" && msg.e.length)
-        .alert.alert-danger
-          h4=__("There are some errors")
-          ul
-            - for(var a=0;a<msg.e.length;a++)
-              li=msg.e[a].m
-      - if (typeof msg !== "undefined" && typeof msg.c !== "undefined" && msg.c.length)
-        .alert.alert-success
-          h4=__("There are some messages")
-          ul
-            - for(var a=0;a<msg.c.length;a++)
-              li=msg.c[a].m
-      p.subheading=__("General Settings")
-      hr
-      .form-group
-        label.control-label.col-sm-2(for='name-tf')=__("Language")
-        .col-sm-10
-          select#name-tf.form-control(type='text', name='defaultLocale')
-            each l in result.locales
-              option(value=l,selected=(l==result.defaultLocale ? "selected" : undefined))=l
-      each l in result.locales
-        input(type="hidden", value=l, name="locales[]")
-      .form-group
-        label.control-label.col-sm-2(for='googleAnalytics')=__("Google Analytics")
-        .col-sm-10
-          input#googleAnalytics.form-control(type='text', name='googleAnalytics', value=result.googleAnalytics)
-      p.subheading=__("Company data")
-      hr
-      .form-group
-        label.control-label.col-sm-2(for='company-logo')=__("Company logo")
-        .col-sm-10
-          input#company-logo.form-control(type='text', name='company[logo]', value=result.company.logo)
-          small='/app/public/accounts/'+global.settings.dbName+'/'
-      .form-group
-        label.control-label.col-sm-2(for='company-name')=__("Company name")
-        .col-sm-10
-          input#company-name.form-control(type='text', name='company[name]', value=result.company.name)
-      .form-group
-        label.control-label.col-sm-2(for='country')=__("Country")
-        .col-sm-10
-          select(name="company[country]")#country.form-control
-            option(value="")= __("Please select a country")
-            each item in countries
-              option(selected=item.name == result.company.country, value=item.name)=item.name
-      .form-group
-        label.control-label.col-sm-2(for='company-row1')=__("Company row1")
-        .col-sm-10
-          input#company-row1.form-control(type='text', name='company[row1]', value=result.company.row1)
-      .form-group
-        label.control-label.col-sm-2(for='company-row2')=__("Company row2")
-        .col-sm-10
-          input#company-row2.form-control(type='text', name='company[row2]', value=result.company.row2)
-      .form-group
-        label.control-label.col-sm-2(for='company-row2')=__("Banks")
-        .col-sm-10
-          #banks
-            each b,index in result.banks
-              div
-                .input-group
-                  input.form-control(type='text', name='banks[]', value=b)
-                  span.input-group-btn
-                    button.btn.btn-default(disabled=(index==0 ? "disabled" : undefined), type="button",onclick="$(this).parent().parent().parent().remove()")
-                      i.glyphicon.glyphicon-minus
-                br
-          button.btn.btn-default(type="button",onclick="var c = $($('#banks').children()[0]).clone();c.find('input').val('');c.find('button').removeAttr('disabled');$('#banks').append(c);")
-            i.glyphicon.glyphicon-plus
-      p.subheading=__("Currency")
-      hr
-      .form-group
-        label.control-label.col-sm-2(for='currency')=__("Currency")
-        .col-sm-10
-          input#currency.form-control(type='text', name='currency', value=result.currency)
-      .form-group
-        label.control-label.col-sm-2(for='vat_perc')=__("VAT %")
-        .col-sm-10
-          input#vat_perc.form-control(type='text', name='vat_perc', value=result.vat_perc)
-      .form-group
-        label.control-label.col-sm-2(for='decimals')=__("Currency Symbol")
-        .col-sm-10
-          input#symbol.form-control(type='text', name='accountingSettings[currency][symbol]', value=result.accountingSettings.currency.symbol)
-      .form-group
-        label.control-label.col-sm-2(for='decimals')=__("Currency Format")
-        .col-sm-10
-          input#format.form-control(type='text', name='accountingSettings[currency][format]', value=result.accountingSettings.currency.format)
-      .form-group
-        label.control-label.col-sm-2(for='decimals')=__("Currency Decimal")
-        .col-sm-10
-          input#decimal.form-control(type='text', name='accountingSettings[currency][decimal]', value=result.accountingSettings.currency.decimal)
-      .form-group
-        label.control-label.col-sm-2(for='decimals')=__("Currency Thousand")
-        .col-sm-10
-          input#thousand.form-control(type='text', name='accountingSettings[currency][thousand]', value=result.accountingSettings.currency.thousand)
-      .form-group
-        label.control-label.col-sm-2(for='precision')=__("Currency Precision")
-        .col-sm-10
-          input#precision.form-control(type='text', name='accountingSettings[currency][precision]', value=result.accountingSettings.currency.precision)
-      .form-group
-        label.control-label.col-sm-2(for='numberdecimals')=__("Number Decimal")
-        .col-sm-10
-          input#numberdecimal.form-control(type='text', name='accountingSettings[number][decimal]', value=result.accountingSettings.number.decimal)
-      .form-group
-        label.control-label.col-sm-2(for='numberdecimals')=__("Number Thousand")
-        .col-sm-10
-          input#numberthousand.form-control(type='text', name='accountingSettings[number][thousand]', value=result.accountingSettings.number.thousand)
-      .form-group
-        label.control-label.col-sm-2(for='numberprecision')=__("Number Precision")
-        .col-sm-10
-          input#numberprecision.form-control(type='text', name='accountingSettings[number][precision]', value=result.accountingSettings.number.precision)
-      p.subheading=__("Email dispatcher")
-      hr
-      .form-group
-        label.control-label.col-sm-2(for='host')=__("Host")
-        .col-sm-10
-          input#host.form-control(type='text', name='emailDispatcher[host]', value=result.emailDispatcher.host)
-      .form-group
-        label.control-label.col-sm-2(for='user')=__("User")
-        .col-sm-10
-          input#user.form-control(type='text', name='emailDispatcher[user]', value=result.emailDispatcher.user)
-      .form-group
-        label.control-label.col-sm-2(for='password')=__("Password")
-        .col-sm-10
-          input#password.form-control(type='password', name='emailDispatcher[password]')
-      .form-group
-        label.control-label.col-sm-2(for='password2')=__("Password confirm")
-        .col-sm-10
-          input#password2.form-control(type='password', name='emailDispatcher[password_confirm]')
-      .form-group
-        label.control-label.col-sm-2(for='sendername')=__("Sender name")
-        .col-sm-10
-          input#sendername.form-control(type='text', name='emailDispatcher[sendername]', value=result.emailDispatcher.sendername)
-      .form-group
-        label.control-label.col-sm-2(for='senderemail')=__("Sender email")
-        .col-sm-10
-          input#senderemail.form-control(type='text', name='emailDispatcher[senderemail]', value=result.emailDispatcher.senderemail)
-      .form-group
-        label.control-label.col-sm-2(for="signature")=__("Signature")
-        .col-sm-10
-          textarea(rows="10", name="emailDispatcher[signature]", id="signature").form-control=result.emailDispatcher.signature
-      .form-group
-        .col-sm-10.col-sm-offset-2
-          button(type='submit').btn.btn-success=__("Save")
+  .row-offcanvas.row-offcanvas-left.cnt
+    include sidebar_settings
+    #main
+      .col-md-12
+        //.container-fluid.cnt
+        // preset form values if we receive a userdata object //
+        - user = typeof(udata) != 'undefined' ? udata : {}
+
+        h1.page-title=__("Settings")
+        form( method="post")#settings-form.form-horizontal
+          input(type="hidden", name="id", value=result._id)
+          - if (typeof msg !== "undefined" && typeof msg.e !== "undefined" && msg.e.length)
+            .alert.alert-danger
+              h4=__("There are some errors")
+              ul
+                - for(var a=0;a<msg.e.length;a++)
+                  li=msg.e[a].m
+          - if (typeof msg !== "undefined" && typeof msg.c !== "undefined" && msg.c.length)
+            .alert.alert-success
+              h4=__("There are some messages")
+              ul
+                - for(var a=0;a<msg.c.length;a++)
+                  li=msg.c[a].m
+          p.subheading=__("General Settings")
+          hr
+          .form-group
+            label.control-label.col-sm-2(for='name-tf')=__("Language")
+            .col-sm-10
+              select#name-tf.form-control(type='text', name='defaultLocale')
+                each l in result.locales
+                  option(value=l,selected=(l==result.defaultLocale ? "selected" : undefined))=l
+          each l in result.locales
+            input(type="hidden", value=l, name="locales[]")
+          .form-group
+            label.control-label.col-sm-2(for='googleAnalytics')=__("Google Analytics")
+            .col-sm-10
+              input#googleAnalytics.form-control(type='text', name='googleAnalytics', value=result.googleAnalytics)
+          p.subheading=__("Company data")
+          hr
+          .form-group
+            label.control-label.col-sm-2(for='company-logo')=__("Company logo")
+            .col-sm-10
+              input#company-logo.form-control(type='text', name='company[logo]', value=result.company.logo)
+              small='/app/public/accounts/'+global.settings.dbName+'/'
+          .form-group
+            label.control-label.col-sm-2(for='company-name')=__("Company name")
+            .col-sm-10
+              input#company-name.form-control(type='text', name='company[name]', value=result.company.name)
+          .form-group
+            label.control-label.col-sm-2(for='country')=__("Country")
+            .col-sm-10
+              select(name="company[country]")#country.form-control
+                option(value="")= __("Please select a country")
+                each item in countries
+                  option(selected=item.name == result.company.country, value=item.name)=item.name
+          .form-group
+            label.control-label.col-sm-2(for='company-row1')=__("Company row1")
+            .col-sm-10
+              input#company-row1.form-control(type='text', name='company[row1]', value=result.company.row1)
+          .form-group
+            label.control-label.col-sm-2(for='company-row2')=__("Company row2")
+            .col-sm-10
+              input#company-row2.form-control(type='text', name='company[row2]', value=result.company.row2)
+          .form-group
+            label.control-label.col-sm-2(for='company-row2')=__("Banks")
+            .col-sm-10
+              #banks
+                each b,index in result.banks
+                  div
+                    .input-group
+                      input.form-control(type='text', name='banks[]', value=b)
+                      span.input-group-btn
+                        button.btn.btn-default(disabled=(index==0 ? "disabled" : undefined), type="button",onclick="$(this).parent().parent().parent().remove()")
+                          i.glyphicon.glyphicon-minus
+                    br
+              button.btn.btn-default(type="button",onclick="var c = $($('#banks').children()[0]).clone();c.find('input').val('');c.find('button').removeAttr('disabled');$('#banks').append(c);")
+                i.glyphicon.glyphicon-plus
+          p.subheading=__("Currency")
+          hr
+          .form-group
+            label.control-label.col-sm-2(for='currency')=__("Currency")
+            .col-sm-10
+              input#currency.form-control(type='text', name='currency', value=result.currency)
+          .form-group
+            label.control-label.col-sm-2(for='vat_perc')=__("VAT %")
+            .col-sm-10
+              input#vat_perc.form-control(type='text', name='vat_perc', value=result.vat_perc)
+          .form-group
+            label.control-label.col-sm-2(for='decimals')=__("Currency Symbol")
+            .col-sm-10
+              input#symbol.form-control(type='text', name='accountingSettings[currency][symbol]', value=result.accountingSettings.currency.symbol)
+          .form-group
+            label.control-label.col-sm-2(for='decimals')=__("Currency Format")
+            .col-sm-10
+              input#format.form-control(type='text', name='accountingSettings[currency][format]', value=result.accountingSettings.currency.format)
+          .form-group
+            label.control-label.col-sm-2(for='decimals')=__("Currency Decimal")
+            .col-sm-10
+              input#decimal.form-control(type='text', name='accountingSettings[currency][decimal]', value=result.accountingSettings.currency.decimal)
+          .form-group
+            label.control-label.col-sm-2(for='decimals')=__("Currency Thousand")
+            .col-sm-10
+              input#thousand.form-control(type='text', name='accountingSettings[currency][thousand]', value=result.accountingSettings.currency.thousand)
+          .form-group
+            label.control-label.col-sm-2(for='precision')=__("Currency Precision")
+            .col-sm-10
+              input#precision.form-control(type='text', name='accountingSettings[currency][precision]', value=result.accountingSettings.currency.precision)
+          .form-group
+            label.control-label.col-sm-2(for='numberdecimals')=__("Number Decimal")
+            .col-sm-10
+              input#numberdecimal.form-control(type='text', name='accountingSettings[number][decimal]', value=result.accountingSettings.number.decimal)
+          .form-group
+            label.control-label.col-sm-2(for='numberdecimals')=__("Number Thousand")
+            .col-sm-10
+              input#numberthousand.form-control(type='text', name='accountingSettings[number][thousand]', value=result.accountingSettings.number.thousand)
+          .form-group
+            label.control-label.col-sm-2(for='numberprecision')=__("Number Precision")
+            .col-sm-10
+              input#numberprecision.form-control(type='text', name='accountingSettings[number][precision]', value=result.accountingSettings.number.precision)
+          p.subheading=__("Email dispatcher")
+          hr
+          .form-group
+            label.control-label.col-sm-2(for='host')=__("Host")
+            .col-sm-10
+              input#host.form-control(type='text', name='emailDispatcher[host]', value=result.emailDispatcher.host)
+          .form-group
+            label.control-label.col-sm-2(for='user')=__("User")
+            .col-sm-10
+              input#user.form-control(type='text', name='emailDispatcher[user]', value=result.emailDispatcher.user)
+          .form-group
+            label.control-label.col-sm-2(for='password')=__("Password")
+            .col-sm-10
+              input#password.form-control(type='password', name='emailDispatcher[password]')
+          .form-group
+            label.control-label.col-sm-2(for='password2')=__("Password confirm")
+            .col-sm-10
+              input#password2.form-control(type='password', name='emailDispatcher[password_confirm]')
+          .form-group
+            label.control-label.col-sm-2(for='sendername')=__("Sender name")
+            .col-sm-10
+              input#sendername.form-control(type='text', name='emailDispatcher[sendername]', value=result.emailDispatcher.sendername)
+          .form-group
+            label.control-label.col-sm-2(for='senderemail')=__("Sender email")
+            .col-sm-10
+              input#senderemail.form-control(type='text', name='emailDispatcher[senderemail]', value=result.emailDispatcher.senderemail)
+          .form-group
+            label.control-label.col-sm-2(for="signature")=__("Signature")
+            .col-sm-10
+              textarea(rows="10", name="emailDispatcher[signature]", id="signature").form-control=result.emailDispatcher.signature
+          .form-group
+            .col-sm-10.col-sm-offset-2
+              button(type='submit').btn.btn-success=__("Save")

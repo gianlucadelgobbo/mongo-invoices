@@ -1,0 +1,18 @@
+#sidebar.sidebar-offcanvas
+  .col-md-12
+    h3=__("Settings")
+    ul.nav.nav-pills.nav-stacked
+      li(class=global.settings.currenturl == "/" + global.settings.dbName + "/account/?id=" + udata._id ? "active" : undefined)
+        a(href="/" + global.settings.dbName + "/account/?id=" + udata._id)=__("My account")
+      li(class=global.settings.currenturl == "/" + global.settings.dbName + "/accounts/" ? "active" : undefined)
+        a(href="/" + global.settings.dbName + "/accounts/")=__("Accounts")
+      li(class=global.settings.currenturl == "/" + global.settings.dbName + "/account/" ? "active" : undefined)
+        a(href="/" + global.settings.dbName + "/account/")=__("New account")
+
+      - if (global.settings.roles[udata.role].admin)
+        li(class=global.settings.currenturl == "/" + global.settings.dbName + "/settings/" ? "active" : undefined)
+          a(href="/" + global.settings.dbName + "/settings/")=__("Settings")
+      li
+        a(href="/logout")
+          i.glyphicon.glyphicon-lock.icon-white
+          !=" " + __("Log Out")
