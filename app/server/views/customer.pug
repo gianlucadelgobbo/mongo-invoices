@@ -5,7 +5,7 @@ block content
     #main
       .col-md-12
         - user = typeof(udata) != 'undefined' ? udata : {}
-        form(method="post", action="/" + global.settings.dbName + "/customer")#customer-form
+        form(method="post")#customer-form
           .row
             .col-sm-6
               h1.page-title=(result._id ? __("Customer") + ": " + result.name : __("New customer"))
