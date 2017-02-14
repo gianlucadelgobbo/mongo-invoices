@@ -203,7 +203,7 @@ exports.validateFormCustomer = function validateFormCustomer(o,callback) {
     if (global._config.company.country == "Italy" && o.address.country == "Italy") {
       if (o.vat_number) e = e.concat(Validators.checkVAT(o.vat_number,o.address.country));
       if (o.fiscal_code != o.vat_number || o.fiscal_code=="") {
-        e = e.concat(Validators.checkCF(o.fiscal_code));
+        //e = e.concat(Validators.checkCF(o.fiscal_code));
       }
     }
   }
