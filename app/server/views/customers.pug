@@ -51,7 +51,7 @@ block content
                           li
                             a(href="/"+global.settings.dbName+"/accounting/customers/?id="+x._id+"&del="+1)=__("Delete")
                     td
-                      a(href="/"+global.settings.dbName+"/accounting/customer/"+x._id+"/")=x.name
+                      a(href="/"+global.settings.dbName+"/accounting/customers/"+x._id+"/")=x.name
                     td.text-center=x.invoicesCount
                     td=x.vat_number
                     td=x.fiscal_code

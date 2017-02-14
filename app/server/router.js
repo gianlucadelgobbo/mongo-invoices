@@ -92,6 +92,7 @@ module.exports = function(app) {
   app.get('/:dbname/accounting/customers/new', customersRoutes.get);
   app.post('/:dbname/accounting/customers/new', customersRoutes.post);
   app.get('/:dbname/accounting/customers/:customer', customersRoutes.get);
+  app.post('/:dbname/accounting/customers/:customer', customersRoutes.post);
 
   // Invoices //
   app.get('/:dbname/accounting/invoices', invoicesRoutes.get);
