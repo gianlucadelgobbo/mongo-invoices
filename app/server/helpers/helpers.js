@@ -120,7 +120,7 @@ exports.validateFormAccount = function validateFormAccount(o,callback) {
     e.push({name:"user",m:__("Please enter a valid Username")});
   }
   if(!Validators.validateEmail(o.email)){
-    e.push({name:"email",m:"Email is not email"});
+    e.push({name:"email",m:__("Email is not email")});
     callback(e, o);
   } else {
     var q = (o.id ? {_id:{$ne: new ObjectID(o.id)},email:o.email} : {email:o.email});
