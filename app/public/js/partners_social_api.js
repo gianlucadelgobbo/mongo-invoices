@@ -325,11 +325,14 @@ function checkChannelTWchannel(channel, likes) {
   .done(function( data ) {
     var result = JSON.parse(data)[0];
     console.log(result);
-    ch.id = result.id.toString();
-    ch.likes = result.followers_count;
-    ch.lastpost = result.status.created_at;
-    ch.liked = false;
-    ch.sharedpost = {};
+    if (result.length) {
+      result = result[0];
+      ch.id = result.id.toString();
+      ch.likes = result.followers_count;
+      ch.lastpost = result.status.created_at;
+      ch.liked = false;
+      ch.sharedpost = {};
+    }
 
     if (action.analysis[currentAnalysis].twitter) {
       if (action.analysis[currentAnalysis].twitter.likes)
