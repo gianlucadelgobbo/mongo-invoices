@@ -258,7 +258,7 @@ exports.getActions = function getActions(req, res) {
       }
       var query = {"project": req.params.project};
       DB.actions.find(query).sort( { date: 1 } ).toArray(function(e, results) {
-        res.render('partners_actions', { title: __("Actions"), project:req.params.project, results : results, msg: msg, udata : req.session.user, js:'/js/partners.js', bootstraptable:false  });
+        res.render('partners_actions', { title: __("Actions"), project:req.params.project, results : results, msg: msg, udata : req.session.user, js:'/js/partners.js', bootstraptable:true  });
       });
     } else {
       res.redirect('/?from='+req.url);

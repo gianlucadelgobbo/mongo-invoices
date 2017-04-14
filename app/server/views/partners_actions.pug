@@ -25,20 +25,24 @@ block content
                 - for(var a=0;a<msg.c.length;a++)
                   li=msg.c[a].m
         .container_overflow.container_overflow_margin
-          table.table(data-toggle="table", data-sortable="true", data-toolbar="#toolbar", data-search="true", data-show-toggle="true", data-show-columns="true", data-show-export="true", data-minimum-count-columns="2", data-pagination="true", data-page-list="[10, 25, 50, 100, ALL]", data-show-footer="false", class="table table-hover")
+          table#table(data-toggle="table", data-sortable="true", data-toolbar="#toolbar", data-search="true", data-show-toggle="true", data-show-columns="true", data-show-export="true", data-minimum-count-columns="2", data-pagination="true", data-page-list="[10, 25, 50, 100, ALL]", data-show-footer="false", class="table table-hover")
             thead
               tr
                 th=__("Actions")
-                th(data-field="date" data-sortable="true")=__("Date")
-                th(data-field="name" data-sortable="true")=__("Name")
-                th(data-field="lastanalysis" data-sortable="true")=__("Last analysis")
-                th(data-field="posts" data-sortable="true")=__("Posts")
-                th(data-field="performance" data-sortable="true")=__("Performance")
+                th(data-field="date",data-sortable="true")=__("Insert Date")
+                th(data-field="actiondate",data-sortable="true")=__("Action Date")+" (Facebook)"
+                th(data-field="name",data-sortable="true")=__("Name")
+                th(data-field="facebook",data-sortable="true")=__("Facebook")
+                th(data-field="twitter",data-sortable="true")=__("Twitter")
+                th(data-field="instagram",data-sortable="true")=__("Instagram")
+                th(data-field="posts",data-sortable="true")=__("Posts")
+                th(data-field="performance",data-sortable="true")=__("Performance")
 
             tbody
               if results
                 - var index = 0
                 each result in results
+
                   tr
                     td
                       .btn-group
@@ -57,12 +61,29 @@ block content
                       if d
                         !=d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear()
                     td
-                      a(href="/" + global.settings.dbName + "/partners/"+project+"/actions/"+result._id+"/")=result.name
-                    td
                       if result.analysis && result.analysis.length
-                        !=result.analysis[result.analysis.length-1].date
+                        if result.analysis[result.analysis.length - 1].facebook
+                          - console.log(result.analysis[result.analysis.length - 1].facebook)
+                          - d = new Date(result.analysis[result.analysis.length-1].facebook.created_time);
+                            if d
+                              span.hide=d.getTime()
+                              !=d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear()
                       else
                         !=__("NO ANALISIS PERFORMED")
+                    td
+                      a(href="/" + global.settings.dbName + "/partners/"+project+"/actions/"+result._id+"/")=result.name
+                    td
+                      - var fblikes = result.analysis && result.analysis.length && result.analysis[result.analysis.length - 1].facebook && result.analysis[result.analysis.length - 1].facebook.likes ? result.analysis[result.analysis.length - 1].facebook.likes.data.length : 0
+                      - var fbshares = result.analysis && result.analysis.length && result.analysis[result.analysis.length - 1].facebook && result.analysis[result.analysis.length - 1].facebook.shares ? result.analysis[result.analysis.length - 1].facebook.shares.count : 0
+                      - var fbcomments = result.analysis && result.analysis.length && result.analysis[result.analysis.length - 1].facebook && result.analysis[result.analysis.length - 1].facebook.comments ? result.analysis[result.analysis.length - 1].facebook.comments.data.length : 0
+                      !=fblikes+" / "+fbshares+" / "+fbcomments
+                    td
+                      - var twlikes = result.analysis && result.analysis.length && result.analysis[result.analysis.length - 1].twitter ? result.analysis[result.analysis.length - 1].twitter.likes.length : 0
+                      - var retwitt = result.analysis && result.analysis.length && result.analysis[result.analysis.length - 1].twitter ? result.analysis[result.analysis.length - 1].twitter.retweets.length : 0
+                      !=twlikes+" / "+retwitt
+                    td
+                      - var iglikes = 0
+                      !=iglikes
                     td
                       if result.facebook
                         a(href=result.facebook, target="_blank")
@@ -75,6 +96,7 @@ block content
                       if result.instagram
                         a(href=result.instagram, target="_blank")
                           i.icon-fontello-instagram
-                    td=result.performance
+                    td
+                      !=(((parseInt(fbcomments)*5) + /*(parseInt(twquotes)*5) +*/ (parseInt(fbshares)*5) + (parseInt(iglikes)*3) + (parseInt(retwitt)*3) + parseInt(fblikes) + parseInt(twlikes))/18).toFixed(2)
 
                   - index++
