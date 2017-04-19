@@ -326,7 +326,7 @@ function checkChannelTWchannel(channel, likes) {
     var result = JSON.parse(data)[0];
     console.log(result);
     if (result) {
-      result = result[0];
+      //result = result[0];
       ch.id = result.id.toString();
       ch.likes = result.followers_count;
       ch.lastpost = result.status.created_at;
